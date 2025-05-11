@@ -1,0 +1,57 @@
+import { ROUTES } from "@/constants";
+
+export const BREADCRUMB_CONFIG = {
+  ABOUT_US: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "About Us", href: ROUTES.DEFAULT },
+  ],
+  CART: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Cart", href: ROUTES.USER.CART },
+  ],
+  CATEGORY: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "All Products", href: ROUTES.DEFAULT },
+  ],
+  CONTACT_US: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Contact Us", href: ROUTES.DEFAULT },
+  ],
+  FAQ: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "FAQ's", href: ROUTES.DEFAULT },
+  ],
+  FAVORITE: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Favorite", href: ROUTES.USER.FAVORITE },
+  ],
+  PAYMENT: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Cart", href: ROUTES.DEFAULT },
+  ],
+  PRODUCTS: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "All Products", href: ROUTES.DEFAULT },
+  ],
+  PRODUCT_DETAIL: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "All Products", href: ROUTES.APP.PRODUCTS },
+    { label: "Detail", href: ROUTES.DEFAULT },
+  ],
+  PROFILE: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Profile", href: ROUTES.DEFAULT },
+  ],
+  Privacy_Policy: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Privacy", href: ROUTES.APP.PRIVACY },
+  ],
+  RETURN_Policy: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Return-policy", href: ROUTES.APP.RETURN },
+  ],
+  TERMS_AND_CONDITION: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Terms-and-condition", href: ROUTES.APP.TERMS },
+  ],
+};

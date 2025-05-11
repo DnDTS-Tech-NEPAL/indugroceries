@@ -1,0 +1,14 @@
+services:
+  app:
+    container_name: ecommerce-internal
+    image: ecommerce-image
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        CACHEBUST: "${CACHEBUST}"
+    ports:
+      - 3006:3000
+    env_file:
+      - .env
+    restart: always

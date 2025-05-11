@@ -1,0 +1,55 @@
+export type HomePageType = {
+  hero_description: string;
+  hero_title: string;
+  main_img1_url: string;
+  main_img1_redirect: string;
+  main_img2_url: string;
+  main_img2_redirect: string;
+  main_img3_url: string;
+  main_img3_redirect: string;
+  fearued_subtitle: string;
+  featured_category_title: string;
+  featured_category_description: string;
+  featured_img1: string;
+  featured_img1_url: string;
+  featured_img2: string;
+  featured_img2_url: string;
+  featured_img3: string;
+  featured_img3_url: string;
+  featured_img4: string;
+  featured_img4_url: string;
+  offer_visibility: number;
+  offer_subtitle: string;
+  offer_title: string;
+  offer_description: string;
+  offer_image: string;
+  offer_image_url: string;
+  sale_visibility: number;
+  sale_subtitle: string;
+  sale_title: string;
+  sale_description: string;
+  sale_image_url: string;
+  banner_visibility: number;
+  banner_1_title: string;
+  banner_1_description: string;
+  banner_1_image_url: string;
+  banner_2_title: string;
+  banner_2_description: string;
+  banner_2_image_url: string;
+  new_arrival_title: string;
+  new_arrival_subtitle: string;
+  best_seller_title: string;
+  best_seller_subtitle: string;
+  duration: string;
+  hero_type: string;
+  // brand section
+  featured_brand_subtitle: string;
+  featured_brand_title: string;
+  featured_brand_description: string;
+
+
+};
+
+export type HomePageAPIResponseType = {
+  Data: HomePageType;
+};

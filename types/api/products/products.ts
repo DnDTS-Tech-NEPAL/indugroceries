@@ -1,0 +1,127 @@
+export type ProductPrice = {
+  price_list: string;
+  price_list_rate: number;
+};
+
+export type ProductAPIType = {
+  name: string;
+  creation: string;
+  modified: string;
+  modified_by: string;
+  owner: string;
+  docstatus: number;
+  idx: number;
+  naming_series: string;
+  item_code: string;
+  item_name: string;
+  item_group: string;
+  stock_uom: string;
+  disabled: boolean;
+  allow_alternative_item: boolean;
+  is_stock_item: boolean;
+  has_variants: boolean;
+  opening_stock: number;
+  valuation_rate: number;
+  standard_rate: number;
+  is_fixed_asset: boolean;
+  auto_create_assets: boolean;
+  is_grouped_asset: boolean;
+  asset_category: string;
+  asset_naming_series: string;
+  over_delivery_receipt_allowance: number;
+  over_billing_allowance: number;
+  image: string;
+  description: string;
+  brand: string;
+  shelf_life_in_days: boolean;
+  end_of_life: string;
+  default_material_request_type: string;
+  valuation_method: string;
+  warranty_period: string;
+  weight_per_unit: number;
+  weight_uom: string;
+  allow_negative_stock: boolean;
+  has_batch_no: boolean;
+  create_new_batch: boolean;
+  batch_number_series: string;
+  has_expiry_date: boolean;
+  retain_sample: boolean;
+  sample_quantity: boolean;
+  has_serial_no: boolean;
+  serial_no_series: string;
+  variant_of: string;
+  variant_based_on: string;
+  enable_deferred_expense: boolean;
+  no_of_months_exp: boolean;
+  enable_deferred_revenue: boolean;
+  no_of_months: boolean;
+  purchase_uom: string;
+  min_order_qty: number;
+  safety_stock: number;
+  is_purchase_item: boolean;
+  lead_time_days: boolean;
+  last_purchase_rate: number;
+  is_customer_provided_item: boolean;
+  customer: string;
+  delivered_by_supplier: boolean;
+  country_of_origin: string;
+  customs_tariff_number: string;
+  sales_uom: string;
+  grant_commission: boolean;
+  is_sales_item: boolean;
+  max_discount: number;
+  inspection_required_before_purchase: boolean;
+  quality_inspection_template: string;
+  inspection_required_before_delivery: boolean;
+  include_item_in_manufacturing: 1;
+  is_sub_contracted_item: boolean;
+  default_bom: string;
+  customer_code: string;
+  default_item_manufacturer: string;
+  default_manufacturer_part_no: string;
+  total_projected_qty: number;
+  _user_tags: string;
+  _comments: string;
+  _assign: string;
+  _liked_by: string;
+  custom_specifications: string;
+  custom_key_features: string;
+  custom_image_1: string;
+  custom_image_1_link: string;
+  custom_image_2: string;
+  custom_image_2_link: string;
+  custom_image_3: string;
+  custom_image_3_link: string;
+  custom_image_4: string;
+  custom_image_4_link: string;
+  custom_minimum_order_quantity: number;
+  custom_increment_on_quantity: number;
+  custom_testt: string;
+  custom_maximum_order_quantity: number;
+  custom_new_arrivals: 1;
+  custom_best_seller_product: boolean;
+  prices: ProductPrice[];
+
+  // remove this after api update
+  original_price: string;
+};
+
+export type ProductAPIResponseType = {
+  data: {
+    items: ProductAPIType[];
+    total_count: number;
+  };
+};
+
+export type ProductFilterAPIType = {
+  brand: string[];
+  item_group: string[];
+  bestseller: number;
+  pricerange: number;
+  page: number;
+  size: number;
+};
+
+export type ProductHomepageAPIResponseType = {
+  data: ProductAPIType[];
+};
