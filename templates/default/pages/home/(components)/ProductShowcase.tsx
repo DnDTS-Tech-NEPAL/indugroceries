@@ -18,8 +18,7 @@ export default function ProductShowcase() {
   return (
     <Box
       py={{ base: 10, md: 16 }}
-      px={{ base: 4, md: 10 }}
-      maxW="container.xl"
+      maxW="6xl"
       mx="auto"
     >
       <Flex direction={{ base: "column", lg: "row" }} gap={6}>
