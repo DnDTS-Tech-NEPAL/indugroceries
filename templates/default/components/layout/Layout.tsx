@@ -6,6 +6,7 @@ import { LayoutProps } from "@/types";
 // import { Topbar } from "./topbar";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
+import { Topbar } from "./topbar";
 
 export const Layout = ({ children, config }: LayoutProps) => {
   // set config data fetched from the server to the react query
@@ -13,7 +14,7 @@ export const Layout = ({ children, config }: LayoutProps) => {
 
   return (
     <>
-      {/* <Topbar /> */}
+      <Topbar />
 
       <Navbar />
 

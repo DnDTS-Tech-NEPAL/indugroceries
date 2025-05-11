@@ -114,13 +114,15 @@ export const Navbar = () => {
                     <HStack gap="24px" color="primary.400">
                       {/* Search Icon */}
                       <VisibleSection
-                        visibility={config?.search_box_visibility}
+                        // visibility={config?.search_box_visibility}
                       >
                         <Box cursor="pointer" onClick={onSearchOpen}>
                           {navbarIconsList[0].icon}
                         </Box>
                       </VisibleSection>
-                      <VisibleSection visibility={config?.wishlist_visibility}>
+                      <VisibleSection 
+                      // visibility={config?.wishlist_visibility}
+                      >
                         {/* Favorite Icon */}
                         <Box
                           cursor="pointer"

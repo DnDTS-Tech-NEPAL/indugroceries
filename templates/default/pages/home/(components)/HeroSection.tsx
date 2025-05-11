@@ -14,6 +14,7 @@ import {
 } from "@/hooks/app";
 import { HeroSectionProps } from "@/types";
 import { useRegisterDialogStore } from "@/store";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export const HeroSection = ({ initialData }: HeroSectionProps) => {
   const router = useRouter();
@@ -41,7 +42,6 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
       width="100%"
       maxW={"7xl"}
       aspectRatio={16 / 8}
-      // height={{ base: "39dvh", md: "90vh" }}
       overflow="hidden"
     >
       <Swiper slides={slides} direction="horizontal" />
@@ -50,8 +50,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
     <Box
       position="relative"
       width="100%"
-      height={{base:"90dvh",md:"100dvh"}}
-      // aspectRatio={16 / 8}
+      height={{ base: "90dvh", md: "100dvh" }}
       overflow="hidden"
     >
       <Box position="absolute" inset="0" zIndex={0}>
@@ -59,7 +58,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
       </Box>
 
       {/* Dark overlay for readability */}
-      <Box position="absolute" inset="0" bg="blackAlpha.500" zIndex={1} />
+      <Box position="absolute" inset="0" bg="blackAlpha.100" zIndex={1} />
 
       {/* Content */}
       <Box
@@ -79,6 +78,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
           maxW={{ base: "100%", md: "50%" }}
           color="white"
         >
+          <Text
+            fontSize={{ base: "sm", md: "md", lg: "xl" }}
+            w={{ base: "full", xl: "87%" }}
+            opacity={0.9}
+            textAlign="justify"
+          >
+            Where Beauty Meets Confidence
+          </Text>
           <Heading
             as="h1"
             w={{ base: "full", lg: "75%" }}
@@ -95,24 +102,24 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
           >
             {homeData.hero_description}
           </Text>
-          <HStack gap={4}>
+          <HStack gap={8}>
             <Button
               colorScheme="green"
-              bg={"#16CA5E"}
-              color={"White"}
-              borderRadius="xl"
+              bg={"#F8E1E7"}
+              color={"gray.700"}
+              borderRadius="3xl"
               onClick={() => updateSignUpOpen(true)}
             >
-              Partner With Us
+              Shop Now <FaArrowRightLong />
             </Button>
+
             <Button
-              variant="outline"
               color="white"
-              borderColor="white"
-              borderRadius="xl"
+              bg={"#FF6996"}
+              borderRadius="3xl"
               onClick={() => router.push(ROUTES.APP.ABOUT_US)}
             >
-              Learn More
+              Shop Brands <FaArrowRightLong />
             </Button>
           </HStack>
         </VStack>
