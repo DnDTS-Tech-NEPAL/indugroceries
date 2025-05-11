@@ -21,9 +21,9 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
   return (
     <>
       <HeroSection initialData={initialData} />
-      <BrandCategory />
       <FeaturedCategory />
       <Offer />
+      <BrandCategory />
       <NewArrivals />
       <SummerSale />
       <PartnerWithUs />

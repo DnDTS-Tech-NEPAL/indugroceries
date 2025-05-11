@@ -42,13 +42,11 @@ export const FeaturedCategory = () => {
     <VisibleSection visibility={config?.featured_visibility}>
       <VStack
         alignItems="stretch"
+        maxW={"6xl"}
+        mx={"auto"}
         gap={{
           base: "20px",
           md: "32px",
-        }}
-        px={{
-          base: "20px",
-          md: "40px",
         }}
         py={{
           base: "40px",
@@ -56,20 +54,7 @@ export const FeaturedCategory = () => {
           "2xl": "120px",
         }}
       >
-        <VStack textAlign="center" gap="0">
-          <Text
-            variant="subtitle1"
-            fontWeight="400"
-            fontSize={{
-              base: "12px",
-              md: "14px",
-              "2xl": "16px",
-            }}
-            color="system.text.light.light"
-          >
-            {featuredCategoryData.fearued_subtitle}
-          </Text>
-
+        <VStack align={"flex-start"} gap="0" maxW={"6xl"}>
           <Heading
             fontSize={{
               base: "16px",
@@ -87,7 +72,18 @@ export const FeaturedCategory = () => {
           >
             {featuredCategoryData.featured_category_title}
           </Heading>
-
+          <Text
+            variant="subtitle1"
+            fontWeight="400"
+            fontSize={{
+              base: "12px",
+              md: "14px",
+              "2xl": "16px",
+            }}
+            color="system.text.light.light"
+          >
+            {featuredCategoryData.fearued_subtitle}
+          </Text>
           <Text
             variant={{
               base: "paragraphSmall",
@@ -114,7 +110,7 @@ export const FeaturedCategory = () => {
               480: { slidesPerView: 2 },
               768: { slidesPerView: 3 },
               1024: { slidesPerView: 4 },
-              1280: { slidesPerView: 4 },
+              1280: { slidesPerView: 5 },
             }}
             spaceBetween={20}
             onSlideChange={handleSwiper}
@@ -134,38 +130,55 @@ export const FeaturedCategory = () => {
                 }
               >
                 <Box
-                  bg="white"
-                  borderRadius="lg"
-                  boxShadow="md"
                   transition="all 0.3s"
-                  py={"10"}
+                  py="6"
+                  px="4"
                   m={{ base: "5px", md: "8px", lg: "10px" }}
-                  _hover={{ boxShadow: "lg", transform: "translateY(-4px)" }}
                   cursor="pointer"
+                  position="relative"
+                  textAlign="center"
                 >
                   <Box
                     position="relative"
                     width="100%"
-                    py="6"
-                    height={{ base: "150px", "2xl": "100px" }}
-                    borderRadius="md"
+                    paddingTop="100%"
+                    borderRadius="lg"
                     overflow="hidden"
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      style={{ objectFit: "contain", objectPosition: "top" }}
-                    />
+                    <Box
+                      position="absolute"
+                      top={0}
+                      left={0}
+                      right={0}
+                      bottom={0}
+                      display="flex"
+                      justifyContent="center"
+                      alignItems="center"
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        objectFit="contain"
+                      />
+                    </Box>
                   </Box>
-                  <Text
-                    mt="3"
-                    textAlign="center"
-                    variant={{ base: "paragraphSmall", md: "paragraphRegular" }}
-                    color={"system.text.normal.light"}
+
+                  <Box
+                    position="absolute"
+                    bottom="10px"
+                    left="50%"
+                    transform="translateX(-50%)"
+                    bg="gray.50"
+                    shadow={"md"}
+                    borderRadius="full"
+                    px="4"
+                    py="1"
                   >
-                    {toTitleCase(item.name)}
-                  </Text>
+                    <Text fontSize="sm" fontWeight="medium" color="gray.800">
+                      {toTitleCase(item.name)}
+                    </Text>
+                  </Box>
                 </Box>
               </SwiperSlide>
             ))}
