@@ -3,7 +3,7 @@ import { chakra, Flex, HStack, Text } from "@chakra-ui/react";
 
 import { useConfigQuery, useUserProfileQuery } from "@/hooks/api";
 export const Topbar = () => {
-  const { data: config } = useConfigQuery();
+  const { data: topnavconfig } = useConfigQuery();
   const CustomSelect = chakra("select");
   return (
     <>
@@ -25,12 +25,14 @@ export const Topbar = () => {
       >
         <Flex justifyContent="space-between" w={"full"}  mx="auto" maxW="6xl">
           <Text color="gray.700" display={"flex"} gap={8}>
-            <Text>Notices:</Text>
+            <Text>
+              {topnavconfig.top_nav_bar_label}
+              </Text>
             <Text borderLeft="2px solid black" pl="4" >
-              Free express shipping over $50 & 60 day returns*
+             {topnavconfig.top_navbar_content}*
               <Link
-                href="#"
-                style={{ textDecoration: "underline", marginLeft: 4 }}
+                href={topnavconfig.top_nav_bar_redirect_link}
+                style={{ textDecoration: "underline", marginLeft: 6 }}
               >
                 Shop Now
               </Link>

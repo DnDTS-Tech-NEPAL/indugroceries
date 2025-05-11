@@ -84,8 +84,8 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
             opacity={0.9}
             textAlign="justify"
           >
-            Where Beauty Meets Confidence
-          </Text>
+            {homeData.hero_tag_line}
+         </Text>
           <Heading
             as="h1"
             w={{ base: "full", lg: "75%" }}

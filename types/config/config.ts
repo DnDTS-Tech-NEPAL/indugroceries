@@ -78,6 +78,12 @@ export type ConfigType = {
   featured_brands_visibility: number;
   hero_type: string;
   sale_type: string;
+//topnav
+  top_nav_bar_label:string;
+  top_navbar_content:string;
+  top_nav_bar_redirect_link:string;
+
+
   // footer section
   quick_links: QuickLinkType[];
   // Saaf section

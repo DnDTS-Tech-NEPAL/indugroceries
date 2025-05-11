@@ -1,5 +1,6 @@
 export type HomePageType = {
   hero_description: string;
+  hero_tag_line: string;
   hero_title: string;
   main_img1_url: string;
   main_img1_redirect: string;
@@ -47,6 +48,7 @@ export type HomePageType = {
   featured_brand_title: string;
   featured_brand_description: string;
 
+  
 
 };
 
