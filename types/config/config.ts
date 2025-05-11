@@ -78,11 +78,10 @@ export type ConfigType = {
   featured_brands_visibility: number;
   hero_type: string;
   sale_type: string;
-//topnav
-  top_nav_bar_label:string;
-  top_navbar_content:string;
-  top_nav_bar_redirect_link:string;
-
+  //topnav
+  top_nav_bar_label: string;
+  top_navbar_content: string;
+  top_nav_bar_redirect_link: string;
 
   // footer section
   quick_links: QuickLinkType[];
@@ -97,6 +96,15 @@ export type ConfigType = {
   banner_3_image_url_horizontal: string;
   banner_3_image_url_vertical: string;
 
+  //productshowcase section
+  banner_1_image_link: string;
+  banner_2_image_link: string;
+  banner_3_image_link: string;
+  banner_4_image_link: string;
+  banner_1_image_redirect_link: string;
+  banner_2_image_redirect_link: string;
+  banner_3_image_redirect_link: string;
+  banner_4_image_redirect_link: string;
   // remove these later
   location: string;
   template: string;

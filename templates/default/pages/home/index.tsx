@@ -15,6 +15,9 @@ import {
 } from "./(components)";
 import GlobalReach from "./(components)/GlobalReach";
 import FAQ from "@/app/(web)/faq/page";
+import ProductShowcase from "./(components)/ProductShowcase";
+
+
 
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
  
@@ -22,6 +25,7 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
     <>
       <HeroSection initialData={initialData} />
       <FeaturedCategory />
+      <ProductShowcase/>
       <Offer />
       <BrandCategory />
       <NewArrivals />
