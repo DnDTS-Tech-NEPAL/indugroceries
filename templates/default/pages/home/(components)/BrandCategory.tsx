@@ -34,7 +34,7 @@ export const BrandCategory = () => {
         px={{ base: 4, md: 6 }}
         py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
       >
-        {/* ... (keep your header section the same) ... */}
+
         <Flex
           justifyContent="space-between"
           w="full"

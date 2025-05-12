@@ -1,12 +1,27 @@
 "use client";
 
+import type React from "react";
+
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser";
-import { Box, Button, Heading, HStack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+  Icon,
+  Flex,
+  Badge,
+} from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
+import { FaRegHeart, FaHeart } from "react-icons/fa";
+import { useState } from "react";
 
 import { useConfigQuery } from "@/hooks/api";
-import { ProductCardProps } from "@/types";
+import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
 import { VisibleSection } from "../visibleSection";
@@ -20,149 +35,29 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   originalPrice,
   discount,
   hasAddToCart,
+  isNew,
+  isSale,
+  rating = 4,
+  reviews = 420,
 }) => {
   const router = useRouter();
-
+  const [isWishlist, setIsWishlist] = useState(false);
   const { data: config } = useConfigQuery();
 
   return (
-    // <VStack
-    //   alignItems="stretch"
-    //   gap={{
-    //     base: "10px",
-    //     md: "12px",
-    //     lg: "14px",
-    //   }}
-    //   overflow="hidden"
-    //   padding={{
-    //     base: "16px",
-    //     md: "18px",
-    //     lg: "20px",
-    //   }}
-    //   bg="grey.200"
-    //   border={"1px solid"}
-    //   borderRadius="1rem"
-    //   borderColor="system.neutral.separator.light"
-    //   cursor="pointer"
-    //   onClick={() =>
-    //     router.push(
-    //       generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-    //         productName: title,
-    //       })
-    //     )
-    //   }
-    // >
-    //   <Text
-    //     variant="subtitle2"
-    //     border="1px solid"
-    //     borderColor="system.neutral.separator.light"
-    //     borderRadius="8px"
-    //     width="fit-content"
-    //     color="system.text.light.light"
-    //     bg="white"
-    //     p={category ? "8px" : "16px"}
-    //   >
-    //     {category}
-    //   </Text>
-
-    //   <Box
-    //     py={{
-    //       lg: "5px",
-    //     }}
-    //   >
-    //     <Box position="relative" mx="auto" boxSize="180px">
-    //       <Image src={image || config.company_details_url} alt={title} fill />
-    //     </Box>
-    //   </Box>
-
-    //   <VStack
-    //     align="start"
-    //     gap={{
-    //       base: 0,
-    //       md: "1px",
-    //       lg: "4px",
-    //     }}
-    //   >
-    //     <Heading
-    //       lineClamp={"1"}
-    //       variant="heading6"
-    //       display="none"
-    //       fontSize={{
-    //         base: "14px",
-    //         lg: "16px",
-    //       }}
-    //     >
-    //       {title}
-    //     </Heading>
-    //     <Box
-    //       lineClamp={"2"}
-    //       fontWeight={"bold"}
-    //       fontSize={{ base: "11px", md: "lg" }}
-    //       color="system.text.light.light"
-    //       minHeight={"40px"}
-    //     >
-    //       {parse(description)}
-    //     </Box>
-
-    //     <HStack paddingTop="12px">
-    //       <Heading
-    //         variant="heading6"
-    //         fontWeight="400"
-    //         fontSize={{ base: "15px", md: "17px" }}
-    //       >
-    //         {config.currency} {price}
-    //       </Heading>
-
-    //       {originalPrice && (
-    //         <Text
-    //           variant="subtitle1"
-    //           color="danger.100"
-    //           paddingLeft="4px"
-    //           textDecoration="line-through"
-    //         >
-    //           {config.currency} {originalPrice}
-    //         </Text>
-    //       )}
-
-    //       {Number(discount) > 0 && (
-    //         <Text
-    //           variant="subtitle2"
-    //           border="1px solid"
-    //           borderColor="system.neutral.separator.light"
-    //           borderRadius="8px"
-    //           padding="6px 10px"
-    //           color="system.text.light.light"
-    //           background="grey.400"
-    //         >
-    //           -{discount}%
-    //         </Text>
-    //       )}
-    //     </HStack>
-
-    //     {hasAddToCart && (
-    //       <Button marginTop="12px" width="full">
-    //         Add to Cart
-    //       </Button>
-    //     )}
-    //   </VStack>
-    // </VStack>
     <VStack
       alignItems="stretch"
       gap={{ base: "10px", md: "12px", lg: "14px" }}
       overflow="hidden"
-      my={{ base: "16px", md: "18px", lg: "18px" }}
-      padding={{ base: "16px", md: "18px", lg: "20px" }}
+      my={{ base: "8px", md: "10px", lg: "12px" }}
       bg="white"
-      borderRadius="1rem"
-      border="1px solid"
-      borderColor="system.neutral.separator.light"
+      borderRadius="md"
       transition="all 0.3s ease"
       _hover={{
-        boxShadow: "lg",
-        transform: "translateY(-4px)",
-        bg: "gray.50",
+        transform: "translateY(-5px)",
       }}
       cursor="pointer"
+      position="relative"
       onClick={() =>
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
@@ -171,16 +66,86 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )
       }
     >
+      {/* Status badges */}
+      <Box position="absolute" top="10px" left="10px" zIndex="10">
+        {isNew && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize="xs"
+          >
+            New
+          </Badge>
+        )}
+        {isSale && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize="xs"
+            ml={isNew ? 2 : 0}
+          >
+            Sale
+          </Badge>
+        )}
+        {Number(discount) > 0 && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize="xs"
+            ml={isNew || isSale ? 2 : 0}
+          >
+            {discount}% Discount
+          </Badge>
+        )}
+      </Box>
+
+      {/* Wishlist button */}
+      <Box
+        position="absolute"
+        top="10px"
+        right="10px"
+        zIndex="10"
+        cursor="pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+          setIsWishlist(!isWishlist);
+        }}
+      >
+        <Flex
+          align="center"
+          justify="center"
+          bg="white"
+          w="30px"
+          h="30px"
+          borderRadius="full"
+          boxShadow="sm"
+        >
+          <Icon
+            as={isWishlist ? FaHeart : FaRegHeart}
+            color={isWishlist ? "#FF6996" : "gray.400"}
+            boxSize={4}
+          />
+        </Flex>
+      </Box>
+
       {/* Product Image */}
       <Box
         position="relative"
         w="full"
-        pt="100%" // 1:1 ratio using padding trick
+        pt="100%"
         bg="gray.100"
         overflow="hidden"
       >
-        {/* Category Tag */}
-        <VisibleSection visibility={config.category_visibility}>
+        <VisibleSection visibility={config?.category_visibility}>
           {category && (
             <Text
               fontSize={{ base: "xs", md: "xs" }}
@@ -188,7 +153,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               position={"absolute"}
               top={"0"}
               left={"0"}
-              zIndex={20}
+              zIndex={5}
               border="1px solid"
               borderColor="system.neutral.separator.light"
               borderRadius="full"
@@ -203,75 +168,127 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           )}
         </VisibleSection>
         <Image
-          src={image || config.company_details_url}
+          src={image || config?.company_details_url}
           alt={title}
           fill
           style={{ objectFit: "contain" }}
         />
+
+        {/* Quick view and add to cart buttons */}
+        <Flex
+          position="absolute"
+          bottom="10px"
+          left="10px"
+          right="10px"
+          justifyContent="space-between"
+          opacity="0"
+          transition="opacity 0.3s"
+          _groupHover={{ opacity: 1 }}
+          zIndex={5}
+        >
+          <Badge
+            bg="white"
+            color="gray.700"
+            borderRadius="full"
+            px={3}
+            py={1}
+            fontSize="xs"
+            cursor="pointer"
+            _hover={{ bg: "gray.100" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle full view action
+            }}
+          >
+            Full View
+          </Badge>
+
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={3}
+            py={1}
+            fontSize="xs"
+            cursor="pointer"
+            _hover={{ bg: "#ff5286" }}
+            onClick={(e) => {
+              e.stopPropagation();
+              // Handle add to cart action
+            }}
+          >
+            Add to cart
+          </Badge>
+        </Flex>
       </Box>
+
       {/* Product Info */}
-      <VStack align="start" gap="8px">
+      <VStack align="start" gap="8px" px={2} pb={2}>
+        {/* Rating */}
+        <HStack>
+          {Array(5)
+            .fill("")
+            .map((_, i) => (
+              <Icon
+                key={i}
+                as={FaStar}
+                color={i < Math.floor(rating) ? "#FF6996" : "gray.200"}
+                boxSize={3}
+              />
+            ))}
+          <Text fontSize="xs" color="gray.500" ml={1}>
+            {reviews} reviews
+          </Text>
+        </HStack>
+
         {/* Title */}
         <Heading
-          variant="heading6"
-          display="none"
           fontSize={{ base: "16px", md: "16px", lg: "18px" }}
           fontWeight="600"
           color="gray.800"
         >
           {title}
         </Heading>
+
         {/* Description */}
         <Box
-          // variant="paragraphSmall"
-          color="system.text.light.light"
-          lineClamp={"2"}
-          fontWeight={"bold"}
-          fontSize={{ base: "sm", md: "md" }}
-          minHeight={"45px"}
+          color="gray.500"
+          lineClamp={2}
+          fontSize={{ base: "sm", md: "sm" }}
+          minHeight={"40px"}
         >
           {parse(description)}
         </Box>
+
         {/* Price Section */}
-        <HStack justify="space-between" w="full" pt="8px">
+        <HStack justify="flex-start" w="full" pt="4px" gap={2}>
           <VisibleSection visibility={config?.rate_visibility}>
             <Heading
-              variant={{ base: "heading6", md: "heading7" }}
-              fontSize={{ base: "sm", md: "md" }}
-              fontWeight="400"
-              color="brand.700"
+              fontSize={{ base: "md", md: "md" }}
+              fontWeight="600"
+              color="#FF6996"
             >
-              {config.currency} {price}
+              {config?.currency} {price}
             </Heading>
           </VisibleSection>
           {originalPrice && (
             <Text fontSize="sm" color="gray.400" textDecoration="line-through">
-              {config.currency} {originalPrice}
-            </Text>
-          )}
-          {Number(discount) > 0 && (
-            <Text
-              fontSize="xs"
-              fontWeight="medium"
-              color="red.500"
-              bg="red.50"
-              borderRadius="full"
-              px="10px"
-              py="2px"
-            >
-              -{discount}%
+              {config?.currency} {originalPrice}
             </Text>
           )}
         </HStack>
+
         {/* CTA */}
         {hasAddToCart && (
           <Button
             marginTop="8px"
             width="full"
-            colorScheme="teal"
+            bg="#FF6996"
+            color="white"
+            _hover={{ bg: "#ff5286" }}
             variant="solid"
             size="sm"
-            borderRadius="md"
+            borderRadius="full"
           >
             Add to Cart
           </Button>

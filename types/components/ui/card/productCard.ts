@@ -8,4 +8,8 @@ export type ProductCardProps = {
   discount?: string;
   hasAddToCart?: boolean;
   id?: string | number;
+  isNew?: boolean;
+  isSale?: boolean;
+  rating?: number;
+  reviews?: number;
 };
