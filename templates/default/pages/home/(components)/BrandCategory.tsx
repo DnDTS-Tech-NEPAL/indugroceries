@@ -98,7 +98,7 @@ export const BrandCategory = () => {
           <Swiper
             modules={[Autoplay]}
             spaceBetween={16}
-            slidesPerView={baseSlides} // Show partial item to indicate scroll
+            slidesPerView={baseSlides} 
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,

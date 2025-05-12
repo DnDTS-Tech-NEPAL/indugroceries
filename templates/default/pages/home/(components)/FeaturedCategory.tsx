@@ -3,7 +3,13 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Box, Heading, Text, VStack, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { useFeaturedCategoryImages } from "@/hooks/app";
 import { Autoplay } from "swiper/modules";
@@ -20,7 +26,9 @@ export const FeaturedCategory = () => {
   const { data: featuredCategoryData } = useHomePageQuery();
   const { data: config } = useConfigQuery();
 
-  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(null);
+  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(
+    null
+  );
   const [isBeginning, setIsBeginning] = useState(true);
   const [isEnd, setIsEnd] = useState(false);
 
@@ -28,6 +36,9 @@ export const FeaturedCategory = () => {
   const showNavigation = useBreakpointValue({ base: false, md: true });
   const autoplayDelay = useBreakpointValue({ base: 5000, md: 3000 });
   const labelPadding = useBreakpointValue({ base: 2, md: 4 });
+
+  // Calculate if we need to force scrolling
+  const shouldForceScroll = featureImages.length <= 6; 
 
   const handleSwiper = (swiper: SwiperClass) => {
     setSwiperInstance(swiper);
@@ -51,7 +62,7 @@ export const FeaturedCategory = () => {
         py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
       >
         <VStack align={{ base: "center", md: "flex-start" }} gap={2}>
-      <Heading
+          <Heading
             fontSize={{
               base: "16px",
               md: "20px",
@@ -68,7 +79,7 @@ export const FeaturedCategory = () => {
           >
             {featuredCategoryData.featured_category_title}
           </Heading>
-          
+
           <Text
             fontSize={{ base: "sm", md: "md" }}
             color="system.text.light.light"
@@ -76,7 +87,7 @@ export const FeaturedCategory = () => {
           >
             {featuredCategoryData.fearued_subtitle}
           </Text>
-          
+
           <Text
             fontSize={{ base: "xs", md: "sm" }}
             color="system.text.normal.light"
@@ -87,7 +98,7 @@ export const FeaturedCategory = () => {
           </Text>
         </VStack>
 
-        {/* Swiper Slider */}
+        {/* Swiper Slider with forced scrolling */}
         <Box position="relative">
           {showNavigation && (
             <Box position="absolute" top={-10} right={0} zIndex={10}>
@@ -101,23 +112,45 @@ export const FeaturedCategory = () => {
 
           <Swiper
             breakpoints={{
-              320: { slidesPerView: 1.5, spaceBetween: 16 },
-              480: { slidesPerView: 2.2, spaceBetween: 16 },
-              640: { slidesPerView: 2.5, spaceBetween: 20 },
-              768: { slidesPerView: 3, spaceBetween: 20 },
-              1024: { slidesPerView: 4, spaceBetween: 24 },
-              1280: { slidesPerView: 5, spaceBetween: 24 },
-              1536: { slidesPerView: 6, spaceBetween: 28 }
+              320: {
+                slidesPerView: 1.5,
+                spaceBetween: 16,
+              },
+              480: {
+                slidesPerView: 2.2,
+                spaceBetween: 16,
+              },
+              640: {
+                slidesPerView: 2.5,
+                spaceBetween: 20,
+              },
+              768: {
+                slidesPerView: 3,
+                spaceBetween: 20,
+              },
+              1024: {
+                slidesPerView: 4,
+                spaceBetween: 24,
+              },
+              1280: {
+                slidesPerView: 5,
+                spaceBetween: 24,
+              },
+              1536: {
+                slidesPerView: 6,
+                spaceBetween: 28,
+              },
             }}
             onSwiper={handleSwiper}
             modules={[Autoplay]}
             autoplay={{
               delay: autoplayDelay,
               disableOnInteraction: false,
-              pauseOnMouseEnter: true
+              pauseOnMouseEnter: true,
             }}
             loop={true}
             grabCursor={true}
+            loopAdditionalSlides={shouldForceScroll ? 2 : 1}
           >
             {featureImages.map((item, index) => (
               <SwiperSlide key={index}>
@@ -126,7 +159,9 @@ export const FeaturedCategory = () => {
                   p={{ base: 2, md: 3 }}
                   m={{ base: 1, md: 2 }}
                   cursor="pointer"
-                  onClick={() => router.push(`${ROUTES.APP.PRODUCTS}?category=${item.name}`)}
+                  onClick={() =>
+                    router.push(`${ROUTES.APP.PRODUCTS}?category=${item.name}`)
+                  }
                 >
                   <Box
                     position="relative"
@@ -157,9 +192,9 @@ export const FeaturedCategory = () => {
                     py={1}
                     minWidth="max-content"
                   >
-                    <Text 
-                      fontSize={{ base: "xs", md: "sm" }} 
-                      fontWeight="medium" 
+                    <Text
+                      fontSize={{ base: "xs", md: "sm" }}
+                      fontWeight="medium"
                       color="gray.800"
                     >
                       {toTitleCase(item.name)}
@@ -168,6 +203,62 @@ export const FeaturedCategory = () => {
                 </Box>
               </SwiperSlide>
             ))}
+
+            {/* Duplicate slides for better looping when we have few items */}
+            {shouldForceScroll &&
+              featureImages.map((item, index) => (
+                <SwiperSlide key={`duplicate-${index}`}>
+                  <Box
+                    transition="all 0.3s ease"
+                    p={{ base: 2, md: 3 }}
+                    m={{ base: 1, md: 2 }}
+                    cursor="pointer"
+                    onClick={() =>
+                      router.push(
+                        `${ROUTES.APP.PRODUCTS}?category=${item.name}`
+                      )
+                    }
+                  >
+                    <Box
+                      position="relative"
+                      width="100%"
+                      paddingTop="100%"
+                      borderRadius="lg"
+                      overflow="hidden"
+                      boxShadow="md"
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        style={{ objectFit: "cover" }}
+                        sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+                      />
+                    </Box>
+
+                    <Box
+                      position="absolute"
+                      bottom={{ base: 1, md: 2 }}
+                      left="50%"
+                      transform="translateX(-50%)"
+                      bg="whiteAlpha.900"
+                      shadow="md"
+                      borderRadius="full"
+                      px={labelPadding}
+                      py={1}
+                      minWidth="max-content"
+                    >
+                      <Text
+                        fontSize={{ base: "xs", md: "sm" }}
+                        fontWeight="medium"
+                        color="gray.800"
+                      >
+                        {toTitleCase(item.name)}
+                      </Text>
+                    </Box>
+                  </Box>
+                </SwiperSlide>
+              ))}
           </Swiper>
         </Box>
       </VStack>
