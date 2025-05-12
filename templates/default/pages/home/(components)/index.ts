@@ -10,3 +10,7 @@ export * from "./SaafSection";
 export * from "./PartnerWithUs";
 export * from "./ContactSection";
 export * from "./GlobalReach";
+export * from "./SocialFeed";
+export * from "./BenefitsSection";
+
+
