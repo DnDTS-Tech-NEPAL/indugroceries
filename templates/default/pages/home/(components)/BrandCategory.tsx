@@ -1,28 +1,19 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  Heading,
-  HStack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { useFeaturedBrandsImages } from "@/hooks/app";
-import { Autoplay } from "swiper/modules";
 import { ROUTES } from "@/constants";
 import { useRouter } from "next/navigation";
 import { VisibleSection } from "@/components/ui/visibleSection";
-
-import type { Swiper as SwiperClass } from "swiper";
-import { Navigation } from "@/components";
 import { FaArrowRightLong } from "react-icons/fa6";
+
+// Import Swiper components and styles
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/autoplay';
 
 export const BrandCategory = () => {
   const router = useRouter();
@@ -30,142 +21,203 @@ export const BrandCategory = () => {
   const { data: featuredBrandsData } = useHomePageQuery();
   const { data: config } = useConfigQuery();
 
-  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(
-    null
-  );
-  const [isBeginning, setIsBeginning] = useState(true);
-  const [isEnd, setIsEnd] = useState(false);
-
-  const handleSwiper = (swiper: SwiperClass) => {
-    setSwiperInstance(swiper);
-    setIsBeginning(swiper.isBeginning);
-    setIsEnd(swiper.isEnd);
-
-    swiper.on("slideChange", () => {
-      setIsBeginning(swiper.isBeginning);
-      setIsEnd(swiper.isEnd);
-    });
-  };
+  const shouldForceScroll = featureImages.length <= 5;
+  const baseSlides = shouldForceScroll ? 4.9 : 5; 
 
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
       <VStack
-        maxW={"6xl"}
-        mx={"auto"}
+        maxW="6xl"
+        mx="auto"
         alignItems="stretch"
-        gap={{
-          base: "20px",
-          md: "32px",
-        }}
-        py={{
-          base: "40px",
-          lg: "64px",
-          "2xl": "120px",
-        }}
+        gap={{ base: 5, md: 8 }}
+        px={{ base: 4, md: 6 }}
+        py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
       >
-        <Flex justifyContent={"space-between"} w="full">
-          <VStack align="flex-start" gap="0" maxW={"6xl"}>
-            <Heading
-              fontSize={{
-                base: "16px",
-                md: "20px",
-                lg: "28px",
-              }}
-              marginTop={{
-                base: "4px",
-                md: "12px",
-              }}
-              marginBottom={{
-                base: "0",
-                md: "8px",
-              }}
-            >
+        {/* ... (keep your header section the same) ... */}
+        <Flex
+          justifyContent="space-between"
+          w="full"
+          direction={{ base: "column", sm: "row" }}
+          gap={{ base: 4, md: 6 }}
+        >
+          <VStack align={{ base: "center", sm: "flex-start" }} gap={1}>
+           <Heading
+            fontSize={{
+              base: "16px",
+              md: "20px",
+              lg: "28px",
+            }}
+            marginTop={{
+              base: "4px",
+              md: "12px",
+            }}
+            marginBottom={{
+              base: "0",
+              md: "8px",
+            }}
+          >
               {featuredBrandsData.featured_brand_title}
             </Heading>
 
             <Text
-              variant="subtitle1"
-              fontWeight="400"
-              fontSize={{
-                base: "12px",
-                md: "14px",
-                "2xl": "16px",
-              }}
+              fontSize={{ base: "xs", sm: "sm", "2xl": "md" }}
               color="system.text.light.light"
+              textAlign={{ base: "center", sm: "left" }}
             >
               {featuredBrandsData.featured_brand_subtitle}
             </Text>
 
             <Text
-              variant={{
-                base: "paragraphSmall",
-                md: "paragraphRegular",
-              }}
+              fontSize={{ base: "sm", md: "md" }}
               color="system.text.normal.light"
+              textAlign={{ base: "center", sm: "left" }}
+              maxW={{ base: "full", md: "3xl" }}
             >
               {featuredBrandsData.featured_brand_description}
             </Text>
           </VStack>
+
           <Button
             color="white"
-            bg={"#FF6996"}
+            bg="#FF6996"
             borderRadius="3xl"
+            size={{
+              base: "sm",
+              md: "md",
+            }}
+            alignSelf={{ base: "center", sm: "flex-end" }}
             // onClick={() => router.push(ROUTES.APP.ABOUT_US)}
           >
             View All Brands <FaArrowRightLong />
           </Button>
         </Flex>
-        <Grid
-          templateColumns={{
-            base: "repeat(2, 1fr)",
-            sm: "repeat(3, 1fr)",
-            md: "repeat(4, 1fr)",
-            lg: "repeat(5, 1fr)",
-          }}
-          gap={4}
-        >
-          {featureImages.map((item, index) => (
-            <SwiperSlide
-              key={index}
-              onClick={() =>
-                router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
-              }
-            >
-              <Box
-                bg="white"
-                transition="all 0.3s"
-                py={"2"}
-                m={{ base: "5px", md: "8px", lg: "10px" }}
-                _hover={{ boxShadow: "lg", transform: "translateY(-4px)" }}
-                cursor="pointer"
-              >
+
+        {/* Swiper Carousel with forced scrolling */}
+        <Box w="full" overflow="hidden" px={{ base: 0, md: 4 }}>
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={16}
+            slidesPerView={baseSlides} // Show partial item to indicate scroll
+            autoplay={{
+              delay: 2500,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            loop={true}
+            speed={800}
+            grabCursor={true}
+            breakpoints={{
+              0: {
+                slidesPerView: shouldForceScroll ? 1.7 : 2,
+              },
+              480: {
+                slidesPerView: shouldForceScroll ? 2.7 : 3,
+              },
+              768: {
+                slidesPerView: shouldForceScroll ? 3.7 : 4,
+              },
+              1024: {
+                slidesPerView: baseSlides,
+              },
+            }}
+          >
+            {featureImages.map((item, index) => (
+              <SwiperSlide key={index}>
                 <Box
-                  position="relative"
-                  width="100%"
-                  py="6"
-                  height={{ base: "140px", "2xl": "100px" }}
+                  bg="white"
+                  transition="all 0.3s ease"
+                  p={{ base: 2, md: 3 }}
+                  m={{ base: 1, md: 2 }}
                   borderRadius="md"
-                  overflow="hidden"
+                  _hover={{
+                    boxShadow: "lg",
+                    transform: "translateY(-4px)",
+                    zIndex: 1,
+                  }}
+                  cursor="pointer"
+                  onClick={() =>
+                    router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
+                  }
                 >
-                  <Image
-                    src={item.image}
-                    alt={item.name}
-                    fill
-                    style={{ objectFit: "contain", objectPosition: "top" }}
-                  />
-                </Box>
-                {/* <Text
-                    mt="3"
-                    textAlign="center"
-                    variant={{ base: "paragraphSmall", md: "paragraphRegular" }}
-                    color={"system.text.normal.light"}
+                  <Box
+                    position="relative"
+                    width="100%"
+                    height={{
+                      base: "100px",
+                      sm: "120px",
+                      md: "140px",
+                      lg: "160px",
+                      xl: "180px",
+                    }}
+                    borderRadius="md"
+                    overflow="hidden"
                   >
-                    {toTitleCase(item.name)}
-                  </Text> */}
-              </Box>
-            </SwiperSlide>
-          ))}
-        </Grid>
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      style={{
+                        objectFit: "contain",
+                        objectPosition: "center",
+                        padding: "8px",
+                      }}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
+                </Box>
+              </SwiperSlide>
+            ))}
+            
+            {/* Duplicate slides for better looping */}
+            {shouldForceScroll && featureImages.map((item, index) => (
+              <SwiperSlide key={`duplicate-${index}`}>
+                <Box
+                  bg="white"
+                  transition="all 0.3s ease"
+                  p={{ base: 2, md: 3 }}
+                  m={{ base: 1, md: 2 }}
+                  borderRadius="md"
+                  _hover={{
+                    boxShadow: "lg",
+                    transform: "translateY(-4px)",
+                    zIndex: 1,
+                  }}
+                  cursor="pointer"
+                  onClick={() =>
+                    router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
+                  }
+                >
+                  <Box
+                    position="relative"
+                    width="100%"
+                    height={{
+                      base: "100px",
+                      sm: "120px",
+                      md: "140px",
+                      lg: "160px",
+                      xl: "180px",
+                    }}
+                    borderRadius="md"
+                    overflow="hidden"
+                  >
+                    <Image
+                      src={item.image}
+                      alt={item.name}
+                      fill
+                      style={{
+                        objectFit: "contain",
+                        objectPosition: "center",
+                        padding: "8px",
+                      }}
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </Box>
+                </Box>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </Box>
       </VStack>
     </VisibleSection>
   );
