@@ -168,7 +168,7 @@ export const ProductSection = ({ type }: ProductSectionProps) => {
           onSwiper={onSwiper}
           onSlideChange={onSlideChange}
           modules={[Autoplay, SwiperGrid]}
-          autoplay={{ delay: 3000, disableOnInteraction: false }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           loop={filteredProducts.length > 8}
         >
           {filteredProducts.map((productInfo) => (

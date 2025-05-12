@@ -7,18 +7,11 @@ import {
   FeaturedCategory,
   HeroSection,
   NewArrivals,
-  Offer,
-  SaafSection,
   SummerSale,
-  PartnerWithUs,
-  HomepageContact,
+   SocialFeed,
+  BenefitsSection,
 } from "./(components)";
-import GlobalReach from "./(components)/GlobalReach";
-import FAQ from "@/app/(web)/faq/page";
 import ProductShowcase from "./(components)/ProductShowcase";
-
-
-
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
  
   return (
@@ -28,15 +21,10 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
       <ProductShowcase/>
       <BrandCategory />
       <BestSellers />   
-      <Offer />
-      <NewArrivals />
       <SummerSale />
-      <PartnerWithUs />
-      <SaafSection />
-      <Banners />
-      <FAQ/>
-      <GlobalReach />
-      <HomepageContact />
+      <NewArrivals />
+      <SocialFeed/>
+      <BenefitsSection/>
     </>
   );
 };
