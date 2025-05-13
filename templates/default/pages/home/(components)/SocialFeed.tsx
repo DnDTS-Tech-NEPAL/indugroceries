@@ -18,6 +18,99 @@ import {
 } from "@chakra-ui/react";
 import { FaPlay, FaRegSadCry } from "react-icons/fa";
 
+// Helper function to determine video platform and extract ID
+const getVideoDetails = (
+  url: string | undefined
+): { platform: string | null; videoId: string | null } => {
+  if (!url) return { platform: null, videoId: null };
+
+  try {
+    const urlObj = new URL(url);
+    const hostname = urlObj.hostname;
+    const pathname = urlObj.pathname;
+
+    // TikTok
+    if (hostname.includes("tiktok.com")) {
+      const videoId = pathname.split("/").pop() || null;
+      return { platform: "tiktok", videoId };
+    }
+
+    // Instagram (handles both regular posts and reels)
+    if (hostname.includes("instagram.com")) {
+      // Check if it's a reel
+      if (pathname.includes("/reel/")) {
+        const reelId = pathname.split("/reel/")[1]?.split("/")[0] || null;
+        return { platform: "instagram-reel", videoId: reelId };
+      }
+
+      // Regular post
+      const matches = pathname.match(/\/p\/([^/]+)/);
+      const videoId = matches ? matches[1] : pathname.split("/").pop() || null;
+      return { platform: "instagram", videoId };
+    }
+
+    // Facebook
+    if (hostname.includes("facebook.com") || hostname.includes("fb.watch")) {
+      const videoId =
+        urlObj.searchParams.get("v") || pathname.split("/").pop() || null;
+      return { platform: "facebook", videoId };
+    }
+
+    // YouTube
+    if (hostname.includes("youtube.com") || hostname.includes("youtu.be")) {
+      let videoId: string | null = null;
+      if (hostname.includes("youtu.be")) {
+        videoId = pathname.substring(1) || null;
+      } else if (pathname.includes("shorts")) {
+        const parts = pathname.split("/shorts/");
+        videoId = parts.length > 1 ? parts[1] : null;
+      } else {
+        videoId = urlObj.searchParams.get("v");
+      }
+      return { platform: "youtube", videoId };
+    }
+
+    // Default case - unknown platform
+    return { platform: "unknown", videoId: null };
+  } catch (error) {
+    console.error("Error parsing video URL:", error);
+    return { platform: "error", videoId: null };
+  }
+};
+
+// Generate embed URL based on platform and video ID
+const getEmbedUrl = (
+  platform: string | null,
+  videoId: string | null
+): string | null => {
+  if (!platform || !videoId) return null;
+
+  switch (platform) {
+    case "tiktok":
+      return `https://www.tiktok.com/embed/v2/${videoId}`;
+    case "instagram":
+      return `https://www.instagram.com/p/${videoId}/embed`;
+    case "instagram-reel":
+      return `https://www.instagram.com/reel/${videoId}/embed`;
+    case "facebook":
+      return `https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/watch/?v=${videoId}&show_text=false`;
+    case "youtube":
+      return `https://www.youtube.com/embed/${videoId}?rel=0`;
+    default:
+      return null;
+  }
+};
+
+// Function to get a display name for the platform
+const getPlatformDisplayName = (platform: string): string => {
+  switch (platform) {
+    case "instagram-reel":
+      return "Instagram";
+    default:
+      return platform;
+  }
+};
+
 export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
   const { data: config } = useConfigQuery();
@@ -75,13 +168,24 @@ export const SocialFeed = () => {
             }}
             gap={6}
           >
-            {videoLinks.map((video) => {
-              const videoId = video.social_links?.split("/").pop();
-              const embedUrl = `https://www.tiktok.com/embed/v2/${videoId}`;
+            {videoLinks.map((video, index) => {
+              const { platform, videoId } = getVideoDetails(video.social_links);
+              const embedUrl = getEmbedUrl(platform, videoId);
+
+              // Skip rendering if we couldn't determine the platform or generate an embed URL
+              if (!embedUrl || !platform || !videoId) {
+                return null;
+              }
+
+              // Determine if this is a vertical video format
+              const isVerticalVideo =
+                platform === "tiktok" ||
+                platform === "instagram-reel" ||
+                platform === "instagram";
 
               return (
                 <GridItem
-                  key={video.idx}
+                  key={video.idx || index}
                   position="relative"
                   bg="gray.50"
                   borderRadius="lg"
@@ -90,12 +194,12 @@ export const SocialFeed = () => {
                   transition="all 0.3s ease"
                   _hover={{ boxShadow: "lg", transform: "translateY(-4px)" }}
                 >
-                  <AspectRatio ratio={9 / 16}>
+                  <AspectRatio ratio={isVerticalVideo ? 9 / 16 : 16 / 9}>
                     <Box position="relative" w="100%" h="100%">
-                      {/* TikTok iframe */}
+                      {/* Video iframe */}
                       <iframe
                         src={embedUrl}
-                        title={`TikTok Video ${videoId}`}
+                        title={`${getPlatformDisplayName(platform)} Video`}
                         allowFullScreen
                         frameBorder="0"
                         loading="lazy"
@@ -105,21 +209,8 @@ export const SocialFeed = () => {
                           borderRadius: "8px",
                           pointerEvents: "auto",
                         }}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       />
-
-                      {/* Play Icon Overlay */}
-                      <Box
-                        position="absolute"
-                        top="50%"
-                        left="50%"
-                        transform="translate(-50%, -50%)"
-                        zIndex="2"
-                        bg="rgba(0, 0, 0, 0.5)"
-                        borderRadius="full"
-                        p={3}
-                      >
-                        <FaPlay size={20} color="white" />
-                      </Box>
                     </Box>
                   </AspectRatio>
                 </GridItem>
