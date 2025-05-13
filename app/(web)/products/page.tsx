@@ -5,6 +5,12 @@ import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 
 import { ProductsContainer } from "./(components)";
+import {
+  BenefitsSection,
+  BrandCategory,
+  SocialFeed,
+  SummerSale,
+} from "@/templates/default/pages/home/(components)";
 
 export const metadata: Metadata = {
   title: "Products",
@@ -24,6 +30,10 @@ const Products = () => {
       />
 
       <ProductsContainer />
+      <SummerSale />
+      <BrandCategory />
+      <SocialFeed />
+      <BenefitsSection />
     </>
   );
 };

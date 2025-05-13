@@ -1,15 +1,14 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Box, Flex, VStack } from "@chakra-ui/react";
+import { Box, Flex } from "@chakra-ui/react";
 
 import { FormProvider } from "@/components";
 import { popularityFilterOptions, priceRangeFilterOptions } from "@/constants";
-import { useProductsFilter } from "@/hooks/app";
+// import { useProductsFilter } from "@/hooks/app";
 import { ProductFilterType } from "@/types";
 
 import { AllProducts } from "./AllProducts";
-import { FilterAccordion } from "./FilterAccordion";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
@@ -23,7 +22,7 @@ export const ProductsContainer = () => {
   });
   const submitHandler = () => {};
 
-  const filters = useProductsFilter();
+  // const filters = useProductsFilter();
   const searchParams = useSearchParams();
 
   const selectedCategory = searchParams.get("category");
@@ -58,7 +57,7 @@ export const ProductsContainer = () => {
           alignItems={"stretch"}
           py={{ base: "24px", lg: "32px", "2xl": "56px" }}
         >
-          <Box
+          {/* <Box
             display={{ base: "none", lg: "block" }}
             minWidth="240px"
             p={4}
@@ -70,7 +69,7 @@ export const ProductsContainer = () => {
                 <FilterAccordion key={filter.title} {...filter} />
               ))}
             </VStack>
-          </Box>
+          </Box> */}
 
           <Box flex="1">
             <Flex>
