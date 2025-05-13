@@ -8,9 +8,6 @@ import {
   Text,
   HStack,
   Link,
-  Flex,
-  Grid,
-  GridItem,
   Container,
   Image,
   Icon,
@@ -18,6 +15,12 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { FaPlay, FaRegSadCry } from "react-icons/fa";
+
+// Swiper imports
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
 
 export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
@@ -29,10 +32,11 @@ export const SocialFeed = () => {
     <Box py={{ base: 10, md: 16 }} bg="gray.50">
       <Container maxW="7xl" px={{ base: 4, md: 8 }}>
         {/* Header */}
-        <Flex
-          direction={{ base: "column", md: "row" }}
-          justify="space-between"
-          align={{ base: "flex-start", md: "center" }}
+        <Box
+          display="flex"
+          flexDirection={{ base: "column", md: "row" }}
+          justifyContent="space-between"
+          alignItems={{ base: "flex-start", md: "center" }}
           mb={{ base: 8, md: 12 }}
           gap={{ base: 6, md: 0 }}
         >
@@ -66,21 +70,30 @@ export const SocialFeed = () => {
               </Link>
             ))}
           </HStack>
-        </Flex>
+        </Box>
 
-        {/* Grid */}
+        {/* Swiper or Fallback */}
         {videoLinks.length > 0 ? (
-          <Grid
-            templateColumns={{
-              base: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              lg: "repeat(4, 1fr)",
+          <Swiper
+            modules={[Autoplay]}
+            spaceBetween={16}
+            slidesPerView={1.2}
+            autoplay={{
+              delay: 3000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
             }}
-            gap={{ base: 5, md: 6 }}
+            loop={true}
+            breakpoints={{
+              480: { slidesPerView: 1.5 },
+              640: { slidesPerView: 2 },
+              768: { slidesPerView: 2.5 },
+              1024: { slidesPerView: 3.2 },
+              1280: { slidesPerView: 4 },
+            }}
           >
             {videoLinks.map((video, index) => (
-              <GridItem key={video.idx || index}>
+              <SwiperSlide key={video.idx || index}>
                 <Box
                   bg="white"
                   borderRadius="lg"
@@ -106,10 +119,7 @@ export const SocialFeed = () => {
                       position="relative"
                       overflow="hidden"
                       width="100%"
-                      borderRadius={{
-                        base: "lg",
-                        md: "2xl",
-                      }}
+                      borderRadius="2xl"
                       flex="1"
                     >
                       <Image
@@ -117,20 +127,12 @@ export const SocialFeed = () => {
                         alt={video.display_label}
                         width="100%"
                         height="100%"
-                        minHeight={{
-                          base: "220px",
-                          sm: "200px",
-                          md: "180px",
-                          lg: "400px",
-                        }}
+                        minHeight={{ base: "200px", md: "300px" }}
                         objectFit="cover"
                         transition="transform 0.3s ease"
                         _hover={{ transform: "scale(1.05)" }}
                         display="block"
-                        borderRadius={{
-                          base: "lg",
-                          md: "2xl",
-                        }}
+                        borderRadius="2xl"
                       />
                       <Center
                         position="absolute"
@@ -139,12 +141,8 @@ export const SocialFeed = () => {
                         width="100%"
                         height="100%"
                         bg="rgba(0, 0, 0, 0.2)"
-                        transition="all 0.3s ease"
                         _hover={{ bg: "rgba(0, 0, 0, 0.4)" }}
-                        borderRadius={{
-                          base: "lg",
-                          md: "2xl",
-                        }}
+                        borderRadius="2xl"
                       >
                         <Box
                           bg="rgba(255, 255, 255, 0.2)"
@@ -152,7 +150,6 @@ export const SocialFeed = () => {
                           p={3}
                           borderRadius="full"
                           boxShadow="lg"
-                          transition="all 0.3s ease"
                           _hover={{
                             transform: "scale(1.1)",
                             bg: "rgba(255, 255, 255, 0.3)",
@@ -163,8 +160,6 @@ export const SocialFeed = () => {
                             boxSize={6}
                             color="white"
                             opacity={0.9}
-                            _hover={{ opacity: 1 }}
-                            transition="all 0.2s ease"
                           />
                         </Box>
                       </Center>
@@ -180,9 +175,9 @@ export const SocialFeed = () => {
                     </Box>
                   </Link>
                 </Box>
-              </GridItem>
+              </SwiperSlide>
             ))}
-          </Grid>
+          </Swiper>
         ) : (
           <Center
             flexDir="column"
