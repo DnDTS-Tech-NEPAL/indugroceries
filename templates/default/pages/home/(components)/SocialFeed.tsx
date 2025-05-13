@@ -110,6 +110,8 @@ export const SocialFeed = () => {
                 >
                   <Link
                     href={video.social_links}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     _hover={{ textDecor: "none" }}
                     flex="1"
                     display="flex"
