@@ -13,6 +13,7 @@ import {
   Icon,
   Center,
   VStack,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { FaPlay, FaRegSadCry } from "react-icons/fa";
 
@@ -30,7 +31,7 @@ export const SocialFeed = () => {
 
   return (
     <Box py={{ base: 10, md: 16 }} bg="gray.50">
-      <Container maxW="7xl" px={{ base: 4, md: 8 }}>
+      <Container maxW="7xl"  px={{ base: 4, md: 8 }}>
         {/* Header */}
         <Box
           display="flex"
@@ -85,10 +86,10 @@ export const SocialFeed = () => {
             }}
             loop={true}
             breakpoints={{
-              480: { slidesPerView: 1.5 },
+              480: { slidesPerView: 1 },
               640: { slidesPerView: 2 },
-              768: { slidesPerView: 2.5 },
-              1024: { slidesPerView: 3.2 },
+              768: { slidesPerView: 2 },
+              1024: { slidesPerView: 3 },
               1280: { slidesPerView: 4 },
             }}
           >
@@ -124,18 +125,17 @@ export const SocialFeed = () => {
                       borderRadius="2xl"
                       flex="1"
                     >
-                      <Image
-                        src={video.display_image_link || "/placeholder.svg"}
-                        alt={video.display_label}
-                        width="100%"
-                        height="100%"
-                        minHeight={{ base: "200px", md: "300px" }}
-                        objectFit="cover"
-                        transition="transform 0.3s ease"
-                        _hover={{ transform: "scale(1.05)" }}
-                        display="block"
-                        borderRadius="2xl"
-                      />
+                      <AspectRatio ratio={9 / 16} w="full">
+                        <Image
+                          src={video.display_image_link || "/placeholder.svg"}
+                          alt={video.display_label}
+                          objectFit="cover"
+                          transition="transform 0.3s ease"
+                          _hover={{ transform: "scale(1.05)" }}
+                          display="block"
+                          borderRadius="2xl"
+                        />
+                      </AspectRatio>
                       <Center
                         position="absolute"
                         top="0"
@@ -166,7 +166,7 @@ export const SocialFeed = () => {
                         </Box>
                       </Center>
                     </Box>
-                    <Box p={4} bg="white" borderBottomRadius="lg">
+                    <Box p={4} bg="white" borderBottomRadius="lg" h={"90px"} >
                       <Text
                         fontWeight="semibold"
                         fontSize="md"
