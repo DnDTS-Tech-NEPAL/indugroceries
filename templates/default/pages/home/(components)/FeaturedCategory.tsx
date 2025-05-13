@@ -101,7 +101,7 @@ export const FeaturedCategory = () => {
         {/* Swiper Slider with forced scrolling */}
         <Box position="relative">
           {showNavigation && (
-            <Box position="absolute" top={-10} right={0} zIndex={10}>
+            <Box position="absolute" top={-10} right={0} zIndex={1}>
               <Navigation
                 swiper={swiperInstance}
                 isBeginning={isBeginning}
@@ -170,6 +170,7 @@ export const FeaturedCategory = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
+  
                   >
                     <Image
                       src={item.image}
