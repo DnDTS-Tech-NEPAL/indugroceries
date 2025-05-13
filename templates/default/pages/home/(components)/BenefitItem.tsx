@@ -1,8 +1,8 @@
-import { Icon, Text, Flex, Box } from "@chakra-ui/react";
-import { IconType } from "react-icons";
+import { Text, Flex, Box } from "@chakra-ui/react";
+import React from "react";
 
 interface BenefitItemProps {
-  icon: IconType;
+  icon: () => React.ReactElement;
   title: string;
   subtitle: string;
 }
@@ -19,11 +19,9 @@ export const BenefitItem = ({ icon, title, subtitle }: BenefitItemProps) => (
       transition: "all 0.2s"
     }}
   >
-    <Icon 
-      as={icon} 
-      boxSize={[5, 6]} 
-      mt={1} 
-    />
+    <Box mt={1}>
+      {icon()}
+    </Box>
     <Box textAlign="left">
       <Text 
         fontWeight="semibold" 

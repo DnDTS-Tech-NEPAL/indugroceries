@@ -108,6 +108,20 @@ export type ConfigType = {
   // remove these later
   location: string;
   template: string;
+
+  //homebenefit section
+  card_1_label: string;
+  card_2_label: string;
+  card_3_label: string;
+  card_4_label: string;
+  card_1_content: string;
+  card_2_content: string;
+  card_3_content: string;
+  card_4_content: string;
+  card_1_icon_link: string;
+  card_2_icon_link: string;
+  card_3_icon_link: string;
+  card_4_icon_link: string;
 };
 
 export type MenuItemType = {
