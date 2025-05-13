@@ -16,8 +16,6 @@ import {
   AspectRatio,
 } from "@chakra-ui/react";
 import { FaPlay, FaRegSadCry } from "react-icons/fa";
-
-// Swiper imports
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
@@ -31,7 +29,7 @@ export const SocialFeed = () => {
 
   return (
     <Box py={{ base: 10, md: 16 }} bg="gray.50">
-      <Container maxW="7xl"  px={{ base: 4, md: 8 }}>
+      <Container maxW="7xl" px={{ base: 4, sm: 6, md: 8 }}>
         {/* Header */}
         <Box
           display="flex"
@@ -42,17 +40,17 @@ export const SocialFeed = () => {
           gap={{ base: 6, md: 0 }}
         >
           <Box flex="1" maxW={{ md: "60%" }}>
-            <Heading size="xl" color="gray.800" mb={3}>
+            <Heading size={{ base: "lg", sm: "xl" }} color="gray.800" mb={3}>
               {config?.social_title ?? "Follow Us on Social Media"}
             </Heading>
-            <Text fontSize="lg" color="gray.600">
+            <Text fontSize={{ base: "md", sm: "lg" }} color="gray.600">
               {config?.social_description ??
                 "Stay updated with the latest beauty tips, tricks, and product highlights."}
             </Text>
           </Box>
 
           <HStack
-            gap={5}
+            gap={{ base: 4, sm: 5 }}
             mt={{ base: 6, md: 0 }}
             flexWrap="wrap"
             justify={{ base: "flex-start", md: "flex-end" }}
@@ -64,7 +62,7 @@ export const SocialFeed = () => {
                 aria-label={name}
                 _hover={{ color: "blue.500", transform: "scale(1.1)" }}
                 color="gray.600"
-                fontSize="2xl"
+                fontSize={{ base: "xl", sm: "2xl" }}
                 transition="all 0.2s ease"
               >
                 {icon}
@@ -75,111 +73,114 @@ export const SocialFeed = () => {
 
         {/* Swiper or Fallback */}
         {videoLinks.length > 0 ? (
-          <Swiper
-            modules={[Autoplay]}
-            spaceBetween={16}
-            slidesPerView={1.2}
-            autoplay={{
-              delay: 3000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            loop={true}
-            breakpoints={{
-              480: { slidesPerView: 1 },
-              640: { slidesPerView: 2 },
-              768: { slidesPerView: 2 },
-              1024: { slidesPerView: 3 },
-              1280: { slidesPerView: 4 },
-            }}
-          >
-            {videoLinks.map((video, index) => (
-              <SwiperSlide key={video.idx || index}>
-                <Box
-                  bg="white"
-                  borderRadius="lg"
-                  overflow="hidden"
-                  boxShadow="sm"
-                  transition="all 0.3s ease"
-                  _hover={{
-                    boxShadow: "xl",
-                    transform: "translateY(-5px)",
-                  }}
-                  height="100%"
-                  display="flex"
-                  flexDirection="column"
-                >
-                  <Link
-                    href={video.social_links}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    _hover={{ textDecor: "none" }}
-                    flex="1"
+          <Box position="relative" width="full" overflow="hidden">
+            <Swiper
+              modules={[Autoplay]}
+              spaceBetween={16}
+              slidesPerView={1.1}
+              autoplay={{
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }}
+              loop={true}
+              breakpoints={{
+                375: { slidesPerView: 1 },
+                480: { slidesPerView: 1 },
+                640: { slidesPerView: 2 },
+                768: { slidesPerView: 2 },
+                1024: { slidesPerView: 3 },
+                1280: { slidesPerView: 4 },
+              }}
+              style={{
+                padding: "10px 4px 20px",
+                margin: "-10px -4px -20px",
+              }}
+            >
+              {videoLinks.map((video, index) => (
+                <SwiperSlide key={video.idx || index}>
+                  <Box
+                    bg="white"
+                    borderRadius="lg"
+                    overflow="hidden"
+                    boxShadow="sm"
+                    transition="all 0.3s ease"
+                    _hover={{
+                      boxShadow: "xl",
+                      transform: "translateY(-5px)",
+                    }}
+                    my={10}
+                    height="100%"
                     display="flex"
                     flexDirection="column"
                   >
-                    <Box
-                      position="relative"
-                      overflow="hidden"
-                      width="100%"
-                      borderRadius="2xl"
+                    <Link
+                      href={video.social_links}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      _hover={{ textDecor: "none" }}
                       flex="1"
+                      display="flex"
+                      flexDirection="column"
                     >
-                      <AspectRatio ratio={9 / 16} w="full">
-                        <Image
-                          src={video.display_image_link || "/placeholder.svg"}
-                          alt={video.display_label}
-                          objectFit="cover"
-                          transition="transform 0.3s ease"
-                          _hover={{ transform: "scale(1.05)" }}
-                          display="block"
-                          borderRadius="2xl"
-                        />
-                      </AspectRatio>
-                      <Center
-                        position="absolute"
-                        top="0"
-                        left="0"
+                      <Box
+                        position="relative"
+                        overflow="hidden"
                         width="100%"
-                        height="100%"
-                        bg="rgba(0, 0, 0, 0.2)"
-                        _hover={{ bg: "rgba(0, 0, 0, 0.4)" }}
-                        borderRadius="2xl"
+                        borderRadius="lg"
+                        flex="1"
                       >
-                        <Box
-                          bg="rgba(255, 255, 255, 0.2)"
-                          backdropFilter="blur(4px)"
-                          p={3}
-                          borderRadius="full"
-                          boxShadow="lg"
-                          _hover={{
-                            transform: "scale(1.1)",
-                            bg: "rgba(255, 255, 255, 0.3)",
-                          }}
-                        >
-                          <Icon
-                            as={FaPlay}
-                            boxSize={6}
-                            color="white"
-                            opacity={0.9}
+                        <AspectRatio ratio={9 / 16} w="full">
+                          <Image
+                            src={video.display_image_link || "/placeholder.svg"}
+                            alt={video.display_label}
+                            objectFit="cover"
+                            transition="transform 0.3s ease"
+                            display="block"
+                            borderRadius="lg"
                           />
-                        </Box>
-                      </Center>
-                    </Box>
-                    <Box p={4} bg="white" borderBottomRadius="lg" h={"90px"} >
-                      <Text
-                        fontWeight="semibold"
-                        fontSize="md"
-                        color="gray.800"
-                      >
-                        {video.display_label}
-                      </Text>
-                    </Box>
-                  </Link>
-                </Box>
-              </SwiperSlide>
-            ))}
-          </Swiper>
+                        </AspectRatio>
+                        <Center
+                          position="absolute"
+                          top="0"
+                          left="0"
+                          width="100%"
+                          height="100%"
+                          bg="rgba(0, 0, 0, 0.2)"
+                          _hover={{ bg: "rgba(0, 0, 0, 0.4)" }}
+                          borderRadius="lg"
+                        >
+                          <Box
+                            bg="rgba(255, 255, 255, 0.2)"
+                            backdropFilter="blur(4px)"
+                            p={3}
+                            borderRadius="full"
+                            boxShadow="lg"
+                          >
+                            <Icon
+                              as={FaPlay}
+                              boxSize={{ base: 5, sm: 6 }}
+                              color="white"
+                              opacity={0.9}
+                            />
+                          </Box>
+                        </Center>
+                      </Box>
+                      <Box p={4} bg="white" borderBottomRadius="lg" minH="90px">
+                        <Text
+                          fontWeight="semibold"
+                          fontSize={{ base: "sm", sm: "md" }}
+                          color="gray.800"
+                        >
+                          {video.display_label}
+                        </Text>
+                      </Box>
+                    </Link>
+                  </Box>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </Box>
         ) : (
           <Center
             flexDir="column"
