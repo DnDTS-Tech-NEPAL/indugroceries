@@ -139,9 +139,9 @@ export type MenuItemType = {
 };
 export type SocialLinkType = {
   idx: number;
-  label: string;
-  route: string;
   social_links: string;
+  display_image_link: string,
+  display_label: string,
 };
 export type QuickLinkType = {
   idx: number;

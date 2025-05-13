@@ -12,104 +12,12 @@ import {
   Grid,
   GridItem,
   Container,
-  AspectRatio,
+  Image,
   Icon,
   Center,
+  VStack,
 } from "@chakra-ui/react";
 import { FaPlay, FaRegSadCry } from "react-icons/fa";
-
-// Helper function to determine video platform and extract ID
-const getVideoDetails = (
-  url: string | undefined
-): { platform: string | null; videoId: string | null } => {
-  if (!url) return { platform: null, videoId: null };
-
-  try {
-    const urlObj = new URL(url);
-    const hostname = urlObj.hostname;
-    const pathname = urlObj.pathname;
-
-    // TikTok
-    if (hostname.includes("tiktok.com")) {
-      const videoId = pathname.split("/").pop() || null;
-      return { platform: "tiktok", videoId };
-    }
-
-    // Instagram (handles both regular posts and reels)
-    if (hostname.includes("instagram.com")) {
-      // Check if it's a reel
-      if (pathname.includes("/reel/")) {
-        const reelId = pathname.split("/reel/")[1]?.split("/")[0] || null;
-        return { platform: "instagram-reel", videoId: reelId };
-      }
-
-      // Regular post
-      const matches = pathname.match(/\/p\/([^/]+)/);
-      const videoId = matches ? matches[1] : pathname.split("/").pop() || null;
-      return { platform: "instagram", videoId };
-    }
-
-    // Facebook
-    if (hostname.includes("facebook.com") || hostname.includes("fb.watch")) {
-      const videoId =
-        urlObj.searchParams.get("v") || pathname.split("/").pop() || null;
-      return { platform: "facebook", videoId };
-    }
-
-    // YouTube
-    if (hostname.includes("youtube.com") || hostname.includes("youtu.be")) {
-      let videoId: string | null = null;
-      if (hostname.includes("youtu.be")) {
-        videoId = pathname.substring(1) || null;
-      } else if (pathname.includes("shorts")) {
-        const parts = pathname.split("/shorts/");
-        videoId = parts.length > 1 ? parts[1] : null;
-      } else {
-        videoId = urlObj.searchParams.get("v");
-      }
-      return { platform: "youtube", videoId };
-    }
-
-    // Default case - unknown platform
-    return { platform: "unknown", videoId: null };
-  } catch (error) {
-    console.error("Error parsing video URL:", error);
-    return { platform: "error", videoId: null };
-  }
-};
-
-// Generate embed URL based on platform and video ID
-const getEmbedUrl = (
-  platform: string | null,
-  videoId: string | null
-): string | null => {
-  if (!platform || !videoId) return null;
-
-  switch (platform) {
-    case "tiktok":
-      return `https://www.tiktok.com/embed/v2/${videoId}`;
-    case "instagram":
-      return `https://www.instagram.com/p/${videoId}/embed`;
-    case "instagram-reel":
-      return `https://www.instagram.com/reel/${videoId}/embed`;
-    case "facebook":
-      return `https://www.facebook.com/plugins/video.php?href=https://www.facebook.com/watch/?v=${videoId}&show_text=false`;
-    case "youtube":
-      return `https://www.youtube.com/embed/${videoId}?rel=0`;
-    default:
-      return null;
-  }
-};
-
-// Function to get a display name for the platform
-const getPlatformDisplayName = (platform: string): string => {
-  switch (platform) {
-    case "instagram-reel":
-      return "Instagram";
-    default:
-      return platform;
-  }
-};
 
 export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
@@ -118,45 +26,49 @@ export const SocialFeed = () => {
   const videoLinks = config?.ecommerce_social_links || [];
 
   return (
-    <Box py={{ base: 10, md: 16 }} bg="white">
+    <Box py={{ base: 10, md: 16 }} bg="gray.50">
       <Container maxW="7xl" px={{ base: 4, md: 8 }}>
-        {/* Header Section */}
+        {/* Header */}
         <Flex
           direction={{ base: "column", md: "row" }}
           justify="space-between"
           align={{ base: "flex-start", md: "center" }}
-          mb={{ base: 8, md: 10 }}
+          mb={{ base: 8, md: 12 }}
           gap={{ base: 6, md: 0 }}
         >
-          <Box flex="1">
-            <Heading size="lg" color="gray.800">
+          <Box flex="1" maxW={{ md: "60%" }}>
+            <Heading size="xl" color="gray.800" mb={3}>
               {config?.social_title ?? "Follow Us on Social Media"}
             </Heading>
-            <Text mt={4} maxW="600px" color="gray.600" fontSize="md">
+            <Text fontSize="lg" color="gray.600">
               {config?.social_description ??
                 "Stay updated with the latest beauty tips, tricks, and product highlights."}
             </Text>
           </Box>
 
-          <HStack gap={4} mt={{ base: 6, md: 0 }}>
+          <HStack
+            gap={5}
+            mt={{ base: 6, md: 0 }}
+            flexWrap="wrap"
+            justify={{ base: "flex-start", md: "flex-end" }}
+          >
             {socialLinks.map(({ name, href, icon }) => (
               <Link
                 href={href}
                 key={name}
                 aria-label={name}
-                _hover={{ color: "blue.500" }}
-                color="gray.700"
+                _hover={{ color: "blue.500", transform: "scale(1.1)" }}
+                color="gray.600"
                 fontSize="2xl"
+                transition="all 0.2s ease"
               >
-                <Box transition="all 0.3s" _hover={{ transform: "scale(1.1)" }}>
-                  {icon}
-                </Box>
+                {icon}
               </Link>
             ))}
           </HStack>
         </Flex>
 
-        {/* Video Grid */}
+        {/* Grid */}
         {videoLinks.length > 0 ? (
           <Grid
             templateColumns={{
@@ -164,63 +76,130 @@ export const SocialFeed = () => {
               sm: "repeat(2, 1fr)",
               md: "repeat(3, 1fr)",
               lg: "repeat(4, 1fr)",
-              xl: "repeat(5, 1fr)",
             }}
-            gap={6}
+            gap={{ base: 5, md: 6 }}
           >
-            {videoLinks.map((video, index) => {
-              const { platform, videoId } = getVideoDetails(video.social_links);
-              const embedUrl = getEmbedUrl(platform, videoId);
-
-              // Skip rendering if we couldn't determine the platform or generate an embed URL
-              if (!embedUrl || !platform || !videoId) {
-                return null;
-              }
-
-              // Determine if this is a vertical video format
-              const isVerticalVideo =
-                platform === "tiktok" ||
-                platform === "instagram-reel" ||
-                platform === "instagram";
-
-              return (
-                <GridItem
-                  key={video.idx || index}
-                  position="relative"
-                  bg="gray.50"
+            {videoLinks.map((video, index) => (
+              <GridItem key={video.idx || index}>
+                <Box
+                  bg="white"
                   borderRadius="lg"
                   overflow="hidden"
                   boxShadow="sm"
                   transition="all 0.3s ease"
-                  _hover={{ boxShadow: "lg", transform: "translateY(-4px)" }}
+                  _hover={{
+                    boxShadow: "xl",
+                    transform: "translateY(-5px)",
+                  }}
+                  height="100%"
+                  display="flex"
+                  flexDirection="column"
                 >
-                  <AspectRatio ratio={isVerticalVideo ? 9 / 16 : 16 / 9}>
-                    <Box position="relative" w="100%" h="100%">
-                      {/* Video iframe */}
-                      <iframe
-                        src={embedUrl}
-                        title={`${getPlatformDisplayName(platform)} Video`}
-                        allowFullScreen
-                        frameBorder="0"
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          borderRadius: "8px",
-                          pointerEvents: "auto",
+                  <Link
+                    href={video.social_links}
+                    _hover={{ textDecor: "none" }}
+                    flex="1"
+                    display="flex"
+                    flexDirection="column"
+                  >
+                    <Box
+                      position="relative"
+                      overflow="hidden"
+                      width="100%"
+                      borderRadius={{
+                        base: "lg",
+                        md: "2xl",
+                      }}
+                      flex="1"
+                    >
+                      <Image
+                        src={video.display_image_link || "/placeholder.svg"}
+                        alt={video.display_label}
+                        width="100%"
+                        height="100%"
+                        minHeight={{
+                          base: "220px",
+                          sm: "200px",
+                          md: "180px",
+                          lg: "400px",
                         }}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        objectFit="cover"
+                        transition="transform 0.3s ease"
+                        _hover={{ transform: "scale(1.05)" }}
+                        display="block"
+                        borderRadius={{
+                          base: "lg",
+                          md: "2xl",
+                        }}
                       />
+                      <Center
+                        position="absolute"
+                        top="0"
+                        left="0"
+                        width="100%"
+                        height="100%"
+                        bg="rgba(0, 0, 0, 0.2)"
+                        transition="all 0.3s ease"
+                        _hover={{ bg: "rgba(0, 0, 0, 0.4)" }}
+                        borderRadius={{
+                          base: "lg",
+                          md: "2xl",
+                        }}
+                      >
+                        <Box
+                          bg="rgba(255, 255, 255, 0.2)"
+                          backdropFilter="blur(4px)"
+                          p={3}
+                          borderRadius="full"
+                          boxShadow="lg"
+                          transition="all 0.3s ease"
+                          _hover={{
+                            transform: "scale(1.1)",
+                            bg: "rgba(255, 255, 255, 0.3)",
+                          }}
+                        >
+                          <Icon
+                            as={FaPlay}
+                            boxSize={6}
+                            color="white"
+                            opacity={0.9}
+                            _hover={{ opacity: 1 }}
+                            transition="all 0.2s ease"
+                          />
+                        </Box>
+                      </Center>
                     </Box>
-                  </AspectRatio>
-                </GridItem>
-              );
-            })}
+                    <Box p={4} bg="white" borderBottomRadius="lg">
+                      <Text
+                        fontWeight="semibold"
+                        fontSize="md"
+                        color="gray.800"
+                      >
+                        {video.display_label}
+                      </Text>
+                    </Box>
+                  </Link>
+                </Box>
+              </GridItem>
+            ))}
           </Grid>
         ) : (
-          <Center flexDir="column" py={12} color="gray.500">
-            <Icon as={FaRegSadCry} boxSize={12} mb={4} />
-            <Text fontSize="lg">No social videos available at the moment.</Text>
+          <Center
+            flexDir="column"
+            py={16}
+            color="gray.500"
+            bg="white"
+            borderRadius="lg"
+          >
+            <Icon as={FaRegSadCry} boxSize={12} mb={4} opacity={0.7} />
+            <VStack gap={2}>
+              <Text fontSize="xl" fontWeight="medium">
+                No content available
+              </Text>
+              <Text fontSize="md" color="gray.600">
+                Check back later for updates
+              </Text>
+            </VStack>
           </Center>
         )}
       </Container>
