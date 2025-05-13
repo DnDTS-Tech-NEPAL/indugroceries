@@ -122,13 +122,26 @@ export type ConfigType = {
   card_2_icon_link: string;
   card_3_icon_link: string;
   card_4_icon_link: string;
+
+  //social feed section
+  social_title: string;
+  social_description:string;
+  ecommerce_social_links:SocialLinkType[];
 };
+
+
 
 export type MenuItemType = {
   idx: number;
   menu_item: string;
   link: string;
   subMenus?: MenuItemType[];
+};
+export type SocialLinkType = {
+  idx: number;
+  label: string;
+  route: string;
+  social_links: string;
 };
 export type QuickLinkType = {
   idx: number;
