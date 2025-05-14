@@ -1,18 +1,20 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 
 import { FormProvider } from "@/components";
 import { popularityFilterOptions, priceRangeFilterOptions } from "@/constants";
-// import { useProductsFilter } from "@/hooks/app";
-import { ProductFilterType } from "@/types";
+import { useProductsFilter, useProductSlider } from "@/hooks/app";
+import { ProductFilterType, ProductSectionProps } from "@/types";
 
 import { AllProducts } from "./AllProducts";
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { FilterAccordion } from "./FilterAccordion";
+import { ProductFilters } from "./ProductFilters";
 
-export const ProductsContainer = () => {
+export const ProductsContainer = ({ type }: ProductSectionProps) => {
   const methods = useForm<ProductFilterType>({
     defaultValues: {
       bestseller: popularityFilterOptions[0].value,
@@ -21,8 +23,10 @@ export const ProductsContainer = () => {
     },
   });
   const submitHandler = () => {};
+  const { sectionData } = useProductSlider(type);
+  const { title, subtitle } = sectionData;
 
-  // const filters = useProductsFilter();
+  const filters = useProductsFilter();
   const searchParams = useSearchParams();
 
   const selectedCategory = searchParams.get("category");
@@ -41,14 +45,31 @@ export const ProductsContainer = () => {
 
   return (
     <FormProvider methods={methods} onSubmit={submitHandler}>
-      <Box
-        px={{
-          base: "16px",
-          lg: "24px",
-          xl: "32px",
-          "2xl": "40px",
-        }}
-      >
+      <Box maxW={"6xl"} mx={"auto"}>
+        <Flex justifyContent={"space-between"} mt={8}>
+          <VStack align={{ base: "flex-start" }} gap={2}>
+            <Heading
+              as={"h2"}
+              fontSize={{
+                base: "24px",
+                md: "28px",
+              }}
+              fontWeight="400"
+              color="gray.800"
+            >
+              {title}
+            </Heading>
+
+            <Text
+              as={"span"}
+              fontSize={{ base: "sm", md: "md" }}
+              color="gray.500"
+            >
+              {subtitle}
+            </Text>
+          </VStack>
+          <ProductFilters />
+        </Flex>
         <Flex
           flexDirection={{ base: "column", md: "column", lg: "row" }}
           maxWidth={"1280px"}
@@ -57,7 +78,7 @@ export const ProductsContainer = () => {
           alignItems={"stretch"}
           py={{ base: "24px", lg: "32px", "2xl": "56px" }}
         >
-          {/* <Box
+          <Box
             display={{ base: "none", lg: "block" }}
             minWidth="240px"
             p={4}
@@ -69,7 +90,7 @@ export const ProductsContainer = () => {
                 <FilterAccordion key={filter.title} {...filter} />
               ))}
             </VStack>
-          </Box> */}
+          </Box>
 
           <Box flex="1">
             <Flex>

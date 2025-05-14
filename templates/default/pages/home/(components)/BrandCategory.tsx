@@ -10,10 +10,10 @@ import { VisibleSection } from "@/components/ui/visibleSection";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 // Import Swiper components and styles
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/autoplay';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
 
 export const BrandCategory = () => {
   const router = useRouter();
@@ -22,7 +22,16 @@ export const BrandCategory = () => {
   const { data: config } = useConfigQuery();
 
   const shouldForceScroll = featureImages.length <= 5;
-  const baseSlides = shouldForceScroll ? 4.9 : 5; 
+  const baseSlides = shouldForceScroll ? 4.9 : 5;
+
+  // Safely access the data with optional chaining and fallback values
+  const featuredBrandTitle =
+    featuredBrandsData?.featured_brand_title || "Featured Brands";
+  const featuredBrandSubtitle =
+    featuredBrandsData?.featured_brand_subtitle || "Explore our top brands.";
+  const featuredBrandDescription =
+    featuredBrandsData?.featured_brand_description ||
+    "Discover a variety of products from the best brands.";
 
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
@@ -34,7 +43,6 @@ export const BrandCategory = () => {
         px={{ base: 4, md: 6 }}
         py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
       >
-
         <Flex
           justifyContent="space-between"
           w="full"
@@ -42,22 +50,22 @@ export const BrandCategory = () => {
           gap={{ base: 4, md: 6 }}
         >
           <VStack align={{ base: "center", sm: "flex-start" }} gap={1}>
-           <Heading
-            fontSize={{
-              base: "16px",
-              md: "20px",
-              lg: "28px",
-            }}
-            marginTop={{
-              base: "4px",
-              md: "12px",
-            }}
-            marginBottom={{
-              base: "0",
-              md: "8px",
-            }}
-          >
-              {featuredBrandsData.featured_brand_title}
+            <Heading
+              fontSize={{
+                base: "16px",
+                md: "20px",
+                lg: "28px",
+              }}
+              marginTop={{
+                base: "4px",
+                md: "12px",
+              }}
+              marginBottom={{
+                base: "0",
+                md: "8px",
+              }}
+            >
+              {featuredBrandTitle}
             </Heading>
 
             <Text
@@ -65,7 +73,7 @@ export const BrandCategory = () => {
               color="system.text.light.light"
               textAlign={{ base: "center", sm: "left" }}
             >
-              {featuredBrandsData.featured_brand_subtitle}
+              {featuredBrandSubtitle}
             </Text>
 
             <Text
@@ -74,7 +82,7 @@ export const BrandCategory = () => {
               textAlign={{ base: "center", sm: "left" }}
               maxW={{ base: "full", md: "3xl" }}
             >
-              {featuredBrandsData.featured_brand_description}
+              {featuredBrandDescription}
             </Text>
           </VStack>
 
@@ -98,7 +106,7 @@ export const BrandCategory = () => {
           <Swiper
             modules={[Autoplay]}
             spaceBetween={16}
-            slidesPerView={baseSlides} 
+            slidesPerView={baseSlides}
             autoplay={{
               delay: 2500,
               disableOnInteraction: false,
@@ -168,54 +176,55 @@ export const BrandCategory = () => {
                 </Box>
               </SwiperSlide>
             ))}
-            
+
             {/* Duplicate slides for better looping */}
-            {shouldForceScroll && featureImages.map((item, index) => (
-              <SwiperSlide key={`duplicate-${index}`}>
-                <Box
-                  bg="white"
-                  transition="all 0.3s ease"
-                  p={{ base: 2, md: 3 }}
-                  m={{ base: 1, md: 2 }}
-                  borderRadius="md"
-                  _hover={{
-                    boxShadow: "lg",
-                    transform: "translateY(-4px)",
-                    zIndex: 1,
-                  }}
-                  cursor="pointer"
-                  onClick={() =>
-                    router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
-                  }
-                >
+            {shouldForceScroll &&
+              featureImages.map((item, index) => (
+                <SwiperSlide key={`duplicate-${index}`}>
                   <Box
-                    position="relative"
-                    width="100%"
-                    height={{
-                      base: "100px",
-                      sm: "120px",
-                      md: "140px",
-                      lg: "160px",
-                      xl: "180px",
-                    }}
+                    bg="white"
+                    transition="all 0.3s ease"
+                    p={{ base: 2, md: 3 }}
+                    m={{ base: 1, md: 2 }}
                     borderRadius="md"
-                    overflow="hidden"
+                    _hover={{
+                      boxShadow: "lg",
+                      transform: "translateY(-4px)",
+                      zIndex: 1,
+                    }}
+                    cursor="pointer"
+                    onClick={() =>
+                      router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
+                    }
                   >
-                    <Image
-                      src={item.image}
-                      alt={item.name}
-                      fill
-                      style={{
-                        objectFit: "contain",
-                        objectPosition: "center",
-                        padding: "8px",
+                    <Box
+                      position="relative"
+                      width="100%"
+                      height={{
+                        base: "100px",
+                        sm: "120px",
+                        md: "140px",
+                        lg: "160px",
+                        xl: "180px",
                       }}
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                    />
+                      borderRadius="md"
+                      overflow="hidden"
+                    >
+                      <Image
+                        src={item.image}
+                        alt={item.name}
+                        fill
+                        style={{
+                          objectFit: "contain",
+                          objectPosition: "center",
+                          padding: "8px",
+                        }}
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      />
+                    </Box>
                   </Box>
-                </Box>
-              </SwiperSlide>
-            ))}
+                </SwiperSlide>
+              ))}
           </Swiper>
         </Box>
       </VStack>

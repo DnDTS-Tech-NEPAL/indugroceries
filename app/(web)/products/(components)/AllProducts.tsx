@@ -3,14 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  SimpleGrid,
-  Spinner,
-} from "@chakra-ui/react";
+import { Box, Grid, SimpleGrid, Spinner } from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
 import { Pagination, ProductCard } from "@/components";
@@ -18,7 +11,6 @@ import { PAGE_SIZE } from "@/constants";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { ProductFilterType } from "@/types";
 
-import { ProductFilters } from "./ProductFilters";
 import { useSearchParams } from "next/navigation";
 
 export const AllProducts = () => {
@@ -56,19 +48,6 @@ export const AllProducts = () => {
 
   return (
     <Box>
-      <Flex
-        justifyContent={{ base: "column", lg: "space-between" }}
-        direction={{ base: "column", lg: "row" }}
-        mb={{ base: "24px", md: "20px" }}
-        gap={{ base: "16px", lg: "0" }}
-      >
-        <Heading variant={{ base: "heading6", lg: "heading7" }}>
-          All Products {!isLoading && `(${total_count} products found)`}
-        </Heading>
-
-        <ProductFilters />
-      </Flex>
-
       {isLoading ? (
         <Grid placeItems="center" height="500px">
           <Spinner />
