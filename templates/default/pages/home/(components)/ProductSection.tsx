@@ -74,7 +74,7 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
 
   return (
     <VStack
-      maxW="7xl"
+      maxW="6xl"
       mx="auto"
       alignItems="stretch"
       px={{ base: "20px", md: "40px" }}
