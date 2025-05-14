@@ -1,78 +1,36 @@
-// import { Grid, Heading, Spinner, VStack } from "@chakra-ui/react";
-
-// import {
-//   AccordionItem,
-//   AccordionItemContent,
-//   CheckboxGroup,
-//   AccordionRoot,
-//   AccordionItemTrigger,
-// } from "@/components";
-// import { FilterAccordionProps } from "@/types";
-
-// export const FilterAccordion = ({
-//   title,
-//   items,
-//   isFetching,
-//   name,
-// }: FilterAccordionProps) => {
-//   return (
-//     <VStack>
-//       <AccordionRoot
-//         collapsible
-//         as={VStack}
-//         alignItems="stretch"
-//         defaultValue={[title]}
-//       >
-//         <AccordionItem value={title} border={"none"}>
-//           <AccordionItemTrigger
-//             hasAccordionIcon
-//             isOpen
-//             cursor="pointer"
-//             outline={"none"}
-//           >
-//             <Heading variant="heading7">{title}</Heading>
-//           </AccordionItemTrigger>
-
-//           <AccordionItemContent>
-//             {isFetching ? (
-//               <Grid placeItems="center" height="160px">
-//                 <Spinner />
-//               </Grid>
-//             ) : (
-//               <CheckboxGroup
-//                 name={name}
-//                 items={items.map(({ value, title }) => ({
-//                   value,
-//                   label: title,
-//                 }))}
-//               />
-//             )}
-//           </AccordionItemContent>
-//         </AccordionItem>
-//       </AccordionRoot>
-//     </VStack>
-//   );
-// };
-
 "use client";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
-import { useState } from "react";
+import { useController, useFormContext } from "react-hook-form";
 import type { FilterAccordionProps } from "@/types";
 import { SearchInput } from "@/components";
 
 export const FilterAccordion = ({
   items,
   isFetching,
+  name = "filter",
 }: FilterAccordionProps) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const { control } = useFormContext();
 
-  const handleItemClick = (value: string) => {
-    if (selectedItems.includes(value)) {
-      setSelectedItems(selectedItems.filter((item) => item !== value));
-    } else {
-      setSelectedItems([...selectedItems, value]);
-    }
+  const {
+    field: { value = [], onChange },
+  } = useController({
+    name,
+    control,
+  });
+
+  const selectedValues = Array.isArray(value) ? value : [];
+
+  const handleItemClick = (val: string) => {
+    const newValue = selectedValues.includes(val)
+      ? selectedValues.filter((v) => v !== val)
+      : [...selectedValues, val];
+
+    onChange(newValue);
+  };
+
+  const handleClearAll = () => {
+    onChange([]);
   };
 
   return (
@@ -81,19 +39,19 @@ export const FilterAccordion = ({
       w="full"
       gap={0}
       borderTop="1px"
-      borderColor={"gray.200"}
+      borderColor="gray.200"
     >
       <Box marginBottom={5}>
-        {" "}
         <SearchInput name="search" />
       </Box>
+
       <Box
         py={3}
         px={4}
         borderBottom="1px"
-        borderColor={"gray.200"}
+        borderColor="gray.200"
         cursor="pointer"
-        onClick={() => setSelectedItems([])}
+        onClick={handleClearAll}
         position="relative"
         _after={{
           content: '""',
@@ -108,19 +66,18 @@ export const FilterAccordion = ({
         <Text fontWeight="bold">ALL</Text>
       </Box>
 
-      {/* Filter items */}
       {!isFetching &&
-        items.map(({ value, title: itemTitle }) => (
+        items.map(({ value: val, title }) => (
           <Flex
-            key={value}
+            key={val}
             py={5}
             px={4}
             borderBottom="1px"
-            borderColor={"gray.200"}
+            borderColor="gray.200"
             justify="space-between"
             align="center"
             cursor="pointer"
-            onClick={() => handleItemClick(value)}
+            onClick={() => handleItemClick(val)}
             position="relative"
             _after={{
               content: '""',
@@ -132,8 +89,8 @@ export const FilterAccordion = ({
               bg: "gray.200",
             }}
           >
-            <Text>{itemTitle}</Text>
-            {selectedItems.includes(value) && (
+            <Text>{title}</Text>
+            {selectedValues.includes(val) && (
               <Box w="6px" h="6px" borderRadius="full" bg="red.500" />
             )}
           </Flex>

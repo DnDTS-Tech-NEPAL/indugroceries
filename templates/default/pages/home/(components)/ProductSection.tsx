@@ -8,16 +8,19 @@ import {
   Flex,
   HStack,
   Box,
-  SimpleGrid,
   Spinner,
-  Grid,
+  SimpleGrid,
+  IconButton,
 } from "@chakra-ui/react"
 import { useEffect, useMemo, useState } from "react"
 import { FaArrowRightLong } from "react-icons/fa6"
+import { motion, AnimatePresence } from "framer-motion"
 
 import { ProductCard, EmptyState } from "@/components"
 import { useProductSlider } from "@/hooks/app"
 import type { ProductSectionProps } from "@/types"
+
+const MotionBox = motion(Box)
 
 export const ProductSection = ({ type, showCategories }: ProductSectionProps) => {
   const { sectionData } = useProductSlider(type)
@@ -25,12 +28,13 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
 
   const [activeCategory, setActiveCategory] = useState("All")
   const [filteredProducts, setFilteredProducts] = useState(products)
-  const [currentPage, setCurrentPage] = useState(0)
+
+  const [page, setPage] = useState(0)
+
+  const PRODUCTS_PER_PAGE = 8 
 
   const categories = useMemo(() => {
-    const unique = Array.from(
-      new Set(products.map((p) => p.category).filter(Boolean))
-    )
+    const unique = Array.from(new Set(products.map(p => p.category).filter(Boolean)))
     return ["All", ...unique]
   }, [products])
 
@@ -38,39 +42,39 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
     if (activeCategory === "All") {
       setFilteredProducts(products)
     } else {
-      setFilteredProducts(
-        products.filter((p) => p.category === activeCategory)
-      )
+      setFilteredProducts(products.filter(p => p.category === activeCategory))
     }
-    // Reset to first page when category changes
-    setCurrentPage(0)
+    setPage(0) // reset page when category changes
   }, [activeCategory, products])
 
-  // Auto-slide functionality
-  useEffect(() => {
-    const PRODUCTS_PER_PAGE = 8
-    const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
-    
-    if (totalPages <= 1) return // Don't auto-slide if only one page
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
 
-    const interval = setInterval(() => {
-      setCurrentPage((prev) => (prev + 1) % totalPages)
-    }, 5000) // Change slide every 5 seconds
-
-    return () => clearInterval(interval)
-  }, [filteredProducts])
+  const pagedProducts = useMemo(() => {
+    const start = page * PRODUCTS_PER_PAGE
+    return filteredProducts.slice(start, start + PRODUCTS_PER_PAGE)
+  }, [filteredProducts, page])
 
   const handleCategoryChange = (category: string) => {
     setActiveCategory(category)
   }
 
-  // Calculate visible products
-  const PRODUCTS_PER_PAGE = 8
-  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
-  const visibleProducts = filteredProducts.slice(
-    currentPage * PRODUCTS_PER_PAGE,
-    (currentPage + 1) * PRODUCTS_PER_PAGE
-  )
+  const paginate = (direction: number) => {
+    setPage((prev) => {
+      let next = prev + direction
+      if (next < 0) next = totalPages - 1 
+      if (next >= totalPages) next = 0 
+      return next
+    })
+  }
+
+  // Auto-slide setup using useEffect and setInterval
+  useEffect(() => {
+    const autoSlideInterval = setInterval(() => {
+      paginate(1) 
+    }, 5000)
+
+    return () => clearInterval(autoSlideInterval) 
+  }, [page, totalPages])
 
   return (
     <VStack
@@ -104,7 +108,7 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
           px={6}
           py={2}
           size="md"
-          _hover={{ bg: "#ff5286" }} 
+          _hover={{ bg: "#ff5286" }}
         >
           View All Products <FaArrowRightLong />
         </Button>
@@ -112,68 +116,78 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
 
       {/* Category Tabs */}
       {showCategories !== false && (
-      <HStack overflowX="auto" gap={4} pb={2}>
-        {categories.map((category) => {
-          const isActive = activeCategory === category
-          return (
-            <Box
-              key={category}
-              px={4}
-              py={2}
-              borderRadius="full"
-              bg={isActive ? "#FFEDF3" : "gray.100"}
-              color={isActive ? "#FF6996" : "gray.600"}
-              fontWeight={isActive ? "600" : "400"}
-              cursor="pointer"
-              whiteSpace="nowrap"
-              onClick={() => handleCategoryChange(category)}
-              transition="all 0.2s"
-              _hover={{ bg: isActive ? "#FFEDF3" : "gray.200" }}
-            >
-              {category}
-            </Box>
-          )
-        })}
-      </HStack>)}
+        <HStack overflowX="auto" gap={4} pb={2}>
+          {categories.map((category) => {
+            const isActive = activeCategory === category
+            return (
+              <Box
+                key={category}
+                px={4}
+                py={2}
+                borderRadius="full"
+                bg={isActive ? "#FFEDF3" : "gray.100"}
+                color={isActive ? "#FF6996" : "gray.600"}
+                fontWeight={isActive ? "600" : "400"}
+                cursor="pointer"
+                whiteSpace="nowrap"
+                onClick={() => handleCategoryChange(category)}
+                transition="all 0.2s"
+                _hover={{ bg: isActive ? "#FFEDF3" : "gray.200" }}
+              >
+                {category}
+              </Box>
+            )
+          })}
+        </HStack>
+      )}
 
-      {/* Product Grid */}
+      {/* Product Slider with Framer Motion */}
       {isLoading ? (
-        <Grid placeItems="center" height="300px">
+        <Box display="grid" placeItems="center" height="300px">
           <Spinner />
-        </Grid>
+        </Box>
       ) : filteredProducts.length > 0 ? (
-        <>
-          <SimpleGrid
-            columns={{ base: 2, md: 3, lg: 4 }}
-            gap={{ base: 4, md: 6 }}
-          >
-            {visibleProducts.map((product) => (
-              <ProductCard key={product.title} {...product} />
-            ))}
-          </SimpleGrid>
+        <Box w="full" position="relative">
+          <AnimatePresence mode="wait">
+            <MotionBox
+              key={page}
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.4 }}
+            >
+              <SimpleGrid columns={{ base: 2, md: 4 }} gap={{ base: 4, md: 6 }}>
+                {pagedProducts.map((product) => (
+                  <ProductCard key={product.title} {...product} />
+                ))}
+              </SimpleGrid>
+            </MotionBox>
+          </AnimatePresence>
 
-          {/* Page indicators */}
+          {/* Dot Pagination */}
           {totalPages > 1 && (
-            <HStack justify="center" gap={2} mt={4}>
+            <Flex justify="center" mt={6} gap={2}>
               {Array.from({ length: totalPages }).map((_, index) => (
                 <Box
                   key={index}
-                  as="button"
-                  w="10px"
-                  h="10px"
+                  w={3}
+                  h={3}
+                  bg={page === index ? "#FF6996" : "gray.400"}
                   borderRadius="full"
-                  bg={currentPage === index ? "#FF6996" : "gray.300"}
-                  onClick={() => setCurrentPage(index)}
-                  transition="background-color 0.3s"
-                  _hover={{ bg: currentPage === index ? "#FF6996" : "gray.400" }}
+                  cursor="pointer"
+                  onClick={() => setPage(index)}
+                  transition="all 0.2s"
+                  _hover={{ bg: "#FF6996" }}
                 />
               ))}
-            </HStack>
+            </Flex>
           )}
-        </>
+        </Box>
       ) : (
         <EmptyState />
       )}
     </VStack>
   )
 }
+
+
