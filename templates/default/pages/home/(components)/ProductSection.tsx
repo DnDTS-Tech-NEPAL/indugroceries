@@ -19,7 +19,7 @@ import { ProductCard, EmptyState } from "@/components"
 import { useProductSlider } from "@/hooks/app"
 import type { ProductSectionProps } from "@/types"
 
-export const ProductSection = ({ type }: ProductSectionProps) => {
+export const ProductSection = ({ type, showCategories }: ProductSectionProps) => {
   const { sectionData } = useProductSlider(type)
   const { title, subtitle, products, isLoading } = sectionData
 
@@ -111,6 +111,7 @@ export const ProductSection = ({ type }: ProductSectionProps) => {
       </Flex>
 
       {/* Category Tabs */}
+      {showCategories !== false && (
       <HStack overflowX="auto" gap={4} pb={2}>
         {categories.map((category) => {
           const isActive = activeCategory === category
@@ -133,7 +134,7 @@ export const ProductSection = ({ type }: ProductSectionProps) => {
             </Box>
           )
         })}
-      </HStack>
+      </HStack>)}
 
       {/* Product Grid */}
       {isLoading ? (
