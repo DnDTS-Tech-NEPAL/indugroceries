@@ -41,7 +41,7 @@ export const BreadcrumbRoot = React.forwardRef<
 
 export const Breadcrumb: React.FC<BreadcrumbProps> = ({ breadcrumb }) => {
   return (
-    <BreadcrumbRoot fontSize="14px" separator={"/"}>
+    <BreadcrumbRoot fontSize="18px" separator={">"}>
       {breadcrumb.map((item, index) => (
         <BreadcrumbItem key={index}>
           {index < breadcrumb.length - 1 ? (
@@ -49,13 +49,13 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ breadcrumb }) => {
               as={Link}
               href={item.href}
               color={"primary.300"}
-              fontWeight={700}
-              fontSize={"14px"}
+              fontWeight={500}
+              fontSize={"18px"}
             >
               {item.label}
             </BreadcrumbLink>
           ) : (
-            <Text fontWeight={700} color={"primary.400"} fontSize={"14px"}>
+            <Text fontWeight={500} color={"primary.400"} fontSize={"18px"}>
               {item.label}
             </Text>
           )}
