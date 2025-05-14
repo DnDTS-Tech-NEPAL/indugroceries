@@ -1,7 +1,7 @@
 "use client";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
-import { useController, useFormContext } from "react-hook-form";
+import { useController, useFormContext, useWatch } from "react-hook-form";
 import type { FilterAccordionProps } from "@/types";
 import { SearchInput } from "@/components";
 
@@ -19,6 +19,13 @@ export const FilterAccordion = ({
     control,
   });
 
+  // Watch the search input value
+  const searchTerm = useWatch({
+    name: "search",
+    control,
+    defaultValue: "",
+  });
+
   const selectedValues = Array.isArray(value) ? value : [];
 
   const handleItemClick = (val: string) => {
@@ -32,6 +39,10 @@ export const FilterAccordion = ({
   const handleClearAll = () => {
     onChange([]);
   };
+
+  const filteredItems = items.filter((item) =>
+    item.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <VStack
@@ -67,7 +78,7 @@ export const FilterAccordion = ({
       </Box>
 
       {!isFetching &&
-        items.map(({ value: val, title }) => (
+        filteredItems.map(({ value: val, title }) => (
           <Flex
             key={val}
             py={5}
