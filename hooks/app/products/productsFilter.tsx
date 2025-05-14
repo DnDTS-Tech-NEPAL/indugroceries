@@ -10,15 +10,15 @@ export const useProductsFilter = () => {
     useCategoriesListQuery();
 
   const filters: FilterAccordionProps[] = [
-    {
-      title: "Brands",
-      name: "brand",
-      items: brandsList?.map((brand) => ({
-        value: brand.name,
-        title: brand.name,
-      })),
-      isFetching: isBrandsLoading,
-    },
+    // {
+    //   title: "Brands",
+    //   name: "brand",
+    //   items: brandsList?.map((brand) => ({
+    //     value: brand.name,
+    //     title: brand.name,
+    //   })),
+    //   isFetching: isBrandsLoading,
+    // },
     {
       title: "Category",
       name: "item_group",

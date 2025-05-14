@@ -29,7 +29,7 @@ const Products = () => {
         breadcrumb={BREADCRUMB_CONFIG.PRODUCTS}
       />
 
-      <ProductsContainer />
+      <ProductsContainer type="bestSellers" />
       <SummerSale />
       <BrandCategory />
       <SocialFeed />
