@@ -9,7 +9,7 @@ export const BestSellers = () => {
   const { data: config } = useConfigQuery();
   return (
     <VisibleSection visibility={config?.best_seller_visibility}>
-  <ProductSection type="bestSellers" />
+  <ProductSection type="bestSellers" showCategories={true} />
   </VisibleSection>);
 };
 
@@ -17,7 +17,7 @@ export const NewArrivals = () => {
   const { data: config } = useConfigQuery();
   return (
     <VisibleSection visibility={config?.new_arrival_visibility}>
-      <ProductSection type="newArrivals" />
+      <ProductSection type="newArrivals" showCategories={false} />
     </VisibleSection>
   )
 };
