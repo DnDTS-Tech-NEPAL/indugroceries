@@ -58,7 +58,7 @@ export const Navbar = () => {
         top="0"
         bg={"white"}
         shadow={"sm"}
-        zIndex={10}
+        zIndex={30}
         alignItems="center"
         px={{
           base: "16px",
