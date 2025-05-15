@@ -1,20 +1,31 @@
-import { ProductFilterAPIType } from "@/types";
+import type { ProductFilterAPIType } from "@/types"
+
+export type CategoryItem = {
+  name: string
+  parent_item_group?: string
+  is_group?: number
+  children?: CategoryItem[]
+}
 
 export type FilterAccordionProps = {
-  title: string;
-  items: Array<{ value: string; title: string }>;
-  isFetching: boolean;
-  name: string;
-};
+  title: string
+  items: Array<{
+    value: string
+    title: string
+    hasChildren?: boolean
+    children?: CategoryItem[]
+  }>
+  isFetching: boolean
+  name: string
+}
 
 export type ReviewAccordionProps = {
-  title: string;
-};
+  title: string
+}
 
-export type ProductFilterType = Pick<
-  ProductFilterAPIType,
-  "brand" | "item_group"
-> & {
-  bestseller: string;
-  pricerange: string;
-};
+export type ProductFilterType = Pick<ProductFilterAPIType, "brand" | "item_group"> & {
+  bestseller: string
+  pricerange: string
+}
+
+

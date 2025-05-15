@@ -1,9 +1,13 @@
 "use client";
 
+import type React from "react";
+
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useController, useFormContext, useWatch } from "react-hook-form";
-import type { FilterAccordionProps } from "@/types";
+import type { FilterAccordionProps, CategoryItem } from "@/types";
 import { SearchInput } from "@/components";
+import { useState, useEffect } from "react";
+import { ChevronRight } from "lucide-react";
 
 export const FilterAccordion = ({
   items,
@@ -11,6 +15,10 @@ export const FilterAccordion = ({
   name = "filter",
 }: FilterAccordionProps) => {
   const { control } = useFormContext();
+  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+  const [childCategories, setChildCategories] = useState<
+    Array<{ value: string; title: string }>
+  >([]);
 
   const {
     field: { value = [], onChange },
@@ -28,17 +36,59 @@ export const FilterAccordion = ({
 
   const selectedValues = Array.isArray(value) ? value : [];
 
-  const handleItemClick = (val: string) => {
-    const newValue = selectedValues.includes(val)
-      ? selectedValues.filter((v) => v !== val)
-      : [...selectedValues, val];
+  const handleItemClick = (
+    val: string,
+    hasChildren: boolean | undefined,
+    children: CategoryItem[] = []
+  ) => {
+    // Ensure hasChildren is a boolean
+    const hasChildrenBoolean = hasChildren === true;
 
+    if (hasChildrenBoolean) {
+      // Toggle expanded state for parent category
+      setExpandedCategory(expandedCategory === val ? null : val);
+
+      // Set child categories when expanding
+      if (expandedCategory !== val) {
+        setChildCategories(
+          children.map((child) => ({
+            value: child.name,
+            title: child.name,
+          }))
+        );
+      } else {
+        setChildCategories([]);
+      }
+
+      // Select the parent category
+      const newValue = selectedValues[0] === val ? [] : [val];
+      onChange(newValue);
+    } else {
+      // For items without children, just toggle selection
+      const newValue = selectedValues[0] === val ? [] : [val];
+      onChange(newValue);
+    }
+  };
+
+  const handleChildClick = (val: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const newValue = selectedValues[0] === val ? [] : [val];
     onChange(newValue);
   };
 
   const handleClearAll = () => {
     onChange([]);
+    setExpandedCategory(null);
+    setChildCategories([]);
   };
+
+  // Reset expanded category when selection changes from outside
+  useEffect(() => {
+    if (selectedValues.length === 0) {
+      setExpandedCategory(null);
+      setChildCategories([]);
+    }
+  }, [selectedValues]);
 
   const filteredItems = items.filter((item) =>
     item.title.toLowerCase().includes(searchTerm.toLowerCase())
@@ -78,34 +128,70 @@ export const FilterAccordion = ({
       </Box>
 
       {!isFetching &&
-        filteredItems.map(({ value: val, title }) => (
-          <Flex
-            key={val}
-            py={5}
-            px={4}
-            borderBottom="1px"
-            borderColor="gray.200"
-            justify="space-between"
-            align="center"
-            cursor="pointer"
-            onClick={() => handleItemClick(val)}
-            position="relative"
-            _after={{
-              content: '""',
-              position: "absolute",
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: "1px",
-              bg: "gray.200",
-            }}
-          >
-            <Text>{title}</Text>
-            {selectedValues.includes(val) && (
-              <Box w="6px" h="6px" borderRadius="full" bg="red.500" />
-            )}
-          </Flex>
-        ))}
+        filteredItems.map(({ value: val, title, hasChildren, children }) => {
+          const hasChildrenBoolean = hasChildren === true;
+          return (
+            <Box key={val}>
+              <Flex
+                py={5}
+                px={4}
+                borderBottom="1px"
+                borderColor="gray.200"
+                justify="space-between"
+                align="center"
+                cursor="pointer"
+                onClick={() => handleItemClick(val, hasChildren, children)}
+                position="relative"
+                _after={{
+                  content: '""',
+                  position: "absolute",
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: "1px",
+                  bg: "gray.200",
+                }}
+              >
+                <Flex align="center">
+                  <Text>{title}</Text>
+                  {hasChildrenBoolean && (
+                    <ChevronRight
+                      size={16}
+                      className={`ml-2 transition-transform ${expandedCategory === val ? "rotate-90" : ""}`}
+                    />
+                  )}
+                </Flex>
+                {selectedValues.includes(val) && (
+                  <Box w="6px" h="6px" borderRadius="full" bg="red.500" />
+                )}
+              </Flex>
+
+              {/* Child categories */}
+              {expandedCategory === val && childCategories.length > 0 && (
+                <VStack align="stretch" pl={6} bg="gray.50">
+                  {childCategories.map((child) => (
+                    <Flex
+                      key={child.value}
+                      py={4}
+                      px={4}
+                      borderBottom="1px"
+                      borderColor="gray.100"
+                      justify="space-between"
+                      align="center"
+                      cursor="pointer"
+                      onClick={(e) => handleChildClick(child.value, e)}
+                    >
+                      <Text fontSize="sm">{child.title}</Text>
+                      {selectedValues.includes(child.value) && (
+                        <Box w="5px" h="5px" borderRadius="full" bg="red.500" />
+                      )}
+                    </Flex>
+                  ))}
+                </VStack>
+              )}
+            </Box>
+          );
+        })}
     </VStack>
   );
 };
