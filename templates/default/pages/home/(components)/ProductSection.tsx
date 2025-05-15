@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import {
   VStack,
@@ -11,70 +11,80 @@ import {
   Spinner,
   SimpleGrid,
   IconButton,
-} from "@chakra-ui/react"
-import { useEffect, useMemo, useState } from "react"
-import { FaArrowRightLong } from "react-icons/fa6"
-import { motion, AnimatePresence } from "framer-motion"
+} from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
+import { FaArrowRightLong } from "react-icons/fa6";
+import { motion, AnimatePresence } from "framer-motion";
 
-import { ProductCard, EmptyState } from "@/components"
-import { useProductSlider } from "@/hooks/app"
-import type { ProductSectionProps } from "@/types"
+import { ProductCard, EmptyState } from "@/components";
+import { useProductSlider } from "@/hooks/app";
+import type { ProductSectionProps } from "@/types";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constants";
 
-const MotionBox = motion(Box)
+const MotionBox = motion(Box);
 
-export const ProductSection = ({ type, showCategories }: ProductSectionProps) => {
-  const { sectionData } = useProductSlider(type)
-  const { title, subtitle, products, isLoading } = sectionData
+export const ProductSection = ({
+  type,
+  showCategories,
+}: ProductSectionProps) => {
+  const { sectionData } = useProductSlider(type);
+  const { title, subtitle, products, isLoading } = sectionData;
+  const router = useRouter();
 
-  const [activeCategory, setActiveCategory] = useState("All")
-  const [filteredProducts, setFilteredProducts] = useState(products)
+  const [activeCategory, setActiveCategory] = useState("All");
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
-  const [page, setPage] = useState(0)
+  const [page, setPage] = useState(0);
 
-  const PRODUCTS_PER_PAGE = 8 
+  const PRODUCTS_PER_PAGE = 8;
 
   const categories = useMemo(() => {
-    const unique = Array.from(new Set(products.map(p => p.category).filter(Boolean)))
-    return ["All", ...unique]
-  }, [products])
+    const unique = Array.from(
+      new Set(products.map((p) => p.category).filter(Boolean))
+    );
+    return ["All", ...unique];
+  }, [products]);
 
   useEffect(() => {
     if (activeCategory === "All") {
-      setFilteredProducts(products)
+      setFilteredProducts(products);
     } else {
-      setFilteredProducts(products.filter(p => p.category === activeCategory))
+      setFilteredProducts(
+        products.filter((p) => p.category === activeCategory)
+      );
     }
-    setPage(0) // reset page when category changes
-  }, [activeCategory, products])
+    setPage(0); // reset page when category changes
+  }, [activeCategory, products]);
 
-  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE)
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
 
   const pagedProducts = useMemo(() => {
-    const start = page * PRODUCTS_PER_PAGE
-    return filteredProducts.slice(start, start + PRODUCTS_PER_PAGE)
-  }, [filteredProducts, page])
+    const start = page * PRODUCTS_PER_PAGE;
+    return filteredProducts.slice(start, start + PRODUCTS_PER_PAGE);
+  }, [filteredProducts, page]);
 
   const handleCategoryChange = (category: string) => {
-    setActiveCategory(category)
-  }
+    setActiveCategory(category);
+  };
 
   const paginate = (direction: number) => {
     setPage((prev) => {
-      let next = prev + direction
-      if (next < 0) next = totalPages - 1 
-      if (next >= totalPages) next = 0 
-      return next
-    })
-  }
+      let next = prev + direction;
+      if (next < 0) next = totalPages - 1;
+      if (next >= totalPages) next = 0;
+      return next;
+    });
+  };
 
   // Auto-slide setup using useEffect and setInterval
   useEffect(() => {
     const autoSlideInterval = setInterval(() => {
-      paginate(1) 
-    }, 5000)
+      paginate(1);
+    }, 5000);
 
-    return () => clearInterval(autoSlideInterval) 
-  }, [page, totalPages])
+    return () => clearInterval(autoSlideInterval);
+  }, [page, totalPages]);
 
   return (
     <VStack
@@ -97,7 +107,8 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
             {title || "Our Best-Selling Products"}
           </Heading>
           <Text fontSize={{ base: "sm", md: "md" }} color="gray.500">
-            {subtitle || "Top-rated favorites our customers can't live without."}
+            {subtitle ||
+              "Top-rated favorites our customers can't live without."}
           </Text>
         </VStack>
 
@@ -109,6 +120,7 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
           py={2}
           size="md"
           _hover={{ bg: "#ff5286" }}
+          onClick={() => router.push(ROUTES.APP.PRODUCTS)}
         >
           View All Products <FaArrowRightLong />
         </Button>
@@ -118,7 +130,7 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
       {showCategories !== false && (
         <HStack overflowX="auto" gap={4} pb={2}>
           {categories.map((category) => {
-            const isActive = activeCategory === category
+            const isActive = activeCategory === category;
             return (
               <Box
                 key={category}
@@ -136,7 +148,7 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
               >
                 {category}
               </Box>
-            )
+            );
           })}
         </HStack>
       )}
@@ -187,7 +199,5 @@ export const ProductSection = ({ type, showCategories }: ProductSectionProps) =>
         <EmptyState />
       )}
     </VStack>
-  )
-}
-
-
+  );
+};
