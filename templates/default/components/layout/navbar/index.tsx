@@ -1,7 +1,14 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
-import { Box, Button, Flex, HStack, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  HStack,
+  Input,
+  useDisclosure,
+} from "@chakra-ui/react";
 
 import { LoginDialog, RegisterDialog, SearchDialog } from "@/components";
 import { navbarIconsList, ROUTES } from "@/constants";
@@ -113,17 +120,38 @@ export const Navbar = () => {
             {/* display either authentication menu or profile after user profile api has been fetched */}
             {!isLoading && (
               <>
+                {/* Search Input */}
+                <VisibleSection
+                // visibility={config?.search_box_visibility}
+                >
+                  <Box
+                    display="flex"
+                    alignItems="center"
+                    gap="8px"
+                    pl={"15px"}
+                    borderRadius="full"
+                    border="1px solid"
+                    borderColor="gray.200"
+                    width="200px"
+                  >
+                    {navbarIconsList[0].icon}
+                    <Input
+                      border={"none"}
+                      borderRadius={"2rem"}
+                      width={"100%"}
+                      px={"16px"}
+                      placeholder="Search your style"
+                      fontSize="sm"
+                      color="gray.500"
+                      _placeholder={{ color: "gray.500" }}
+                      onClick={onSearchOpen}
+                    />
+                  </Box>
+                </VisibleSection>
+
                 {userProfileData && !isError ? (
                   <>
                     <HStack gap="24px" color="primary.400">
-                      {/* Search Icon */}
-                      <VisibleSection
-                      // visibility={config?.search_box_visibility}
-                      >
-                        <Box cursor="pointer" onClick={onSearchOpen}>
-                          {navbarIconsList[0].icon}
-                        </Box>
-                      </VisibleSection>
                       <VisibleSection
                       // visibility={config?.wishlist_visibility}
                       >
@@ -225,12 +253,12 @@ export const Navbar = () => {
                       <VisibleSection visibility={config?.register_visibility}>
                         <Button
                           color="white"
-                          bg="#16CA5E"
+                          bg="#FF6996"
                           cursor="pointer"
                           borderRadius={"sm"}
                           onClick={() => updateSignUpOpen(true)}
                         >
-                          Partner With Us
+                          Register 
                         </Button>
                       </VisibleSection>
                     </Box>

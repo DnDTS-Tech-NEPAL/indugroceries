@@ -5,7 +5,7 @@ import { ROUTES } from "../routes";
 export const navbarIconsList = [
   {
     name: "Search",
-    icon: <SearchIcon />,
+    icon: <SearchIcon  color="gray"/>,
     href: ROUTES.DEFAULT,
   },
   {

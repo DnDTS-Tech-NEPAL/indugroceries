@@ -26,12 +26,11 @@ export const BrandCategory = () => {
 
   // Safely access the data with optional chaining and fallback values
   const featuredBrandTitle =
-    featuredBrandsData?.featured_brand_title || "Featured Brands";
+    featuredBrandsData?.featured_brand_title;
   const featuredBrandSubtitle =
-    featuredBrandsData?.featured_brand_subtitle || "Explore our top brands.";
+    featuredBrandsData?.featured_brand_subtitle ;
   const featuredBrandDescription =
-    featuredBrandsData?.featured_brand_description ||
-    "Discover a variety of products from the best brands.";
+    featuredBrandsData?.featured_brand_description ;
 
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
