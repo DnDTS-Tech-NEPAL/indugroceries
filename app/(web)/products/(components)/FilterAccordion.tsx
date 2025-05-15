@@ -4,7 +4,7 @@ import type React from "react";
 
 import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { useController, useFormContext, useWatch } from "react-hook-form";
-import type { FilterAccordionProps } from "@/types";
+import type { FilterAccordionProps, CategoryItem } from "@/types";
 import { SearchInput } from "@/components";
 import { useState, useEffect } from "react";
 import { ChevronRight } from "lucide-react";
@@ -39,7 +39,7 @@ export const FilterAccordion = ({
   const handleItemClick = (
     val: string,
     hasChildren: boolean | undefined,
-    children: any[] = []
+    children: CategoryItem[] = []
   ) => {
     // Ensure hasChildren is a boolean
     const hasChildrenBoolean = hasChildren === true;
@@ -71,7 +71,7 @@ export const FilterAccordion = ({
   };
 
   const handleChildClick = (val: string, e: React.MouseEvent) => {
-    e.stopPropagation(); 
+    e.stopPropagation();
     const newValue = selectedValues[0] === val ? [] : [val];
     onChange(newValue);
   };
@@ -129,9 +129,7 @@ export const FilterAccordion = ({
 
       {!isFetching &&
         filteredItems.map(({ value: val, title, hasChildren, children }) => {
-          // Ensure hasChildren is a boolean
           const hasChildrenBoolean = hasChildren === true;
-
           return (
             <Box key={val}>
               <Flex
