@@ -253,12 +253,12 @@ export const Navbar = () => {
                       <VisibleSection visibility={config?.register_visibility}>
                         <Button
                           color="white"
-                          bg="#16CA5E"
+                          bg="#FF6996"
                           cursor="pointer"
                           borderRadius={"sm"}
                           onClick={() => updateSignUpOpen(true)}
                         >
-                          Partner With Us
+                          Register 
                         </Button>
                       </VisibleSection>
                     </Box>
