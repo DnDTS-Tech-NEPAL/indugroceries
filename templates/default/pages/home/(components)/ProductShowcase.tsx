@@ -26,11 +26,11 @@ export default function ProductShowcase() {
           >
             <Image
               src={
-                ShowcaseData?.banner_1_image_link ||
-                "/placeholder.svg?height=600&width=800"
+                ShowcaseData?.banner_1_image_link
               }
               alt="Lipsticks"
               objectFit="cover"
+              objectPosition={"left"}
               width="100%"
               height="100%"
               borderRadius="lg"
@@ -50,11 +50,11 @@ export default function ProductShowcase() {
           >
             <Image
               src={
-                ShowcaseData?.banner_2_image_link ||
-                "/placeholder.svg?height=600&width=800"
+                ShowcaseData?.banner_2_image_link 
               }
               alt="Skincare"
               objectFit="cover"
+              objectPosition={"left"}
               width="100%"
               height="100%"
               borderRadius="lg"
@@ -81,11 +81,11 @@ export default function ProductShowcase() {
           >
             <Image
               src={
-                ShowcaseData?.banner_3_image_link ||
-                "/placeholder.svg?height=300&width=600"
+                ShowcaseData?.banner_3_image_link 
               }
               alt="Haircare"
               objectFit="cover"
+              objectPosition={"left"}
               width="100%"
               height="100%"
               borderRadius="lg"
@@ -104,11 +104,11 @@ export default function ProductShowcase() {
           >
             <Image
               src={
-                ShowcaseData?.banner_4_image_link ||
-                "/placeholder.svg?height=300&width=600"
+                ShowcaseData?.banner_4_image_link
               }
               alt="Makeup Kits"
               objectFit="cover"
+              objectPosition={"left"}
               width="100%"
               height="100%"
               borderRadius="lg"
