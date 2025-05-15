@@ -79,6 +79,7 @@ export type ConfigType = {
   hero_type: string;
   sale_type: string;
   //topnav
+  top_navbar_visibility: number;
   top_nav_bar_label: string;
   top_navbar_content: string;
   top_nav_bar_redirect_link: string;
@@ -125,11 +126,9 @@ export type ConfigType = {
 
   //social feed section
   social_title: string;
-  social_description:string;
-  ecommerce_social_links:SocialLinkType[];
+  social_description: string;
+  ecommerce_social_links: SocialLinkType[];
 };
-
-
 
 export type MenuItemType = {
   idx: number;
@@ -140,8 +139,8 @@ export type MenuItemType = {
 export type SocialLinkType = {
   idx: number;
   social_links: string;
-  display_image_link: string,
-  display_label: string,
+  display_image_link: string;
+  display_label: string;
 };
 export type QuickLinkType = {
   idx: number;
