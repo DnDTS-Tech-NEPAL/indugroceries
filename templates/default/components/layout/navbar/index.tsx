@@ -19,9 +19,11 @@ import { NavItem } from "./NavItem";
 import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { Profile } from "@/assets/svg";
+import { useNavMenuQuery } from "@/hooks/api/navMenu";
 
 export const Navbar = () => {
   const { data: config } = useConfigQuery();
+  const { data: NavbarData } = useNavMenuQuery();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const {
@@ -30,7 +32,7 @@ export const Navbar = () => {
     onClose: onSearchClose,
   } = useDisclosure();
 
-  const navItems = extractMenu(config.menu_table);
+  const navItems = extractMenu(NavbarData);
 
   const { height, width } = calculateHeightAndWidth(
     config.width,
@@ -98,14 +100,16 @@ export const Navbar = () => {
             }}
             gap="16px"
           >
-            {navItems.map(({ href, menuName, subMenus }) => (
+            {navItems?.map(({ href, menuName, subMenus, isMega }) => (
               <NavItem
                 key={menuName}
                 href={href}
                 menuName={menuName}
+                isMega={isMega}
                 subMenus={subMenus}
               />
             ))}
+
             {/* display either authentication menu or profile after user profile api has been fetched */}
             {!isLoading && (
               <>
@@ -114,13 +118,13 @@ export const Navbar = () => {
                     <HStack gap="24px" color="primary.400">
                       {/* Search Icon */}
                       <VisibleSection
-                        // visibility={config?.search_box_visibility}
+                      // visibility={config?.search_box_visibility}
                       >
                         <Box cursor="pointer" onClick={onSearchOpen}>
                           {navbarIconsList[0].icon}
                         </Box>
                       </VisibleSection>
-                      <VisibleSection 
+                      <VisibleSection
                       // visibility={config?.wishlist_visibility}
                       >
                         {/* Favorite Icon */}
