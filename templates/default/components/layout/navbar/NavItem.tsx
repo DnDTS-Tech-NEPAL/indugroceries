@@ -2,7 +2,19 @@ import Link from "next/link";
 import { Box, HStack, Text, VStack } from "@chakra-ui/react";
 
 import { ArrowDownIcon } from "@/assets/svg";
-import { NavItemProps } from "@/types";
+
+// Types
+export interface SubMenuItem {
+  label: string;
+  link: string;
+}
+
+export interface NavItemProps {
+  menuName: string;
+  href: string;
+  isMega: boolean;
+  subMenus: SubMenuItem[];
+}
 
 export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
   const hasSubMenus = Array.isArray(subMenus) && subMenus.length > 0;
@@ -47,8 +59,8 @@ export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
             display: "flex",
           }}
         >
-          {subMenus.map(({ href, menuName }) => (
-            <Link key={menuName} href={href}>
+          {subMenus.map(({ label, link }) => (
+            <Link key={label} href={link}>
               <Text
                 variant="paragraphSmall"
                 padding="16px 10px"
@@ -56,7 +68,7 @@ export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
                 borderBottomColor="system.neutral.separator.light"
                 fontSize="14px"
               >
-                {menuName}
+                {label}
               </Text>
             </Link>
           ))}
