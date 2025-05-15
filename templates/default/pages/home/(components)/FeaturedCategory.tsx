@@ -38,7 +38,7 @@ export const FeaturedCategory = () => {
   const labelPadding = useBreakpointValue({ base: 2, md: 4 });
 
   // Calculate if we need to force scrolling
-  const shouldForceScroll = featureImages.length <= 6; 
+  const shouldForceScroll = featureImages.length <= 6;
 
   const handleSwiper = (swiper: SwiperClass) => {
     setSwiperInstance(swiper);
@@ -101,7 +101,7 @@ export const FeaturedCategory = () => {
         {/* Swiper Slider with forced scrolling */}
         <Box position="relative">
           {showNavigation && (
-            <Box position="absolute" top={-10} right={0} zIndex={1}>
+            <Box position="absolute" top={-20} right={5} zIndex={1}>
               <Navigation
                 swiper={swiperInstance}
                 isBeginning={isBeginning}
@@ -170,7 +170,6 @@ export const FeaturedCategory = () => {
                     borderRadius="lg"
                     overflow="hidden"
                     boxShadow="md"
-  
                   >
                     <Image
                       src={item.image}
