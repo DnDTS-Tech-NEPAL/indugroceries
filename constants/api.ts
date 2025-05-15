@@ -13,6 +13,7 @@ export const API_ROUTES = {
   },
 
   APP: {
+    MENU_NAV:"megamenu",
     CONFIG: "websiteconfig",
     FAQ: "faq",
     SAAF:"singlebrand",
