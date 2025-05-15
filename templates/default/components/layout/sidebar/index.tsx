@@ -5,13 +5,22 @@ import { Box, HStack, VStack } from "@chakra-ui/react";
 import { CloseCircleIcon } from "@/assets/svg";
 import { AccordionRoot, Drawer } from "@/components";
 import { useConfigQuery } from "@/hooks/api";
-import { SidebarProps } from "@/types";
+import { MenuItemType, SidebarProps } from "@/types";
 
 import { SidebarItem } from "./SidebarItem";
-import { calculateHeightAndWidth, extractMenu } from "@/utils";
+import { calculateHeightAndWidth } from "@/utils";
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const { data: config } = useConfigQuery();
+  //remove later
+  const extractMenu = (menu: MenuItemType[]) => {
+    return menu.map(({ link, menu_item }: MenuItemType) => ({
+      href: link || "#",
+      menuName: menu_item,
+      subMenus: [],
+    }));
+  };
+  //remove later
   const navItems = extractMenu(config.menu_table);
   const { height, width } = calculateHeightAndWidth(
     config.width,
