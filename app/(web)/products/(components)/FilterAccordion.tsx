@@ -29,10 +29,7 @@ export const FilterAccordion = ({
   const selectedValues = Array.isArray(value) ? value : [];
 
   const handleItemClick = (val: string) => {
-    const newValue = selectedValues.includes(val)
-      ? selectedValues.filter((v) => v !== val)
-      : [...selectedValues, val];
-
+    const newValue = selectedValues[0] === val ? [] : [val];
     onChange(newValue);
   };
 
