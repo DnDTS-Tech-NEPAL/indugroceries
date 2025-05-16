@@ -46,7 +46,7 @@ export const ProductImageDisplay: React.FC<ProductImageDisplayProps> = ({
             width={500}
             height={500}
             style={{
-              objectFit: "contain",
+              objectFit: "cover",
               width: "100%",
               height: "100%",
               transform: isHovered ? "scale(2)" : "scale(1)",

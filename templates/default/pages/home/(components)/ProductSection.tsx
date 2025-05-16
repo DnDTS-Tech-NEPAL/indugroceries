@@ -54,7 +54,7 @@ export const ProductSection = ({
         products.filter((p) => p.category === activeCategory)
       );
     }
-    setPage(0); // reset page when category changes
+    setPage(0); 
   }, [activeCategory, products]);
 
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
@@ -81,7 +81,7 @@ export const ProductSection = ({
   useEffect(() => {
     const autoSlideInterval = setInterval(() => {
       paginate(1);
-    }, 5000);
+    }, 9000);
 
     return () => clearInterval(autoSlideInterval);
   }, [page, totalPages]);

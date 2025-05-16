@@ -171,7 +171,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           src={image || config?.company_details_url}
           alt={title}
           fill
-          style={{ objectFit: "contain" }}
+          style={{ objectFit: "cover", objectPosition: "center" }}
         />
 
         {/* Quick view and add to cart buttons */}
