@@ -11,6 +11,7 @@ import { useVariantStore } from "@/store";
 import { ProductImages } from "./ProductImages";
 import { ProductInformation } from "./ProductInformation";
 import { ProductsYouMayLike } from "./ProductsYouMayLike";
+import { Highlights } from "./Highlights";
 
 export const ProductDetailContainer = ({
   product,
@@ -50,7 +51,14 @@ export const ProductDetailContainer = ({
           gap={{ md: "20px", lg: "40px", xl: "60px" }}
           alignItems="stretch"
         >
-          <ProductImages />
+          <Flex
+            flexDirection={{ base: "row", md: "column" }}
+            gap={{ md: "20px", lg: "40px", xl: "60px" }}
+            alignItems="stretch"
+          >
+            <ProductImages />
+            <Highlights />
+          </Flex>
 
           <ProductInformation />
         </Flex>

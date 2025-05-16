@@ -78,7 +78,7 @@ export const ProductInformation = () => {
         {/* title */}
         <Stack gap={{ base: "12px", lg: "24px" }} width="100%">
           <Stack gap="12px">
-            <HStack justifyContent="space-between">
+            {/* <HStack justifyContent="space-between">
               <Text
                 color="system.text.light.light"
                 variant="subtitle2"
@@ -93,7 +93,7 @@ export const ProductInformation = () => {
               >
                 {productDetail?.item_code}
               </Text>
-            </HStack>
+            </HStack> */}
 
             <Heading
               color="black"
@@ -105,6 +105,14 @@ export const ProductInformation = () => {
             >
               {productDetail?.item_name}
             </Heading>
+
+            <Text
+              color="system.text.light.light"
+              variant="subtitle2"
+              fontSize={{ base: "12px", lg: "14px" }}
+            >
+              {productDetail?.description}
+            </Text>
           </Stack>
           <HStack gap="0">
             <VisibleSection visibility={config?.rate_visibility}>
@@ -191,6 +199,8 @@ export const ProductInformation = () => {
           <HStack gap="20px" width="100%">
             <VisibleSection visibility={config?.cart_visibility}>
               <Button
+                rounded={"3xl"}
+                bg={"#FF6996"}
                 type="submit"
                 flex={1}
                 onClick={checkAuth(onAddToCart)}
@@ -201,21 +211,18 @@ export const ProductInformation = () => {
             </VisibleSection>
             <VisibleSection visibility={config?.wishlist_visibility}>
               <Button
-                variant="outline"
-                width="170px"
-                padding="10px 20px"
+                borderRadius={"full"}
+                h={"10px"}
+                w={"10px"}
+                bg={"#FF6996"}
                 onClick={checkAuth(onAddToWishlist)}
                 loading={isWishlistPending}
               >
                 <HeartIcon
                   style={{
-                    width: "24px",
-                    height: "24px",
+                    color: "white",
                   }}
                 />
-                <Text variant="subtitle1" color="primary.400">
-                  Favorite
-                </Text>
               </Button>
             </VisibleSection>
           </HStack>

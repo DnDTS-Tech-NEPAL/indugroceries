@@ -12,6 +12,7 @@ import {
   VisibleContentSection,
 } from "@/components";
 import { useProductDetailByNameQuery } from "@/hooks/api";
+import { ShadeSelector } from "./ShadeSelector";
 
 export const ProductDescription = () => {
   const params = useParams();
@@ -23,7 +24,7 @@ export const ProductDescription = () => {
     <Box padding={{ base: "0", md: "20px 0px" }}>
       {/* Accordion for medium and larger screens */}
       {/* product description section */}
-      <VisibleContentSection
+      {/* <VisibleContentSection
         content={`${productDetail?.custom_specifications}`}
       >
         <AccordionRoot
@@ -56,7 +57,9 @@ export const ProductDescription = () => {
             </AccordionItemContent>
           </AccordionItem>
         </AccordionRoot>
-      </VisibleContentSection>
+      </VisibleContentSection> */}
+
+      <ShadeSelector />
       {/* product feature section */}
       <VisibleContentSection content={`${productDetail?.custom_key_features}`}>
         <AccordionRoot
@@ -76,7 +79,7 @@ export const ProductDescription = () => {
             {/* uncomment below content when feature is available */}
             <AccordionItemTrigger padding="0" mt={4}>
               <Heading variant="heading6" color="primary.400">
-                Feature
+                Why We Love It
               </Heading>
             </AccordionItemTrigger>
 

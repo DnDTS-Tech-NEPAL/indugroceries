@@ -93,17 +93,20 @@ export const ProductReviews = ({ item_code }: { item_code: string }) => {
           >
             <AccordionItem value={""} padding="0" background="white" border="0">
               <AccordionItemTrigger padding="0">
-                {!isLoading && (
-                  <StarRating
-                    stars={5}
-                    isCheckBoxRequired={false}
-                    fixedRating={averageRating}
-                  />
-                )}
+                <Heading variant="heading6">
+                  Comments ({reviewData?.reviews?.length || 0})
+                </Heading>
               </AccordionItemTrigger>
 
               <AccordionItemContent paddingTop="20px" paddingBottom="0">
                 <Stack gap="20px">
+                  {!isLoading && (
+                    <StarRating
+                      stars={5}
+                      isCheckBoxRequired={false}
+                      fixedRating={averageRating}
+                    />
+                  )}
                   {!showReviewForm && (
                     <Button
                       variant="outline"
