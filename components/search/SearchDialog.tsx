@@ -24,6 +24,7 @@ import {
 } from "@/hooks/api";
 import { SearchDialogProps } from "@/types";
 import { calculateHeightAndWidth, generateNextPath } from "@/utils";
+import { FiSearch } from "react-icons/fi";
 
 const MotionBox = motion(Box);
 
@@ -116,9 +117,28 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
           <FormProvider methods={methods} onSubmit={submitHandler}>
             <SearchInput name="search" placeholder="Search" startElement />
           </FormProvider>
-          <Text mt="16px" textAlign="center" color="gray.500" fontSize="md">
-            Search for your favourite products
-          </Text>
+
+          {!searchValue && (
+            <Flex
+              align="center"
+              justify="center"
+              my={"30px"}
+              gap="12px"
+              flexDirection="row"
+            >
+              <Box color="gray.500" fontSize="2xl" my={"auto"}>
+                <FiSearch />
+              </Box>
+              <Text
+                textAlign="center"
+                color="gray.600"
+                fontSize="xl"
+                fontWeight="500"
+              >
+                Search for your favorite products
+              </Text>
+            </Flex>
+          )}
 
           <Flex gap={"12px"} mt={"24px"} justifyContent="center" wrap={"wrap"}>
             {list && list.length > 0 && (
