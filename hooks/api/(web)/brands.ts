@@ -4,7 +4,7 @@ import { getBrandsCatogery } from "@/api/queries/brand";
 
 export const useBrandsQuery = () => {
   return useQuery({
-    queryKey: ["brands-category"],
+    queryKey: ["featuredbrands"],
     queryFn: getBrandsCatogery,
     select: (res: FeaturedBrandsAPIResponseType) =>
       Array.isArray(res.data) ? res.data : [],
