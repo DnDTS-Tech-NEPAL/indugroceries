@@ -3,7 +3,9 @@
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { Box, Flex, Grid, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Text, SimpleGrid } from "@chakra-ui/react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 
 import { CloseCircleIcon } from "@/assets/svg";
 import {
@@ -11,7 +13,6 @@ import {
   FormProvider,
   ProductCard,
   SearchInput,
-  Tag,
   VisibleSection,
 } from "@/components";
 import { useColors } from "@/config";
@@ -24,27 +25,51 @@ import {
 import { SearchDialogProps } from "@/types";
 import { calculateHeightAndWidth, generateNextPath } from "@/utils";
 
+const MotionBox = motion(Box);
+
 export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
   const { data: config } = useConfigQuery();
-
   const { THEME_COLORS } = useColors();
-
   const methods = useForm();
   const searchValue = methods.watch("search");
-
   const { data: searchData } = useSearchListQuery(searchValue, {
     enabled: !!searchValue,
   });
-
   const submitHandler = () => {};
-
   const list = searchData?.data.data;
-
   const { height, width } = calculateHeightAndWidth(
     config.width,
     config.height
   );
   const router = useRouter();
+
+  const [page, setPage] = useState(0);
+  const PRODUCTS_PER_PAGE = 8;
+
+  const totalPages = list ? Math.ceil(list.length / PRODUCTS_PER_PAGE) : 0;
+  const pagedProducts = list
+    ? list.slice(page * PRODUCTS_PER_PAGE, (page + 1) * PRODUCTS_PER_PAGE)
+    : [];
+
+  const paginate = (direction: number) => {
+    setPage((prev) => {
+      let next = prev + direction;
+      if (next < 0) next = totalPages - 1;
+      if (next >= totalPages) next = 0;
+      return next;
+    });
+  };
+
+  // Auto-slide setup
+  useEffect(() => {
+    if (totalPages <= 1) return;
+
+    const autoSlideInterval = setInterval(() => {
+      paginate(1);
+    }, 7000);
+
+    return () => clearInterval(autoSlideInterval);
+  }, [page, totalPages]);
 
   const handleClick = (productName: string) => {
     router.push(
@@ -91,15 +116,76 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
           <FormProvider methods={methods} onSubmit={submitHandler}>
             <SearchInput name="search" placeholder="Search" startElement />
           </FormProvider>
+          <Text mt="16px" textAlign="center" color="gray.500" fontSize="md">
+            Search for your favourite products
+          </Text>
 
           <Flex gap={"12px"} mt={"24px"} justifyContent="center" wrap={"wrap"}>
-            {list?.map((item, index) => (
-              <Tag
-                name={item.item_name}
-                key={index}
-                onClick={() => handleClick(item.name)}
-              />
-            ))}
+            {list && list.length > 0 && (
+              <>
+                <Heading
+                  variant="heading5"
+                  mt="40px"
+                  mb="12px"
+                  w="full"
+                  textAlign="center"
+                >
+                  Search Results
+                </Heading>
+                <Box w="full" position="relative">
+                  <AnimatePresence mode="wait">
+                    <MotionBox
+                      key={page}
+                      initial={{ opacity: 0, x: 100 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: -100 }}
+                      transition={{ duration: 0.4 }}
+                    >
+                      <SimpleGrid
+                        columns={{ base: 2, md: 3, xl: 4 }}
+                        gap="20px"
+                      >
+                        {pagedProducts.map((product, index) => (
+                          <Box
+                            key={index}
+                            onClick={() => handleClick(product.name)}
+                            cursor="pointer"
+                          >
+                            <ProductCard
+                              id={index}
+                              category={product.item_group}
+                              image={product.custom_image_1_link}
+                              title={product.name}
+                              description={product.description}
+                              price={product.prices?.[0]?.price_list_rate}
+                            />
+                          </Box>
+                        ))}
+                      </SimpleGrid>
+                    </MotionBox>
+                  </AnimatePresence>
+
+                  {/* Dot Pagination */}
+                  {totalPages > 1 && (
+                    <Flex justify="center" mt={6} gap={2}>
+                      {Array.from({ length: totalPages }).map((_, index) => (
+                        <Box
+                          key={index}
+                          w={3}
+                          h={3}
+                          bg={page === index ? "#FF6996" : "gray.400"}
+                          borderRadius="full"
+                          cursor="pointer"
+                          onClick={() => setPage(index)}
+                          transition="all 0.2s"
+                          _hover={{ bg: "#FF6996" }}
+                        />
+                      ))}
+                    </Flex>
+                  )}
+                </Box>
+              </>
+            )}
           </Flex>
         </Box>
 
@@ -115,7 +201,7 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
               Products you may like
             </Heading>
             <Text variant={"paragraphRegular"} color={"#252B37"}>
-              Stay ahead of the curve with this season’s must-have pieces
+              Stay ahead of the curve with this season&apos;s must-have pieces
             </Text>
           </Flex>
 
