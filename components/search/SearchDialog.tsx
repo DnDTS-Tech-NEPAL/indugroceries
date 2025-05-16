@@ -12,6 +12,7 @@ import {
   ProductCard,
   SearchInput,
   Tag,
+  VisibleSection,
 } from "@/components";
 import { useColors } from "@/config";
 import { ROUTES } from "@/constants";
@@ -102,41 +103,43 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
           </Flex>
         </Box>
 
-        <Flex
-          direction="column"
-          alignItems="start"
-          gap="8px"
-          py="2px"
-          mt={"69px"}
-        >
-          <Heading variant={"heading4"} fontWeight={400} fontSize={"26px"}>
-            Products you may like
-          </Heading>
-          <Text variant={"paragraphRegular"} color={"#252B37"}>
-            Stay ahead of the curve with this season’s must-have pieces
-          </Text>
-        </Flex>
+        <VisibleSection visibility={config?.products_you_may_like_visibility}>
+          <Flex
+            direction="column"
+            alignItems="start"
+            gap="8px"
+            py="2px"
+            mt={"69px"}
+          >
+            <Heading variant={"heading4"} fontWeight={400} fontSize={"26px"}>
+              Products you may like
+            </Heading>
+            <Text variant={"paragraphRegular"} color={"#252B37"}>
+              Stay ahead of the curve with this season’s must-have pieces
+            </Text>
+          </Flex>
 
-        <Grid
-          gridTemplateColumns={{
-            sm: "repeat(2, 1fr)",
-            md: "repeat(3, 1fr)",
-            xl: "repeat(4, 1fr)",
-          }}
-          gap="20px"
-        >
-          {productsLikeData?.map((product, index) => (
-            <ProductCard
-              key={index}
-              id={index}
-              category={product.item_group}
-              image={product.custom_image_1_link}
-              title={product.name}
-              description={product.description}
-              price={product.prices?.[0]?.price_list_rate}
-            />
-          ))}
-        </Grid>
+          <Grid
+            gridTemplateColumns={{
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+              xl: "repeat(4, 1fr)",
+            }}
+            gap="20px"
+          >
+            {productsLikeData?.map((product, index) => (
+              <ProductCard
+                key={index}
+                id={index}
+                category={product.item_group}
+                image={product.custom_image_1_link}
+                title={product.name}
+                description={product.description}
+                price={product.prices?.[0]?.price_list_rate}
+              />
+            ))}
+          </Grid>
+        </VisibleSection>
       </Box>
     </Dialog>
   );

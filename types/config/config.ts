@@ -76,6 +76,7 @@ export type ConfigType = {
   search_box_visibility: number;
   breadcrum_visibility: number;
   featured_brands_visibility: number;
+  products_you_may_like_visibility:number;
   hero_type: string;
   sale_type: string;
   //topnav
