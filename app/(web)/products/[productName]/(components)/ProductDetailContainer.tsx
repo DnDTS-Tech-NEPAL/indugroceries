@@ -12,6 +12,10 @@ import { ProductImages } from "./ProductImages";
 import { ProductInformation } from "./ProductInformation";
 import { ProductsYouMayLike } from "./ProductsYouMayLike";
 import { Highlights } from "./Highlights";
+import {
+  BenefitsSection,
+  SocialFeed,
+} from "@/templates/default/pages/home/(components)";
 
 export const ProductDetailContainer = ({
   product,
@@ -64,6 +68,8 @@ export const ProductDetailContainer = ({
         </Flex>
 
         <ProductsYouMayLike />
+        <SocialFeed />
+        <BenefitsSection />
       </Flex>
     </Box>
   );

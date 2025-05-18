@@ -1,140 +1,69 @@
 "use client";
 
+import type React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Box, Heading, HStack, Text, VStack } from "@chakra-ui/react";
-
-import { HeartIcon } from "@/assets/svg";
-import { ROUTES } from "@/constants";
+import parse from "html-react-parser";
+import {
+  Box,
+  Button,
+  Heading,
+  HStack,
+  Text,
+  VStack,
+  Icon,
+  Badge,
+  useBreakpointValue,
+} from "@chakra-ui/react";
+import { FaStar } from "react-icons/fa";
 import { useConfigQuery } from "@/hooks/api";
-import { ProductCardProps } from "@/types";
+import type { ProductCardProps } from "@/types";
+import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
 import { VisibleSection } from "../visibleSection";
+import { CartIcon } from "@/assets/svg";
 
 export const FavoriteProductCard: React.FC<ProductCardProps> = ({
+  category,
   image,
   title,
   description,
   price,
   originalPrice,
   discount,
+  isNew,
+  isSale,
+  rating = 4,
+  reviews = 420,
 }) => {
   const router = useRouter();
-
   const { data: config } = useConfigQuery();
 
+  // Responsive values
+  const cardPadding = useBreakpointValue({ base: "2", sm: "3", md: "4" });
+  const titleSize = useBreakpointValue({ base: "sm", md: "md" });
+  const descriptionSize = useBreakpointValue({ base: "xs", sm: "sm" });
+  const priceSize = useBreakpointValue({ base: "sm", md: "md" });
+  const badgeSize = useBreakpointValue({ base: "xs", sm: "sm" });
+  const starSize = useBreakpointValue({ base: "2", sm: "3" });
+  const ratingTextSize = useBreakpointValue({ base: "2xs", sm: "xs" });
+  const cardGap = useBreakpointValue({ base: "8px", sm: "10px", md: "12px" });
+
   return (
-    // <VStack gap="17px" overflow="hidden">
-    //   <VStack
-    //     alignItems="stretch"
-    //     gap={{
-    //       base: "24px",
-    //       lg: "32px",
-    //     }}
-    //     padding={{
-    //       base: "16px",
-    //       md: "20px",
-    //       lg: "24px",
-    //     }}
-    //     bg="grey.200"
-    //     cursor="pointer"
-    //     width="100%"
-    //     onClick={() =>
-    //       router.push(
-    //         generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-    //           productName: title,
-    //         })
-    //       )
-    //     }
-    //   >
-    //     <HStack justifyContent="flex-end">
-    //       <HeartIcon />
-    //     </HStack>
-
-    //     <Box
-    //       py={{
-    //         base: "16px",
-    //         lg: "34px",
-    //       }}
-    //     >
-    //       <Box position="relative" mx="auto" boxSize="180px">
-    //         <Image src={image as string} alt={title} fill />
-    //       </Box>
-    //     </Box>
-    //   </VStack>
-    //   <VStack
-    //     align="start"
-    //     gap={{
-    //       base: 0,
-    //       lg: "4px",
-    //     }}
-    //     width="100%"
-    //   >
-    //     <Heading
-    //       variant="heading6"
-    //       display="none"
-    //       fontSize={{
-    //         base: "16px",
-    //         lg: "18px",
-    //       }}
-    //     >
-    //       {title}
-    //     </Heading>
-    //     <Text
-    //       variant="paragraphSmall"
-    //       fontWeight={"bold"}
-    //       fontSize={{ base: "11px", md: "lg" }}
-    //       color="system.text.light.light"
-    //     >
-    //       {description}
-    //     </Text>
-
-    //     <HStack gap="0" paddingTop="16px">
-    //       <Heading variant="heading6" fontWeight="400">
-    //         {config.currency} {price}
-    //       </Heading>
-
-    //       {originalPrice && (
-    //         <Text
-    //           variant="subtitle1"
-    //           color="danger.100"
-    //           paddingLeft="12px"
-    //           paddingRight="8px"
-    //           textDecoration="line-through"
-    //         >
-    //           {config.currency}
-    //           {originalPrice}
-    //         </Text>
-    //       )}
-
-    //       {Number(discount) > 0 && (
-    //         <Text
-    //           variant="subtitle2"
-    //           border="1px solid"
-    //           borderColor="system.neutral.separator.light"
-    //           borderRadius="8px"
-    //           padding="6px 10px"
-    //           color="system.text.light.light"
-    //           background="grey.400"
-    //         >
-    //           -{discount}
-    //         </Text>
-    //       )}
-    //     </HStack>
-    //   </VStack>
-    // </VStack>
     <VStack
-      gap="12px"
+      alignItems="stretch"
+      gap={cardGap}
       overflow="hidden"
-      bg="gray.200"
-      borderRadius="xl"
-      boxShadow="sm"
+      p={cardPadding}
+      bg="white"
+      borderRadius="md"
       transition="all 0.3s ease"
       _hover={{
-        boxShadow: "lg",
-        transform: "translateY(-4px)",
+        transform: "translateY(-5px)",
+        boxShadow: "md",
       }}
       cursor="pointer"
+      position="relative"
       onClick={() =>
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
@@ -142,103 +71,171 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
           })
         )
       }
-      w="full"
+      boxShadow="sm"
     >
-      {/* Image with 1:1 ratio */}
+      {/* Status badges */}
+      <Box position="absolute" top="10px" left="10px" zIndex="10">
+        {isNew && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize={badgeSize}
+          >
+            New
+          </Badge>
+        )}
+        {isSale && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize={badgeSize}
+            ml={isNew ? 2 : 0}
+          >
+            Sale
+          </Badge>
+        )}
+        {Number(discount) > 0 && (
+          <Badge
+            bg="#FF6996"
+            color="white"
+            borderRadius="full"
+            px={2}
+            py={1}
+            fontSize={badgeSize}
+            ml={isNew || isSale ? 2 : 0}
+          >
+            {discount}% Off
+          </Badge>
+        )}
+      </Box>
+
+      {/* Product Image */}
       <Box
         position="relative"
         w="full"
-        pt="100%" // 1:1 ratio using padding trick
+        pt="100%"
         bg="gray.100"
-        borderTopRadius="xl"
         overflow="hidden"
+        borderRadius="md"
       >
-        {/* Favorite Icon */}
-        <HStack position="absolute" top="12px" right="12px" zIndex="2">
-          <HeartIcon />
-        </HStack>
-
-        <Box position="absolute" top="0" left="0" w="full" h="full">
-          <Image
-            src={(image as string) || config.company_details_url}
-            alt={title}
-            fill
-            style={{
-              objectFit: "contain",
-              objectPosition: "center",
-            }}
-          />
-        </Box>
+        <VisibleSection visibility={config?.category_visibility}>
+          {category && (
+            <Text
+              fontSize={badgeSize}
+              fontWeight="semibold"
+              position="absolute"
+              top="8px"
+              left="8px"
+              zIndex={5}
+              border="1px solid"
+              borderColor="system.neutral.separator.light"
+              borderRadius="full"
+              width="fit-content"
+              color="system.text.light.light"
+              bg="gray.100"
+              px="8px"
+              py="2px"
+            >
+              {category}
+            </Text>
+          )}
+        </VisibleSection>
+        <Image
+          src={image || config?.company_details_url}
+          alt={title}
+          fill
+          style={{ objectFit: "cover", objectPosition: "center" }}
+          sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, 33vw"
+        />
       </Box>
 
       {/* Product Info */}
-      <VStack
-        align="start"
-        gap={{ base: "8px", md: "10px" }}
-        w="full"
-        px={{ base: "12px", md: "16px" }}
-        pb="16px"
-        pt="4px"
-      >
+      <VStack align="start" gap="6px" px={1} pb={1}>
+        {/* Rating */}
+        <HStack gap={1}>
+          {Array(5)
+            .fill("")
+            .map((_, i) => (
+              <Icon
+                key={i}
+                as={FaStar}
+                color={i < Math.floor(rating) ? "#FF6996" : "gray.200"}
+                boxSize={starSize}
+              />
+            ))}
+          <Text fontSize={ratingTextSize} color="gray.500" ml={1}>
+            ({reviews})
+          </Text>
+        </HStack>
+
+        {/* Title */}
         <Heading
-          variant="heading6"
-          display="none"
-          fontSize={{ base: "md", md: "lg" }}
+          fontSize={titleSize}
+          fontWeight="600"
           color="gray.800"
-          fontWeight="semibold"
+          lineHeight="short"
         >
           {title}
         </Heading>
 
-        <Text
-          variant="paragraphSmall"
-          fontWeight={"bold"}
-          fontSize={{ base: "sm", md: "md" }}
-          color="system.text.light.light"
+        {/* Description */}
+        <Box color="gray.500" fontSize={descriptionSize} lineHeight="short">
+          {parse(description)}
+        </Box>
+
+        {/* Price Section */}
+        <HStack
+          justify="space-between"
+          w="full"
+          pt="4px"
+          gap={4}
+          flexWrap="wrap"
         >
-          {description}
-        </Text>
+          <HStack gap={2}>
+            <VisibleSection visibility={config?.rate_visibility}>
+              <Heading fontSize={priceSize} fontWeight="600" color="#FF6996">
+                {config?.currency} {price}
+              </Heading>
+            </VisibleSection>
+            {originalPrice && (
+              <Text
+                fontSize={descriptionSize}
+                color="gray.400"
+                textDecoration="line-through"
+              >
+                {config?.currency} {originalPrice}
+              </Text>
+            )}
+          </HStack>
 
-        <HStack pt="2">
-          <VisibleSection visibility={config?.rate_visibility}>
-            <Heading
-              variant="heading6"
-              fontSize={{ base: "sm", md: "md" }}
-              fontWeight="400"
-              color="brand.600"
-            >
-              {config.currency} {price}
-            </Heading>
-          </VisibleSection>
-
-          {originalPrice && (
-            <Text
-              variant={"subtitle1"}
-              fontSize="sm"
-              color="danger.100"
-              textDecoration="line-through"
-              ml="2"
-            >
-              {config.currency}
-              {originalPrice}
-            </Text>
-          )}
-
-          {Number(discount) > 0 && (
-            <Text
-              variant={"subtitle2"}
-              fontSize="xs"
-              color="system.text.light.light"
-              background="gray.400"
-              px="2"
-              py="1"
-              borderRadius="md"
-              fontWeight="semibold"
-              ml="2"
-            >
-              -{discount}
-            </Text>
-          )}
+          <Button
+            bg="#FF6996"
+            color="white"
+            border="1px solid"
+            borderColor="#FF6996"
+            _hover={{ bg: "gray.50", color: "#FF6996" }}
+            variant="outline"
+            size={{ base: "xs", sm: "sm" }}
+            borderRadius="full"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+            flexShrink={0}
+          >
+            <Box as="span" display={{ base: "none", sm: "inline" }}>
+              Add to Cart
+            </Box>
+            <Box as="span" display={{ base: "inline", sm: "none" }}>
+              Cart
+            </Box>
+            <CartIcon />
+          </Button>
         </HStack>
       </VStack>
     </VStack>

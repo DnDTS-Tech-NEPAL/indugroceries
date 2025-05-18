@@ -5,16 +5,16 @@ import { useParams } from "next/navigation";
 
 import {
   Box,
+  Flex,
   Grid,
   Heading,
-  HStack,
   Spinner,
   Text,
   VStack,
 } from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
-import { SeeAll, FavoriteProductCard } from "@/components";
+import { FavoriteProductCard } from "@/components";
 import {
   useItemProductsLikeQuery,
   useProductDetailByNameQuery,
@@ -39,36 +39,40 @@ export const ProductsYouMayLike = () => {
         "2xl": "120px",
       }}
     >
-      <HStack justifyContent="space-between">
-        <VStack
-          alignItems="start"
-          gap={{
-            base: "0",
-            md: "8px",
-          }}
-        >
-          <Heading
-            fontSize={{
-              base: "16px",
-              lg: "24px",
-              xl: "28px",
+      <Flex justifyContent="space-between" alignItems="center">
+        <Box flex="1" display="flex" justifyContent="center">
+          <VStack
+            alignItems="center"
+            gap={{
+              base: "0",
+              md: "8px",
             }}
           >
-            Products you may like
-          </Heading>
-          <Text
-            variant={{
-              base: "paragraphSmall",
-              md: "paragraphRegular",
-            }}
-            color="system.text.normal.light"
-          >
-            Stay ahead of the curve with this season’s must-have pieces
-          </Text>
-        </VStack>
+            <Heading
+              fontSize={{
+                base: "16px",
+                lg: "24px",
+                xl: "28px",
+              }}
+            >
+              You May Also Like these
+            </Heading>
+            <Text
+              variant={{
+                base: "paragraphSmall",
+                md: "paragraphRegular",
+              }}
+              color="system.text.normal.light"
+            >
+              Top-rated favorites our customers can’t live without.
+            </Text>
+          </VStack>
+        </Box>
 
-        <SeeAll href="/products" />
-      </HStack>
+        {/* <Box position="absolute" right="10">
+          <SeeAll href="/products" />
+        </Box> */}
+      </Flex>
 
       {isLoading ? (
         <Grid placeItems="center" height="500px">
