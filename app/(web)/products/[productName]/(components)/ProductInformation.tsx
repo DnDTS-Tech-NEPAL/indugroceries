@@ -300,7 +300,9 @@ export const ProductInformation = () => {
 
   const onAddToWishlist = () => {
     const payload = {
-      item_code: productDetail?.has_variants ? activeVariant : productDetail?.item_code,
+      item_code: productDetail?.has_variants
+        ? activeVariant
+        : productDetail?.item_code,
       quantity,
     };
 
@@ -309,7 +311,9 @@ export const ProductInformation = () => {
 
   const onAddToCart = () => {
     const payload = {
-      item_code: productDetail?.has_variants ? activeVariant : productDetail?.item_code,
+      item_code: productDetail?.has_variants
+        ? activeVariant
+        : productDetail?.item_code,
       item_price: price || "",
       quantity,
     };
@@ -487,8 +491,12 @@ export const ProductInformation = () => {
 
       {/* reviews */}
       <VisibleSection visibility={config?.cart_visibility}>
-        <ProductReviews 
-          item_code={productDetail?.has_variants ? activeVariant : productDetail?.item_code ?? ""} 
+        <ProductReviews
+          item_code={
+            productDetail?.has_variants
+              ? activeVariant
+              : (productDetail?.item_code ?? "")
+          }
         />
       </VisibleSection>
     </Flex>
