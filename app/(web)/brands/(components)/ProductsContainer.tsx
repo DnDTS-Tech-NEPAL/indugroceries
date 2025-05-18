@@ -86,9 +86,11 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
             borderColor={"primary.100"}
           >
             <VStack align="stretch" borderRadius="md">
-              {filters.map((filter) => (
-                <FilterAccordion key={filter.title} {...filter} />
-              ))}
+              {filters
+                .filter((filter) => filter.title.toLowerCase() === "brands")
+                .map((filter) => (
+                  <FilterAccordion key={filter.title} {...filter} />
+                ))}
             </VStack>
           </Box>
 

@@ -13,9 +13,9 @@ import {
 } from "@/templates/default/pages/home/(components)";
 
 export const metadata: Metadata = {
-  title: "Products",
+  title: "Brands",
   openGraph: {
-    title: "Products",
+    title: "Brands",
   },
 };
 
@@ -25,7 +25,7 @@ const Products = () => {
       <PageTitle
         backLabel="Back to homepage"
         backLink={ROUTES.APP.HOMEPAGE}
-        title="All Products"
+        title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
       <BrandCarousel />
