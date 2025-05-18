@@ -3,7 +3,14 @@ import { Metadata } from "next";
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-import AllBrands from "./(components)/AllBrands";
+
+import { BrandCarousel, ProductsContainer } from ".";
+import {
+  BenefitsSection,
+  BrandCategory,
+  SocialFeed,
+  SummerSale,
+} from "@/templates/default/pages/home/(components)";
 
 export const metadata: Metadata = {
   title: "Brands",
@@ -21,7 +28,12 @@ const Products = () => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
-      <AllBrands />
+      <BrandCarousel />
+      <ProductsContainer type="bestSellers" />
+      <SummerSale />
+      <BrandCategory />
+      <SocialFeed />
+      <BenefitsSection />
     </>
   );
 };

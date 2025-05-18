@@ -82,7 +82,6 @@ export const FilterAccordion = ({
     setChildCategories([]);
   };
 
-  // Reset expanded category when selection changes from outside
   useEffect(() => {
     if (selectedValues.length === 0) {
       setExpandedCategory(null);
