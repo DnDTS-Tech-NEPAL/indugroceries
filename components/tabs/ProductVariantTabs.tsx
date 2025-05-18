@@ -1,3 +1,4 @@
+"use client";
 import { Box, VStack, Text } from "@chakra-ui/react";
 import { useVariantStore } from "@/store";
 import { ProductVariantTabsProps } from "@/types";
