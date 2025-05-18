@@ -33,6 +33,10 @@ export const BREADCRUMB_CONFIG = {
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "All Products", href: ROUTES.DEFAULT },
   ],
+    BRANDS: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "All Brands", href: ROUTES.DEFAULT },
+  ],
   PRODUCT_DETAIL: [
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "All Products", href: ROUTES.APP.PRODUCTS },
