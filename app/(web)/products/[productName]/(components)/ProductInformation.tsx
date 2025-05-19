@@ -244,15 +244,7 @@
 
 import { useParams } from "next/navigation";
 import { useMemo, useState } from "react";
-import {
-  Flex,
-  Heading,
-  HStack,
-  Icon,
-  Stack,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
+import { Flex, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
 
 import { HeartIcon } from "@/assets/svg";
 import { Button, ProductVariantTabs, QuantityInput } from "@/components";
@@ -267,7 +259,6 @@ import { ProductDescription } from "./ProductDescription";
 import { ProductReviews } from "./ProductReviews";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
-import { FaStar } from "react-icons/fa";
 
 export const ProductInformation = () => {
   const params = useParams();
