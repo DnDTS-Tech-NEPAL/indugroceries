@@ -15,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { EditIcon } from "@/assets/svg";
+import { EditIcon, Profile } from "@/assets/svg";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -153,28 +153,37 @@ export const ProductReviews = ({ item_code }: { item_code: string }) => {
                     </FormProvider>
                   )}
 
-                  <Stack gap="12px">
-                    {reviewData?.reviews?.map((review, index) => (
-                      <Box key={index}>
-                        <ReviewCard message={review?.review} id={index} />
-                        <HStack
-                          justifyContent="space-between"
-                          alignItems="center"
-                          width="100%"
-                          p={3}
+                  <Box maxH={"300px"} overflowY="auto">
+                    <Stack gap="12px">
+                      {reviewData?.reviews?.map((review, index) => (
+                        <Box
+                          key={index}
+                          borderBottom={"1px solid"}
+                          borderColor="system.neutral.separator.light"
                         >
-                          <Heading variant="heading7" color="primary.400">
-                            {review?.user}
-                          </Heading>
-                          <StarRating
-                            stars={5}
-                            isCheckBoxRequired={false}
-                            fixedRating={review.rating}
-                          />
-                        </HStack>
-                      </Box>
-                    ))}
-                  </Stack>
+                          <HStack
+                            justifyContent="space-between"
+                            alignItems="center"
+                            width="100%"
+                            p={3}
+                          >
+                            <Heading variant="heading7" color="primary.400">
+                              <Flex gap="4px">
+                                <Profile width={24} height={24} />
+                                {review?.user}
+                              </Flex>
+                            </Heading>
+                            <StarRating
+                              stars={5}
+                              isCheckBoxRequired={false}
+                              fixedRating={review.rating}
+                            />
+                          </HStack>
+                          <ReviewCard message={review?.review} id={index} />
+                        </Box>
+                      ))}
+                    </Stack>
+                  </Box>
                 </Stack>
               </AccordionItemContent>
             </AccordionItem>
@@ -249,16 +258,20 @@ export const ProductReviews = ({ item_code }: { item_code: string }) => {
 
             <Stack gap="8px" marginTop="16px">
               {reviewData?.reviews?.map((review, index) => (
-                <Box key={index}>
-                  <StarRating
-                    stars={5}
-                    isCheckBoxRequired={false}
-                    fixedRating={review.rating}
-                  />
+                <Box
+                  key={index}
+                  borderBottom={"1px solid"}
+                  borderColor="system.neutral.separator.light"
+                >
                   <ReviewCard
                     name={review?.user}
                     message={review?.review}
                     id={index}
+                  />
+                  <StarRating
+                    stars={5}
+                    isCheckBoxRequired={false}
+                    fixedRating={review.rating}
                   />
                   <HStack
                     justifyContent="space-between"
