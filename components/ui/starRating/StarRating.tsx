@@ -42,11 +42,11 @@ export const StarRating: React.FC<StarRatingProps> = ({
               <StarIcon
                 style={{
                   fill: isFull
-                    ? "#FFBE26"
+                    ? "#FF6996"
                     : isPartial
                       ? `url(#partial-${index})`
                       : "none",
-                  stroke: index < rating ? "#FFBE26" : "#E9EAEB",
+                  stroke: index < rating ? "#FF6996" : "#E9EAEB",
                   width: "20px",
                   height: "20px",
                 }}
@@ -57,7 +57,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
                     <linearGradient id={`partial-${index}`}>
                       <stop
                         offset={`${(rating % 1) * 100}%`}
-                        stopColor="#FFBE26"
+                        stopColor="#FF6996"
                       />
                       <stop
                         offset={`${(rating % 1) * 100}%`}
