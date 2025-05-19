@@ -243,8 +243,16 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { useState } from "react";
-import { Flex, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import { useMemo, useState } from "react";
+import {
+  Flex,
+  Heading,
+  HStack,
+  Icon,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 import { HeartIcon } from "@/assets/svg";
 import { Button, ProductVariantTabs, QuantityInput } from "@/components";
@@ -259,6 +267,7 @@ import { ProductDescription } from "./ProductDescription";
 import { ProductReviews } from "./ProductReviews";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
+import { FaStar } from "react-icons/fa";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -286,17 +295,18 @@ export const ProductInformation = () => {
   };
 
   // Get price based on whether product has variants or not
-  const getPrice = () => {
-    if (productDetail?.has_variants) {
-      const selectedVariant = productDetail?.variants?.find(
+  const price = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
         (variant) => variant.item_code === activeVariant
       );
-      return selectedVariant?.prices?.[0]?.price_list_rate;
+      return selectedVariant?.prices?.[0]?.price_list_rate ?? null;
     }
-    return productDetail?.prices?.[0]?.price_list_rate;
-  };
 
-  const price = getPrice();
+    return productDetail.prices?.[0]?.price_list_rate ?? null;
+  }, [productDetail, activeVariant]);
 
   const onAddToWishlist = () => {
     const payload = {
@@ -362,6 +372,23 @@ export const ProductInformation = () => {
             >
               {productDetail?.item_name}
             </Heading>
+
+            {/* Rating */}
+            <HStack>
+              {Array(5)
+                .fill("")
+                .map((_, i) => (
+                  <Icon
+                    key={i}
+                    as={FaStar}
+                    color={i < Math.floor(4) ? "#FF6996" : "gray.200"}
+                    boxSize={3}
+                  />
+                ))}
+              <Text fontSize="xs" color="gray.500" ml={1}>
+                {420} reviews
+              </Text>
+            </HStack>
 
             <Text
               color="system.text.light.light"
