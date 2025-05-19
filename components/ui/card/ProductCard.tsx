@@ -20,7 +20,7 @@ import { FaStar } from "react-icons/fa";
 import { FaRegHeart, FaHeart } from "react-icons/fa";
 import { useState } from "react";
 
-import { useConfigQuery } from "@/hooks/api";
+import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
@@ -28,6 +28,7 @@ import { VisibleSection } from "../visibleSection";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   category,
+  item_code,
   image,
   title,
   link,
@@ -38,12 +39,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   hasAddToCart,
   isNew,
   isSale,
-  rating = 4,
-  reviews = 420,
 }) => {
   const router = useRouter();
   const [isWishlist, setIsWishlist] = useState(false);
   const { data: config } = useConfigQuery();
+  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
 
   return (
     <VStack
@@ -226,21 +226,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       {/* Product Info */}
       <VStack align="start" gap="8px" px={2} pb={2}>
         {/* Rating */}
-        <HStack>
-          {Array(5)
-            .fill("")
-            .map((_, i) => (
-              <Icon
-                key={i}
-                as={FaStar}
-                color={i < Math.floor(rating) ? "#FF6996" : "gray.200"}
-                boxSize={3}
-              />
-            ))}
-          <Text fontSize="xs" color="gray.500" ml={1}>
-            {reviews} reviews
-          </Text>
-        </HStack>
+        {reviewData && !isLoading && (
+          <HStack>
+            {Array(5)
+              .fill("")
+              .map((_, i) => (
+                <Icon
+                  key={i}
+                  as={FaStar}
+                  color={
+                    i < Math.ceil(reviewData?.average_rating ?? 0)
+                      ? "#FF6996"
+                      : "gray.200"
+                  }
+                  boxSize={3}
+                />
+              ))}
+            <Text fontSize="xs" color="gray.500" ml={1}>
+              {reviewData?.reviews.length} reviews
+            </Text>
+          </HStack>
+        )}
 
         {/* Title */}
         <Heading

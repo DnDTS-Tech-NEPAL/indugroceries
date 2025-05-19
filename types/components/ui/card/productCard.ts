@@ -1,5 +1,6 @@
 export type ProductCardProps = {
   category?: string;
+  item_code: string;
   image: string | null;
   title: string;
   link: string;
@@ -11,6 +12,4 @@ export type ProductCardProps = {
   id?: string | number;
   isNew?: boolean;
   isSale?: boolean;
-  rating?: number;
-  reviews?: number;
 };
