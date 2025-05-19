@@ -2,12 +2,33 @@
 import { Box, VStack, Text } from "@chakra-ui/react";
 import { useVariantStore } from "@/store";
 import { ProductVariantTabsProps } from "@/types";
+import { useEffect } from "react";
 
 export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
   const { activeVariant, updateVariant } = useVariantStore();
   const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     updateVariant(e.target.value);
   };
+  // Find the lowest priced variant
+  const getLowestPricedVariant = () => {
+    if (!variants || variants.length === 0) return null;
+
+    return variants.reduce((lowest, current) => {
+      const currentPrice = current.prices?.[0]?.price_list_rate;
+      const lowestPrice = lowest.prices?.[0]?.price_list_rate;
+      return currentPrice < lowestPrice ? current : lowest;
+    });
+  };
+
+  // Initialize with lowest priced variant if none is selected
+  useEffect(() => {
+    if (variants?.length > 0 && !activeVariant) {
+      const lowestPriced = getLowestPricedVariant();
+      if (lowestPriced) {
+        updateVariant(lowestPriced.item_code);
+      }
+    }
+  }, [variants, activeVariant, updateVariant]);
   const attributes = variants?.find(
     (variant) => variant.item_code === activeVariant
   )?.attributes;

@@ -124,8 +124,9 @@ export const Footer = () => {
             <Text fontWeight="bold" fontSize="lg" pb={2}>
               Category
             </Text>
-            {featuredData?.map(({ name }) => (
+            {featuredData?.map(({ name }, index) => (
               <Text
+                key={index}
                 _hover={{
                   color: "pink.500",
                   cursor: "pointer",
@@ -134,7 +135,6 @@ export const Footer = () => {
                 display="block"
                 py={1}
               >
-                {" "}
                 {name}
               </Text>
             ))}
