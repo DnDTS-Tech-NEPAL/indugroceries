@@ -399,7 +399,7 @@ export const ProductInformation = () => {
           </HStack>
         </Stack>
 
-        {productDetail?.has_variants && productDetail?.variants && (
+        {productDetail?.variants && (
           <Stack gap="12px">
             <Text variant="subtitle1" color="system.text.normal.light">
               Choose Variant
