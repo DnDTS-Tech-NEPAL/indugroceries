@@ -58,7 +58,7 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
           >
             {variants?.map((variant) => (
               <option key={variant.item_code} value={variant.item_code}>
-                {variant.item_name}
+                {variant.attributes?.[0].attribute_value}
               </option>
             ))}
           </select>
