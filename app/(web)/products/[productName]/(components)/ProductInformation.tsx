@@ -369,7 +369,7 @@ export const ProductInformation = () => {
               variant="subtitle2"
               fontSize={{ base: "12px", lg: "14px" }}
             >
-              {productDetail?.description}
+              {productDetail?.item_code}
             </Text>
           </Stack>
           <HStack gap="0">
