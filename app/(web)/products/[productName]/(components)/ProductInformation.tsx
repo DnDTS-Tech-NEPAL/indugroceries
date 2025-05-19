@@ -373,23 +373,6 @@ export const ProductInformation = () => {
               {productDetail?.item_name}
             </Heading>
 
-            {/* Rating */}
-            <HStack>
-              {Array(5)
-                .fill("")
-                .map((_, i) => (
-                  <Icon
-                    key={i}
-                    as={FaStar}
-                    color={i < Math.floor(4) ? "#FF6996" : "gray.200"}
-                    boxSize={3}
-                  />
-                ))}
-              <Text fontSize="xs" color="gray.500" ml={1}>
-                {420} reviews
-              </Text>
-            </HStack>
-
             <Text
               color="system.text.light.light"
               variant="subtitle2"
