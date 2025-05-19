@@ -23,27 +23,37 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
     {}
   );
 
-  // Get all possible values for each attribute
-  const attributeValues = useMemo(() => {
-    const values: Record<string, string[]> = {};
-    allAttributes.forEach((attr) => {
-      values[attr] = Array.from(
-        new Set(
-          variants
-            ?.map(
-              (v) =>
-                v.attributes?.find((a) => a.attribute === attr)?.attribute_value
-            )
-            .filter(Boolean) as string[]
-        )
-      );
+  // Find the cheapest variant
+  const getCheapestVariant = useMemo(() => {
+    if (!variants || variants.length === 0) return null;
+
+    return variants.reduce((cheapest, current) => {
+      const currentPrice = current.prices?.[0]?.price_list_rate || Infinity;
+      const cheapestPrice = cheapest.prices?.[0]?.price_list_rate || Infinity;
+      return currentPrice < cheapestPrice ? current : cheapest;
     });
-    return values;
-  }, [allAttributes, variants]);
+  }, [variants]);
+
+  // Get all possible values for each attribute
+  // const attributeValues = useMemo(() => {
+  //   const values: Record<string, string[]> = {};
+  //   allAttributes.forEach((attr) => {
+  //     values[attr] = Array.from(
+  //       new Set(
+  //         variants
+  //           ?.map(
+  //             (v) =>
+  //               v.attributes?.find((a) => a.attribute === attr)?.attribute_value
+  //           )
+  //           .filter(Boolean) as string[]
+  //       )
+  //     );
+  //   });
+  //   return values;
+  // }, [allAttributes, variants]);
 
   // Get available values for each attribute based on current selections
   const getAvailableValues = (attribute: string) => {
-    // Filter variants that match all currently selected attributes (except the current one)
     const matchingVariants = variants?.filter((variant) => {
       return Object.entries(selectedValues)
         .filter(([key]) => key !== attribute)
@@ -54,7 +64,6 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
         );
     });
 
-    // Extract available values for the requested attribute
     return Array.from(
       new Set(
         matchingVariants
@@ -67,6 +76,27 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
       )
     );
   };
+
+  // Initialize with cheapest variant's attributes
+  useEffect(() => {
+    if (
+      allAttributes.length > 0 &&
+      Object.keys(selectedValues).length === 0 &&
+      getCheapestVariant
+    ) {
+      const initialValues: Record<string, string> = {};
+      allAttributes.forEach((attr) => {
+        const attrValue = getCheapestVariant.attributes?.find(
+          (a) => a.attribute === attr
+        )?.attribute_value;
+        if (attrValue) {
+          initialValues[attr] = attrValue;
+        }
+      });
+      setSelectedValues(initialValues);
+      updateVariant(getCheapestVariant.item_code);
+    }
+  }, [allAttributes, getCheapestVariant, updateVariant]);
 
   // Update selected variant when selections change
   useEffect(() => {
@@ -88,19 +118,6 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
     }
   }, [selectedValues, variants, updateVariant, allAttributes]);
 
-  // Initialize with first available values
-  useEffect(() => {
-    if (allAttributes.length > 0 && Object.keys(selectedValues).length === 0) {
-      const initialValues: Record<string, string> = {};
-      allAttributes.forEach((attr) => {
-        if (attributeValues[attr]?.length > 0) {
-          initialValues[attr] = attributeValues[attr][0];
-        }
-      });
-      setSelectedValues(initialValues);
-    }
-  }, [allAttributes, attributeValues]);
-
   const handleAttributeChange = (attribute: string, value: string) => {
     setSelectedValues((prev) => ({
       ...prev,
@@ -110,12 +127,7 @@ export const ProductVariantTabs = ({ variants }: ProductVariantTabsProps) => {
 
   return (
     <>
-      <VStack
-        flexDirection={["column", "row"]}
-        align="flex-start"
-        gap={4}
-        w="full"
-      >
+      <VStack flexDirection={["column", "row"]} align="flex-start" gap={4}>
         {allAttributes.map((attribute) => (
           <Box key={attribute} w="full">
             <Text variant="subtitle1" color="system.text.normal.light" mb={2}>
