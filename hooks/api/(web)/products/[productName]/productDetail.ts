@@ -12,6 +12,6 @@ export const useProductDetailByNameQuery = (
     queryFn: () => getProductDetailByName(productName),
     initialData,
     select: (response) => response as IndividualProductAPIType,
-     staleTime: Infinity,
+    staleTime: Infinity,
   });
 };
