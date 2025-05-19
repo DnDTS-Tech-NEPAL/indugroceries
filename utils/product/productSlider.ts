@@ -6,7 +6,8 @@ export const convertProductsData = (products: ProductAPIType[]) => {
   return products.map((item) => ({
     category: item.item_group,
     image: item.custom_image_1_link,
-    title: item.name,
+    title: item.item_name,
+    link: item.name,
     description: item.description,
     price: String(item.prices?.[0]?.price_list_rate),
     originalPrice: item.original_price,

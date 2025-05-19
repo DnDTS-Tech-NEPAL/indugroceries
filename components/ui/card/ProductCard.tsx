@@ -30,6 +30,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   category,
   image,
   title,
+  link,
   description,
   price,
   originalPrice,
@@ -61,7 +62,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       onClick={() =>
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-            productName: title,
+            productName: link,
           })
         )
       }
