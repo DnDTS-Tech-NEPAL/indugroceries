@@ -13,6 +13,7 @@ export type ProductLikeApiType = {
   description: string;
   item_name: string;
   item_group: string;
+  item_code: string;
   prices: [
     {
       price_list: string;

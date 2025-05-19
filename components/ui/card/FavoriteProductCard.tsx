@@ -16,7 +16,7 @@ import {
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { FaStar } from "react-icons/fa";
-import { useConfigQuery } from "@/hooks/api";
+import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
@@ -33,11 +33,13 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
   discount,
   isNew,
   isSale,
-  rating = 4,
-  reviews = 420,
+  item_code,
+  link,
 }) => {
   const router = useRouter();
   const { data: config } = useConfigQuery();
+
+  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
 
   // Responsive values
   const cardPadding = useBreakpointValue({ base: "2", sm: "3", md: "4" });
@@ -67,7 +69,7 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
       onClick={() =>
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-            productName: title,
+            productName: link,
           })
         )
       }
@@ -158,21 +160,27 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
       {/* Product Info */}
       <VStack align="start" gap="6px" px={1} pb={1}>
         {/* Rating */}
-        <HStack gap={1}>
-          {Array(5)
-            .fill("")
-            .map((_, i) => (
-              <Icon
-                key={i}
-                as={FaStar}
-                color={i < Math.floor(rating) ? "#FF6996" : "gray.200"}
-                boxSize={starSize}
-              />
-            ))}
-          <Text fontSize={ratingTextSize} color="gray.500" ml={1}>
-            ({reviews})
-          </Text>
-        </HStack>
+        {reviewData && !isLoading && (
+          <HStack>
+            {Array(5)
+              .fill("")
+              .map((_, i) => (
+                <Icon
+                  key={i}
+                  as={FaStar}
+                  color={
+                    i < Math.ceil(reviewData?.average_rating ?? 0)
+                      ? "#FF6996"
+                      : "gray.200"
+                  }
+                  boxSize={starSize}
+                />
+              ))}
+            <Text fontSize={ratingTextSize} color="gray.500" ml={1}>
+              {reviewData?.reviews.length} reviews
+            </Text>
+          </HStack>
+        )}
 
         {/* Title */}
         <Heading

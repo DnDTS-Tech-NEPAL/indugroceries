@@ -178,6 +178,8 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
                               title={product.name}
                               description={product.description}
                               price={product.prices?.[0]?.price_list_rate}
+                              link={product.name}
+                              item_code={product.item_code}
                             />
                           </Box>
                         ))}
@@ -242,6 +244,8 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
                 title={product.name}
                 description={product.description}
                 price={product.prices?.[0]?.price_list_rate}
+                link={product.name}
+                item_code={product.item_code}
               />
             ))}
           </Grid>

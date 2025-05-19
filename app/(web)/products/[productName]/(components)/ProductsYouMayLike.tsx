@@ -105,6 +105,8 @@ export const ProductsYouMayLike = () => {
               title={productInfo.name}
               description={productInfo.item_name}
               price={productInfo.prices?.[0].price_list_rate}
+              link={productInfo.name}
+              item_code={productInfo.item_code}
             />
           ))}
         </Grid>

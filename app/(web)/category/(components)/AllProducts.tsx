@@ -18,6 +18,8 @@ const products = Array.from({ length: 9 }).map((_, index) => ({
   price: "10,000",
   originalPrice: "15,000",
   discount: "10%",
+  item_code: "jeans",
+  link: "Blue Jeans",
 }));
 
 export const AllProducts = () => {
