@@ -12,7 +12,6 @@ import {
   VisibleContentSection,
 } from "@/components";
 import { useProductDetailByNameQuery } from "@/hooks/api";
-import { ShadeSelector } from "./ShadeSelector";
 
 export const ProductDescription = () => {
   const params = useParams();
@@ -58,8 +57,6 @@ export const ProductDescription = () => {
           </AccordionItem>
         </AccordionRoot>
       </VisibleContentSection> */}
-
-      <ShadeSelector />
       {/* product feature section */}
       <VisibleContentSection content={`${productDetail?.custom_key_features}`}>
         <AccordionRoot
