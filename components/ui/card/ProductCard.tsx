@@ -253,19 +253,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           fontSize={{ base: "16px", md: "16px", lg: "18px" }}
           fontWeight="600"
           color="gray.800"
+          minH={{base:"40",md:"50px"}}
+          lineClamp={2}
         >
           {title}
         </Heading>
 
         {/* Description */}
-        <Box
+        {/* <Box
           color="gray.500"
           lineClamp={2}
           fontSize={{ base: "sm", md: "sm" }}
           minHeight={"40px"}
         >
           {parse(description)}
-        </Box>
+        </Box> */}
 
         {/* Price Section */}
         <HStack justify="flex-start" w="full" pt="4px" gap={2}>
