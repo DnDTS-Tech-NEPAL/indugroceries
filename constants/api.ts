@@ -2,7 +2,6 @@ export const API_ROUTES = {
   AUTH: {
     LOGIN: "frappe.val.api.login",
     REGISTER: "signup",
-    USERREGISTER: "userregistrationform",
     SET_PASSWORD: "resetpassword",
     RESEND_OTP: "resendotp",
     FORGOT_PASSWORD: {
@@ -103,7 +102,6 @@ export const NEXT_API_ROUTES = {
   AUTH: {
     LOGIN: "/api/auth/login",
     REGISTER: "/api/auth/register",
-    USERREGISTER: "/api/auth/userregistrationform",
     SET_PASSWORD: "/api/auth/setpassword",
     RESEND_OTP: "api/auth/resendotp",
     FORGOT_PASSWORD: {

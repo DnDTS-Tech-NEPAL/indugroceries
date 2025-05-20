@@ -55,11 +55,7 @@ export const RegisterDialog = ({
   const getForm = () => {
     switch (activeStep) {
       case 1:
-        return (
-          <RegisterForm
-          // setActiveStep={(step) => moveToStep(step)}
-          />
-        );
+        return <RegisterForm setActiveStep={(step) => moveToStep(step)} />;
       case 2:
         return <EmailVerification setActiveStep={(step) => moveToStep(step)} />;
       case 3:

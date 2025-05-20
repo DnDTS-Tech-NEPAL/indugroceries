@@ -1,18 +1,11 @@
-import {  resendOtp, setpassword, userregistrationform, verifyemail } from "@/api";
+import {  resendOtp, setpassword,register, verifyemail } from "@/api";
 import { toaster } from "@/components";
 import { ApiErrorResponse } from "@/types";
 import { useMutation } from "@tanstack/react-query";
 
 export const useRegisterMutation = () => {
   return useMutation({
-    // mutationFn: register,
-    // onSuccess: (response) => {
-    //   toaster.create({
-    //     title: response?.data?.message,
-    //     type: "success",
-    //   });
-    // },
-    mutationFn: userregistrationform,
+    mutationFn: register,
     onSuccess: (response) => {
       toaster.create({
         title: response?.data?.message,
