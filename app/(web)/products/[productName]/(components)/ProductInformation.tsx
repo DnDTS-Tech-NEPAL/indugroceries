@@ -259,6 +259,7 @@ import { ProductDescription } from "./ProductDescription";
 import { ProductReviews } from "./ProductReviews";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
+import { IndividualProductAPIType, ProductVariantType } from "@/types";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -272,7 +273,9 @@ export const ProductInformation = () => {
   const { handleAddToWishlist, isPending: isWishlistPending } =
     useProductDetailWishlist();
   // State for displayed product info
-  const [displayProduct, setDisplayProduct] = useState<any>(null);
+  const [displayProduct, setDisplayProduct] = useState<
+    IndividualProductAPIType | ProductVariantType | null
+  >(null);
 
   // Initialize with base product or selected variant
   useEffect(() => {
@@ -417,7 +420,7 @@ export const ProductInformation = () => {
       </VStack>
 
       <ProductDescription />
-      <ProductReviews item_code={displayProduct?.item_code} />
+      <ProductReviews item_code={productDetail?.item_code ?? ""} />
     </Flex>
   );
 };

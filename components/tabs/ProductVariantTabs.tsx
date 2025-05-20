@@ -194,7 +194,9 @@ export const ProductVariantTabs = ({
   variants,
   onVariantSelect,
 }: ProductVariantTabsProps & {
-  onVariantSelect?: (variant: any) => void;
+  onVariantSelect?: (
+    variant: ProductVariantTabsProps["variants"][number]
+  ) => void;
 }) => {
   const { activeVariant, updateVariant } = useVariantStore();
 
