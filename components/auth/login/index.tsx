@@ -128,7 +128,12 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                   </IconButton>
                 </HStack>
 
-                <Button type="submit" marginTop="8px" loading={isPending}>
+                <Button
+                  bg={"#FF6996"}
+                  type="submit"
+                  marginTop="8px"
+                  loading={isPending}
+                >
                   Submit
                 </Button>
               </VStack>

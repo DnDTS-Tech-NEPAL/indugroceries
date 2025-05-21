@@ -1,11 +1,11 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 
-import { ArrowLeftIcon } from "@/assets/svg";
+import { ArrowLeftIcon, CloseCircleIcon } from "@/assets/svg";
 import { Button, FormProvider, Header, PasswordInput } from "@/components";
 import { useSetPasswordMutation } from "@/hooks/api";
 import { setPasswordSchema } from "@/schema";
@@ -41,6 +41,10 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
     });
   };
 
+  const handleClose = () => {
+    updateSignUpOpen(false);
+  };
+
   return (
     <VStack
       alignItems="stretch"
@@ -50,16 +54,26 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
       px="80px"
       mt={"60px"}
     >
+      <Box
+        position="absolute"
+        top="16px"
+        right="16px"
+        zIndex={3}
+        cursor="pointer"
+        onClick={handleClose}
+      >
+        <CloseCircleIcon color="red" />
+      </Box>
       <Flex
         as="button"
         onClick={() => setActiveStep(1)}
         align="center"
-        bg={"grey.100"}
+        // bg={"grey.100"}
         w={"142px"}
         h={"40px"}
         p={"8px"}
         cursor={"pointer"}
-        mb={"116px"}
+        mb={"1rem"}
       >
         <ArrowLeftIcon />
         <Text
@@ -80,7 +94,12 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
         <VStack alignItems="stretch" gap="16px" marginTop="20px">
           <PasswordInput name="password" label="Password" />
           <PasswordInput name="confirmPassword" label="Confirm Password" />
-          <Button marginTop="8px" type="submit" loading={isPending}>
+          <Button
+            bg={"#FF6996"}
+            marginTop="8px"
+            type="submit"
+            loading={isPending}
+          >
             Submit
           </Button>
         </VStack>

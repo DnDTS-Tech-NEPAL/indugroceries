@@ -61,7 +61,7 @@ export const OtpScreen = ({ setActiveStep }: RegisterFormProps) => {
             placeholder="Enter Email"
           />
 
-          <Button marginTop="8px" type="submit" loading={isPending}>
+          <Button bg={"#FF6996"} marginTop="8px" type="submit" loading={isPending}>
             Submit
           </Button>
         </VStack>
