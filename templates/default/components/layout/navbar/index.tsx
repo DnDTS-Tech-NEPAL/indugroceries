@@ -27,6 +27,7 @@ import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { Profile } from "@/assets/svg";
 import { useNavMenuQuery } from "@/hooks/api/navMenu";
+import { ProfileDropdown } from "@/app/(user)/profile";
 
 export const Navbar = () => {
   const { data: config } = useConfigQuery();
@@ -223,18 +224,8 @@ export const Navbar = () => {
                           </Flex>{" "}
                         </Box>
                       </VisibleSection>
+                      <ProfileDropdown />
                     </HStack>
-                    <Link href="/profile">
-                      <Button
-                        bg={"white"}
-                        w={"24px"}
-                        h={"24px"}
-                        color={"black"}
-                        cursor="pointer"
-                      >
-                        <Profile />
-                      </Button>
-                    </Link>
                   </>
                 ) : (
                   <>
@@ -258,7 +249,7 @@ export const Navbar = () => {
                           borderRadius={"sm"}
                           onClick={() => updateSignUpOpen(true)}
                         >
-                          Register 
+                          Register
                         </Button>
                       </VisibleSection>
                     </Box>
