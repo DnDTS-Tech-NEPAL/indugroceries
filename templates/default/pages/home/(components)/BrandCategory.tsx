@@ -25,12 +25,10 @@ export const BrandCategory = () => {
   const baseSlides = shouldForceScroll ? 4.9 : 5;
 
   // Safely access the data with optional chaining and fallback values
-  const featuredBrandTitle =
-    featuredBrandsData?.featured_brand_title;
-  const featuredBrandSubtitle =
-    featuredBrandsData?.featured_brand_subtitle ;
+  const featuredBrandTitle = featuredBrandsData?.featured_brand_title;
+  const featuredBrandSubtitle = featuredBrandsData?.featured_brand_subtitle;
   const featuredBrandDescription =
-    featuredBrandsData?.featured_brand_description ;
+    featuredBrandsData?.featured_brand_description;
 
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
@@ -94,7 +92,7 @@ export const BrandCategory = () => {
               md: "md",
             }}
             alignSelf={{ base: "center", sm: "flex-end" }}
-            // onClick={() => router.push(ROUTES.APP.ABOUT_US)}
+            onClick={() => router.push(ROUTES.APP.BRANDS)}
           >
             View All Brands <FaArrowRightLong />
           </Button>

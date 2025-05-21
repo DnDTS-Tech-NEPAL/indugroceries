@@ -85,7 +85,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
             textAlign="justify"
           >
             {homeData.hero_tag_line}
-         </Text>
+          </Text>
           <Heading
             as="h1"
             w={{ base: "full", lg: "75%" }}
@@ -108,7 +108,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
               bg={"#F8E1E7"}
               color={"gray.700"}
               borderRadius="3xl"
-              onClick={() => updateSignUpOpen(true)}
+              onClick={() => router.push(ROUTES.APP.PRODUCTS)}
             >
               Shop Now <FaArrowRightLong />
             </Button>
@@ -117,7 +117,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
               color="white"
               bg={"#FF6996"}
               borderRadius="3xl"
-              onClick={() => router.push(ROUTES.APP.ABOUT_US)}
+              onClick={() => router.push(ROUTES.APP.BRANDS)}
             >
               Shop Brands <FaArrowRightLong />
             </Button>
