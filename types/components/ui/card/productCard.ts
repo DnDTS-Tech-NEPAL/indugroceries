@@ -4,7 +4,8 @@ export type ProductCardProps = {
   image: string | null;
   title: string;
   link: string;
-  description: string;
+  // description: string;
+  // name?: string;
   price: string | number;
   originalPrice?: string | number;
   discount?: string;

@@ -102,8 +102,7 @@ export const ProductsYouMayLike = () => {
               id={index}
               category={productInfo.item_name}
               image={productInfo.custom_image_1_link}
-              title={productInfo.name}
-              description={productInfo.item_name}
+              title={productInfo.item_name}
               price={productInfo.prices?.[0].price_list_rate}
               link={productInfo.name}
               item_code={productInfo.item_code}

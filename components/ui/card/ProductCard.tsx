@@ -4,7 +4,6 @@ import type React from "react";
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import parse from "html-react-parser";
 import {
   Box,
   Button,
@@ -32,7 +31,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   image,
   title,
   link,
-  description,
+  // description,
   price,
   originalPrice,
   discount,
@@ -253,7 +252,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           fontSize={{ base: "16px", md: "16px", lg: "18px" }}
           fontWeight="600"
           color="gray.800"
-          minH={{base:"40",md:"50px"}}
+          minH={{ base: "40", md: "50px" }}
           lineClamp={2}
         >
           {title}

@@ -175,8 +175,8 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
                               id={index}
                               category={product.item_group}
                               image={product.custom_image_1_link}
-                              title={product.name}
-                              description={product.description}
+                              title={product.item_name}
+                              // description={product.description}
                               price={product.prices?.[0]?.price_list_rate}
                               link={product.name}
                               item_code={product.item_code}
@@ -242,7 +242,7 @@ export const SearchDialog = ({ open, onClose }: SearchDialogProps) => {
                 category={product.item_group}
                 image={product.custom_image_1_link}
                 title={product.name}
-                description={product.description}
+                // description={product.description}
                 price={product.prices?.[0]?.price_list_rate}
                 link={product.name}
                 item_code={product.item_code}

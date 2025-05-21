@@ -3,7 +3,6 @@
 import type React from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import parse from "html-react-parser";
 import {
   Box,
   Button,
@@ -27,7 +26,8 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
   category,
   image,
   title,
-  description,
+  // name,
+  // description,
   price,
   originalPrice,
   discount,
@@ -193,9 +193,10 @@ export const FavoriteProductCard: React.FC<ProductCardProps> = ({
         </Heading>
 
         {/* Description */}
-        <Box color="gray.500" fontSize={descriptionSize} lineHeight="short">
+        {/* <Box color="gray.500" fontSize={descriptionSize} lineHeight="short">
           {parse(description)}
-        </Box>
+          {name}
+        </Box> */}
 
         {/* Price Section */}
         <HStack
