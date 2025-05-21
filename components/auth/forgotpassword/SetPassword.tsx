@@ -76,7 +76,12 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
         <VStack alignItems="stretch" gap="16px" marginTop="20px">
           <PasswordInput name="password" label="Password" />
           <PasswordInput name="confirmPassword" label="Confirm Password" />
-          <Button bg={"#FF6996"} marginTop="8px" type="submit" loading={isPending}>
+          <Button
+            bg={"#FF6996"}
+            marginTop="8px"
+            type="submit"
+            loading={isPending}
+          >
             Submit
           </Button>
         </VStack>
