@@ -40,7 +40,7 @@ export const MyOrder = () => {
             Loading your order...
           </Text>
         </Box>
-      ) : orderData?.length === 0 ? (
+      ) : !orderData ? (
         <Box textAlign="center" placeItems={"center"}>
           <Image
             src={EmptyStateImage}
