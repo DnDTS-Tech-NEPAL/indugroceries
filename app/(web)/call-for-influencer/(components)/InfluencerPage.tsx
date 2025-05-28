@@ -102,7 +102,7 @@ export default function InfluencerPage() {
             content creators like you!
           </Text>
 
-          <Link href="/influencer/apply" passHref>
+          <Link href="/call-for-influencer/apply" passHref>
             <Button
               as="a"
               colorScheme="pink"

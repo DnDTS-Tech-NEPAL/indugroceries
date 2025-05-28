@@ -2,9 +2,8 @@ import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import { Metadata } from "next";
-
+import Apply from "../(components)/Apply";
 import { BenefitsSection } from "@/templates/default/pages/home/(components)";
-import InfluencerPage from "./(components)/InfluencerPage";
 
 export const metadata: Metadata = {
   title: "Call For Influencer",
@@ -21,7 +20,8 @@ const CallInfluencer = () => {
         title="Call for Influencer"
         breadcrumb={BREADCRUMB_CONFIG.CALL_FOR_INFLUENCER}
       />
-      <InfluencerPage />
+
+      <Apply />
       <BenefitsSection />
     </>
   );
