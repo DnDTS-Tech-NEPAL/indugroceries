@@ -58,4 +58,8 @@ export const BREADCRUMB_CONFIG = {
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "Terms-and-condition", href: ROUTES.APP.TERMS },
   ],
+   CALL_FOR_INFLUENCER: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Call For Influencer", href: ROUTES.APP.INFLUENCER },
+  ],
 };

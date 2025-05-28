@@ -14,6 +14,7 @@ export const ROUTES = {
     PRIVACY: "/privacy-policy",
     RETURN: "/return-policy",
     TERMS: "/terms-and-condition",
+    INFLUENCER:"/call-for-influencer"
   },
 
   USER: {
