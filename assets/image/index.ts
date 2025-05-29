@@ -7,6 +7,10 @@ export { default as AuthBannerImage } from "./auth-banner.png";
 export { default as DummyProfileImage } from "./dummy-profile.png";
 export { default as BlueJeansImage } from "./blue-jeans.png";
 export { default as InfluencerHeroImage } from "./influencer-hero-image.jpg";
+export { default as SkinTestHeroImage } from "./skin-test-heroimg.png";
+export { default as SkinTestBgImage } from "./skin-test-bg.png";
+
+
 
 
 //payment methods
