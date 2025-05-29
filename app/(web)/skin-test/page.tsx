@@ -4,7 +4,7 @@ import { ROUTES } from "@/constants";
 import { Metadata } from "next";
 
 import { BenefitsSection } from "@/templates/default/pages/home/(components)";
-import LandingPage from "./(components)/LandingPage";
+import SkinQuiz from "./(components)/SkinQuiz";
 
 export const metadata: Metadata = {
   title: "Skin Test Quiz",
@@ -22,7 +22,7 @@ const SkinTestQuiz = () => {
         breadcrumb={BREADCRUMB_CONFIG.SKIN_TEST_QUIZ}
       />
 
-      <LandingPage />
+      <SkinQuiz />
       <BenefitsSection />
     </>
   );

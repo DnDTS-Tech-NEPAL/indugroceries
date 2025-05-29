@@ -81,21 +81,25 @@ export default function Apply() {
                 name="fullName"
                 label="Your full name"
                 inputType="input"
+                required
               />
               <FormControl
                 name="email"
                 label="Email Address"
                 inputType="input"
+                required
               />
               <FormControl
                 name="phoneNumber"
                 label="Phone Number"
                 inputType="input"
+                required
               />
               <FormControl
                 name="fullAddress"
                 label="Full Address"
                 inputType="input"
+                required
               />
             </SimpleGrid>
 
@@ -111,16 +115,19 @@ export default function Apply() {
                 name="instagramUrl"
                 label="Instagram Url"
                 inputType="input"
+                required
               />
               <FormControl
                 name="tiktokUrl"
                 label="Tiktok Url"
                 inputType="input"
+                required
               />
               <FormControl
                 name="uploadLink"
                 label="Upload link"
                 inputType="input"
+                required
               />
             </Flex>
 

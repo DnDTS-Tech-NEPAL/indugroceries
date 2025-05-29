@@ -5,8 +5,10 @@ import type React from "react";
 import { Box, Button, Flex, Grid, Stack, Text } from "@chakra-ui/react";
 import { SkinTestBgImage, SkinTestHeroImage } from "@/assets/image";
 import Image from "next/image";
-
-export default function LandingPage() {
+interface LandingPageProps {
+  onStart: () => void;
+}
+export default function LandingPage({ onStart }: LandingPageProps) {
   return (
     <Grid
       maxW={"6xl"}
@@ -27,6 +29,7 @@ export default function LandingPage() {
           </Text>
           <Box>
             <Button
+              onClick={onStart}
               size="lg"
               bg="#FF6996"
               color="white"
