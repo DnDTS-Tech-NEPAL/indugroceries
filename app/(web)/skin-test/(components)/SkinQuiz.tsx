@@ -1,48 +1,3 @@
-// "use client"
-
-// import { useState } from "react"
-// import { Box, Container } from "@chakra-ui/react"
-// import LandingPage from "./LandingPage"
-// import QuizStep from "./QuizStep"
-
-// export default function SkinQuiz() {
-//   const [step, setStep] = useState(0)
-//   const [answers, setAnswers] = useState({})
-
-//   const handleNext = () => {
-//     setStep(step + 1)
-//   }
-
-//   const handlePrevious = () => {
-//     setStep(step - 1)
-//   }
-
-//   const handleAnswer = (question: string, answer: string) => {
-//     setAnswers({
-//       ...answers,
-//       [question]: answer,
-//     })
-//   }
-
-//   return (
-//     <Box bg={"gray.50"} minH="100vh">
-//       <Container maxW="container.xl" py={8}>
-//         {step === 0 ? (
-//           <LandingPage onStart={handleNext} />
-//         ) : (
-//           <QuizStep
-//             step={step}
-//             onNext={handleNext}
-//             onPrevious={handlePrevious}
-//             onAnswer={handleAnswer}
-//             answers={answers}
-//           />
-//         )}
-//       </Container>
-
-//     </Box>
-//   )
-// }
 "use client";
 
 import { useState } from "react";
@@ -68,8 +23,8 @@ export default function SkinQuiz() {
   };
 
   return (
-    <Box bg="gray.50" minH="100vh">
-      <Container maxW="container.xl" py={8}>
+    <Box bg="gray.50">
+      
         <LandingPage onStart={onOpen} />
 
         <Modal isOpen={open} onClose={onClose} size="xl" isCentered>
@@ -98,7 +53,8 @@ export default function SkinQuiz() {
             />
           </ModalContent>
         </Modal>
-      </Container>
-    </Box>
+        </Box>
+  
   );
 }
+

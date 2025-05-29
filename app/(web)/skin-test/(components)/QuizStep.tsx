@@ -61,8 +61,8 @@ export default function QuizStep({
   const totalSteps = questions.length;
 
   return (
-    <Flex justifyContent={"center"} alignItems={"center"} my="auto">
-      <Box maxW={"4xl"} bg="white" rounded="xl" boxShadow="lg" w="full">
+    <Flex justifyContent={"center"} alignItems={"center"} >
+      <Box maxW={"4xl"} bg="white"  my={16}  rounded="xl" boxShadow="lg" w="full">
         {/* Header Section */}
         <Box bg="#FF6996" py={8} color="white" textAlign="center">
           {/* Dots Progress */}
