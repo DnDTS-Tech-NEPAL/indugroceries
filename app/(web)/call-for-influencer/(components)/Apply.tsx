@@ -22,7 +22,7 @@ export default function Apply() {
   const methods = useForm();
   const { register, handleSubmit } = methods;
 
-  const onSubmit = (data: any) => {};
+  const onSubmit = () => {};
   const [value, setValue] = useState<string | null>(null);
   const items = [
     { label: "Yes", value: "Yes" },
