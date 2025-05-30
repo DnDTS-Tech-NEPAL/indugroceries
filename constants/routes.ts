@@ -15,7 +15,8 @@ export const ROUTES = {
     RETURN: "/return-policy",
     TERMS: "/terms-and-condition",
     INFLUENCER:"/call-for-influencer",
-    QUIZ:"/skin-test-quiz"
+    QUIZ:"/skin-test-quiz",
+    RECOMMEND:"/recommend-products"
   },
 
   USER: {

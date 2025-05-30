@@ -66,4 +66,8 @@ export const BREADCRUMB_CONFIG = {
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "Skin Test Quiz", href: ROUTES.APP.QUIZ },
   ],
+    RECOMMEND_PRODUCTS: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Recommend Products", href: ROUTES.APP.RECOMMEND },
+  ],
 };

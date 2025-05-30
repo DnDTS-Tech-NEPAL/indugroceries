@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Box,  useDisclosure } from "@chakra-ui/react";
+import { Box, useDisclosure } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,

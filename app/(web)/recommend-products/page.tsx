@@ -3,26 +3,25 @@ import { Metadata } from "next";
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-import AllBrands from "./(components)/AllBrands";
-
+import { RecommendProducts } from "./(components)";
 export const metadata: Metadata = {
-  title: "Brands",
+  title: "Recommend Products",
   openGraph: {
-    title: "Brands",
+    title: "Recommend Products",
   },
 };
 
-const Brands = () => {
+const Recommend = () => {
   return (
     <>
       <PageTitle
         backLabel="Back to homepage"
         backLink={ROUTES.APP.HOMEPAGE}
-        title="All Brands"
-        breadcrumb={BREADCRUMB_CONFIG.BRANDS}
+        title="Recommend Products"
+        breadcrumb={BREADCRUMB_CONFIG.RECOMMEND_PRODUCTS}
       />
-      <AllBrands />
+      <RecommendProducts />
     </>
   );
 };
-export default Brands;
+export default Recommend;
