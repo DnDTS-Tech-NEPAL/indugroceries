@@ -22,7 +22,11 @@ export default function LandingPage({ onStart }: LandingPageProps) {
         {/* Left: Content */}
         <Box>
           <Stack gap={6}>
-            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" lineHeight={1.2}>
+            <Text
+              fontSize={{ base: "2xl", md: "4xl" }}
+              fontWeight="bold"
+              lineHeight={1.2}
+            >
               {quiz?.title}
             </Text>
             <Text fontSize={{ base: "md", md: "lg" }} color="gray.600">
