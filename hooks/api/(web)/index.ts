@@ -6,3 +6,4 @@ export * from "./privacypolicy";
 export * from "./products";
 export * from "./returnpolicy";
 export * from "./termsandcondition";
+export * from "./skin-test";

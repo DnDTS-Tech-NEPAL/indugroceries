@@ -9,3 +9,4 @@ export * from "./termsAndCondition";
 export * from "./user";
 export * from "./saaf"
 export * from "./qualityCompliance"
+export * from "./skin-test"

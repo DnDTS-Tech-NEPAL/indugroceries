@@ -1,33 +1,33 @@
 "use client";
 
 import type React from "react";
-
-import { Box, Button, Flex, Grid, Stack, Text } from "@chakra-ui/react";
-import { SkinTestBgImage, SkinTestHeroImage } from "@/assets/image";
+import { Box, Button, Grid, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
+import { useQuizPageQuery } from "@/hooks/api";
+
 interface LandingPageProps {
   onStart: () => void;
 }
+
 export default function LandingPage({ onStart }: LandingPageProps) {
+  const { data: quiz } = useQuizPageQuery();
+
   return (
-    <Grid
-      maxW={"6xl"}
-      mx={"auto"}
-      templateColumns={{ base: "1fr", md: "1fr 1fr" }}
-      gap={8}
-      py={12}
-      alignItems="center"
-    >
-      <Box>
-        <Stack gap={6}>
-          <Text fontSize={"4xl"} lineHeight={1.2}>
-            Discover Your Skin Type in 60 Seconds
-          </Text>
-          <Text fontSize="lg" color={"gray.600"}>
-            Take our free quiz to find your skin type and get personalized
-            product recommendations tailored just for you.
-          </Text>
-          <Box>
+    <Box maxW="7xl" mx="auto" my={12} px={4} bg={"white"}>
+      <Grid
+        templateColumns={{ base: "1fr", md: "1fr 1fr" }}
+        gap={8}
+        alignItems="center"
+      >
+        {/* Left: Content */}
+        <Box>
+          <Stack gap={6}>
+            <Text fontSize={{ base: "2xl", md: "4xl" }} fontWeight="bold" lineHeight={1.2}>
+              {quiz?.title}
+            </Text>
+            <Text fontSize={{ base: "md", md: "lg" }} color="gray.600">
+              {quiz?.description}
+            </Text>
             <Button
               onClick={onStart}
               size="lg"
@@ -36,30 +36,34 @@ export default function LandingPage({ onStart }: LandingPageProps) {
               _hover={{ bg: "pink.500" }}
               px={8}
               rounded="full"
+              alignSelf="start"
             >
               Let&apos;s Get Started
             </Button>
-          </Box>
-        </Stack>
-      </Box>
+          </Stack>
+        </Box>
 
-      <Flex justifyContent="center">
+        {/* Right: Image */}
         <Box
           position="relative"
+          width="100%"
+          height={{ base: "300px", md: "400px" }}
           rounded="2xl"
           overflow="hidden"
-          maxW="2xl"
-          bgImage={`url(${SkinTestBgImage.src})`}
-          bgSize="cover"
-          backgroundPosition={"right"}
         >
-          <Image
-            src={SkinTestHeroImage}
-            alt="Woman with beautiful skin"
-            objectFit="cover"
-          />
+          {quiz?.hero_image_link && (
+            <Image
+              src={quiz.hero_image_link}
+              alt="Hero image"
+              fill
+              objectFit="cover"
+              objectPosition="right"
+              quality={90}
+              priority
+            />
+          )}
         </Box>
-      </Flex>
-    </Grid>
+      </Grid>
+    </Box>
   );
 }

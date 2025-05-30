@@ -23,7 +23,7 @@ export default function SkinQuiz() {
   };
 
   return (
-    <Box bg="gray.50">
+    <Box>
       <LandingPage onStart={onOpen} />
 
       <Modal isOpen={open} onClose={onClose} size="xl" isCentered>

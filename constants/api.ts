@@ -16,6 +16,7 @@ export const API_ROUTES = {
     CONFIG: "websiteconfig",
     FAQ: "faq",
     SAAF:"singlebrand",
+    SKIN_TEST:"quizpage",
     QUALITY:"quality",
 
     HOMEPAGE: "homepage",
