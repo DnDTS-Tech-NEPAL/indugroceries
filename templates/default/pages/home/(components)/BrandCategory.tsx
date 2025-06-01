@@ -40,13 +40,7 @@ export const BrandCategory = () => {
         px={{ base: 4, md: 6 }}
         py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
       >
-        <Flex
-          justifyContent="space-between"
-          w="full"
-          direction={{ base: "column", sm: "row" }}
-          gap={{ base: 4, md: 6 }}
-        >
-          <VStack align={{ base: "center", sm: "flex-start" }} gap={1}>
+          <VStack align={{ base: "center"}} gap={1}>
             <Heading
               fontSize={{
                 base: "16px",
@@ -82,21 +76,6 @@ export const BrandCategory = () => {
               {featuredBrandDescription}
             </Text>
           </VStack>
-
-          <Button
-            color="white"
-            bg="#FF6996"
-            borderRadius="3xl"
-            size={{
-              base: "sm",
-              md: "md",
-            }}
-            alignSelf={{ base: "center", sm: "flex-end" }}
-            onClick={() => router.push(ROUTES.APP.BRANDS)}
-          >
-            View All Brands <FaArrowRightLong />
-          </Button>
-        </Flex>
 
         {/* Swiper Carousel with forced scrolling */}
         <Box w="full" overflow="hidden" px={{ base: 0, md: 4 }}>

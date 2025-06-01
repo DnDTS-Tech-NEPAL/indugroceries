@@ -128,7 +128,7 @@ export const ProductSection = ({
 
       {/* Category Tabs */}
       {showCategories !== false && (
-        <HStack overflowX="auto" gap={4} pb={2}>
+        <HStack overflowX="auto" justifyContent={"center"} gap={4} pb={2}>
           {categories.map((category) => {
             const isActive = activeCategory === category;
             return (
