@@ -1,4 +1,3 @@
-// components/ShopBySkinType.tsx
 "use client";
 import { useSkinTypePageQuery } from "@/hooks/api";
 import { Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
@@ -13,29 +12,43 @@ export const ShopBySkinType = () => {
         {skinTypeData?.map((skinType) => (
           <VStack
             key={skinType.name}
-            bg="gray.50"
-            borderRadius="full"
-            w="220px"
-            h="220px"
             justify="center"
             align="center"
             position="relative"
+            gap={4}
           >
-            <Image src={skinType.image}  alt={skinType.name} width={160} height={160} />
+            <Box
+              width="200px"
+              height="200px"
+              borderRadius="full"
+              overflow="hidden"
+              position="relative"
+            >
+              <Image
+                src={skinType.image}
+                alt={skinType.name}
+                fill
+                style={{ 
+                  objectFit: "cover",
+                  objectPosition: "center"
+                }}
+              />
+            </Box>
             <Box
               position="absolute"
               top="30px"
               right="40px"
               bg="#FF6996"
               color="white"
-              px={4}
-              py={4}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
               borderRadius="full"
               fontSize="sm"
               fontWeight="bold"
-              width={"80px"}
-              height={"80px"}
-             alignContent={"center"}
+              width="80px"
+              height="80px"
+              textAlign="center"
             >
               {skinType.name}
             </Box>

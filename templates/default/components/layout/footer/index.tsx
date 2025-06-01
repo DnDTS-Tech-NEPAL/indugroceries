@@ -38,11 +38,12 @@ export const Footer = () => {
 
   return (
     <Box
-      bg={config?.bg_footer || "gray.50"}
+      // bg={config?.bg_footer || "#191919"}
+      bg={"#191919"}
       px={{ base: 4, md: 8, lg: 12 }}
       pt={10}
     >
-      <Box color="system.text.normal.light">
+      <Box color="system.text.normal.light"  maxW={"5xl"} mx={"auto"}>
         <Grid
           templateColumns={{
             base: "1fr",
@@ -54,7 +55,7 @@ export const Footer = () => {
           mx="auto"
         >
           {/* Company Logo & Description */}
-          <VStack align="start" gap={4}>
+          <VStack align="start" gap={2} color={"#D0D0D0"}>
             {config?.company_details_url && (
               <Box
                 position="relative"
@@ -71,18 +72,24 @@ export const Footer = () => {
               </Box>
             )}
             <Text fontSize="sm" textAlign="justify" pr={{ lg: 8 }}>
-              {config?.footer_description || ""}
+            Phone no:  {config?.contact_number || ""}
+            </Text>
+             <Text fontSize="sm" textAlign="justify" pr={{ lg: 8 }}>
+            Email:  {config?.company_contact_email || ""}
+            </Text>
+             <Text fontSize="sm" textAlign="justify" pr={{ lg: 8 }}>
+            Location:  {config?.location || ""}
             </Text>
           </VStack>
 
           {/* Quick Links */}
-          <VStack align="start" gap={4}>
+          <VStack align="start" gap={2} color={"#FF6996"}>
             <Text fontWeight="bold" fontSize="lg" pb={2}>
               Quick Links
             </Text>
             {links.map(({ route, label }) => (
               <Link key={route} href={route} passHref legacyBehavior>
-                <ChakraLink
+                <ChakraLink color={"#D0D0D0"}
                   _hover={{
                     color: "pink.500",
                     textDecoration: "none",
@@ -98,13 +105,13 @@ export const Footer = () => {
           </VStack>
 
           {/* Customer Care */}
-          <VStack align="start" gap={4}>
+          <VStack align="start" gap={2} color={"#FF6996"}>
             <Text fontWeight="bold" fontSize="lg" pb={2}>
               Customer Care
             </Text>
             {customer_care.map(({ route, label }) => (
               <Link key={route} href={route} passHref legacyBehavior>
-                <ChakraLink
+                <ChakraLink color={"#D0D0D0"}
                   _hover={{
                     color: "pink.500",
                     textDecoration: "none",
@@ -120,12 +127,12 @@ export const Footer = () => {
           </VStack>
 
           {/* Category */}
-          <VStack align="start" gap={4}>
-            <Text fontWeight="bold" fontSize="lg" pb={2}>
+          <VStack align="start" gap={2} >
+            <Text fontWeight="bold" fontSize="lg" pb={2} color={"#FF6996"}>
               Category
             </Text>
             {featuredData?.map(({ name }, index) => (
-              <Text
+              <Text color={"#D0D0D0"}
                 key={index}
                 _hover={{
                   color: "pink.500",
@@ -142,23 +149,23 @@ export const Footer = () => {
         </Grid>
       </Box>
 
-      <Separator my={{ base: 6, md: 8 }} borderColor="gray.200" />
+      <Separator my={{ base: 3, md: 4 }} borderColor="#FF6996" />
 
       {/* Bottom Section */}
-      <Box py={4} maxW="7xl" mx="auto">
+      <Box py={4} maxW="7xl" mx="auto" color={"#D0D0D0"}>
         <Flex
           direction={{ base: "column-reverse", md: "row" }}
           justify="space-between"
           align="center"
           gap={4}
         >
-          <Text fontSize="sm" color="gray.600">
+          <Text fontSize="sm" >
             Copyright &copy; {new Date().getFullYear()} Korean Beauty Points.
             All rights reserved
           </Text>
 
           <HStack gap={4}>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm">
               Follow us:
             </Text>
             {socialLinks.map(({ name, href, icon }) => (
@@ -171,7 +178,7 @@ export const Footer = () => {
               >
                 <ChakraLink
                   aria-label={name}
-                  color="gray.500"
+                  color="#D0D0D0"
                   _hover={{ color: "blue.500" }}
                   display="flex"
                   alignItems="center"
