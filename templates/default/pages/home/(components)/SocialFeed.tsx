@@ -41,11 +41,10 @@ export const SocialFeed = () => {
         >
           <Box flex="1" maxW={{ md: "60%" }}>
             <Heading size={{ base: "lg", sm: "xl" }} color="gray.800" mb={3}>
-              {config?.social_title ?? "Follow Us on Social Media"}
+              {config?.social_title}
             </Heading>
             <Text fontSize={{ base: "md", sm: "lg" }} color="gray.600">
-              {config?.social_description ??
-                "Stay updated with the latest beauty tips, tricks, and product highlights."}
+              {config?.social_description}
             </Text>
           </Box>
 
@@ -130,7 +129,7 @@ export const SocialFeed = () => {
                         borderRadius="lg"
                         flex="1"
                       >
-                        <AspectRatio ratio={9 / 16} w="full">
+                        <AspectRatio ratio={7 / 10} w="full">
                           <Image
                             src={video.display_image_link || "/placeholder.svg"}
                             alt={video.display_label}
