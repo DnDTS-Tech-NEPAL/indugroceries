@@ -111,6 +111,12 @@ export type ConfigType = {
   location: string;
   template: string;
 
+  //in store visit section
+  banner_1_title: string;
+  banner_1_description: string;
+  banner_1_image: string;
+  banner_1_image_url: string;
+
   //homebenefit section
   card_1_label: string;
   card_2_label: string;

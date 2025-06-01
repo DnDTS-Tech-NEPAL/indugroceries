@@ -17,3 +17,5 @@ export * from "./saaf"
 export * from "./qualityCompliance"
 export * from "./navMenu";
 export * from "./skin-test"
+export * from "./skin-type"
+

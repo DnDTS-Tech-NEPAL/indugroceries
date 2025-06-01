@@ -1,24 +1,18 @@
 // components/ShopBySkinType.tsx
 "use client";
-
+import { useSkinTypePageQuery } from "@/hooks/api";
 import { Box, Flex, Heading, Text, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 
-const skinTypes = [
-  { label: "Oily Skin", image: "/images/oily-skin.png" },
-  { label: "Combo Skin", image: "/images/combo-skin.png" },
-  { label: "Dry Skin", image: "/images/dry-skin.png" },
-  { label: "Balanced Skin", image: "/images/balanced-skin.png" },
-];
-
 export const ShopBySkinType = () => {
+  const { data: skinTypeData } = useSkinTypePageQuery();
   return (
     <VStack gap={8} py={16} px={4} textAlign="center">
-      <Heading fontSize={{ base: "2xl", md: "3xl" }}>Shop By Skin Type</Heading>
+      <Heading fontSize={{ base: "2xl", md: "3xl" }} mb={13}>Shop By Skin Type</Heading>
       <Flex wrap="wrap" justify="center" gap={8}>
-        {skinTypes.map((type) => (
+        {skinTypeData?.map((skinType) => (
           <VStack
-            key={type.label}
+            key={skinType.name}
             bg="gray.50"
             borderRadius="full"
             w="220px"
@@ -27,21 +21,23 @@ export const ShopBySkinType = () => {
             align="center"
             position="relative"
           >
-            <Image src={type.image} alt={type.label} width={160} height={160} />
+            <Image src={skinType.image}  alt={skinType.name} width={160} height={160} />
             <Box
               position="absolute"
-              top="20px"
-              right="20px"
-              bg="pink.400"
+              top="30px"
+              right="40px"
+              bg="#FF6996"
               color="white"
               px={4}
-              py={1}
-              rounded={"full"}
+              py={4}
               borderRadius="full"
               fontSize="sm"
               fontWeight="bold"
+              width={"80px"}
+              height={"80px"}
+             alignContent={"center"}
             >
-              {type.label}
+              {skinType.name}
             </Box>
           </VStack>
         ))}

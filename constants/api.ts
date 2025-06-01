@@ -17,6 +17,7 @@ export const API_ROUTES = {
     FAQ: "faq",
     SAAF:"singlebrand",
     SKIN_TEST:"quizpage",
+    SKIN_TYPE:"skintype",
     QUALITY:"quality",
 
     HOMEPAGE: "homepage",
