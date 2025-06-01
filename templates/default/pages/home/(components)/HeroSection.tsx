@@ -50,7 +50,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
     <Box
       position="relative"
       width="100%"
-      height={{ base: "90dvh", md: "100dvh" }}
+      height={{ base: "70dvh", md: "85dvh" }}
       overflow="hidden"
     >
       <Box position="absolute" inset="0" zIndex={0}>
