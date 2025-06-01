@@ -10,6 +10,8 @@ import {
   SummerSale,
    SocialFeed,
   BenefitsSection,
+  ShopBySkinType,
+  InStoreVisit,
 } from "./(components)";
 import ProductShowcase from "./(components)/ProductShowcase";
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
@@ -20,9 +22,11 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
       <FeaturedCategory />
       <ProductShowcase/>
       <BrandCategory />
-      <BestSellers />   
+      <BestSellers />
+      <ShopBySkinType/>   
       <SummerSale />
       <NewArrivals />
+      <InStoreVisit/>
       <SocialFeed/>
       <BenefitsSection/>
     </>

@@ -4,6 +4,8 @@ export * from "./FeaturedCategory";
 export * from "./BrandCategory";
 export * from "./HeroSection";
 export * from "./Offer";
+export * from "./ShopBySkinType";
+export * from "./InStoreVisit";
 export * from "./SummerSale";
 export * from "./ProductShowcase";
 export * from "./SaafSection";
