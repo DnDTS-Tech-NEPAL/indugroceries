@@ -53,7 +53,7 @@ export default function ProductShowcase() {
                 ShowcaseData?.banner_2_image_link 
               }
               alt="Skincare"
-              objectFit="cover"
+              objectFit="fill"
               objectPosition={"left"}
               width="100%"
               height="100%"
