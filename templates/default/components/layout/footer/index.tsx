@@ -6,19 +6,17 @@ import {
   HStack,
   Text,
   VStack,
-  Stack,
   Grid,
   Link as ChakraLink,
   Separator,
 } from "@chakra-ui/react";
 import { useConfigQuery } from "@/hooks/api";
-import { useSocialLinks } from "@/hooks/app";
 import { calculateHeightAndWidth } from "@/utils";
 import Link from "next/link";
 import { useFeatureQuery } from "@/hooks/api/(web)/features";
-
+import { useFooterLinks } from "@/hooks/app";
 export const Footer = () => {
-  const socialLinks = useSocialLinks();
+  const socialLinks = useFooterLinks();
   const { data: config } = useConfigQuery();
   const { data: featuredData } = useFeatureQuery();
   const links = config?.quick_links ?? [];
@@ -55,7 +53,7 @@ export const Footer = () => {
           mx="auto"
         >
           {/* Company Logo & Description */}
-          <VStack align="start" gap={2} color={"#D0D0D0"}>
+          <VStack align="start" gap={2} color={"#FFFF"}>
             {config?.company_details_url && (
               <Box
                 position="relative"
@@ -159,8 +157,8 @@ export const Footer = () => {
           align="center"
           gap={4}
         >
-          <Text fontSize="sm" >
-            Copyright &copy; {new Date().getFullYear()} Korean Beauty Points.
+          <Text fontSize="md" >
+             &copy; {new Date().getFullYear()} Korean Beauty Points.
             All rights reserved
           </Text>
 
@@ -178,12 +176,14 @@ export const Footer = () => {
               >
                 <ChakraLink
                   aria-label={name}
-                  color="#D0D0D0"
+                  // color="red"
                   _hover={{ color: "blue.500" }}
                   display="flex"
+                  color="white"
                   alignItems="center"
                   p={1}
                 >
+  
                   {icon}
                 </ChakraLink>
               </Link>

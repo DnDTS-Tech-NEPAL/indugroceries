@@ -29,9 +29,9 @@ export const SocialFeed = () => {
 
   return (
     <Box py={{ base: 10, md: 16 }} bg="gray.50">
-      <Container maxW="7xl" px={{ base: 4, sm: 6, md: 8 }}>
+      <Box>
         {/* Header */}
-        <Box
+        <Box  maxW="6xl" mx={"auto"}
           display="flex"
           flexDirection={{ base: "column", md: "row" }}
           justifyContent="space-between"
@@ -40,7 +40,7 @@ export const SocialFeed = () => {
           gap={{ base: 6, md: 0 }}
         >
           <Box flex="1" maxW={{ md: "60%" }}>
-            <Heading size={{ base: "lg", sm: "xl" }} color="gray.800" mb={3}>
+            <Heading size={{ base: "lg", md:"xl", xl: "3xl" }} color="gray.800" mb={3}>
               {config?.social_title}
             </Heading>
             <Text fontSize={{ base: "md", sm: "lg" }} color="gray.600">
@@ -48,26 +48,33 @@ export const SocialFeed = () => {
             </Text>
           </Box>
 
-          <HStack
-            gap={{ base: 4, sm: 5 }}
-            mt={{ base: 6, md: 0 }}
-            flexWrap="wrap"
-            justify={{ base: "flex-start", md: "flex-end" }}
-          >
-            {socialLinks.map(({ name, href, icon }) => (
-              <Link
-                href={href}
-                key={name}
-                aria-label={name}
-                _hover={{ color: "blue.500", transform: "scale(1.1)" }}
-                color="gray.600"
-                fontSize={{ base: "xl", sm: "2xl" }}
-                transition="all 0.2s ease"
-              >
-                {icon}
-              </Link>
-            ))}
-          </HStack>
+          <VStack align={{ base: "flex-start", md: "flex-end" }} spaceY={2}>
+            <Text
+              fontSize={{ base: "sm", md: "md", xl:"2xl" }}
+              fontWeight="semibold"
+            >
+              Follow Us :
+            </Text>
+            <HStack
+              gap={{ base: 4, sm: 5 }}
+              flexWrap="wrap"
+              justify={{ base: "flex-start", md: "flex-end" }}
+            >
+              {socialLinks.map(({ name, href, icon }) => (
+                <Link
+                  href={href}
+                  key={name}
+                  aria-label={name}
+                  _hover={{ color: "pink.500", transform: "scale(1.1)" }}
+                  color="#FF6996"
+                  fontSize={{ base: "xl", sm: "2xl" }}
+                  transition="all 0.2s ease"
+                >
+                  {icon}
+                </Link>
+              ))}
+            </HStack>
+          </VStack>
         </Box>
 
         {/* Swiper or Fallback */}
@@ -199,7 +206,7 @@ export const SocialFeed = () => {
             </VStack>
           </Center>
         )}
-      </Container>
+      </Box>
     </Box>
   );
 };

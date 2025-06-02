@@ -1,7 +1,7 @@
-import { FacebookIcon, InstagramIcon, TiktokIcon, YoutubeIcon } from "@/assets/svg";
+import { FooterFacebookIcon, FooterInstagramIcon, FooterTiktokIcon, FooterYoutubeIcon,  } from "@/assets/svg";
 import { useConfigQuery } from "@/hooks/api";
 
-export const useSocialLinks = () => {
+export const useFooterLinks = () => {
   const { data: config } = useConfigQuery();
 
   return [
@@ -9,22 +9,22 @@ export const useSocialLinks = () => {
     {
       name: "Instagram",
       href: config.company_contact_instagram,
-      icon: <InstagramIcon />,
+      icon: <FooterInstagramIcon />,
     },
     {
       name: "TikTok",
       href: config.tiktok,
-      icon: <TiktokIcon />,
+      icon: <FooterTiktokIcon />,
     },
      {
       name: "Facebook",
       href: config.facebook,
-      icon: <FacebookIcon />,
+      icon: <FooterFacebookIcon />,
     },
       {
       name: "YouTube",
       href: config.company_contact_youtube,
-      icon: <YoutubeIcon />,
+      icon: <FooterYoutubeIcon />,
     },
   ];
 };

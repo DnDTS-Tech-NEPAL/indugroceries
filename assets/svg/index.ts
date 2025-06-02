@@ -5,6 +5,11 @@ export { default as FacebookIcon } from "./facebook.svg";
 export { default as ViberIcon } from "./viber.svg";
 export { default as WhatsappIcon } from "./whatsapp.svg";
 export { default as TiktokIcon } from "./tiktok.svg";
+export { default as FooterTiktokIcon } from "./footer_tiktok.svg";
+export { default as FooterFacebookIcon } from "./footer-facebook.svg";
+export { default as FooterInstagramIcon } from "./footer-insta.svg";
+export { default as FooterYoutubeIcon } from "./footer-youtube.svg";
+
 
 export { default as SearchIcon } from "./search.svg";
 export { default as CartIcon } from "./shopping-cart.svg";
