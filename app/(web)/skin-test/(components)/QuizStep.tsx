@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Box, Button, HStack, Text, VStack, Flex } from "@chakra-ui/react";
 import { ArrowLeftIcon, ArrowRightIcon } from "@/assets/svg";
 import { useQuizPageQuery } from "@/hooks/api";
+import { useRouter } from "next/navigation";
 
 interface QuizStepProps {
   step: number;
@@ -21,6 +22,7 @@ export default function QuizStep({
 }: QuizStepProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const { data: quiz } = useQuizPageQuery();
+  const router = useRouter();
 
   const questions =
     quiz?.quizzes?.map((quizItem, index) => ({
@@ -37,8 +39,12 @@ export default function QuizStep({
   };
 
   const handleNext = () => {
-    if (selectedOption) {
-      setSelectedOption(null);
+    if (!selectedOption) return;
+    onAnswer(currentQuestion.id, selectedOption); // Record answer
+    setSelectedOption(null);
+    if (step === totalSteps) {
+      router.push("/recommend-products");
+    } else {
       onNext();
     }
   };
