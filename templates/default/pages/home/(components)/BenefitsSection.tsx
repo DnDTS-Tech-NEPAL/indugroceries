@@ -13,7 +13,6 @@ export const BenefitsSection = () => {
 
   // Function to render either an icon or image
   const renderIcon = (iconSrc: string) => {
-    // If it's a URL, use Image component
     if (iconSrc.startsWith('http')) {
       return (
         <Image 

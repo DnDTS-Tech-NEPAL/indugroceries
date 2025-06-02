@@ -6,17 +6,15 @@ import { useRouter } from "next/navigation";
 import {
   Box,
   Button,
-  Heading,
   HStack,
   Text,
   VStack,
   Icon,
-  Flex,
   Badge,
   useBreakpointValue,
   Stack,
 } from "@chakra-ui/react";
-import { FaStar, FaRegHeart } from "react-icons/fa";
+import { FaStar, FaRegHeart, FaHeart } from "react-icons/fa";
 import { MdFullscreen } from "react-icons/md";
 import { BsCart } from "react-icons/bs";
 import { useState } from "react";
@@ -25,11 +23,9 @@ import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
-import { VisibleSection } from "../visibleSection";
 import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
-  category,
   item_code,
   image,
   title,
@@ -37,15 +33,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   // description,
   price,
   originalPrice,
-  discount,
-  hasAddToCart,
   isNew,
 }) => {
   const router = useRouter();
   const { checkAuth } = useAuthCheck();
   const [isWishlist, setIsWishlist] = useState(false);
   const { data: config } = useConfigQuery();
-  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
+  const { data: reviewData } = useReviewDataQuery(item_code);
   const { handleAddToWishlist } = useProductDetailWishlist();
 
   const onAddToWishlist = () => {
@@ -126,7 +120,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             lineHeight="1.2"
             onClick={checkAuth(onAddToWishlist)}
           >
-            Wish List <FaRegHeart size={iconSize} />
+            Wish List{" "}
+            {isWishlist ? (
+              <FaHeart size={iconSize} />
+            ) : (
+              <FaRegHeart size={iconSize} />
+            )}
           </Button>
           <Button
             height="auto"
@@ -186,8 +185,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </HStack>
 
       {/* Title */}
-      <Text  fontWeight="semibold" color="gray.800" lineHeight="1.2" minH={"50px"}>
-          {title}
+      <Text
+        fontWeight="semibold"
+        color="gray.800"
+        lineHeight="1.2"
+        minH={"50px"}
+      >
+        {title}
       </Text>
 
       {/* Description */}
