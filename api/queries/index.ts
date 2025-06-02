@@ -11,4 +11,5 @@ export * from "./saaf"
 export * from "./qualityCompliance"
 export * from "./skin-test"
 export * from "./skin-type"
+export * from "./callForinfluencer"
 
