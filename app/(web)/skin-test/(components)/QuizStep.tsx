@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Box, Button, HStack, Text, VStack, Flex } from "@chakra-ui/react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@/assets/svg";
 
 interface QuizStepProps {
   step: number;
@@ -108,21 +109,27 @@ export default function QuizStep({
               <Button
                 onClick={onPrevious}
                 variant="ghost"
-                color="gray.600"
+                color="black"
+                bg={"white"}
                 fontWeight="normal"
                 disabled={step === 1}
               >
-                Previous
+                <ArrowLeftIcon /> PREVIOUS
               </Button>
 
               <Button
                 onClick={handleNext}
-                bg="#FF6996"
-                color="white"
-                _hover={{ bg: "pink.500" }}
+                bg="white"
+                color="pink.500"
                 disabled={!selectedOption}
               >
-                {step === totalSteps ? "Get Results" : "Next"}
+                {step === totalSteps ? (
+                  "Get Results"
+                ) : (
+                  <>
+                    NEXT <ArrowRightIcon />
+                  </>
+                )}
               </Button>
             </HStack>
           </VStack>
