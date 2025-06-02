@@ -33,12 +33,12 @@ export const BrandCategory = () => {
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
       <VStack
-        maxW="6xl"
+        maxW="5xl"
         mx="auto"
         alignItems="stretch"
         gap={{ base: 5, md: 8 }}
         px={{ base: 4, md: 6 }}
-        py={{ base: 8, md: 12, lg: 16, "2xl": 20 }}
+        py={{ base: 8, md: 8, lg: 12, "2xl": 16 }}
       >
           <VStack align={{ base: "center"}} gap={1}>
             <Heading
@@ -81,7 +81,7 @@ export const BrandCategory = () => {
         <Box w="full" overflow="hidden" px={{ base: 0, md: 4 }}>
           <Swiper
             modules={[Autoplay]}
-            spaceBetween={16}
+            spaceBetween={10}
             slidesPerView={baseSlides}
             autoplay={{
               delay: 2500,
@@ -109,16 +109,9 @@ export const BrandCategory = () => {
             {featureImages.map((item, index) => (
               <SwiperSlide key={index}>
                 <Box
-                  bg="white"
                   transition="all 0.3s ease"
                   p={{ base: 2, md: 3 }}
-                  m={{ base: 1, md: 2 }}
-                  borderRadius="md"
-                  _hover={{
-                    boxShadow: "lg",
-                    transform: "translateY(-4px)",
-                    zIndex: 1,
-                  }}
+                  borderRadius="md"   
                   cursor="pointer"
                   onClick={() =>
                     router.push(`${ROUTES.APP.PRODUCTS}?brands=${item.name}`)
@@ -131,8 +124,7 @@ export const BrandCategory = () => {
                       base: "100px",
                       sm: "120px",
                       md: "140px",
-                      lg: "160px",
-                      xl: "180px",
+                 
                     }}
                     borderRadius="md"
                     overflow="hidden"
@@ -144,7 +136,7 @@ export const BrandCategory = () => {
                       style={{
                         objectFit: "contain",
                         objectPosition: "center",
-                        padding: "8px",
+                      
                       }}
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     />

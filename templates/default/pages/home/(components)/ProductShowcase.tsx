@@ -6,7 +6,7 @@ export default function ProductShowcase() {
   const { data: ShowcaseData } = useConfigQuery();
 
   return (
-    <Box py={{ base: 8, md: 12, lg: 16 }} px={{ base: 4, sm: 6, md: 8 }} maxW="6xl" mx="auto">
+    <Box py={{ base: 6, md: 8, lg: 10 }} px={{ base: 4, sm: 6, md: 8 }} maxW="7xl" mx="auto">
       <Flex direction={{ base: "column", lg: "row" }} gap={{ base: 4, md: 6 }}>
         {/* Left Section: Two Large Horizontal Images */}
         <Flex 

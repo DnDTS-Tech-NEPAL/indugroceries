@@ -43,7 +43,7 @@ export const FeaturedCategory = () => {
         direction={{ base: "column", lg: "row" }}
         align="center"
         justify="space-between"
-        maxW="7xl"
+        maxW="6xl"
         mx="auto"
         px={{ base: 4, md: 8 }}
         py={{ base: 10, md: 16 }}
@@ -72,13 +72,13 @@ export const FeaturedCategory = () => {
         </Box>
 
         {/* RIGHT: Swiper Slider */}
-        <Box flex={{ lg: 2 }} w="full" maxW={{ base: "100%", lg: "55%" }}>
+        <Box flex={{ lg: 2 }} w="full" maxW={{ base: "100%", lg: "40%" }}>
           <Swiper
             breakpoints={{
-              320: { slidesPerView: 2, spaceBetween: 16 },
-              640: { slidesPerView: 3, spaceBetween: 20 },
-              1024: { slidesPerView: 4, spaceBetween: 24 },
-              1280: { slidesPerView: 4, spaceBetween: 28 },
+              320: { slidesPerView: 2},
+              640: { slidesPerView: 3},
+              1024: { slidesPerView: 4 },
+              1280: { slidesPerView: 4},
             }}
             onSwiper={handleSwiper}
             modules={[Autoplay]}
