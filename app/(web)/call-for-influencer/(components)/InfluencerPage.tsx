@@ -101,7 +101,7 @@ export default function InfluencerPage() {
           <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
             What You&apos;ll Get
           </Heading>
-          <List.Root gap={2} mb={4}>
+          <List.Root gap={2} mb={4} ml={5}>
             {[
               "A curated K-Beauty PR Box to review",
               "10-15% discount code for all your purchases",
@@ -156,7 +156,7 @@ export default function InfluencerPage() {
 
         {/* Note Section */}
         <Box mb={{ base: 8, md: 12 }}>
-          <Heading fontSize={{ base: "md", md: "lg" }} color="gray.700" mb={4}>
+          <Heading fontSize={{ base: "md", md: "lg" }} color="gray.700">
             Note *
           </Heading>
           <Box
