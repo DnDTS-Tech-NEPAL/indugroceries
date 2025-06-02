@@ -24,7 +24,7 @@ export const InStoreVisit = () => {
         flex={{ base: "none", md: "1.5" }}
         width={{ base: "100%", md: "60%" }}
         position="relative"
-        minH={{ base: "300px", md: "60vh" }}
+        minH={{ base: "300px", md: "80dvh" }}
       >
         <Image
           src={storeData.banner_1_image_url}
