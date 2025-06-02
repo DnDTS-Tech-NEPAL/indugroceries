@@ -141,19 +141,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           >
             Full View <MdFullscreen size={iconSize} />
           </Button>
-          <Button
-            height="auto"
-            minH="32px"
-            bg="#FF6996"
-            color="white"
-            borderRadius="full"
-            fontSize="14px"
-            px={3}
-            py={0}
-            lineHeight="1.2"
-          >
-            Add to Cart <BsCart size={iconSize} />
-          </Button>
         </VStack>
 
         {/* Product Image */}
