@@ -8,11 +8,13 @@ import {
   Button,
   List,
   useBreakpointValue,
+  Spinner,
 } from "@chakra-ui/react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function InfluencerPage() {
+  const router = useRouter();
   // Responsive values
   const headingSize = useBreakpointValue({ base: "2xl", md: "3xl" });
   const subTextSize = useBreakpointValue({ base: "lg", md: "xl" });
@@ -20,7 +22,11 @@ export default function InfluencerPage() {
   const heroHeight = useBreakpointValue({ base: "300px", md: "400px" });
   const { data: pageData } = useCallForinfluencer();
 
-  return (
+  return !pageData ? (
+    <Box textAlign="center" py={20}>
+      <Spinner />
+    </Box>
+  ) : (
     <Box
       maxW={"7xl"}
       py={{ base: 4, md: 6 }}
@@ -123,22 +129,21 @@ export default function InfluencerPage() {
             {pageData?.apply_description}
           </Text>
 
-          <Link href="/call-for-influencer/apply" passHref>
-            <Button
-              as="a"
-              colorScheme="pink"
-              bg={"#FF6996"}
-              size={{ base: "md", md: "lg" }}
-              px={{ base: 6, md: 8 }}
-              py={{ base: 2, md: 3 }}
-              borderRadius="full"
-              fontSize={{ base: "md", md: "lg" }}
-              fontWeight="medium"
-              width={{ base: "full", md: "auto" }}
-            >
-              Apply Now
-            </Button>
-          </Link>
+          <Button
+            as="a"
+            onClick={() => router.push("/call-for-influencer/apply")}
+            colorScheme="pink"
+            bg={"#FF6996"}
+            size={{ base: "md", md: "lg" }}
+            px={{ base: 6, md: 8 }}
+            py={{ base: 2, md: 3 }}
+            borderRadius="full"
+            fontSize={{ base: "md", md: "lg" }}
+            fontWeight="medium"
+            width={{ base: "full", md: "auto" }}
+          >
+            Apply Now
+          </Button>
         </Box>
 
         {/* Note Section */}
