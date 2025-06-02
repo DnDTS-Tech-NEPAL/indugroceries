@@ -186,7 +186,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </HStack>
 
       {/* Title */}
-      <Text truncate={true} fontWeight="semibold" color="gray.800" lineHeight="1.2">
+      <Text  fontWeight="semibold" color="gray.800" lineHeight="1.2" minH={"50px"}>
           {title}
       </Text>
 

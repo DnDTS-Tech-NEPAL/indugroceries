@@ -28,7 +28,7 @@ export const SocialFeed = () => {
   const videoLinks = config?.ecommerce_social_links || [];
 
   return (
-    <Box py={{ base: 10, md: 16 }} bg="gray.50">
+    <Box py={{ base: 8, md: 12 }} bg="gray.50">
       <Box>
         {/* Header */}
         <Box  maxW="6xl" mx={"auto"}

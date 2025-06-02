@@ -54,7 +54,7 @@ export const BenefitsSection = () => {
   ];
 
   return (
-    <Box maxW="6xl" mx="auto" my={[8, 12]}>
+    <Box maxW="6xl" mx="auto" my={[6, 8]}>
       <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={[6, 8, 10]} px={[2, 4, 6]}>
         {benefits.map((item, index) => (
           <BenefitItem
