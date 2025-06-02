@@ -1,5 +1,5 @@
 "use client";
-import { InfluencerHeroImage } from "@/assets/image";
+import { useCallForinfluencer } from "@/hooks/api";
 import {
   Box,
   Flex,
@@ -18,6 +18,7 @@ export default function InfluencerPage() {
   const subTextSize = useBreakpointValue({ base: "lg", md: "xl" });
   const contentPadding = useBreakpointValue({ base: 4, md: 10 });
   const heroHeight = useBreakpointValue({ base: "300px", md: "400px" });
+  const { data: pageData } = useCallForinfluencer();
 
   return (
     <Box
@@ -36,8 +37,8 @@ export default function InfluencerPage() {
         borderRadius={{ base: "md", md: "xl" }}
       >
         <Image
-          src={InfluencerHeroImage}
-          alt="Call for Influencer - Beauty products with dried flowers"
+          src={pageData?.hero_image_link}
+          alt={pageData?.hero_title}
           fill
           style={{ objectFit: "cover" }}
           priority
@@ -54,15 +55,14 @@ export default function InfluencerPage() {
           px={{ base: 4, md: 8 }}
         >
           <Heading as="h1" fontSize={headingSize} mb={{ base: 3, md: 4 }}>
-            Call for Influencer
+            {pageData?.hero_title}
           </Heading>
           <Text
             fontSize={subTextSize}
             maxW={{ base: "100%", md: "2xl" }}
             px={{ base: 2, md: 0 }}
           >
-            Share your love for K-beauty, receive exclusive products, and grow
-            with a vibrant skincare community.
+            {pageData?.hero_description}
           </Text>
         </Flex>
       </Box>
@@ -72,7 +72,7 @@ export default function InfluencerPage() {
         {/* Become a KBP Influencer Section */}
         <Box mb={{ base: 8, md: 12 }}>
           <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
-            Become a KBP Influencer!
+            {pageData?.title}
           </Heading>
           <Text
             fontSize={{ base: "md", md: "lg" }}
@@ -80,41 +80,30 @@ export default function InfluencerPage() {
             mb={4}
             lineHeight="relaxed"
           >
-            Love K-beauty? Passionate about skincare? Here&apos;s your chance to
-            shine!
+            {pageData?.infuencer_description}
           </Text>
           <Text
             color="gray.600"
             lineHeight="relaxed"
             fontSize={{ base: "sm", md: "md" }}
           >
-            Join the KBP Influencer Program and become a key voice in
-            Nepal&apos;s growing K-beauty community. As an influencer,
-            you&apos;ll get the opportunity to try out and review some of the
-            most loved Korean skincare products, receive exclusive discounts,
-            and earn commissions while doing what you love.
+            {pageData?.paragraph_description}
           </Text>
         </Box>
 
         {/* What You'll Get Section */}
         <Box mb={{ base: 8, md: 12 }}>
           <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
-            What You&apos;ll Get
+            {pageData?.points_title}
           </Heading>
           <List.Root gap={2} mb={4} ml={5}>
-            {[
-              "A curated K-Beauty PR Box to review",
-              "10-15% discount code for all your purchases",
-              "Earn up to 5% commission every time someone uses your code",
-              "Features on our social media (with full credit!)",
-              "Plus, more exciting perks along the way!",
-            ].map((item, index) => (
+            {pageData?.points.map((item, index) => (
               <List.Item
                 key={index}
                 color="gray.700"
                 fontSize={{ base: "sm", md: "md" }}
               >
-                {item}
+                {item.data_iuai}
               </List.Item>
             ))}
           </List.Root>
@@ -123,7 +112,7 @@ export default function InfluencerPage() {
         {/* How to Apply Section */}
         <Box mb={{ base: 8, md: 12 }}>
           <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
-            How to Apply
+            {pageData?.apply_title}
           </Heading>
           <Text
             color="gray.700"
@@ -131,9 +120,7 @@ export default function InfluencerPage() {
             mb={8}
             fontSize={{ base: "sm", md: "md" }}
           >
-            Simply fill out our application form for a chance to be selected.
-            We&apos;re excited to collaborate and grow together with inspiring
-            content creators like you!
+            {pageData?.apply_description}
           </Text>
 
           <Link href="/call-for-influencer/apply" passHref>
@@ -164,21 +151,15 @@ export default function InfluencerPage() {
             pl={{ base: 4, md: 6 }}
             ml={{ base: 2, md: 0 }}
           >
-            {[
-              "Please note: Due to limited availability, KBP reserves the right to the final decision. The K-Beauty Box contains pre-selected items.",
-              "By joining, you consent to KBP sharing your content (with full credit) across our channels.",
-              "All personal data collected will be handled with care and used only for legitimate purposes",
-            ].map((text, index) => (
-              <Text
-                key={index}
-                color="gray.700"
-                fontSize={{ base: "sm", md: "md" }}
-                lineHeight="relaxed"
-                mb={2}
-              >
-                {text}
-              </Text>
-            ))}
+            <Text
+              color="gray.700"
+              fontSize={{ base: "sm", md: "md" }}
+              lineHeight="relaxed"
+              mb={2}
+              whiteSpace="pre-line"
+            >
+              {pageData?.note}
+            </Text>
           </Box>
 
           <Text
@@ -187,7 +168,7 @@ export default function InfluencerPage() {
             fontSize={{ base: "sm", md: "md" }}
             lineHeight="relaxed"
           >
-            Let&apos;s bring the best of Korean skincare to Nepal—together.
+            {pageData?.footer}
           </Text>
         </Box>
       </Box>
