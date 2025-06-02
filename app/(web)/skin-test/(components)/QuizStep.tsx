@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { Box, Button, HStack, Text, VStack, Flex } from "@chakra-ui/react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { ArrowLeftIcon, ArrowRightIcon } from "@/assets/svg";
+import { useQuizPageQuery } from "@/hooks/api";
+import { useRouter } from "next/navigation";
 
 interface QuizStepProps {
   step: number;
@@ -19,31 +21,15 @@ export default function QuizStep({
   onAnswer,
 }: QuizStepProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
+  const { data: quiz } = useQuizPageQuery();
+  const router = useRouter();
 
-  const questions = [
-    {
-      id: "skin_condition",
-      question:
-        "How would you describe the overall condition of your facial skin on a typical day, without any products applied?",
-      options: ["Normal", "Dry", "Combination", "Oily", "Not sure"],
-    },
-    {
-      id: "skin_sensitivity",
-      question: "How sensitive is your skin to new products?",
-      options: [
-        "Not sensitive",
-        "Slightly sensitive",
-        "Moderately sensitive",
-        "Very sensitive",
-        "Not sure",
-      ],
-    },
-    {
-      id: "skin_concerns",
-      question: "What are your main skin concerns?",
-      options: ["Acne", "Aging", "Dryness", "Redness", "Uneven tone"],
-    },
-  ];
+  const questions =
+    quiz?.quizzes?.map((quizItem, index) => ({
+      id: `question_${index + 1}`,
+      question: quizItem.question,
+      options: quizItem.answers,
+    })) || [];
 
   const currentQuestion = questions[step - 1];
 
@@ -53,19 +39,23 @@ export default function QuizStep({
   };
 
   const handleNext = () => {
-    if (selectedOption) {
-      setSelectedOption(null);
+    if (!selectedOption) return;
+    onAnswer(currentQuestion.id, selectedOption); // Record answer
+    setSelectedOption(null);
+    if (step === totalSteps) {
+      router.push("/recommend-products");
+    } else {
       onNext();
     }
   };
+
   const totalSteps = questions.length;
 
   return (
-    <Flex justifyContent={"center"} alignItems={"center"}>
-      <Box maxW={"4xl"} bg="white" my={16} rounded="xl" boxShadow="lg" w="full">
+    <Flex justifyContent="center" alignItems="center">
+      <Box maxW="4xl" bg="white" my={8} rounded="xl" boxShadow="lg" w="full">
         {/* Header Section */}
         <Box bg="#FF6996" py={8} color="white" textAlign="center">
-          {/* Dots Progress */}
           <HStack justify="center" mb={6} gap={2}>
             {[...Array(totalSteps)].map((_, i) => (
               <Box
@@ -78,8 +68,7 @@ export default function QuizStep({
             ))}
           </HStack>
           <Text fontSize="xl" fontWeight="medium" px={4}>
-            How would you describe the overall condition of your facial skin
-            <br /> on a typical day, without any products applied?
+            {currentQuestion.question}
           </Text>
         </Box>
 
@@ -110,22 +99,27 @@ export default function QuizStep({
               <Button
                 onClick={onPrevious}
                 variant="ghost"
-                color="gray.600"
+                color="black"
+                bg={"white"}
                 fontWeight="normal"
                 disabled={step === 1}
               >
-                Previous <FiArrowLeft />
+                <ArrowLeftIcon /> PREVIOUS
               </Button>
 
               <Button
                 onClick={handleNext}
-                bg="#FF6996"
-                color="white"
-                _hover={{ bg: "pink.500" }}
+                bg="white"
+                color="pink.500"
                 disabled={!selectedOption}
               >
-                {step === questions.length ? "Get Results" : "Next"}
-                <FiArrowRight />
+                {step === totalSteps ? (
+                  "Get Results"
+                ) : (
+                  <>
+                    NEXT <ArrowRightIcon />
+                  </>
+                )}
               </Button>
             </HStack>
           </VStack>

@@ -1,24 +1,50 @@
 "use client";
-import { InfluencerHeroImage } from "@/assets/image";
-import { Box, Flex, Heading, Text, Button, List } from "@chakra-ui/react";
-
+import { useCallForinfluencer } from "@/hooks/api";
+import {
+  Box,
+  Flex,
+  Heading,
+  Text,
+  Button,
+  List,
+  useBreakpointValue,
+  Spinner,
+} from "@chakra-ui/react";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function InfluencerPage() {
-  return (
-    <Box maxW={"7xl"} py={6} margin={"auto"} minH="100vh">
+  const router = useRouter();
+  // Responsive values
+  const headingSize = useBreakpointValue({ base: "2xl", md: "3xl" });
+  const subTextSize = useBreakpointValue({ base: "lg", md: "xl" });
+  const contentPadding = useBreakpointValue({ base: 4, md: 10 });
+  const heroHeight = useBreakpointValue({ base: "300px", md: "400px" });
+  const { data: pageData } = useCallForinfluencer();
+
+  return !pageData ? (
+    <Box textAlign="center" py={20}>
+      <Spinner />
+    </Box>
+  ) : (
+    <Box
+      maxW={"7xl"}
+      py={{ base: 4, md: 6 }}
+      margin={"auto"}
+      minH="100vh"
+      px={{ base: 2, md: 0 }}
+    >
       {/* Hero Section */}
       <Box
         position="relative"
-        h="400px"
+        h={heroHeight}
         w="full"
         overflow="hidden"
-        borderRadius="xl"
+        borderRadius={{ base: "md", md: "xl" }}
       >
         <Image
-          src={InfluencerHeroImage}
-          alt="Call for Influencer - Beauty products with dried flowers"
+          src={pageData?.hero_image_link}
+          alt={pageData?.hero_title}
           fill
           style={{ objectFit: "cover" }}
           priority
@@ -32,116 +58,122 @@ export default function InfluencerPage() {
           justify="center"
           color="white"
           textAlign="center"
-          px={4}
+          px={{ base: 4, md: 8 }}
         >
-          <Heading as="h1" size={{ base: "2xl", md: "3xl" }} mb={4}>
-            Call for Influencer
+          <Heading as="h1" fontSize={headingSize} mb={{ base: 3, md: 4 }}>
+            {pageData?.hero_title}
           </Heading>
-          <Text fontSize={{ base: "lg", md: "xl" }} maxW="2xl">
-            Share your love for K-beauty, receive exclusive products, and grow
-            with a vibrant skincare community.
+          <Text
+            fontSize={subTextSize}
+            maxW={{ base: "100%", md: "2xl" }}
+            px={{ base: 2, md: 0 }}
+          >
+            {pageData?.hero_description}
           </Text>
         </Flex>
       </Box>
 
       {/* Content Section */}
-      <Box px={4} py={12}>
+      <Box px={{ base: 4, md: contentPadding }} py={{ base: 8, md: 12 }}>
         {/* Become a KBP Influencer Section */}
-        <Box mb={12}>
-          <Heading as="h2" size="lg" color="gray.700" mb={6}>
-            Become a KBP Influencer!
+        <Box mb={{ base: 8, md: 12 }}>
+          <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
+            {pageData?.title}
           </Heading>
-          <Text fontSize="lg" color="gray.700" mb={4} lineHeight="relaxed">
-            Love K-beauty? Passionate about skincare? Here&apos;s your chance to
-            shine!
+          <Text
+            fontSize={{ base: "md", md: "lg" }}
+            color="gray.700"
+            mb={4}
+            lineHeight="relaxed"
+          >
+            {pageData?.infuencer_description}
           </Text>
-          <Text color="gray.600" lineHeight="relaxed">
-            Join the KBP Influencer Program and become a key voice in
-            Nepal&apos;s growing K-beauty community. As an influencer,
-            you&apos;ll get the opportunity to try out and review some of the
-            most loved Korean skincare products, receive exclusive discounts,
-            and earn commissions while doing what you love. Whether you&apos;re
-            a skincare enthusiast, content creator, or just someone who enjoys
-            sharing beauty tips, we&apos;d love to collaborate and grow with
-            you. Let&apos;s bring the best of Korean beauty to Nepal—together!
+          <Text
+            color="gray.600"
+            lineHeight="relaxed"
+            fontSize={{ base: "sm", md: "md" }}
+          >
+            {pageData?.paragraph_description}
           </Text>
         </Box>
 
         {/* What You'll Get Section */}
-        <Box mb={12}>
-          <Heading as="h2" size="lg" color="gray.700" mb={6}>
-            What You&apos;ll Get
+        <Box mb={{ base: 8, md: 12 }}>
+          <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
+            {pageData?.points_title}
           </Heading>
-          <List.Root gap={2} mb={4}>
-            <List.Item color="gray.700">
-              A curated K-Beauty PR Box to review
-            </List.Item>
-            <List.Item color="gray.700">
-              10-15% discount code for all your purchases
-            </List.Item>
-            <List.Item color="gray.700">
-              Earn up to 5% commission every time someone uses your code
-            </List.Item>
-            <List.Item color="gray.700">
-              Features on our social media (with full credit!)
-            </List.Item>
-            <List.Item color="gray.700">
-              Plus, more exciting perks along the way!
-            </List.Item>
+          <List.Root gap={2} mb={4} ml={5}>
+            {pageData?.points.map((item, index) => (
+              <List.Item
+                key={index}
+                color="gray.700"
+                fontSize={{ base: "sm", md: "md" }}
+              >
+                {item.data_iuai}
+              </List.Item>
+            ))}
           </List.Root>
         </Box>
 
         {/* How to Apply Section */}
-        <Box mb={12}>
-          <Heading as="h2" size="lg" color="gray.700" mb={6}>
-            How to Apply
+        <Box mb={{ base: 8, md: 12 }}>
+          <Heading as="h2" size="lg" color="gray.700" mb={{ base: 4, md: 6 }}>
+            {pageData?.apply_title}
           </Heading>
-          <Text color="gray.700" lineHeight="relaxed" mb={8}>
-            Simply fill out our application form for a chance to be selected.
-            We&apos;re excited to collaborate and grow together with inspiring
-            content creators like you!
+          <Text
+            color="gray.700"
+            lineHeight="relaxed"
+            mb={8}
+            fontSize={{ base: "sm", md: "md" }}
+          >
+            {pageData?.apply_description}
           </Text>
 
-          <Link href="/call-for-influencer/apply" passHref>
-            <Button
-              as="a"
-              colorScheme="pink"
-              bg={"#FF6996"}
-              size="lg"
-              px={8}
-              py={3}
-              borderRadius="full"
-              fontSize="lg"
-              fontWeight="medium"
-            >
-              Apply Now
-            </Button>
-          </Link>
+          <Button
+            as="a"
+            onClick={() => router.push("/call-for-influencer/apply")}
+            colorScheme="pink"
+            bg={"#FF6996"}
+            size={{ base: "md", md: "lg" }}
+            px={{ base: 6, md: 8 }}
+            py={{ base: 2, md: 3 }}
+            borderRadius="full"
+            fontSize={{ base: "md", md: "lg" }}
+            fontWeight="medium"
+            width={{ base: "full", md: "auto" }}
+          >
+            Apply Now
+          </Button>
         </Box>
 
-        {/* How to Apply Section */}
-        <Box mb={12}>
-          <Heading fontSize={"lg"} color="gray.700" mb={4}>
+        {/* Note Section */}
+        <Box mb={{ base: 8, md: 12 }}>
+          <Heading fontSize={{ base: "md", md: "lg" }} color="gray.700">
             Note *
           </Heading>
-          <Box borderLeftWidth="3px" paddingX={6}>
-            <Text color="gray.700" fontSize={"md"} lineHeight="relaxed">
-              Please note: Due to limited availability, KBP reserves the right
-              to the final decision. The K-Beauty Box contains pre-selected
-              items.
-            </Text>
-            <Text color="gray.700" fontSize={"md"} lineHeight="relaxed">
-              By joining, you consent to KBP sharing your content (with full
-              credit) across our channels.
-            </Text>
-            <Text color="gray.700" fontSize={"md"} lineHeight="relaxed">
-              All personal data collected will be handled with care and used
-              only for legitimate purposes
+          <Box
+            borderLeftWidth="3px"
+            pl={{ base: 4, md: 6 }}
+            ml={{ base: 2, md: 0 }}
+          >
+            <Text
+              color="gray.700"
+              fontSize={{ base: "sm", md: "md" }}
+              lineHeight="relaxed"
+              mb={2}
+              whiteSpace="pre-line"
+            >
+              {pageData?.note}
             </Text>
           </Box>
 
-          <Text color="gray.700" mt={12} fontSize={"md"} lineHeight="relaxed">
-            Let&apos;s bring the best of Korean skincare to Nepal—together.
+          <Text
+            color="gray.700"
+            mt={{ base: 8, md: 12 }}
+            fontSize={{ base: "sm", md: "md" }}
+            lineHeight="relaxed"
+          >
+            {pageData?.footer}
           </Text>
         </Box>
       </Box>

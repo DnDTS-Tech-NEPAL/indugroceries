@@ -8,4 +8,5 @@ export * from "./returnpolicy";
 export * from "./termsandcondition";
 export * from "./skin-test";
 export * from "./skin-type";
+export * from "./callForinfluencer";
 
