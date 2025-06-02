@@ -1,57 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { Box, useDisclosure } from "@chakra-ui/react";
-import {
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalCloseButton,
-} from "@chakra-ui/modal";
+import { Box } from "@chakra-ui/react";
 import LandingPage from "./LandingPage";
 import QuizStep from "./QuizStep";
 
 export default function SkinQuiz() {
+  const [started, setStarted] = useState(false);
   const [step, setStep] = useState(1);
-  const [answers, setAnswers] = useState({});
-  const { open, onOpen, onClose } = useDisclosure();
+  const [answers, setAnswers] = useState<Record<string, string>>({});
 
-  const handleNext = () => setStep(step + 1);
-  const handlePrevious = () => setStep(step - 1);
+  const handleNext = () => setStep((prev) => prev + 1);
+  const handlePrevious = () => setStep((prev) => prev - 1);
   const handleAnswer = (question: string, answer: string) => {
     setAnswers((prev) => ({ ...prev, [question]: answer }));
   };
 
   return (
     <Box>
-      <LandingPage onStart={onOpen} />
-
-      <Modal isOpen={open} onClose={onClose} size="xl" isCentered>
-        <ModalOverlay bg="blackAlpha.600" backdropFilter="blur(4px)" />
-        <ModalContent
-          p={6}
-          borderRadius="lg"
-          mx={4}
-          maxW="4xl"
-          my={0}
-          transform="none"
-        >
-          <ModalCloseButton
-            size="lg"
-            color="white"
-            bg="blackAlpha.600"
-            rounded="full"
-            _hover={{ bg: "blackAlpha.800" }}
-          />
-          <QuizStep
-            step={step}
-            onNext={handleNext}
-            onPrevious={handlePrevious}
-            onAnswer={handleAnswer}
-            answers={answers}
-          />
-        </ModalContent>
-      </Modal>
+      {!started ? (
+        <LandingPage onStart={() => setStarted(true)} />
+      ) : (
+        <QuizStep
+          step={step}
+          onNext={handleNext}
+          onPrevious={handlePrevious}
+          onAnswer={handleAnswer}
+          answers={answers}
+        />
+      )}
     </Box>
   );
 }

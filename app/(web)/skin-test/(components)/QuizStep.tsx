@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Box, Button, HStack, Text, VStack, Flex } from "@chakra-ui/react";
-import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 interface QuizStepProps {
   step: number;
@@ -58,14 +57,14 @@ export default function QuizStep({
       onNext();
     }
   };
+
   const totalSteps = questions.length;
 
   return (
-    <Flex justifyContent={"center"} alignItems={"center"}>
-      <Box maxW={"4xl"} bg="white" my={16} rounded="xl" boxShadow="lg" w="full">
+    <Flex justifyContent="center" alignItems="center">
+      <Box maxW="4xl" bg="white" my={8} rounded="xl" boxShadow="lg" w="full">
         {/* Header Section */}
         <Box bg="#FF6996" py={8} color="white" textAlign="center">
-          {/* Dots Progress */}
           <HStack justify="center" mb={6} gap={2}>
             {[...Array(totalSteps)].map((_, i) => (
               <Box
@@ -78,8 +77,7 @@ export default function QuizStep({
             ))}
           </HStack>
           <Text fontSize="xl" fontWeight="medium" px={4}>
-            How would you describe the overall condition of your facial skin
-            <br /> on a typical day, without any products applied?
+            {currentQuestion.question}
           </Text>
         </Box>
 
@@ -114,7 +112,7 @@ export default function QuizStep({
                 fontWeight="normal"
                 disabled={step === 1}
               >
-                Previous <FiArrowLeft />
+                Previous
               </Button>
 
               <Button
@@ -124,8 +122,7 @@ export default function QuizStep({
                 _hover={{ bg: "pink.500" }}
                 disabled={!selectedOption}
               >
-                {step === questions.length ? "Get Results" : "Next"}
-                <FiArrowRight />
+                {step === totalSteps ? "Get Results" : "Next"}
               </Button>
             </HStack>
           </VStack>
