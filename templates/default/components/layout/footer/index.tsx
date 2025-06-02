@@ -57,6 +57,7 @@ export const Footer = () => {
             {config?.company_details_url && (
               <Box
                 position="relative"
+                right={"35px"}
                 width={`${width}px`}
                 height={`${height}px`}
                 minWidth="150px"
