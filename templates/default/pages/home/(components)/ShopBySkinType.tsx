@@ -258,8 +258,6 @@ export const ShopBySkinType = () => {
                       }}
                       textAlign="center"
                       p={2}
-                      boxShadow="md"
-                      border="3px solid white"
                     >
                       <Text
                         lineHeight="1.2"

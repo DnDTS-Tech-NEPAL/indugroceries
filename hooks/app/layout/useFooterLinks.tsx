@@ -1,4 +1,4 @@
-import { FooterFacebookIcon, FooterInstagramIcon, FooterTiktokIcon, FooterYoutubeIcon,  } from "@/assets/svg";
+import { FooterFacebookIcon, FooterInstagramIcon, FooterTiktokIcon, YoutubeIcon,  } from "@/assets/svg";
 import { useConfigQuery } from "@/hooks/api";
 
 export const useFooterLinks = () => {
@@ -24,7 +24,7 @@ export const useFooterLinks = () => {
       {
       name: "YouTube",
       href: config.company_contact_youtube,
-      icon: <FooterYoutubeIcon />,
+      icon:<YoutubeIcon/>
     },
   ];
 };
