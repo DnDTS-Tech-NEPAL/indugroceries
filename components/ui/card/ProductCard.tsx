@@ -1,29 +1,21 @@
-"use client";
+"use client"
 
-import type React from "react";
-import Image from "next/image";
-import { useRouter } from "next/navigation";
-import {
-  Box,
-  Button,
-  HStack,
-  Text,
-  VStack,
-  Icon,
-  Badge,
-  useBreakpointValue,
-  Stack,
-} from "@chakra-ui/react";
-import { FaStar, FaRegHeart, FaHeart } from "react-icons/fa";
-import { MdFullscreen } from "react-icons/md";
-import { BsCart } from "react-icons/bs";
-import { useState } from "react";
+import type React from "react"
+import Image from "next/image"
+import { useRouter } from "next/navigation"
+import { Box, Button, HStack, Text, VStack, Icon, Badge, useBreakpointValue, Stack } from "@chakra-ui/react"
+import { FaStar, FaHeart } from "react-icons/fa"
+import { MdFullscreen } from "react-icons/md"
+import { BsCart } from "react-icons/bs"
+import { useState } from "react"
 
-import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
-import type { ProductCardProps } from "@/types";
-import { ROUTES } from "@/constants";
-import { generateNextPath } from "@/utils";
-import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
+import { useConfigQuery, useReviewDataQuery } from "@/hooks/api"
+import type { ProductCardProps } from "@/types"
+import { ROUTES } from "@/constants"
+import { generateNextPath } from "@/utils"
+import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app"
+import { Cart, HeartIcon } from "@/assets/svg"
+import { CrossIcon } from "lucide-react"
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -35,33 +27,43 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   originalPrice,
   isNew,
 }) => {
-  const router = useRouter();
-  const { checkAuth } = useAuthCheck();
-  const [isWishlist, setIsWishlist] = useState(false);
-  const { data: config } = useConfigQuery();
-  const { data: reviewData } = useReviewDataQuery(item_code);
-  const { handleAddToWishlist } = useProductDetailWishlist();
+  const router = useRouter()
+  const { checkAuth } = useAuthCheck()
+  const [isWishlist, setIsWishlist] = useState(false)
+  const { data: config } = useConfigQuery()
+  const { data: reviewData } = useReviewDataQuery(item_code)
+  const { handleAddToWishlist } = useProductDetailWishlist()
+  const [isFullScreen, setIsFullScreen] = useState(false)
 
   const onAddToWishlist = () => {
     const payload = {
       item_code: item_code,
       quantity: 1,
-    };
-    setIsWishlist(true);
-    handleAddToWishlist(payload);
-  };
+    }
+    setIsWishlist(true)
+    handleAddToWishlist(payload)
+  }
+
+  const handleFullScreen = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsFullScreen(true)
+  }
+
+  const closeFullScreen = () => {
+    setIsFullScreen(false)
+  }
 
   // Responsive values
-  const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" });
-  const priceFontSize = useBreakpointValue({ base: "md", md: "lg" });
-  const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" });
-  const iconSize = useBreakpointValue({ base: 3, md: 8 });
-  const starIconSize = useBreakpointValue({ base: 2, md: 3 });
+  const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" })
+  const priceFontSize = useBreakpointValue({ base: "md", md: "lg" })
+  const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" })
+  const iconSize = useBreakpointValue({ base: 2, md: 1.5 })
+  const starIconSize = useBreakpointValue({ base: 2, md: 3 })
   const imageHeight = useBreakpointValue({
     sm: "260px",
     md: "280px",
     lg: "308px",
-  });
+  })
 
   return (
     <VStack
@@ -75,7 +77,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
             productName: link,
-          })
+          }),
         )
       }
     >
@@ -103,61 +105,54 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           position="absolute"
           top="10px"
           right="10px"
-          gap={2}
+          gap={"12px"}
           display={{ base: "none", sm: "flex" }}
           zIndex={2}
           alignItems={"end"}
         >
           <Button
             height="auto"
-            minH="32px"
+            minH="23px"
             bg="#FF6996"
             color="white"
             borderRadius="full"
             fontSize="14px"
+            fontWeight={"400"}
             px={3}
             py={0}
-            lineHeight="1.2"
-            onClick={checkAuth(onAddToWishlist)}
+            lineHeight="17px"
+            onClick={(e) => {
+              e.stopPropagation()
+              checkAuth(onAddToWishlist)()
+            }}
           >
-            Wish List{" "}
-            {isWishlist ? (
-              <FaHeart size={iconSize} />
-            ) : (
-              <FaRegHeart size={iconSize} />
-            )}
+            Wish List {isWishlist ? <FaHeart size={iconSize} /> : <HeartIcon color="white" />}
           </Button>
           <Button
             height="auto"
-            minH="32px"
+            minH="23px"
             bg="#FF6996"
             color="white"
             borderRadius="full"
             fontSize="14px"
+            fontWeight={"400"}
             px={3}
             py={0}
             lineHeight="1.2"
+            onClick={handleFullScreen}
           >
             Full View <MdFullscreen size={iconSize} />
           </Button>
         </VStack>
 
         {/* Product Image */}
-        <Box
-          position="relative"
-          width="100%"
-          height={imageHeight}
-          borderRadius="lg"
-          overflow="hidden"
-        >
+        <Box position="relative" width="100%" height={imageHeight} borderRadius="lg" overflow="hidden">
           <Image
             src={image || config?.company_details_url}
             alt={title}
             fill
             style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "scale(1.05)")
-            }
+            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           />
         </Box>
@@ -171,11 +166,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Icon
               key={i}
               as={FaStar}
-              color={
-                i < Math.ceil(reviewData?.average_rating ?? 0)
-                  ? "#FF6996"
-                  : "gray.300"
-              }
+              color={i < Math.ceil(reviewData?.average_rating ?? 0) ? "#FF6996" : "gray.300"}
               boxSize={starIconSize}
             />
           ))}
@@ -185,12 +176,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </HStack>
 
       {/* Title */}
-      <Text
-        fontWeight="semibold"
-        color="gray.800"
-        lineHeight="1.2"
-        minH={"50px"}
-      >
+      <Text fontWeight="semibold" color="gray.800" lineHeight="1.2" minH={"50px"}>
         {title}
       </Text>
 
@@ -205,22 +191,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </Text>
 
       {/* Price and Add to Cart */}
-      <Stack
-        direction={{ base: "column", sm: "row" }}
-        justify="space-between"
-        align="center"
-        gap={{ base: 3, sm: 2 }}
-      >
+      <Stack direction={{ base: "column", sm: "row" }} justify="space-between" align="center" gap={{ base: 3, sm: 2 }}>
         <HStack gap={2} align="baseline">
           <Text fontSize={priceFontSize} fontWeight="bold" color="#FF6996">
             {config?.currency} {price}
           </Text>
           {originalPrice && (
-            <Text
-              fontSize={originalPriceFontSize}
-              color="gray.400"
-              textDecoration="line-through"
-            >
+            <Text fontSize={originalPriceFontSize} color="gray.400" textDecoration="line-through">
               {config?.currency} {originalPrice}
             </Text>
           )}
@@ -228,18 +205,61 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <Button
           height="auto"
-          minH="32px"
+          minH="23px"
           bg="#FF6996"
           color="white"
           borderRadius="full"
           fontSize="14px"
+          fontWeight={"400"}
           px={3}
           py={0}
           lineHeight="1.2"
         >
-          Add to Cart <BsCart size={iconSize} />
+          Add to Cart <Cart />
         </Button>
       </Stack>
+      {/* Full Screen Modal */}
+      {isFullScreen && (
+        <Box
+          position="fixed"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          bg="rgba(0, 0, 0, 0.9)"
+          zIndex={9999}
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          onClick={closeFullScreen}
+        >
+          <Box position="relative" maxW="90vw" maxH="90vh" onClick={(e) => e.stopPropagation()}>
+            <Image
+              src={image || config?.company_details_url}
+              alt={title}
+              width={800}
+              height={600}
+              style={{
+                objectFit: "contain",
+                maxWidth: "90vw",
+                maxHeight: "90vh",
+              }}
+            />
+            <Button
+              position="absolute"
+              top={4}
+              right={4}
+              bg="white"
+              color="black"
+              borderRadius="full"
+              size="sm"
+              onClick={closeFullScreen}
+            >
+              <CrossIcon/>
+            </Button>
+          </Box>
+        </Box>
+      )}
     </VStack>
-  );
-};
+  )
+}

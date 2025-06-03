@@ -1,3 +1,5 @@
+import exp from "constants";
+
 export { default as InstagramIcon } from "./instagram.svg";
 export { default as TwitterIcon } from "./twitter.svg";
 export { default as YoutubeIcon } from "./youtube.svg";
@@ -13,6 +15,7 @@ export { default as FooterYoutubeIcon } from "./footer-youtube.svg";
 
 export { default as SearchIcon } from "./search.svg";
 export { default as CartIcon } from "./shopping-cart.svg";
+export { default as Cart } from "./cart.svg";
 export { default as HeartIcon } from "./heart.svg";
 export { default as Profile } from "./profile.svg";
 
