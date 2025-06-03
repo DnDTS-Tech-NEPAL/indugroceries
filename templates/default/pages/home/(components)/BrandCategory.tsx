@@ -3,8 +3,6 @@
 import Image from "next/image";
 import {
   Box,
-  Button,
-  Flex,
   Heading,
   IconButton,
   Text,
@@ -15,8 +13,6 @@ import { useFeaturedBrandsImages } from "@/hooks/app";
 import { ROUTES } from "@/constants";
 import { useRouter } from "next/navigation";
 import { VisibleSection } from "@/components/ui/visibleSection";
-import { FaArrowRightLong } from "react-icons/fa6";
-
 // Import Swiper components and styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
@@ -94,7 +90,7 @@ export const BrandCategory = () => {
           w="full"
           overflow="hidden"
           position={"relative"}
-          px={{ base: 0, md: 6 }}
+          px={{ base: 0, md: 12 }}
         >
           {/* Custom Prev Arrow */}
           <IconButton
@@ -104,7 +100,8 @@ export const BrandCategory = () => {
             left="0"
             top="50%"
             zIndex={20}
-            bg={"gray.100"}
+            bg={"white"}
+            boxShadow={"md"}
             height={30}
             width={30}
             color={"gray.100"}
@@ -125,7 +122,8 @@ export const BrandCategory = () => {
             width={30}
             transform="translateY(-50%)"
             zIndex={20}
-            bg={"gray.100"}
+            bg={"white"}
+            boxShadow={"md"}
             borderRadius="full"
           >
             <ChevronRightIcon color="black" />
