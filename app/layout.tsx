@@ -1,15 +1,15 @@
 import { Metadata } from "next";
-import { Roboto } from "next/font/google";
-
-import { getConfigData } from "../api"; // does not work with @/ import in docker
+import { Montserrat } from "next/font/google"; 
+import { getConfigData } from "../api";
 import { Providers } from "./providers";
 import { Layout } from "@/templates/default/components";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const roboto = Roboto({
-  weight: ["400", "500", "700"],
+const montserrat = Montserrat({
+  weight: ["400", "500", "700"], 
   subsets: ["latin"],
+  display: "swap",
 });
 
 export const generateMetadata = async (): Promise<Metadata> => {
@@ -42,7 +42,7 @@ const RootLayout = async ({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${roboto.className}`}>
+      <body className={`${montserrat.className}`}>
         <Providers config={config}>
           <Layout config={config}>{children}</Layout>
         </Providers>

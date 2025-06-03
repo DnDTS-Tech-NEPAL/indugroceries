@@ -2,7 +2,7 @@ import { defineRecipe } from "@chakra-ui/react";
 
 export const headingRecipe = defineRecipe({
   base: {
-    fontFamily: "'Roboto', sans-serif",
+    fontFamily: "Montserrat, sans-serif",
     fontWeight: "bold",
   },
   variants: {
