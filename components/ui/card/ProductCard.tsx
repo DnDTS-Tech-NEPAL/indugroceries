@@ -1,21 +1,30 @@
-"use client"
+"use client";
 
-import type React from "react"
-import Image from "next/image"
-import { useRouter } from "next/navigation"
-import { Box, Button, HStack, Text, VStack, Icon, Badge, useBreakpointValue, Stack } from "@chakra-ui/react"
-import { FaStar, FaHeart } from "react-icons/fa"
-import { MdFullscreen } from "react-icons/md"
-import { BsCart } from "react-icons/bs"
-import { useState } from "react"
+import type React from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import {
+  Box,
+  Button,
+  HStack,
+  Text,
+  VStack,
+  Icon,
+  Badge,
+  useBreakpointValue,
+  Stack,
+} from "@chakra-ui/react";
+import { FaStar, FaHeart } from "react-icons/fa";
+import { MdFullscreen } from "react-icons/md";
+import { useState } from "react";
 
-import { useConfigQuery, useReviewDataQuery } from "@/hooks/api"
-import type { ProductCardProps } from "@/types"
-import { ROUTES } from "@/constants"
-import { generateNextPath } from "@/utils"
-import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app"
-import { Cart, HeartIcon } from "@/assets/svg"
-import { CrossIcon } from "lucide-react"
+import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
+import type { ProductCardProps } from "@/types";
+import { ROUTES } from "@/constants";
+import { generateNextPath } from "@/utils";
+import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
+import { Cart, HeartIcon } from "@/assets/svg";
+import { CrossIcon } from "lucide-react";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -27,43 +36,43 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   originalPrice,
   isNew,
 }) => {
-  const router = useRouter()
-  const { checkAuth } = useAuthCheck()
-  const [isWishlist, setIsWishlist] = useState(false)
-  const { data: config } = useConfigQuery()
-  const { data: reviewData } = useReviewDataQuery(item_code)
-  const { handleAddToWishlist } = useProductDetailWishlist()
-  const [isFullScreen, setIsFullScreen] = useState(false)
+  const router = useRouter();
+  const { checkAuth } = useAuthCheck();
+  const [isWishlist, setIsWishlist] = useState(false);
+  const { data: config } = useConfigQuery();
+  const { data: reviewData } = useReviewDataQuery(item_code);
+  const { handleAddToWishlist } = useProductDetailWishlist();
+  const [isFullScreen, setIsFullScreen] = useState(false);
 
   const onAddToWishlist = () => {
     const payload = {
       item_code: item_code,
       quantity: 1,
-    }
-    setIsWishlist(true)
-    handleAddToWishlist(payload)
-  }
+    };
+    setIsWishlist(true);
+    handleAddToWishlist(payload);
+  };
 
   const handleFullScreen = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setIsFullScreen(true)
-  }
+    e.stopPropagation();
+    setIsFullScreen(true);
+  };
 
   const closeFullScreen = () => {
-    setIsFullScreen(false)
-  }
+    setIsFullScreen(false);
+  };
 
   // Responsive values
-  const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" })
-  const priceFontSize = useBreakpointValue({ base: "md", md: "lg" })
-  const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" })
-  const iconSize = useBreakpointValue({ base: 2, md: 1.5 })
-  const starIconSize = useBreakpointValue({ base: 2, md: 3 })
+  const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" });
+  const priceFontSize = useBreakpointValue({ base: "md", md: "lg" });
+  const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" });
+  const iconSize = useBreakpointValue({ base: 2, md: 1.5 });
+  const starIconSize = useBreakpointValue({ base: 2, md: 3 });
   const imageHeight = useBreakpointValue({
     sm: "260px",
     md: "280px",
     lg: "308px",
-  })
+  });
 
   return (
     <VStack
@@ -77,7 +86,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
             productName: link,
-          }),
+          })
         )
       }
     >
@@ -122,11 +131,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             py={0}
             lineHeight="17px"
             onClick={(e) => {
-              e.stopPropagation()
-              checkAuth(onAddToWishlist)()
+              e.stopPropagation();
+              checkAuth(onAddToWishlist)();
             }}
           >
-            Wish List {isWishlist ? <FaHeart size={iconSize} /> : <HeartIcon color="white" />}
+            Wish List{" "}
+            {isWishlist ? (
+              <FaHeart size={iconSize} />
+            ) : (
+              <HeartIcon color="white" />
+            )}
           </Button>
           <Button
             height="auto"
@@ -146,13 +160,21 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </VStack>
 
         {/* Product Image */}
-        <Box position="relative" width="100%" height={imageHeight} borderRadius="lg" overflow="hidden">
+        <Box
+          position="relative"
+          width="100%"
+          height={imageHeight}
+          borderRadius="lg"
+          overflow="hidden"
+        >
           <Image
             src={image || config?.company_details_url}
             alt={title}
             fill
             style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.05)")
+            }
             onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
           />
         </Box>
@@ -166,7 +188,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <Icon
               key={i}
               as={FaStar}
-              color={i < Math.ceil(reviewData?.average_rating ?? 0) ? "#FF6996" : "gray.300"}
+              color={
+                i < Math.ceil(reviewData?.average_rating ?? 0)
+                  ? "#FF6996"
+                  : "gray.300"
+              }
               boxSize={starIconSize}
             />
           ))}
@@ -176,7 +202,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </HStack>
 
       {/* Title */}
-      <Text fontWeight="semibold" color="gray.800" lineHeight="1.2" minH={"50px"}>
+      <Text
+        fontWeight="semibold"
+        color="gray.800"
+        lineHeight="1.2"
+        minH={"50px"}
+      >
         {title}
       </Text>
 
@@ -191,13 +222,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       </Text>
 
       {/* Price and Add to Cart */}
-      <Stack direction={{ base: "column", sm: "row" }} justify="space-between" align="center" gap={{ base: 3, sm: 2 }}>
+      <Stack
+        direction={{ base: "column", sm: "row" }}
+        justify="space-between"
+        align="center"
+        gap={{ base: 3, sm: 2 }}
+      >
         <HStack gap={2} align="baseline">
           <Text fontSize={priceFontSize} fontWeight="bold" color="#FF6996">
             {config?.currency} {price}
           </Text>
           {originalPrice && (
-            <Text fontSize={originalPriceFontSize} color="gray.400" textDecoration="line-through">
+            <Text
+              fontSize={originalPriceFontSize}
+              color="gray.400"
+              textDecoration="line-through"
+            >
               {config?.currency} {originalPrice}
             </Text>
           )}
@@ -233,7 +273,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           justifyContent="center"
           onClick={closeFullScreen}
         >
-          <Box position="relative" maxW="90vw" maxH="90vh" onClick={(e) => e.stopPropagation()}>
+          <Box
+            position="relative"
+            maxW="90vw"
+            maxH="90vh"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Image
               src={image || config?.company_details_url}
               alt={title}
@@ -255,11 +300,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               size="sm"
               onClick={closeFullScreen}
             >
-              <CrossIcon/>
+              <CrossIcon />
             </Button>
           </Box>
         </Box>
       )}
     </VStack>
-  )
-}
+  );
+};

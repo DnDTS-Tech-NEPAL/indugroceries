@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Montserrat } from "next/font/google"; 
+import { Montserrat } from "next/font/google";
 import { getConfigData } from "../api";
 import { Providers } from "./providers";
 import { Layout } from "@/templates/default/components";
@@ -7,7 +7,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
 const montserrat = Montserrat({
-  weight: ["400", "500", "700"], 
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
   display: "swap",
 });
