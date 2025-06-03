@@ -49,7 +49,7 @@ export const Footer = () => {
             lg: "2fr repeat(3, 1fr)",
           }}
           gap={{ base: 8, md: 10 }}
-          maxW="7xl"
+          maxW="3xl"
           mx="auto"
         >
           {/* Company Logo & Description */}
