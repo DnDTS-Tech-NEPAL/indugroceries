@@ -1,146 +1,145 @@
-"use client"
+"use client";
 
-import { useRouter } from "next/navigation"
-import { useRef } from "react"
-import { Box, HStack, VStack, Button, Text, Heading } from "@chakra-ui/react"
-
-import { Swiper } from "@/components"
-import { ROUTES } from "@/constants"
-import { useHomePageQuery } from "@/hooks/api"
-// import { useHeroSectionSliderCalculations, useSliderImages, useWindowSize } from "@/hooks/app"
-import type { HeroSectionProps } from "@/types"
-import { useRegisterDialogStore } from "@/store"
-import { useSliderImages, useWindowSize } from "@/hooks/app"
+import { useRouter } from "next/navigation";
+import { Box, HStack, VStack, Button, Text, Heading } from "@chakra-ui/react";
+import { Swiper } from "@/components";
+import { ROUTES } from "@/constants";
+import { useHomePageQuery } from "@/hooks/api";
+import type { HeroSectionProps } from "@/types";
+import { useWindowSize } from "@/hooks/app";
+import { useSliderImages } from "@/hooks/app";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 export const HeroSection = ({ initialData }: HeroSectionProps) => {
-  const router = useRouter()
-  const innerContainerRef = useRef<HTMLDivElement | null>(null)
-  // const { extraPadding, tenPercentOfInnerContainer } = useHeroSectionSlderCalculations(innerContainerRef)
-  const { width } = useWindowSize()
-  const { updateSignUpOpen } = useRegisterDialogStore()
+  const router = useRouter();
+  const { width } = useWindowSize();
 
   // Set initial data to react query fetched from the server
-  useHomePageQuery(initialData)
+  useHomePageQuery(initialData);
 
-  const homeData = initialData.Data
-  const heroType = homeData.hero_type
-  const heroContent = homeData.content?.[0]
-
-  const slides = useSliderImages()
-  const direction = width < 1024 ? "horizontal" : "vertical"
+  const homeData = initialData.Data;
+  const heroType = homeData.hero_type || "default";
+  const slides = useSliderImages();
 
   // Full Image: Display full-width and full-height image only
   if (heroType === "Full Image") {
     return (
-      <Box position="relative" width="100%" maxW={"7xl"} aspectRatio={16 / 8} overflow="hidden">
-        <Swiper slides={slides} direction="horizontal" />
+      <Box 
+        position="relative" 
+        width="100%" 
+        height={{ base: "50vh", md: "70vh", lg: "80vh" }}
+        overflow="hidden"
+      >
+        <Swiper 
+          slides={slides} 
+          direction="horizontal" 
+        
+        />
       </Box>
-    )
+    );
   }
 
   // Full Image/Content: Full-screen image background with overlaid content
   if (heroType === "Full Image/Content") {
     return (
-      <Box position="relative" width="100%" height={{ base: "70dvh", md: "85dvh" }} overflow="hidden">
-        <Swiper slides={slides} direction="horizontal" />
+      <Box 
+        position="relative" 
+        width="100%" 
+        height={{ base: "70vh", md: "85vh", lg: "90vh" }}
+        overflow="hidden"
+      >
+        <Swiper 
+          slides={slides} 
+          direction="horizontal"
+        
+        />
       </Box>
-    )
+    );
   }
 
-  // Half Image: 50/50 split between image and content
+  // Half Image: 50/50 split between image and content (swipe both together)
   if (heroType === "Half Image") {
     return (
-      <Box position="relative" width="100%" height={{ base: "70dvh", md: "85dvh" }} overflow="hidden">
-        <Swiper slides={slides} direction="horizontal" />
+      <Box 
+        position="relative" 
+        width="100%"
+        height={{ base: "auto", md: "70vh", lg: "80vh" }}
+        minHeight={{ base: "600px", md: "auto" }}
+        overflow="hidden"
+      >
+        <Swiper 
+          slides={slides} 
+          direction="horizontal"
+       
+        />
       </Box>
-    )
+    );
   }
 
-  // Default fallback - keeping original layout for backward compatibility
+  // Default fallback layout
   return (
     <Box
       position="relative"
-      px={{ base: "20px", md: "40px" }}
-      paddingTop="32px"
-      backgroundColor={heroContent?.background_color || "primary.500"}
+      px={{ base: 4, md: 8, lg: 12 }}
+      py={{ base: 8, md: 12 }}
+      backgroundColor="primary.500"
     >
       <HStack
-        ref={innerContainerRef}
-        flexDirection={{
-          base: "column",
-          lg: heroContent?.align_content === "Right" ? "row-reverse" : "row",
-        }}
+        flexDirection={{ base: "column", lg: "row" }}
         alignItems="stretch"
         justifyContent="space-between"
-        gap={{ base: "24px", lg: "0" }}
+        gap={{ base: 6, lg: 0 }}
         mx="auto"
         maxWidth="1280px"
-        height={{
-          base: "auto",
-          lg: "calc(100vh - 120px)",
-        }}
+        height={{ base: "auto", lg: "70vh" }}
         minHeight="600px"
-        maxHeight="750px"
-        overflow="hidden"
       >
         <VStack
           justifyContent="center"
-          alignItems="center"
-          flexShrink="0"
-          width={{
-            base: "full",
-            lg: "calc(50% - 16px)",
-            "2xl": "calc(60% - 32px)",
-          }}
+          alignItems="flex-start"
+          width={{ base: "full", lg: "50%" }}
+          px={{ base: 0, lg: 4 }}
         >
-          <VStack alignItems="stretch" justifyContent="center" gap={{ base: "20px", lg: "8px", "2xl": "16px" }}>
-            <Heading as="h1" variant={{ base: "heading4", md: "heading3", "2xl": "heading1" }}>
-              {heroContent?.hero_title}
+          <VStack alignItems="flex-start" gap={{ base: 4, lg: 6 }}>
+            <Heading
+              as="h1"
+              fontSize={{ base: "2xl", sm: "3xl", md: "4xl", lg: "5xl" }}
+              lineHeight="1.2"
+            >
+              {homeData.content?.[0]?.hero_title}
             </Heading>
             <Text
-              variant={{
-                base: "paragraphSmall",
-                md: "paragraphRegular",
-                xl: "paragraphLarge",
-              }}
-              color={{ lg: "primary.300" }}
+              fontSize={{ base: "md", md: "lg", lg: "xl" }}
+              color="primary.300"
             >
-              {heroContent?.hero_description}
+              {homeData.content?.[0]?.hero_description}
             </Text>
-
-            <HStack alignItems="stretch" flexDirection={{ base: "column", lg: "row" }} gap="16px" py="16px">
-              <Button
-                onClick={() => router.push(ROUTES.APP.PRODUCTS)}
-                data-testid="Explore-now-button"
-                borderRadius={"full"}
-                variant="solid"
-                px={"24px"}
-              >
-                Explore Now
-              </Button>
-            </HStack>
+            <Button
+              onClick={() => router.push(ROUTES.APP.PRODUCTS)}
+              size={{ base: "md", md: "lg" }}
+              borderRadius="full"
+              variant="solid"
+             
+            >
+              Explore Now <FaArrowRightLong />
+            </Button>
           </VStack>
         </VStack>
 
-        <VStack
-          position={{ base: "relative", lg: "absolute" }}
-          top="0"
-          right={heroContent?.align_content === "Right" ? "auto" : "0"}
-          left={heroContent?.align_content === "Right" ? "0" : "auto"}
-          alignItems="center"
-          justifyContent="center"
-          width={{
-            base: "full",
-          }}
-          height={{ base: "400px", lg: "full" }}
-          cursor="pointer"
-          onClick={() => router.push(ROUTES.APP.PRODUCTS)}
+        <Box
+          width={{ base: "full", lg: "50%" }}
+          height={{ base: "300px", md: "400px", lg: "full" }}
+          position="relative"
+          overflow="hidden"
+          borderRadius={{ base: "md", lg: "xl" }}
         >
-          <Box position="relative" width="full" height={{ base: "full", lg: "90%", "2xl": "full" }} overflow="hidden">
-            <Swiper slides={slides} direction={direction} />
-          </Box>
-        </VStack>
+          <Swiper 
+            slides={slides} 
+            direction="horizontal"
+           
+          />
+        </Box>
       </HStack>
     </Box>
-  )
-}
+  );
+};

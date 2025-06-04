@@ -54,6 +54,17 @@ export type ContentType = {
   hero_title: string;
   hero_tagline: string;
   align_content: "Left" | "Right";
+  hero_title_color: "string";
+  hero_tagline_color: "string";
+  hero_description_color: "string";
+  button_1_label: "string";
+  button_1_color: "string";
+  button_1_text_color: "string";
+  button_1_redirect_link: "string";
+  button_2_label: "string";
+  button_2_color: "string";
+  button_2_text_color: "string";
+  button_2_redirect_link: "string";
 };
 
 export type HomePageAPIResponseType = {
