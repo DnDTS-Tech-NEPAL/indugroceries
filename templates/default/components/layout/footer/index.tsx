@@ -43,21 +43,21 @@ export const Footer = () => {
           gap={{ base: 8, md: 10, lg: 12  }}
         >
           <VStack align="start" gap={2} color="white">
-            {config?.company_details_url && (
+            {config?.footer_logo_url && (
               <Box position="relative" w={`${width}px`} h={`${height}px`}>
                 <Image
-                  src={config.company_details_url}
+                  src={config.footer_logo_url}
                   alt={config.company_details_name || "Company Logo"}
                   fill
-                  style={{ objectFit: "cover" }}
+                  style={{ objectFit: "contain" }}
                 />
               </Box>
             )}
-            <Box marginLeft={"28px"} spaceY={2}>
+          
               <Text fontSize="sm">Phone No: {config?.contact_number || ""}</Text>
             <Text fontSize="sm">Email: {config?.company_contact_email || ""}</Text>
             <Text fontSize="sm">Location: {config?.location || ""}</Text>
-            </Box>
+           
           </VStack>
 
           <VStack align="start" gap={2} color="#FF6996">
@@ -128,7 +128,6 @@ export const Footer = () => {
               <Link key={name} href={href} target="_blank" passHref legacyBehavior>
                 <ChakraLink
                   aria-label={name}
-                  _hover={{ color: "pink.500" }}
                   color="white"
                   display="flex"
                   alignItems="center"

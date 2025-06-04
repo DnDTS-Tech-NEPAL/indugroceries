@@ -86,6 +86,7 @@ export type ConfigType = {
   top_nav_bar_redirect_link: string;
 
   // footer section
+   footer_logo_url:string;
   quick_links: QuickLinkType[];
   // Saaf section
   advertisement_image_link: string;
