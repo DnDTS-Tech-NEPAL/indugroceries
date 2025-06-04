@@ -117,9 +117,7 @@ export const useSliderImages = () => {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              alignItems: alignContent === "Right" ? "flex-end" : "flex-start",
-              padding: "2rem",
-              textAlign: alignContent === "Right" ? "right" : "left",
+              padding: "2rem",           
             }}
           >
             {tagline && (
