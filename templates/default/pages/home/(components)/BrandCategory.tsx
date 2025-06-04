@@ -4,23 +4,22 @@ import Image from "next/image";
 import {
   Box,
   Heading,
-  IconButton,
   Text,
   VStack,
+  Button,
 } from "@chakra-ui/react";
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { useFeaturedBrandsImages } from "@/hooks/app";
 import { ROUTES } from "@/constants";
 import { useRouter } from "next/navigation";
 import { VisibleSection } from "@/components/ui/visibleSection";
-// Import Swiper components and styles
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRef } from "react";
 import SwiperCore from "swiper";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 export const BrandCategory = () => {
   const router = useRouter();
@@ -32,11 +31,20 @@ export const BrandCategory = () => {
   const shouldForceScroll = featureImages.length <= 5;
   const baseSlides = shouldForceScroll ? 4.9 : 5;
 
-  // Safely access the data with optional chaining and fallback values
   const featuredBrandTitle = featuredBrandsData?.featured_brand_title;
   const featuredBrandSubtitle = featuredBrandsData?.featured_brand_subtitle;
   const featuredBrandDescription =
     featuredBrandsData?.featured_brand_description;
+
+  const handleNavigation = (direction: "left" | "right") => {
+    if (swiperRef.current) {
+      if (direction === "right") {
+        swiperRef.current.slideNext();
+      } else {
+        swiperRef.current.slidePrev();
+      }
+    }
+  };
 
   return (
     <VisibleSection visibility={config?.featured_brands_visibility}>
@@ -85,49 +93,52 @@ export const BrandCategory = () => {
           </Text>
         </VStack>
 
-        {/* Swiper Carousel with forced scrolling */}
+        {/* Swiper Carousel with new arrow navigation */}
         <Box
           w="full"
           overflow="hidden"
-          position={"relative"}
+          position="relative"
           px={{ base: 0, md: 12 }}
         >
-          {/* Custom Prev Arrow */}
-          <IconButton
-            aria-label="Prev"
-            onClick={() => swiperRef.current?.slidePrev()}
+          {/* Left Arrow Button */}
+          <Button
+            aria-label="Previous brand"
+            onClick={() => handleNavigation("left")}
             position="absolute"
-            left="0"
+            left={{ base: 2, md: 4 }}
             top="50%"
-            zIndex={20}
-            bg={"white"}
-            boxShadow={"md"}
-            height={30}
-            width={30}
-            color={"gray.100"}
             transform="translateY(-50%)"
-            borderRadius="full"
+            width="20px"
+            height="20px"
+            zIndex={10}
+            boxShadow="md"
+            bg="white"
+            color="black"
+            rounded="full"
+            _hover={{ bg: "gray.100" }}
           >
-            <ChevronLeftIcon color="black" />
-          </IconButton>
+            <ChevronLeft />
+          </Button>
 
-          {/* Custom Next Arrow */}
-          <IconButton
-            aria-label="Next"
-            onClick={() => swiperRef.current?.slideNext()}
+          {/* Right Arrow Button */}
+          <Button
+            aria-label="Next brand"
+            onClick={() => handleNavigation("right")}
             position="absolute"
-            right="0"
+            right={{ base: 2, md: 4 }}
             top="50%"
-            height={30}
-            width={30}
             transform="translateY(-50%)"
-            zIndex={20}
-            bg={"white"}
-            boxShadow={"md"}
-            borderRadius="full"
+            width="20px"
+            height="20px"
+            zIndex={10}
+            boxShadow="md"
+            bg="white"
+            color="black"
+            rounded="full"
+            _hover={{ bg: "gray.100" }}
           >
-            <ChevronRightIcon color="black" />
-          </IconButton>
+            <ChevronRight  />
+          </Button>
 
           <Swiper
             modules={[Autoplay]}
