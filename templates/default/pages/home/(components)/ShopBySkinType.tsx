@@ -54,7 +54,7 @@ export const ShopBySkinType = () => {
               slidesPerView: shouldForceScroll ? 3 : 3,
               spaceBetween: 30,
             },
-            1440: {
+            1350: {
               slidesPerView: shouldForceScroll ? 4 : 4,
               spaceBetween: 30,
             },
