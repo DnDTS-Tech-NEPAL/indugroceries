@@ -1,7 +1,4 @@
 export type HomePageType = {
-  hero_description: string;
-  hero_tag_line: string;
-  hero_title: string;
   main_img1_url: string;
   main_img1_redirect: string;
   main_img2_url: string;
@@ -47,9 +44,16 @@ export type HomePageType = {
   featured_brand_subtitle: string;
   featured_brand_title: string;
   featured_brand_description: string;
-
-  
-
+  content: ContentType[];
+};
+export type ContentType = {
+  hero_image: string;
+  hero_image_link: string;
+  hero_description: string;
+  background_color: string;
+  hero_title: string;
+  hero_tagline: string;
+  align_content: "Left" | "Right";
 };
 
 export type HomePageAPIResponseType = {

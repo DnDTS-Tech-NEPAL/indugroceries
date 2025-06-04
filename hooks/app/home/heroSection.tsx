@@ -45,12 +45,18 @@ export const useHeroSectionSliderCalculations = (
   };
 };
 
-// converts the images into slider datas
 export const useSliderImages = () => {
   const { data: config } = useConfigQuery();
   const { data: homeData } = useHomePageQuery();
 
-  const slides = (Object.keys(homeData || {}) as (keyof HomePageType)[])
+  // Get all hero images from content array
+  const heroImages = homeData?.content?.map(item => ({
+    imageUrl: item.hero_image_link || config?.company_details_url || "",
+    redirectUrl: "#" // You can add redirect URLs to your content items if needed
+  })) || [];
+
+  // Fallback to main_img if no content images exist
+  const fallbackImages = (Object.keys(homeData || {}) as (keyof HomePageType)[])
     .filter(
       (key) =>
         key.startsWith("main_img") &&
@@ -58,7 +64,7 @@ export const useSliderImages = () => {
         typeof homeData?.[key as keyof HomePageType] === "string" &&
         (homeData?.[key as keyof HomePageType] as string).trim() !== ""
     )
-    .map((key, index) => {
+    .map((key) => {
       const imageUrl = String(
         homeData?.[key] || config?.company_details_url || ""
       );
@@ -68,27 +74,32 @@ export const useSliderImages = () => {
       ) as keyof HomePageType;
       const redirectUrl = String(homeData?.[redirectKey] || "#");
 
-      return (
-        <div
-          key={index}
-          style={{
-            width: "100%",
-            height: "100%",
-            position: "relative",
-            cursor: "pointer",
-          }}
-          onClick={() => (window.location.href = redirectUrl)}
-        >
-          <Image
-            src={imageUrl}
-            alt={`Banner ${index + 1}`}
-            fill
-            style={{ objectFit: "cover", objectPosition: "center" }}
-            priority
-          />
-        </div>
-      );
+      return { imageUrl, redirectUrl };
     });
+
+  // Use hero images if available, otherwise fall back to main_img images
+  const imagesToUse = heroImages.length > 0 ? heroImages : fallbackImages;
+
+  const slides = imagesToUse.map(({ imageUrl, redirectUrl }, index) => (
+    <div
+      key={index}
+      style={{
+        width: "100%",
+        height: "100%",
+        position: "relative",
+        cursor: "pointer",
+      }}
+      onClick={() => (window.location.href = redirectUrl)}
+    >
+      <Image
+        src={imageUrl}
+        alt={`Banner ${index + 1}`}
+        fill
+        style={{ objectFit: "cover", objectPosition: "center" }}
+        priority
+      />
+    </div>
+  ));
 
   return slides;
 };

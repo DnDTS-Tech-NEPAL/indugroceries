@@ -18,135 +18,134 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 export const HeroSection = ({ initialData }: HeroSectionProps) => {
   const router = useRouter();
-
-  // set initial data to react query fetched from the server
-  useHomePageQuery(initialData);
-
   const innerContainerRef = useRef<HTMLDivElement | null>(null);
-
-  // handles all the required calculations based on browser width
-  const { extraPadding, tenPercentOfInnerContainer } =
-    useHeroSectionSliderCalculations(innerContainerRef);
-
-  const slides = useSliderImages();
+  const { extraPadding, tenPercentOfInnerContainer } = useHeroSectionSliderCalculations(innerContainerRef);
   const { width } = useWindowSize();
-
-  const direction = width < 1024 ? "horizontal" : "vertical";
-  const homeData = initialData.Data;
-  const heroType = initialData.Data.hero_type;
   const { updateSignUpOpen } = useRegisterDialogStore();
 
-  return heroType === "Full Image" ? (
-    <Box
-      position="relative"
-      width="100%"
-      maxW={"7xl"}
-      aspectRatio={16 / 8}
-      overflow="hidden"
-    >
-      <Swiper slides={slides} direction="horizontal" />
-    </Box>
-  ) : heroType === "Full Image/Content" ? (
-    <Box
-      position="relative"
-      width="100%"
-      height={{ base: "70dvh", md: "85dvh" }}
-      overflow="hidden"
-    >
-      <Box position="absolute" inset="0" zIndex={0}>
-        <Swiper slides={slides} direction="horizontal" />
-      </Box>
+  // Set initial data to react query fetched from the server
+  useHomePageQuery(initialData);
 
-      {/* Dark overlay for readability */}
-      <Box position="absolute" inset="0" bg="blackAlpha.100" zIndex={1} />
+  const homeData = initialData.Data;
+  const heroType = homeData.hero_type;
+  const heroContent = homeData.content?.[0]; 
 
-      {/* Content */}
+  const slides = useSliderImages();
+  const direction = width < 1024 ? "horizontal" : "vertical";
+
+  if (heroType === "Full Image") {
+    return (
       <Box
         position="relative"
-        zIndex={2}
-        maxW="1280px"
-        mx="auto"
-        px={{ base: 6, md: 10 }}
-        py={10}
-        height="100%"
-        display="flex"
-        alignItems="center"
+        width="100%"
+        maxW={"7xl"}
+        aspectRatio={16 / 8}
+        overflow="hidden"
       >
-        <VStack
-          alignItems="flex-start"
-          gap={6}
-          maxW={{ base: "100%", md: "50%" }}
-          color="white"
-        >
-          <Text
-            fontSize={{ base: "sm", md: "md", lg: "xl" }}
-            w={{ base: "full", xl: "87%" }}
-            opacity={0.9}
-            textAlign="justify"
-          >
-            {homeData.hero_tag_line}
-          </Text>
-          <Heading
-            as="h1"
-            w={{ base: "full", lg: "75%" }}
-            fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
-            lineHeight="1.2"
-          >
-            {homeData.hero_title}
-          </Heading>
-          <Text
-            fontSize={{ base: "sm", md: "md", lg: "lg" }}
-            w={{ base: "full", xl: "87%" }}
-            opacity={0.9}
-            textAlign="justify"
-          >
-            {homeData.hero_description}
-          </Text>
-          <HStack gap={8}>
-            <Button
-              colorScheme="green"
-              bg={"#F8E1E7"}
-              color={"gray.700"}
-              borderRadius="3xl"
-              onClick={() => router.push(ROUTES.APP.PRODUCTS)}
-            >
-              Shop Now <FaArrowRightLong />
-            </Button>
-
-            <Button
-              color="white"
-              bg={"#FF6996"}
-              borderRadius="3xl"
-              onClick={() => router.push(ROUTES.APP.BRANDS)}
-            >
-              Shop Brands <FaArrowRightLong />
-            </Button>
-          </HStack>
-        </VStack>
+        <Swiper slides={slides} direction="horizontal" />
       </Box>
-    </Box>
-  ) : (
+    );
+  }
+
+  if (heroType === "Full Image/Content") {
+    return (
+      <Box
+        position="relative"
+        width="100%"
+        height={{ base: "70dvh", md: "85dvh" }}
+        overflow="hidden"
+      >
+        <Box position="absolute" inset="0" zIndex={0}>
+          <Swiper slides={slides} direction="horizontal" />
+        </Box>
+
+        {/* Dark overlay for readability */}
+        <Box position="absolute" inset="0" bg="blackAlpha.100" zIndex={1} />
+
+        {/* Content */}
+        <Box
+          position="relative"
+          zIndex={2}
+          maxW="1280px"
+          mx="auto"
+          px={{ base: 6, md: 10 }}
+          py={10}
+          height="100%"
+          display="flex"
+          alignItems="center"
+          justifyContent={heroContent?.align_content === "Right" ? "flex-end" : "flex-start"}
+        >
+          <VStack
+            alignItems="flex-start"
+            gap={6}
+            maxW={{ base: "100%", md: "50%" }}
+            color="white"
+          >
+            <Text
+              fontSize={{ base: "sm", md: "md", lg: "xl" }}
+              w={{ base: "full", xl: "87%" }}
+              opacity={0.9}
+              textAlign="justify"
+            >
+              {heroContent?.hero_tagline}
+            </Text>
+            <Heading
+              as="h1"
+              w={{ base: "full", lg: "75%" }}
+              fontSize={{ base: "2xl", md: "4xl", lg: "5xl" }}
+              lineHeight="1.2"
+            >
+              {heroContent?.hero_title}
+            </Heading>
+            <Text
+              fontSize={{ base: "sm", md: "md", lg: "lg" }}
+              w={{ base: "full", xl: "87%" }}
+              opacity={0.9}
+              textAlign="justify"
+            >
+              {heroContent?.hero_description}
+            </Text>
+            <HStack gap={8}>
+              <Button
+                colorScheme="green"
+                bg={"#F8E1E7"}
+                color={"gray.700"}
+                borderRadius="3xl"
+                onClick={() => router.push(ROUTES.APP.PRODUCTS)}
+              >
+                Shop Now <FaArrowRightLong />
+              </Button>
+              <Button
+                color="white"
+                bg={"#FF6996"}
+                borderRadius="3xl"
+                onClick={() => router.push(ROUTES.APP.BRANDS)}
+              >
+                Shop Brands <FaArrowRightLong />
+              </Button>
+            </HStack>
+          </VStack>
+        </Box>
+      </Box>
+    );
+  }
+
+  return (
     <Box
       position="relative"
-      px={{
-        base: "20px",
-        md: "40px",
-      }}
+      px={{ base: "20px", md: "40px" }}
       paddingTop="32px"
-      backgroundColor="primary.500"
+      backgroundColor={heroContent?.background_color || "primary.500"}
     >
       <HStack
         ref={innerContainerRef}
         flexDirection={{
           base: "column",
-          lg: "row",
+          lg: heroContent?.align_content === "Right" ? "row-reverse" : "row",
         }}
         alignItems="stretch"
         justifyContent="space-between"
-        gap={{
-          base: "24px",
-          lg: "0",
-        }}
+        gap={{ base: "24px", lg: "0" }}
         mx="auto"
         maxWidth="1280px"
         height={{
@@ -170,21 +169,13 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
           <VStack
             alignItems="stretch"
             justifyContent="center"
-            gap={{
-              base: "20px",
-              lg: "8px",
-              "2xl": "16px",
-            }}
+            gap={{ base: "20px", lg: "8px", "2xl": "16px" }}
           >
             <Heading
               as="h1"
-              variant={{
-                base: "heading4",
-                md: "heading3",
-                "2xl": "heading1",
-              }}
+              variant={{ base: "heading4", md: "heading3", "2xl": "heading1" }}
             >
-              {homeData.hero_title}
+              {heroContent?.hero_title}
             </Heading>
             <Text
               variant={{
@@ -192,19 +183,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
                 md: "paragraphRegular",
                 xl: "paragraphLarge",
               }}
-              color={{
-                lg: "primary.300",
-              }}
+              color={{ lg: "primary.300" }}
             >
-              {homeData.hero_description}
+              {heroContent?.hero_description}
             </Text>
 
             <HStack
               alignItems="stretch"
-              flexDirection={{
-                base: "column",
-                lg: "row",
-              }}
+              flexDirection={{ base: "column", lg: "row" }}
               gap="16px"
               py="16px"
             >
@@ -217,48 +203,31 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
               >
                 Explore Now
               </Button>
-              {/* <Button
-                variant="outline"
-                onClick={() => router.push(ROUTES.APP.CONTACT_US)}
-                data-testid="contact-us-button"
-              >
-                Contact Us
-              </Button> */}
             </HStack>
           </VStack>
         </VStack>
 
         <VStack
-          position={{
-            base: "relative",
-            lg: "absolute",
-          }}
+          position={{ base: "relative", lg: "absolute" }}
           top="0"
-          right="0"
+          right={heroContent?.align_content === "Right" ? "auto" : "0"}
+          left={heroContent?.align_content === "Right" ? "0" : "auto"}
           alignItems="center"
           justifyContent="center"
           width={{
             base: "full",
-            lg:
-              width > 0
-                ? `calc(50% - ${tenPercentOfInnerContainer}px + ${extraPadding}px)`
-                : 0,
+            lg: width > 0
+              ? `calc(50% - ${tenPercentOfInnerContainer}px + ${extraPadding}px)`
+              : 0,
           }}
-          height={{
-            base: "400px",
-            lg: "full",
-          }}
+          height={{ base: "400px", lg: "full" }}
           cursor="pointer"
           onClick={() => router.push(ROUTES.APP.PRODUCTS)}
         >
           <Box
             position="relative"
             width="full"
-            height={{
-              base: "full",
-              lg: "90%",
-              "2xl": "full",
-            }}
+            height={{ base: "full", lg: "90%", "2xl": "full" }}
             overflow="hidden"
           >
             <Swiper slides={slides} direction={direction} />
