@@ -39,7 +39,7 @@ export const ShopBySkinType = () => {
           grabCursor={true}
           breakpoints={{
             0: {
-              slidesPerView: shouldForceScroll ? 2 : 2,
+              slidesPerView: shouldForceScroll ? 1 : 1,
               spaceBetween: 15,
             },
             480: {
@@ -51,6 +51,10 @@ export const ShopBySkinType = () => {
               spaceBetween: 25,
             },
             1024: {
+              slidesPerView: shouldForceScroll ? 3 : 3,
+              spaceBetween: 30,
+            },
+            1440: {
               slidesPerView: shouldForceScroll ? 4 : 4,
               spaceBetween: 30,
             },
@@ -70,20 +74,19 @@ export const ShopBySkinType = () => {
               >
                 <Box
                   width={{
-                    base: "120px",
-                    sm: "140px",
+                    base: "180px",
+                    sm: "180px",
                     md: "200px",
-                    lg:"240px",
-                    xl: "290px",
+                    lg: "240px",
+                    xl: "270px",
                   }}
                   height={{
-                    base: "120px",
-                    sm: "140px",
+                    base: "180px",
+                    sm: "180px",
                     md: "200px",
-                    lg:"240px",
-                    xl: "290px",
+                    lg: "240px",
+                    xl: "270px",
                   }}
-                
                   borderRadius="full"
                   overflow="hidden"
                   position="relative"
@@ -102,7 +105,7 @@ export const ShopBySkinType = () => {
                   <Box
                     position="absolute"
                     top={{
-                      base: "15px",
+                      base: "25px",
                       sm: "18px",
                       md: "25px",
                       lg: "45px",
@@ -110,7 +113,7 @@ export const ShopBySkinType = () => {
                       "2xl": "55px",
                     }}
                     right={{
-                      base: "15px",
+                      base: "25px",
                       sm: "18px",
                       md: "25px",
                       lg: "45px",
@@ -132,16 +135,16 @@ export const ShopBySkinType = () => {
                     }}
                     fontWeight="bold"
                     width={{
-                      base: "50px",
-                      sm: "55px",
+                      base: "70px",
+                      sm: "70px",
                       md: "70px",
                       lg: "85px",
                       xl: "95px",
                       "2xl": "105px",
                     }}
                     height={{
-                      base: "50px",
-                      sm: "55px",
+                      base: "70px",
+                      sm: "70 px",
                       md: "70px",
                       lg: "85px",
                       xl: "95px",
@@ -149,7 +152,8 @@ export const ShopBySkinType = () => {
                     }}
                     textAlign="center"
                     p={2}
-                    boxShadow="md"                  >
+                    boxShadow="md"
+                  >
                     <Text
                       lineHeight="1.2"
                       wordBreak="break-word"
@@ -180,22 +184,22 @@ export const ShopBySkinType = () => {
                 >
                   <Box
                     width={{
-                      base: "120px",
-                      sm: "140px",
-                      md: "180px",
-                      lg: "248px",
+                      base: "180px",
+                      sm: "180px",
+                      md: "200px",
+                      lg: "240px",
+                      xl: "270px",
                     }}
                     height={{
-                      base: "120px",
-                      sm: "140px",
-                      md: "180px",
-                      lg: "248px",
+                      base: "180px",
+                      sm: "180px",
+                      md: "200px",
+                      lg: "240px",
+                      xl: "270px",
                     }}
                     borderRadius="full"
                     overflow="hidden"
                     position="relative"
-                    mx="auto"
-                    boxShadow="lg"
                   >
                     <Image
                       src={skinType.image || "/placeholder.svg"}
@@ -207,19 +211,19 @@ export const ShopBySkinType = () => {
                       }}
                     />
 
-                    {/* Text overlay positioned to stay within circle */}
+                    {/* Text overlay  */}
                     <Box
                       position="absolute"
                       top={{
-                        base: "15px",
+                        base: "25px",
                         sm: "18px",
                         md: "25px",
                         lg: "45px",
                         xl: "55px",
-                        "2xl": "65px",
+                        "2xl": "55px",
                       }}
                       right={{
-                        base: "15px",
+                        base: "25px",
                         sm: "18px",
                         md: "25px",
                         lg: "45px",
@@ -241,16 +245,16 @@ export const ShopBySkinType = () => {
                       }}
                       fontWeight="bold"
                       width={{
-                        base: "50px",
-                        sm: "55px",
+                        base: "70px",
+                        sm: "70px",
                         md: "70px",
                         lg: "85px",
                         xl: "95px",
                         "2xl": "105px",
                       }}
                       height={{
-                        base: "50px",
-                        sm: "55px",
+                        base: "70px",
+                        sm: "70 px",
                         md: "70px",
                         lg: "85px",
                         xl: "95px",
@@ -258,6 +262,7 @@ export const ShopBySkinType = () => {
                       }}
                       textAlign="center"
                       p={2}
+                      boxShadow="md"
                     >
                       <Text
                         lineHeight="1.2"
@@ -277,4 +282,3 @@ export const ShopBySkinType = () => {
     </VStack>
   );
 };
-
