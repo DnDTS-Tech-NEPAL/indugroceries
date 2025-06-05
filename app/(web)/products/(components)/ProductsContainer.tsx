@@ -46,8 +46,8 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
   return (
     <FormProvider methods={methods} onSubmit={submitHandler}>
       <Box maxW={"6xl"} mx={"auto"} px={{ base: 4, md: 6 }}>
-        <Flex 
-          justifyContent={"space-between"} 
+        <Flex
+          justifyContent={"space-between"}
           mt={{ base: 4, md: 8 }}
           flexDirection={{ base: "column", sm: "row" }}
           gap={{ base: 4, md: 0 }}

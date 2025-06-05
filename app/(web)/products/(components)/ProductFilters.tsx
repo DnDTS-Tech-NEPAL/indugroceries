@@ -53,7 +53,11 @@ export const ProductFilters = () => {
         >
           <Flex align="center" gap={"2px"}>
             <FilterIcon height={"14px"} width={"14px"} />
-            <Text  fontSize={"12px"} fontWeight={500} display={{base: "none", sm:"block"}}>
+            <Text
+              fontSize={"12px"}
+              fontWeight={500}
+              display={{ base: "none", sm: "block" }}
+            >
               Filter
             </Text>
           </Flex>

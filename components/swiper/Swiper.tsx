@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 
 import "./swiper.css";
 
-export const Swiper = ({ slides, direction ,aspectRatio}: SwiperProps) => {
+export const Swiper = ({ slides, direction }: SwiperProps) => {
   // const { width } = useWindowSize();
   // const direction = width < 1024 ? "horizontal" : "vertical";
   return (
