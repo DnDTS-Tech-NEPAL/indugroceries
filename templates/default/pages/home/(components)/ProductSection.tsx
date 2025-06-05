@@ -168,7 +168,7 @@ export const ProductSection = ({
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.4 }}
             >
-              <SimpleGrid columns={{ base: 2, md: 4 }} gap={{ base: 4, md: 6 }}>
+              <SimpleGrid columns={{base:1, sm: 2, md: 3,lg:4 }} gap={{ sm:4,base: 4, md: 6 }}>
                 {pagedProducts.map((product) => (
                   <ProductCard key={product.title} {...product} />
                 ))}

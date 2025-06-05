@@ -69,6 +69,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const iconSize = useBreakpointValue({ base: 2, md: 1.5 });
   const starIconSize = useBreakpointValue({ base: 2, md: 3 });
   const imageHeight = useBreakpointValue({
+    base: "320px",
     sm: "260px",
     md: "280px",
     lg: "308px",
