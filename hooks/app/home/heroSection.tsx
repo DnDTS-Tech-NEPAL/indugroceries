@@ -310,7 +310,7 @@ export const useSliderImages = () => {
               {title && (
                 <Heading
                   as="h1"
-                  fontSize={{ base: "3xl", sm: "4xl", md: "5xl", lg: "6xl" }}
+                  fontSize={{ base: "2xl", sm: "4xl", md: "5xl", lg: "5xl" }}
                   fontWeight="bold"
                   mb={4}
                   lineHeight="1.2"
@@ -322,7 +322,7 @@ export const useSliderImages = () => {
               {description && (
                 <Text
                   fontSize={{ base: "lg", md: "xl" }}
-                  lineHeight="1.6"
+                  lineHeight={{base:"1.2",lg:"1.6"}}
                   opacity={0.9}
                   mb={8}
                   color={descriptionColor}
