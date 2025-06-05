@@ -45,14 +45,22 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
 
   return (
     <FormProvider methods={methods} onSubmit={submitHandler}>
-      <Box maxW={"6xl"} mx={"auto"}>
-        <Flex justifyContent={"space-between"} mt={8}>
-          <VStack align={{ base: "flex-start" }} gap={2}>
+      <Box maxW={"6xl"} mx={"auto"} px={{ base: 4, md: 6 }}>
+        <Flex 
+          justifyContent={"space-between"} 
+          mt={{ base: 4, md: 8 }}
+          flexDirection={{ base: "column", sm: "row" }}
+          gap={{ base: 4, md: 0 }}
+          alignItems={{ base: "flex-start", sm: "center" }}
+        >
+          <VStack align={"flex-start"} gap={2}>
             <Heading
               as={"h2"}
               fontSize={{
-                base: "24px",
-                md: "28px",
+                base: "20px",
+                sm: "22px",
+                md: "24px",
+                lg: "28px",
               }}
               fontWeight="400"
               color="gray.800"
@@ -71,16 +79,16 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
           <ProductFilters />
         </Flex>
         <Flex
-          flexDirection={{ base: "column", md: "column", lg: "row" }}
+          flexDirection={{ base: "column", lg: "row" }}
           maxWidth={"1280px"}
           mx={"auto"}
-          gap={{ md: "20px", lg: "40px", xl: "60px" }}
-          alignItems={"stretch"}
-          py={{ base: "24px", lg: "32px", "2xl": "56px" }}
+          gap={{ base: 4, md: 6, lg: 8, xl: 12 }}
+          alignItems={"flex-start"}
+          py={{ base: 4, md: 6, lg: 8, xl: 10 }}
         >
           <Box
             display={{ base: "none", lg: "block" }}
-            minWidth="240px"
+            minWidth={{ lg: "240px", xl: "280px" }}
             p={4}
             borderRight={"1px solid"}
             borderColor={"primary.100"}
@@ -94,12 +102,10 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
             </VStack>
           </Box>
 
-          <Box flex="1">
-            <Flex>
-              <Box width="full" p={4}>
-                <AllProducts />
-              </Box>
-            </Flex>
+          <Box flex="1" width="full">
+            <Box width="full" p={{ base: 0, md: 4 }}>
+              <AllProducts />
+            </Box>
           </Box>
         </Flex>
       </Box>
