@@ -21,19 +21,29 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
   const heroType = homeData.hero_type || "default";
   const slides = useSliderImages();
 
+  // Calculate responsive height based on viewport width
+  const getResponsiveHeight = () => {
+    if (!width) return "70vh";
+    if (width < 480) return "60vh"; // Very small phones
+    if (width < 768) return "65vh"; // Phones
+    if (width < 1024) return "75vh"; // Tablets
+    return "85vh"; // Desktop
+  };
+
   // Full Image: Display full-width and full-height image only
   if (heroType === "Full Image") {
     return (
       <Box 
         position="relative" 
         width="100%" 
-        height={{ base: "50vh", md: "70vh", lg: "80vh" }}
+        height={getResponsiveHeight()}
+        minHeight="300px"
         overflow="hidden"
       >
         <Swiper 
           slides={slides} 
-          direction="horizontal" 
-        
+          direction="horizontal"
+          aspectRatio={16/9} 
         />
       </Box>
     );
@@ -45,13 +55,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
       <Box 
         position="relative" 
         width="100%" 
-        height={{ base: "70vh", md: "85vh", lg: "90vh" }}
+        height={getResponsiveHeight()}
+        minHeight="400px"
         overflow="hidden"
       >
         <Swiper 
           slides={slides} 
           direction="horizontal"
-        
+          aspectRatio={16/9}
         />
       </Box>
     );
@@ -63,14 +74,15 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
       <Box 
         position="relative" 
         width="100%"
-        height={{ base: "auto", md: "70vh", lg: "80vh" }}
-        minHeight={{ base: "600px", md: "auto" }}
+        height={{ base: "auto", md: "70vh" }}
+        minHeight={{ base: "600px", md: "500px" }}
+        maxHeight={{ lg: "800px" }}
         overflow="hidden"
       >
         <Swiper 
           slides={slides} 
           direction="horizontal"
-       
+          aspectRatio={2/1}
         />
       </Box>
     );
@@ -92,13 +104,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
         mx="auto"
         maxWidth="1280px"
         height={{ base: "auto", lg: "70vh" }}
-        minHeight="600px"
+        minHeight={{ base: "auto", lg: "600px" }}
       >
         <VStack
           justifyContent="center"
           alignItems="flex-start"
           width={{ base: "full", lg: "50%" }}
           px={{ base: 0, lg: 4 }}
+          order={{ base: 2, lg: 1 }}
         >
           <VStack alignItems="flex-start" gap={{ base: 4, lg: 6 }}>
             <Heading
@@ -119,7 +132,6 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
               size={{ base: "md", md: "lg" }}
               borderRadius="full"
               variant="solid"
-             
             >
               Explore Now <FaArrowRightLong />
             </Button>
@@ -128,18 +140,22 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
 
         <Box
           width={{ base: "full", lg: "50%" }}
-          height={{ base: "300px", md: "400px", lg: "full" }}
+          height={{ base: "300px", sm: "350px", md: "400px", lg: "full" }}
+          minHeight={{ lg: "500px" }}
           position="relative"
           overflow="hidden"
           borderRadius={{ base: "md", lg: "xl" }}
+          order={{ base: 1, lg: 2 }}
         >
           <Swiper 
             slides={slides} 
             direction="horizontal"
-           
+            aspectRatio={16/9}
           />
         </Box>
       </HStack>
     </Box>
   );
 };
+
+

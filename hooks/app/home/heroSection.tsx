@@ -2,7 +2,7 @@
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { HomePageType } from "@/types";
 import Image from "next/image";
-import { Box,  Heading, Text, Button, HStack } from "@chakra-ui/react";
+import { Box, Heading, Text, Button, HStack } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 export const useSliderImages = () => {
@@ -127,8 +127,12 @@ export const useSliderImages = () => {
             src={imageUrl || "/placeholder.svg?height=600&width=1200"}
             alt={`Banner ${index + 1}`}
             fill
-            style={{ objectFit: "cover", objectPosition: "center" }}
+            style={{ 
+              objectFit: "cover", 
+              objectPosition: "center",
+            }}
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
           />
         </Box>
       );
@@ -159,8 +163,12 @@ export const useSliderImages = () => {
               src={imageUrl || "/placeholder.svg?height=600&width=600"}
               alt={`Banner ${index + 1}`}
               fill
-              style={{ objectFit: "cover", objectPosition: "center" }}
+              style={{ 
+                objectFit: "cover", 
+                objectPosition: "center" 
+              }}
               priority
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
             />
           </Box>
 
@@ -205,7 +213,7 @@ export const useSliderImages = () => {
                 {description}
               </Text>
             )}
-            <HStack gap={4}>
+            <HStack gap={4} flexWrap="wrap">
               {button1.label && (
                 <Button
                   onClick={(e) => {
@@ -258,8 +266,12 @@ export const useSliderImages = () => {
             src={imageUrl || "/placeholder.svg?height=600&width=1200"}
             alt={`Banner ${index + 1}`}
             fill
-            style={{ objectFit: "cover", objectPosition: "center" }}
+            style={{ 
+              objectFit: "cover", 
+              objectPosition: "center" 
+            }}
             priority
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
           />
 
           {/* Dark overlay for readability */}
@@ -279,7 +291,7 @@ export const useSliderImages = () => {
             zIndex={2}
           >
             <Box
-              maxWidth={{ base: "100%", lg: "50%" }}
+              maxWidth={{ base: "100%", sm: "90%", md: "80%", lg: "50%" }}
               textAlign={{
                 base: "center",
                 lg: alignContent === "Right" ? "right" : "left",
@@ -324,6 +336,7 @@ export const useSliderImages = () => {
                   base: "center",
                   lg: alignContent === "Right" ? "flex-end" : "flex-start",
                 }}
+                flexWrap="wrap"
               >
                 {button1.label && (
                   <Button
@@ -374,8 +387,12 @@ export const useSliderImages = () => {
           src={imageUrl || "/placeholder.svg?height=600&width=1200"}
           alt={`Banner ${index + 1}`}
           fill
-          style={{ objectFit: "cover", objectPosition: "center" }}
+          style={{ 
+            objectFit: "cover", 
+            objectPosition: "center" 
+          }}
           priority
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
         />
       </Box>
     );
