@@ -104,7 +104,7 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
         mx="auto"
         maxWidth="1280px"
         height={{ base: "auto", lg: "70vh" }}
-        minHeight={{ base: "auto", lg: "600px" }}
+        minHeight={{ base: "auto", lg: "850px" }}
       >
         <VStack
           justifyContent="center"

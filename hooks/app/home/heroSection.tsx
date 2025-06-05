@@ -154,7 +154,7 @@ export const useSliderImages = () => {
           {/* Image Side */}
           <Box
             width={{ base: "100%", lg: "50%" }}
-            height={{ base: "50%", lg: "100%" }}
+              height={{ base: "300px", md: "400px", lg: "100%" }}
             position="relative"
             cursor="pointer"
             onClick={() => handleButtonClick(redirectUrl)}
@@ -175,7 +175,7 @@ export const useSliderImages = () => {
           {/* Content Side */}
           <Box
             width={{ base: "100%", lg: "50%" }}
-            height={{ base: "50%", lg: "100%" }}
+            height={{ base: "59%", lg: "100%" }}
             bg={backgroundColor}
             display="flex"
             flexDirection="column"
