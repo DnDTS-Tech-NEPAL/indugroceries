@@ -25,7 +25,7 @@ import { calculateHeightAndWidth, extractMenu } from "@/utils";
 import { NavItem } from "./NavItem";
 import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
-import { Profile } from "@/assets/svg";
+import { Login, Profile, Register } from "@/assets/svg";
 import { useNavMenuQuery } from "@/hooks/api/navMenu";
 import { ProfileDropdown } from "@/app/(user)/profile";
 
@@ -238,7 +238,7 @@ export const Navbar = () => {
                           cursor="pointer"
                           onClick={() => updateSignInOpen(true)}
                         >
-                          Login
+                         <Login/> Login
                         </Button>
                       </VisibleSection>
                       <VisibleSection visibility={config?.register_visibility}>
@@ -249,7 +249,7 @@ export const Navbar = () => {
                           borderRadius={"sm"}
                           onClick={() => updateSignUpOpen(true)}
                         >
-                          Register
+                       <Register/>   Register
                         </Button>
                       </VisibleSection>
                     </Box>

@@ -18,6 +18,8 @@ export { default as CartIcon } from "./shopping-cart.svg";
 export { default as Cart } from "./cart.svg";
 export { default as HeartIcon } from "./heart.svg";
 export { default as Profile } from "./profile.svg";
+export { default as Login } from "./login.svg";
+export { default as Register } from "./register.svg";
 
 export { default as ArrowDownIcon } from "./arrow-down.svg";
 export { default as ArrowRightIcon } from "./arrow-right.svg";
