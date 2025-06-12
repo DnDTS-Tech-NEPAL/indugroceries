@@ -180,7 +180,7 @@ export const FilterAccordion = ({
                     />
                   )}
                 </Flex>
-                {selectedValues.includes(val) && (
+                {item_group.includes(val) && (
                   <Box w="6px" h="6px" borderRadius="full" bg="red.500" />
                 )}
               </Flex>
@@ -201,7 +201,7 @@ export const FilterAccordion = ({
                       onClick={(e) => handleChildClick(child.value, e)}
                     >
                       <Text fontSize="sm">{child.title}</Text>
-                      {selectedValues.includes(child.value) && (
+                      {item_group.includes(child.value) && (
                         <Box w="5px" h="5px" borderRadius="full" bg="red.500" />
                       )}
                     </Flex>
