@@ -7,7 +7,10 @@ import { useController, useFormContext, useWatch } from "react-hook-form";
 import type { FilterAccordionProps, CategoryItem } from "@/types";
 import { SearchInput } from "@/components";
 import { useState, useEffect } from "react";
+
 import { ChevronRight } from "lucide-react";
+
+import { useFilterStore } from "@/store/products/filterStore";
 
 export const FilterAccordion = ({
   items,
@@ -27,6 +30,9 @@ export const FilterAccordion = ({
     control,
   });
 
+  // Zustand store
+  const { item_group, setItemGroup, setPage } = useFilterStore();
+
   // Watch the search input value
   const searchTerm = useWatch({
     name: "search",
@@ -41,8 +47,9 @@ export const FilterAccordion = ({
     hasChildren: boolean | undefined,
     children: CategoryItem[] = []
   ) => {
-    // Ensure hasChildren is a boolean
     const hasChildrenBoolean = hasChildren === true;
+
+    let newValue: string[];
 
     if (hasChildrenBoolean) {
       // Toggle expanded state for parent category
@@ -60,26 +67,36 @@ export const FilterAccordion = ({
         setChildCategories([]);
       }
 
-      // Select the parent category
-      const newValue = selectedValues[0] === val ? [] : [val];
-      onChange(newValue);
+      // Toggle selection of the parent category
+      newValue = selectedValues[0] === val ? [] : [val];
     } else {
-      // For items without children, just toggle selection
-      const newValue = selectedValues[0] === val ? [] : [val];
-      onChange(newValue);
+      // Toggle selection of the item without children
+      newValue = selectedValues[0] === val ? [] : [val];
     }
+
+    // Update React Hook Form state
+    onChange(newValue);
+
+    // Sync Zustand store state
+    setItemGroup(newValue);
+    setPage(1);
   };
 
   const handleChildClick = (val: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const newValue = selectedValues[0] === val ? [] : [val];
+
     onChange(newValue);
+    setItemGroup(newValue);
+    setPage(1);
   };
 
   const handleClearAll = () => {
     onChange([]);
     setExpandedCategory(null);
     setChildCategories([]);
+    setItemGroup([]);
+    setPage(1);
   };
 
   // Reset expanded category when selection changes from outside
@@ -157,7 +174,9 @@ export const FilterAccordion = ({
                   {hasChildrenBoolean && (
                     <ChevronRight
                       size={16}
-                      className={`ml-2 transition-transform ${expandedCategory === val ? "rotate-90" : ""}`}
+                      className={`ml-2 transition-transform ${
+                        expandedCategory === val ? "rotate-90" : ""
+                      }`}
                     />
                   )}
                 </Flex>

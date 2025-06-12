@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { FilterAccordion } from "./FilterAccordion";
 import { ProductFilters } from "./ProductFilters";
+import { AppliedFilters } from "@/components/ui/filter";
 
 export const ProductsContainer = ({ type }: ProductSectionProps) => {
   const methods = useForm<ProductFilterType>({
@@ -94,6 +95,7 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
             borderColor={"primary.100"}
           >
             <VStack align="stretch" borderRadius="md">
+              <AppliedFilters/>
               {filters
                 .filter((filter) => filter.title.toLowerCase() === "category")
                 .map((filter) => (

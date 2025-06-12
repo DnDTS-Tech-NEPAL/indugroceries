@@ -6,6 +6,7 @@ import { Box, Flex, Text } from "@chakra-ui/react";
 
 import { ArrowDownIcon } from "@/assets/svg";
 import { FilterSelectProps } from "@/types";
+import { useFilterStore } from "@/store/products/filterStore";
 
 export const FilterSelect = ({ name, options, icon }: FilterSelectProps) => {
   if (!Array.isArray(options)) options = [];
@@ -22,6 +23,12 @@ export const FilterSelect = ({ name, options, icon }: FilterSelectProps) => {
   const handleSelect = (option: string) => {
     onChange(option);
     setIsOpen(false);
+    if (name === "bestseller") {
+      useFilterStore.getState().setBestseller(Number(option));
+    } 
+    else if (name === "pricerange") {
+      useFilterStore.getState().setPriceRange(Number(option));
+    }
   };
 
   const value = options.find(({ value }) => value === formValue);
@@ -36,7 +43,22 @@ export const FilterSelect = ({ name, options, icon }: FilterSelectProps) => {
       >
         {icon}
 
-        <Text fontSize={{ base: "12px", md: "14px" }} fontWeight={500}>
+        <Text
+          display={{ base: "none", md: "block" }}
+          fontSize={{ base: "12px", md: "14px" }}
+          fontWeight={500}
+        >
+          {name === "pricerange"
+            ? "Price Range"
+            : name === "bestseller"
+              ? "Popularity"
+              : ""}
+        </Text>
+        <Text
+          display={{ base: "block", md: "none" }}
+          fontSize={{ base: "12px", md: "14px" }}
+          fontWeight={500}
+        >
           {value?.label}
         </Text>
         <ArrowDownIcon
