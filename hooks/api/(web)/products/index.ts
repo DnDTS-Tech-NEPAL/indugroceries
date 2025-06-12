@@ -17,3 +17,4 @@ export * from "./search";
 export * from "./wishlist";
 export * from "./wishlistCount";
 export * from "./paymentMethod"
+export * from "./offer"

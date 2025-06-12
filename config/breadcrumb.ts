@@ -70,4 +70,8 @@ export const BREADCRUMB_CONFIG = {
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "Recommend Products", href: ROUTES.APP.RECOMMEND },
   ],
+   OFFER: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Offer Products", href: ROUTES.APP.OFFER },
+  ],
 };

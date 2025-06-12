@@ -16,7 +16,9 @@ export const ROUTES = {
     TERMS: "/terms-and-condition",
     INFLUENCER:"/call-for-influencer",
     QUIZ:"/skin-test-quiz",
-    RECOMMEND:"/recommend-products"
+    RECOMMEND:"/recommend-products",
+    OFFER: "/offer",
+
   },
 
   USER: {

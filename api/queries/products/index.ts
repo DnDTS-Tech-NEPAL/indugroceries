@@ -14,3 +14,4 @@ export * from "./reviewData";
 export * from "./search";
 export * from "./wishlistCount";
 export * from "./paymentMethod"
+export * from "./offer"

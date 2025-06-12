@@ -29,6 +29,7 @@ export const API_ROUTES = {
       FILTER: "itemflags",
       LIST: "item_list",
       SEARCH: "item_search",
+      OFFER: "offeritems",
 
       NEW_ARRIVALS: "newarrivals",
       BEST_SELLERS: "bestseller",
