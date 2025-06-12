@@ -2,7 +2,14 @@
 
 import Image from "next/image";
 import { useEffect, useMemo } from "react";
-import { Box,Flex,Grid,Heading,SimpleGrid,Spinner,} from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  SimpleGrid,
+  Spinner,
+} from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
 import { Pagination, ProductCard } from "@/components";

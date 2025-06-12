@@ -25,8 +25,7 @@ export const FilterSelect = ({ name, options, icon }: FilterSelectProps) => {
     setIsOpen(false);
     if (name === "bestseller") {
       useFilterStore.getState().setBestseller(Number(option));
-    } 
-    else if (name === "pricerange") {
+    } else if (name === "pricerange") {
       useFilterStore.getState().setPriceRange(Number(option));
     }
   };

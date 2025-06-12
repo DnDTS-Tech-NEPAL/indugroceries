@@ -95,7 +95,7 @@ export const ProductsContainer = ({ type }: ProductSectionProps) => {
             borderColor={"primary.100"}
           >
             <VStack align="stretch" borderRadius="md">
-              <AppliedFilters/>
+              <AppliedFilters />
               {filters
                 .filter((filter) => filter.title.toLowerCase() === "category")
                 .map((filter) => (
