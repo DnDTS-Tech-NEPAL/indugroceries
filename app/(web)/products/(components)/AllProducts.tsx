@@ -1,44 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { useFormContext } from "react-hook-form";
-import { Box, Grid, SimpleGrid, Spinner } from "@chakra-ui/react";
+import { useEffect, useMemo } from "react";
+import { Box,Flex,Grid,Heading,SimpleGrid,Spinner,} from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
 import { Pagination, ProductCard } from "@/components";
 import { PAGE_SIZE } from "@/constants";
 import { useFilterProductsQuery } from "@/hooks/api";
-import { ProductFilterType } from "@/types";
-
-import { useSearchParams } from "next/navigation";
+import { useFilterStore } from "@/store/products/filterStore";
 
 export const AllProducts = () => {
-  const searchParams = useSearchParams();
-  const categoryFromQuery = searchParams.get("category");
-  const BrandFromQuery = searchParams.get("brands");
-  const { watch, setValue, trigger } = useFormContext<ProductFilterType>();
+  const { brand, item_group, bestseller, pricerange, page, setPage } =
+    useFilterStore();
 
-  const { brand, item_group, bestseller, pricerange } = watch();
-
-  const [currentPage, setCurrentPage] = useState(1);
-  useEffect(() => {
-    if (categoryFromQuery) {
-      setValue("item_group", [categoryFromQuery]);
-      trigger();
-    }
-    if (BrandFromQuery) {
-      setValue("brand", [BrandFromQuery]);
-      trigger();
-    }
-  }, [categoryFromQuery, BrandFromQuery, setValue, trigger]);
-
+  // Fetch filtered products
   const { data, isLoading } = useFilterProductsQuery({
     brand,
     item_group,
     bestseller: +bestseller,
     pricerange: +pricerange,
-    page: currentPage,
+    page,
     size: PAGE_SIZE,
   });
 
@@ -46,8 +28,44 @@ export const AllProducts = () => {
   const total_count = data?.total_count || 0;
   const totalPages = Math.ceil(total_count / PAGE_SIZE);
 
+  // Validate current page is within bounds
+  useEffect(() => {
+    if (totalPages > 0 && page > totalPages) {
+      setPage(1);
+    }
+  }, [totalPages, page]);
+
+  // Compute the label to display based on bestseller filter
+  const productLabel = useMemo(() => {
+    switch (bestseller) {
+      case 1:
+        return "Best Selling";
+      case 2:
+        return "New Arrivals";
+      default:
+        return "All";
+    }
+  }, [bestseller]);
+
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0 });
+  };
+
   return (
     <Box>
+      <Flex
+        justifyContent={{ base: "column", lg: "space-between" }}
+        direction={{ base: "column", lg: "row" }}
+        mb={{ base: "24px", md: "20px" }}
+        gap={{ base: "16px", lg: "0" }}
+      >
+        <Heading variant={{ base: "heading6", lg: "heading7" }}>
+          {productLabel} Products{" "}
+          {!isLoading && `(${total_count} products found)`}
+        </Heading>
+      </Flex>
+
       {isLoading ? (
         <Grid placeItems="center" height="500px">
           <Spinner />
@@ -69,15 +87,12 @@ export const AllProducts = () => {
         </SimpleGrid>
       )}
 
-      {!isLoading && products.length > 0 && (
+      {!isLoading && products.length > 0 && totalPages > 1 && (
         <Pagination
           totalPages={totalPages}
-          currentPage={currentPage}
+          currentPage={page}
           pageSize={PAGE_SIZE}
-          onPageChange={(newPage) => {
-            setCurrentPage(newPage);
-            window.scrollTo({ top: 0 });
-          }}
+          onPageChange={handlePageChange}
         />
       )}
     </Box>
