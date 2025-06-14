@@ -11,12 +11,12 @@ import {
   Heading,
   HStack,
   Button,
-  Image,
   Link,
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
 import { Dialog } from "@/components";
+import Image from "next/image";
 
 interface Product {
   id: number | string;
@@ -49,7 +49,7 @@ const RelatedProductCard = ({
   reviews: number;
 }) => (
   <Box borderRadius="md" overflow="hidden" width="48%">
-    <Image src={image} alt={name} width="100%" />
+    <Image src={image} alt={name} width={100} height={100} />
     <Box mt={2}>
       <Text fontSize="xs" color="pink.500">
         ★★★★★ {reviews} reviews
@@ -155,23 +155,35 @@ const DetailsSection = ({
   onIncrease: () => void;
 }) => (
   <Box bg="white" p={6} width={{ base: "100%", md: "50%" }} overflow="auto">
-    <Heading size="lg" mb={1}>
-      {product.name}
-    </Heading>
+    <Flex justify="space-between" align="center" mb={4}>
+      <Box>
+        <Image
+          src={"/global-reach-vertical.png"}
+          alt={"name"}
+          width={100}
+          height={100}
+        />
+      </Box>
+      <Box>
+        <Heading size="lg" mb={1}>
+          {product.name}
+        </Heading>
 
-    <RatingSection rating={product.rating} reviews={product.reviews} />
-    <PriceSection
-      price={product.price}
-      originalPrice={product.originalPrice}
-      discount={product.discount}
-    />
-    <Flex justify={"space-between"} gap={4}>
-      <QuantityControl
-        quantity={quantity}
-        onDecrease={onDecrease}
-        onIncrease={onIncrease}
-      />
-      <ActionButtons />
+        <RatingSection rating={product.rating} reviews={product.reviews} />
+        <PriceSection
+          price={product.price}
+          originalPrice={product.originalPrice}
+          discount={product.discount}
+        />
+        <Flex justify={"space-between"} gap={4}>
+          <QuantityControl
+            quantity={quantity}
+            onDecrease={onDecrease}
+            onIncrease={onIncrease}
+          />
+          <ActionButtons />
+        </Flex>
+      </Box>
     </Flex>
     <ProductDescription description={product.description} />
     <RelatedProducts />
@@ -321,31 +333,31 @@ const RelatedProducts = () => {
       name: "Cosrx Advanced Snail 92 All in one Cream",
       price: 1200,
       reviews: 420,
-      image: "https://via.placeholder.com/150",
+      image: "/global-reach-vertical.png",
     },
     {
       name: "Beauty of Joseon - Matte Sun Stick Duo",
       price: 1500,
       reviews: 420,
-      image: "https://via.placeholder.com/150",
+      image: "/global-reach-vertical.png",
     },
     {
       name: "Beauty of Joseon - Matte Sun Stick Duo",
       price: 1500,
       reviews: 420,
-      image: "https://via.placeholder.com/150",
+      image: "/global-reach-vertical.png",
     },
     {
       name: "Beauty of Joseon - Matte Sun Stick Duo",
       price: 1500,
       reviews: 420,
-      image: "https://via.placeholder.com/150",
+      image: "/global-reach-vertical.png",
     },
     {
       name: "Beauty of Joseon - Matte Sun Stick Duo",
       price: 1500,
       reviews: 420,
-      image: "https://via.placeholder.com/150",
+      image: "/global-reach-vertical.png",
     },
     // Add more products as needed
   ];
