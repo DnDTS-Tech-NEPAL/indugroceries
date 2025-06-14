@@ -165,14 +165,14 @@ const DetailsSection = ({
       originalPrice={product.originalPrice}
       discount={product.discount}
     />
-
-    <QuantityControl
-      quantity={quantity}
-      onDecrease={onDecrease}
-      onIncrease={onIncrease}
-    />
-
-    <ActionButtons />
+    <Flex justify={"space-between"} gap={4}>
+      <QuantityControl
+        quantity={quantity}
+        onDecrease={onDecrease}
+        onIncrease={onIncrease}
+      />
+      <ActionButtons />
+    </Flex>
     <ProductDescription description={product.description} />
     <RelatedProducts />
   </Box>
@@ -231,10 +231,10 @@ const QuantityControl = ({
 }) => (
   <Flex mb={6} align="center">
     <Flex
-      // border="1px solid"
       borderColor="gray.200"
       borderRadius="md"
-      w="100px"
+      // w="100px"
+      flex={1}
       gap={2}
       align="center"
     >
@@ -285,8 +285,8 @@ const QuantityControl = ({
 );
 
 const ActionButtons = () => (
-  <HStack gap="20px" width="100%" mb={6}>
-    <Button rounded="xl" bg="#FF6996" flex={1}>
+  <HStack gap="20px" w="100%" mb={6}>
+    <Button rounded="full" bg="#FF6996" flex={1} w="100%">
       Add to Bag
     </Button>
     <Button
