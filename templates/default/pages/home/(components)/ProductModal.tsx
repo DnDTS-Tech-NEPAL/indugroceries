@@ -15,7 +15,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
-import { HeartIcon } from "@/assets/svg";
+import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
 import { Dialog } from "@/components";
 
 interface Product {
@@ -231,28 +231,55 @@ const QuantityControl = ({
 }) => (
   <Flex mb={6} align="center">
     <Flex
-      border="1px solid"
+      // border="1px solid"
       borderColor="gray.200"
       borderRadius="md"
       w="100px"
-      mr={4}
+      gap={2}
       align="center"
     >
       <IconButton
         aria-label="Decrease quantity"
         variant="ghost"
-        size="sm"
+        borderRadius="2rem"
+        minWidth="3rem"
+        minHeight="3rem"
+        color={"#7A7A7A"}
+        backgroundColor="#f0f0f0"
+        border={"1px solid #7A7A7A"}
         onClick={onDecrease}
-      />
-      <Text flex="1" textAlign="center">
+      >
+        <SubtractIcon />
+      </IconButton>
+
+      <Box
+        flex="1"
+        textAlign="center"
+        borderRadius="3rem"
+        color={"#7A7A7A"}
+        backgroundColor="#f0f0f0"
+        border="1px solid #2E2E2E"
+        display="inline-flex"
+        justifyContent="center"
+        alignItems="center"
+        minWidth="3rem"
+        minHeight="3rem"
+      >
         {quantity}
-      </Text>
+      </Box>
       <IconButton
         aria-label="Increase quantity"
         variant="ghost"
-        size="sm"
+        borderRadius="2rem"
+        minWidth="3rem"
+        minHeight="3rem"
+        color={"#7A7A7A"}
+        backgroundColor="#f0f0f0"
+        border={"1px solid #7A7A7A"}
         onClick={onIncrease}
-      />
+      >
+        <AddIcon />
+      </IconButton>
     </Flex>
   </Flex>
 );
