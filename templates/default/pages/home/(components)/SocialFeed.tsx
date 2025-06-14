@@ -511,6 +511,7 @@ const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
   }
 
   return (
+    <>
     <Box py={{ base: 8, md: 12 }} bg="gray.50">
       <Box>
         {/* Header */}
@@ -555,7 +556,7 @@ const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
         {/* Swiper or Fallback */}
         {videoLinks.length > 0 ? (
-          <Box position="relative" width="full" overflow="hidden" >
+          <Box position="relative" width="full" overflow="hidden" zIndex={0} >
             <Swiper
               // modules={[Autoplay]}
               spaceBetween={16}
@@ -691,8 +692,9 @@ const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
         )}
       </Box>
 
+    </Box>
       {/* Product Modal */}
       <ProductModal  isOpen={isModalOpen} onClose={closeModal} product={selectedProduct} />
-    </Box>
+    </>
   )
 }

@@ -42,7 +42,7 @@ export const ProductModal = ({ isOpen, onClose, product }: ProductModalProps) =>
 
   return (
     <Box  >
-    <Modal  isOpen={isOpen} onClose={onClose} size="4xl" isCentered blockScrollOnMount={false}  >
+    <Modal  isOpen={isOpen} onClose={onClose} size="4xl" isCentered blockScrollOnMount={true}  >
       <ModalOverlay zIndex={1500} />
       <ModalContent borderRadius="md" overflow="hidden" zIndex={1500}>
         <ModalBody zIndex={1600} p={0}>
