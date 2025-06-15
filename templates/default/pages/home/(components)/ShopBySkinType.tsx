@@ -102,7 +102,7 @@ export const ShopBySkinType = () => {
                   />
 
                   {/* Text overlay  */}
-                  <Box
+                  {/* <Box
                     position="absolute"
                     top={{
                       base: "25px",
@@ -162,7 +162,7 @@ export const ShopBySkinType = () => {
                     >
                       {skinType.name}
                     </Text>
-                  </Box>
+                  </Box> */}
                 </Box>
               </VStack>
             </SwiperSlide>
@@ -212,7 +212,7 @@ export const ShopBySkinType = () => {
                     />
 
                     {/* Text overlay  */}
-                    <Box
+                    {/* <Box
                       position="absolute"
                       top={{
                         base: "25px",
@@ -272,7 +272,7 @@ export const ShopBySkinType = () => {
                       >
                         {skinType.name}
                       </Text>
-                    </Box>
+                    </Box> */}
                   </Box>
                 </VStack>
               </SwiperSlide>
