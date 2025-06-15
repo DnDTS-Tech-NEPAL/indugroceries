@@ -20,7 +20,7 @@ export const useSliderImages = () => {
       item.hero_image ||
       config?.company_details_url ||
       "",
-    redirectUrl: "#",
+    redirectUrl: item.hero_image_redirect_link || "#",
     title: item.hero_title,
     titleColor: item.hero_title_color,
     description: item.hero_description,

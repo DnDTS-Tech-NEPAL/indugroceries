@@ -49,6 +49,7 @@ export type HomePageType = {
 export type ContentType = {
   hero_image: string;
   hero_image_link: string;
+  hero_image_redirect_link: string;
   hero_description: string;
   background_color: string;
   hero_title: string;
