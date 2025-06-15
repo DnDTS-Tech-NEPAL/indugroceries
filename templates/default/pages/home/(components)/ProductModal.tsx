@@ -166,7 +166,7 @@ const DetailsSection = ({
         />
       </Box>
       <Box>
-        <Heading size="lg" mb={1}>
+        <Heading size="lg" mb={1} color="#2E2E2E">
           {product.name}
         </Heading>
 
@@ -221,11 +221,11 @@ const PriceSection = ({
   discount: string;
 }) => (
   <Flex align="center" mb={6}>
-    <Text fontWeight="bold" fontSize="2xl" mr={2}>
+    <Text fontWeight="bold" fontSize="2xl" mr={2} color={"#2E2E2E"}>
       Rs {price.toLocaleString()}
     </Text>
     <Text as="s" color="gray.500" fontSize="sm" mr={2}>
-      ₹{originalPrice.toLocaleString()}
+      {originalPrice.toLocaleString()}
     </Text>
     <Text color="pink.500" fontSize="sm">
       {discount}
