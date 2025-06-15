@@ -12,6 +12,7 @@ import {
   HStack,
   Button,
   Link,
+  Grid,
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
@@ -48,13 +49,13 @@ const RelatedProductCard = ({
   price: number;
   reviews: number;
 }) => (
-  <Box borderRadius="md" overflow="hidden" width="48%">
-    <Image src={image} alt={name} width={100} height={100} />
+  <Box borderRadius="md" overflow="hidden">
+    <Image src={image} alt={name} width={300} height={150} />
     <Box mt={2}>
       <Text fontSize="xs" color="pink.500">
         ★★★★★ {reviews} reviews
       </Text>
-      <Text fontSize="sm">{name}</Text>
+      <Text fontSize="sm" color="gray.600" lineClamp={1} w={200}>{name}</Text>
       <Text fontSize="sm" fontWeight="bold" color="pink.500">
         Rs {price.toLocaleString()}
       </Text>
@@ -352,14 +353,14 @@ const RelatedProducts = () => {
 
   return (
     <Box>
-      <Text fontWeight="medium" mb={4}>
+      <Text fontWeight="medium" mb={4} color={"#2E2E2E"}>
         You May Like
       </Text>
-      <Flex flexWrap="wrap" gap={4}>
+      <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={4}>
         {relatedProducts.map((product, index) => (
           <RelatedProductCard key={index} {...product} />
         ))}
-      </Flex>
+      </Grid>
     </Box>
   );
 };
