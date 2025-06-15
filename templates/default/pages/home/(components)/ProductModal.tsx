@@ -82,6 +82,7 @@ export const ProductModal = ({
         lg: "1000px",
         xl: "1200px",
       }}
+      hasCloseTrigger
     >
       <Flex direction={{ base: "column", md: "row" }} maxH={{ md: "90dvh" }}>
         {/* Media Section */}
