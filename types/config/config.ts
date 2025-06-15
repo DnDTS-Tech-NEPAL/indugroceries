@@ -99,14 +99,7 @@ export type ConfigType = {
   banner_3_image_url_vertical: string;
 
   //productshowcase section
-  banner_1_image_link: string;
-  banner_2_image_link: string;
-  banner_3_image_link: string;
-  banner_4_image_link: string;
-  banner_1_image_redirect_link: string;
-  banner_2_image_redirect_link: string;
-  banner_3_image_redirect_link: string;
-  banner_4_image_redirect_link: string;
+  four_banner_table: FourBannerType[];
   // remove these later
   location: string;
   template: string;
@@ -129,6 +122,15 @@ export type FooterCardType = {
   card_label: string;
   card_content: string;
   card_icon: string;
+};
+export type FourBannerType = {
+  card_type: string;
+  image_link: string;
+  card_title: string;
+  card_subtitle: string;
+  card_description: string;
+  button_label: string;
+  redirect_link: string;
 };
 
 export type SocialLinkType = {
