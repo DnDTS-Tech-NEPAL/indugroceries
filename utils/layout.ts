@@ -17,8 +17,8 @@ export const extractMenu = (data?: NavMenuItemType[]) => {
     isMega: item.is_mega_menu === 1,
     subMenus: Array.isArray(item.children)
       ? item.children.map((child) => ({
-          label: child.child_display_name,
-          link: child.child_redirect_link,
+          child_display_name: child.child_display_name,
+          child_redirect_link: child.child_redirect_link,
         }))
       : [],
   }));

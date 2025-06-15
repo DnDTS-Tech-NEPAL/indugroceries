@@ -111,10 +111,10 @@ export const Navbar = () => {
             {navItems?.map(({ href, menuName, subMenus, isMega }) => (
               <NavItem
                 key={menuName}
-                href={href}
+                menu_redirect_link={href}
                 menuName={menuName}
-                isMega={isMega}
-                subMenus={subMenus}
+                is_mega_menu={isMega}
+                children={subMenus}
               />
             ))}
 

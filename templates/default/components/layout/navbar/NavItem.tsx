@@ -5,24 +5,28 @@ import { ArrowDownIcon } from "@/assets/svg";
 
 // Types
 export interface SubMenuItem {
-  label: string;
-  link: string;
+  child_display_name: string;
+  child_redirect_link: string;
 }
 
 export interface NavItemProps {
   menuName: string;
-  href: string;
-  isMega: boolean;
-  subMenus: SubMenuItem[];
+  menu_redirect_link: string;
+  is_mega_menu: boolean;
+  children: SubMenuItem[];
 }
 
-export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
-  const hasSubMenus = Array.isArray(subMenus) && subMenus.length > 0;
+export const NavItem = ({
+  menu_redirect_link,
+  menuName,
+  children,
+}: NavItemProps) => {
+  const hasSubMenus = Array.isArray(children) && children.length > 0;
 
   return (
     <Box position="relative" className="group">
       <HStack cursor="pointer" color="primary.400">
-        <Link href={href}>
+        <Link href={menu_redirect_link}>
           <Text
             variant="subtitle2"
             fontWeight="400"
@@ -38,7 +42,7 @@ export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
           </Text>
         </Link>
 
-        {hasSubMenus && <ArrowDownIcon />}
+        {hasSubMenus && <ArrowDownIcon color="black" />}
       </HStack>
 
       {hasSubMenus && (
@@ -59,8 +63,8 @@ export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
             display: "flex",
           }}
         >
-          {subMenus.map(({ label, link }) => (
-            <Link key={label} href={link}>
+          {children.map(({ child_display_name, child_redirect_link }) => (
+            <Link key={child_display_name} href={child_redirect_link}>
               <Text
                 variant="paragraphSmall"
                 padding="16px 10px"
@@ -68,7 +72,7 @@ export const NavItem = ({ href, menuName, subMenus }: NavItemProps) => {
                 borderBottomColor="system.neutral.separator.light"
                 fontSize="14px"
               >
-                {label}
+                {child_display_name}
               </Text>
             </Link>
           ))}
