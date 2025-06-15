@@ -83,7 +83,7 @@ export const ProductModal = ({
         xl: "1200px",
       }}
     >
-      <Flex direction={{ base: "column", md: "row" }}>
+      <Flex direction={{ base: "column", md: "row" }} maxH={{ md: "90dvh" }}>
         {/* Media Section */}
         <MediaSection product={product} />
 
