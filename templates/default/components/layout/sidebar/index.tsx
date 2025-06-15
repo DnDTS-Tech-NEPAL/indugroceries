@@ -5,7 +5,7 @@ import { Box, HStack, VStack } from "@chakra-ui/react";
 import { CloseCircleIcon } from "@/assets/svg";
 import { AccordionRoot, Drawer } from "@/components";
 import { useConfigQuery } from "@/hooks/api";
-import { MenuItemType, NavMenuItemType, SidebarProps } from "@/types";
+import { NavMenuItemType, SidebarProps } from "@/types";
 
 import { SidebarItem } from "./SidebarItem";
 import { calculateHeightAndWidth } from "@/utils";

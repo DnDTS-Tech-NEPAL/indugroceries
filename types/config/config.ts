@@ -46,7 +46,6 @@ export type ConfigType = {
   doctype: string;
   height: number;
   width: number;
-  menu_table: MenuItemType[];
   currency: string;
   login_screen_photo: string;
   login_screen_photo_link: string;
@@ -138,12 +137,6 @@ export type ConfigType = {
   ecommerce_social_links: SocialLinkType[];
 };
 
-export type MenuItemType = {
-  idx: number;
-  menu_item: string;
-  link: string;
-  subMenus?: MenuItemType[];
-};
 export type SocialLinkType = {
   idx: number;
   social_links: string;
