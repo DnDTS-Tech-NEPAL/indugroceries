@@ -24,7 +24,7 @@ import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
 import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
 import { Cart, HeartIcon } from "@/assets/svg";
-import { CrossIcon } from "lucide-react";
+import { X } from "lucide-react";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -79,6 +79,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <VStack
       align="stretch"
       my={4}
+      className="group"
       gap={{ base: 3, md: 5 }}
       w="full"
       position="relative"
@@ -112,6 +113,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Action Buttons */}
         <VStack
+          opacity={0}
+          _groupHover={{ transform: "translateY(-5px)", opacity: 1 }}
           position="absolute"
           top="10px"
           right="10px"
@@ -276,8 +279,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         >
           <Box
             position="relative"
-            maxW="90vw"
-            maxH="90vh"
+            bg={"gray.300"}
+            maxW="80dvw"
+            maxH="80dvh"
+            borderRadius="1rem"
             onClick={(e) => e.stopPropagation()}
           >
             <Image
@@ -286,22 +291,23 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               width={800}
               height={600}
               style={{
+                scale: "1.1",
                 objectFit: "contain",
-                maxWidth: "90vw",
-                maxHeight: "90vh",
+                maxWidth: "80dvw",
+                maxHeight: "80dvh",
               }}
             />
             <Button
               position="absolute"
-              top={4}
-              right={4}
-              bg="white"
-              color="black"
+              top={0}
+              right={0}
+              bg="transparent"
+              color="red"
               borderRadius="full"
-              size="sm"
+              size="2xl"
               onClick={closeFullScreen}
             >
-              <CrossIcon />
+              <X color="red" />
             </Button>
           </Box>
         </Box>
