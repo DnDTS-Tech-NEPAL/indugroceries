@@ -127,8 +127,8 @@ export const useSliderImages = () => {
             src={imageUrl || "/placeholder.svg?height=600&width=1200"}
             alt={`Banner ${index + 1}`}
             fill
-            style={{ 
-              objectFit: "cover", 
+            style={{
+              objectFit: "cover",
               objectPosition: "center",
             }}
             priority
@@ -154,7 +154,7 @@ export const useSliderImages = () => {
           {/* Image Side */}
           <Box
             width={{ base: "100%", lg: "50%" }}
-              height={{ base: "300px", md: "400px", lg: "100%" }}
+            height={{ base: "300px", md: "400px", lg: "100%" }}
             position="relative"
             cursor="pointer"
             onClick={() => handleButtonClick(redirectUrl)}
@@ -163,9 +163,9 @@ export const useSliderImages = () => {
               src={imageUrl || "/placeholder.svg?height=600&width=600"}
               alt={`Banner ${index + 1}`}
               fill
-              style={{ 
-                objectFit: "cover", 
-                objectPosition: "center" 
+              style={{
+                objectFit: "cover",
+                objectPosition: "center",
               }}
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
@@ -266,9 +266,9 @@ export const useSliderImages = () => {
             src={imageUrl || "/placeholder.svg?height=600&width=1200"}
             alt={`Banner ${index + 1}`}
             fill
-            style={{ 
-              objectFit: "cover", 
-              objectPosition: "center" 
+            style={{
+              objectFit: "cover",
+              objectPosition: "center",
             }}
             priority
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
@@ -322,7 +322,7 @@ export const useSliderImages = () => {
               {description && (
                 <Text
                   fontSize={{ base: "lg", md: "xl" }}
-                  lineHeight={{base:"1.2",lg:"1.6"}}
+                  lineHeight={{ base: "1.2", lg: "1.6" }}
                   opacity={0.9}
                   mb={8}
                   color={descriptionColor}
@@ -387,9 +387,9 @@ export const useSliderImages = () => {
           src={imageUrl || "/placeholder.svg?height=600&width=1200"}
           alt={`Banner ${index + 1}`}
           fill
-          style={{ 
-            objectFit: "cover", 
-            objectPosition: "center" 
+          style={{
+            objectFit: "cover",
+            objectPosition: "center",
           }}
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
