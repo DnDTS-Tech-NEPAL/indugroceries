@@ -79,8 +79,8 @@ export const ProductModal = ({
       open={isOpen}
       onClose={onClose}
       contentMinWidth={{
-        lg: "1000px",
-        xl: "1200px",
+        lg: "900px",
+        xl: "1000px",
       }}
       hasCloseTrigger
     >
@@ -101,7 +101,7 @@ export const ProductModal = ({
 };
 
 const MediaSection = ({ product }: { product: Product }) => (
-  <Box position="relative" width={{ base: "100%", md: "50%" }} bg="black">
+  <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
     <AspectRatio ratio={1} w="full" h="full">
       <video
         src={
@@ -115,20 +115,6 @@ const MediaSection = ({ product }: { product: Product }) => (
         style={{ width: "100%", height: "100%", objectFit: "cover" }}
       />
     </AspectRatio>
-
-    <IconButton
-      aria-label="Add to favorites"
-      position="absolute"
-      bottom="4"
-      right="4"
-      colorScheme="pink"
-      variant="ghost"
-      color="white"
-      size="lg"
-    >
-      <FaHeart />
-    </IconButton>
-
     <Box
       position="absolute"
       bottom="4"
@@ -155,7 +141,7 @@ const DetailsSection = ({
   onDecrease: () => void;
   onIncrease: () => void;
 }) => (
-  <Box bg="white" p={6} width={{ base: "100%", md: "50%" }} overflow="auto">
+  <Box bg="white" p={6} width={{ base: "100%", md: "60%" }} overflow="auto">
     <Flex justify="space-between" gap={4} align="center">
       <Box width={400} height={300}>
         <Image
