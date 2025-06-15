@@ -5,32 +5,32 @@ import { Box, HStack, VStack } from "@chakra-ui/react";
 import { CloseCircleIcon } from "@/assets/svg";
 import { AccordionRoot, Drawer } from "@/components";
 import { useConfigQuery } from "@/hooks/api";
-import { MenuItemType, SidebarProps } from "@/types";
+import { MenuItemType, NavMenuItemType, SidebarProps } from "@/types";
 
 import { SidebarItem } from "./SidebarItem";
 import { calculateHeightAndWidth } from "@/utils";
+import { useNavMenuQuery } from "@/hooks/api/navMenu";
 
 export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
   const { data: config } = useConfigQuery();
-  //remove later
-  const extractMenu = (menu: MenuItemType[]) => {
-    return menu.map(({ link, menu_item }: MenuItemType) => ({
-      href: link || "#",
-      menuName: menu_item,
+  const { data: navbarData } = useNavMenuQuery();
+
+  const navItems =
+    navbarData?.map(({ menu_redirect_link, menuname }: NavMenuItemType) => ({
+      href: menu_redirect_link || "#",
+      menuName: menuname,
       subMenus: [],
-    }));
-  };
-  //remove later
-  const navItems = extractMenu(config.menu_table);
+    })) ?? [];
+
   const { height, width } = calculateHeightAndWidth(
-    config.width,
-    config.height
+    config?.width,
+    config?.height
   );
 
   useEffect(() => {
     window.addEventListener("resize", onClose);
     return () => window.removeEventListener("resize", onClose);
-  }, []);
+  }, [onClose]);
 
   return (
     <Drawer
@@ -49,12 +49,14 @@ export const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
       >
         <HStack justifyContent="space-between" color="danger.100">
           <Box position="relative" width={`${width}px`} height={`${height}px`}>
-            <Image
-              src={config.company_details_url}
-              alt={config.company_details_name}
-              fill
-              loading="eager"
-            />
+            {config?.company_details_url && (
+              <Image
+                src={config.company_details_url}
+                alt={config.company_details_name || "Logo"}
+                fill
+                loading="eager"
+              />
+            )}
           </Box>
 
           <CloseCircleIcon onClick={onClose} />
