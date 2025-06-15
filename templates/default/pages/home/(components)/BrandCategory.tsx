@@ -1,13 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import {
-  Box,
-  Heading,
-  Text,
-  VStack,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, VStack, Button } from "@chakra-ui/react";
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { useFeaturedBrandsImages } from "@/hooks/app";
 import { ROUTES } from "@/constants";
@@ -137,7 +131,7 @@ export const BrandCategory = () => {
             rounded="full"
             _hover={{ bg: "gray.100" }}
           >
-            <ChevronRight  />
+            <ChevronRight />
           </Button>
 
           <Swiper
@@ -155,16 +149,19 @@ export const BrandCategory = () => {
             grabCursor={true}
             breakpoints={{
               0: {
-                slidesPerView: shouldForceScroll ? 1.7 : 2,
+                slidesPerView: shouldForceScroll ? 1.7 : 1,
               },
               480: {
-                slidesPerView: shouldForceScroll ? 2.7 : 3,
+                slidesPerView: shouldForceScroll ? 2.7 : 2,
               },
               768: {
-                slidesPerView: shouldForceScroll ? 3.7 : 4,
+                slidesPerView: shouldForceScroll ? 3.7 : 3,
               },
               1024: {
-                slidesPerView: baseSlides,
+                slidesPerView: shouldForceScroll ? 4.7 : 4,
+              },
+              1440: {
+                slidesPerView: shouldForceScroll ? 5.7 : 5,
               },
             }}
           >
