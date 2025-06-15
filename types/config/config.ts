@@ -75,7 +75,7 @@ export type ConfigType = {
   search_box_visibility: number;
   breadcrum_visibility: number;
   featured_brands_visibility: number;
-  products_you_may_like_visibility:number;
+  products_you_may_like_visibility: number;
   hero_type: string;
   sale_type: string;
   //topnav
@@ -85,7 +85,7 @@ export type ConfigType = {
   top_nav_bar_redirect_link: string;
 
   // footer section
-   footer_logo_url:string;
+  footer_logo_url: string;
   quick_links: QuickLinkType[];
   // Saaf section
   advertisement_image_link: string;
@@ -118,23 +118,17 @@ export type ConfigType = {
   banner_1_image_url: string;
 
   //homebenefit section
-  card_1_label: string;
-  card_2_label: string;
-  card_3_label: string;
-  card_4_label: string;
-  card_1_content: string;
-  card_2_content: string;
-  card_3_content: string;
-  card_4_content: string;
-  card_1_icon_link: string;
-  card_2_icon_link: string;
-  card_3_icon_link: string;
-  card_4_icon_link: string;
+  footer_cards: FooterCardType[];
 
   //social feed section
   social_title: string;
   social_description: string;
   ecommerce_social_links: SocialLinkType[];
+};
+export type FooterCardType = {
+  card_label: string;
+  card_content: string;
+  card_icon: string;
 };
 
 export type SocialLinkType = {

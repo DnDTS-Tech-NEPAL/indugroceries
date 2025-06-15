@@ -29,33 +29,34 @@ export const BenefitsSection = () => {
     return <IconComponent size={20} />;
   };
 
-  const benefits = [
+  const footer_card = [
     {
-      icon: config.card_1_icon_link,
-      title: config.card_1_label,
-      subtitle: config.card_1_content,
+      icon: config.footer_cards[0].card_icon,
+      title: config.footer_cards[0].card_label,
+      subtitle: config.footer_cards[0].card_content,
     },
     {
-      icon: config.card_2_icon_link,
-      title: config.card_2_label,
-      subtitle: config.card_2_content,
+      icon: config.footer_cards[1].card_icon,
+      title: config.footer_cards[1].card_label,
+      subtitle: config.footer_cards[1].card_content,
     },
     {
-      icon: config.card_3_icon_link,
-      title: config.card_3_label,
-      subtitle: config.card_3_content,
+      icon: config.footer_cards[2].card_icon,
+      title: config.footer_cards[2].card_label,
+      subtitle: config.footer_cards[2].card_content,
     },
     {
-      icon: config.card_4_icon_link,
-      title: config.card_4_label,
-      subtitle: config.card_4_content,
-    },
+      icon: config.footer_cards[3].card_icon,
+      title: config.footer_cards[3].card_label,
+      subtitle: config.footer_cards[3].card_content,
+    }
+    
   ];
 
   return (
     <Box maxW="6xl" mx="auto" my={[6, 8]}>
       <SimpleGrid columns={{ base: 1, sm: 2, lg: 4 }} gap={[6, 8, 10]} px={[2, 4, 6]}>
-        {benefits.map((item, index) => (
+        {footer_card.map((item, index) => (
           <BenefitItem
             key={index}
             icon={() => renderIcon(item.icon)}
