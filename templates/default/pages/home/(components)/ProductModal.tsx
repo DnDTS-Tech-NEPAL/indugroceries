@@ -156,13 +156,14 @@ const DetailsSection = ({
   onIncrease: () => void;
 }) => (
   <Box bg="white" p={6} width={{ base: "100%", md: "50%" }} overflow="auto">
-    <Flex justify="space-between" align="center" mb={4}>
-      <Box>
+    <Flex justify="space-between" gap={4} align="center">
+      <Box width={400} height={300}>
         <Image
           src={"/global-reach-vertical.png"}
           alt={"name"}
-          width={100}
-          height={100}
+          width={300}
+          height={300}
+          objectFit="cover"
         />
       </Box>
       <Box>
@@ -316,7 +317,7 @@ const ActionButtons = () => (
 
 const ProductDescription = ({ description }: { description: string }) => (
   <Box mb={6}>
-    <Text fontWeight="medium" mb={2}>
+    <Text fontWeight="medium" mb={2} color={"#2E2E2E"}>
       Description
     </Text>
     <Text color="gray.600" fontSize="sm">
