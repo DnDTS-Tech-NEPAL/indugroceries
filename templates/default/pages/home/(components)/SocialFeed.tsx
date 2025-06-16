@@ -487,6 +487,7 @@ export const SocialFeed = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
   const videoLinks = config?.ecommerce_social_links || [];
+  console.log("videoLinks", videoLinks);
   interface Product {
     id: number | string;
     name: string;
@@ -637,8 +638,7 @@ export const SocialFeed = () => {
                                 "https://anua.global/cdn/shop/files/anua-us-bundle-glass-skin-full-routine-set-1170826212.png?v=1748645372&width=700",
                               description:
                                 "A serum formulated with 10% Niacinamide and 4% TXA, designed to look more radiant and balanced.",
-                              videoSrc:
-                                "https://v.ftcdn.net/08/72/78/19/700_F_872781967_oeCwAo2GHj5WbsALmkrYTqUG2lj3phKx_ST.mp4",
+                              videoSrc: video.social_links,
                             })
                           }
                           cursor="pointer"
