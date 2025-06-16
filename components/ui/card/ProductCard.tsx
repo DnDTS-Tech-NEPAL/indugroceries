@@ -281,6 +281,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Button
           height="auto"
           minH="32px"
+          w={"50%"}
           bg={"transparent"}
           color={"#FF6996"}
           borderRadius="full"
@@ -291,7 +292,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           py={0}
           lineHeight="1.2"
         >
-          Add to Cart <Cart />
+          Add <Cart />
         </Button>
       </Stack>
       {/* Full Screen Modal */}
