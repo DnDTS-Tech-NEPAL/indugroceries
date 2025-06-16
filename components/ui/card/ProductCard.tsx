@@ -280,10 +280,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         <Button
           height="auto"
-          minH="23px"
-          bg="#FF6996"
-          color="white"
+          minH="32px"
+          bg={"transparent"}
+          color={"#FF6996"}
           borderRadius="full"
+          border={"0.5px solid #FF6996"}
           fontSize="14px"
           fontWeight={"400"}
           px={3}
