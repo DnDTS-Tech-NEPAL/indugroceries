@@ -136,8 +136,11 @@ export type FourBannerType = {
 export type SocialLinkType = {
   idx: number;
   social_links: string;
-  display_image_link: string;
+  video_link: string;
   display_label: string;
+  item_1: string;
+  item_2: string;
+  item_3: string;
 };
 export type QuickLinkType = {
   idx: number;
