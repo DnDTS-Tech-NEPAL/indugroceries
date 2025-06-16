@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import {TikTokEmbed,InstagramEmbed,FacebookEmbed} from "react-social-media-embed";
 import {
   Box,
   Flex,
@@ -55,7 +56,9 @@ const RelatedProductCard = ({
       <Text fontSize="xs" color="pink.500">
         ★★★★★ {reviews} reviews
       </Text>
-      <Text fontSize="sm" color="gray.600" lineClamp={1} w={200}>{name}</Text>
+      <Text fontSize="sm" color="gray.600" lineClamp={1} w={200}>
+        {name}
+      </Text>
       <Text fontSize="sm" fontWeight="bold" color="pink.500">
         Rs {price.toLocaleString()}
       </Text>
@@ -101,35 +104,6 @@ export const ProductModal = ({
   );
 };
 
-const MediaSection = ({ product }: { product: Product }) => (
-  <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
-    <AspectRatio ratio={1} w="full" h="full">
-      <video
-        src={
-          product.videoSrc ||
-          "https://v.ftcdn.net/08/72/78/19/700_F_872781967_oeCwAo2GHj5WbsALmkrYTqUG2lj3phKx_ST.mp4"
-        }
-        autoPlay
-        muted
-        loop
-        playsInline
-        style={{ width: "100%", height: "100%", objectFit: "cover" }}
-      />
-    </AspectRatio>
-    <Box
-      position="absolute"
-      bottom="4"
-      left="4"
-      bg="rgba(0,0,0,0.5)"
-      color="white"
-      px={2}
-      py={1}
-      borderRadius="md"
-    >
-      <Text fontSize="sm">00:24</Text>
-    </Box>
-  </Box>
-);
 
 const DetailsSection = ({
   product,
@@ -364,3 +338,155 @@ const RelatedProducts = () => {
     </Box>
   );
 };
+
+const isSocialMediaUrl = (url: string): boolean => {
+  if (!url) return false;
+  return (
+    url.includes("tiktok.com") ||
+    url.includes("instagram.com") ||
+    url.includes("facebook.com") ||
+    url.includes("youtube.com")
+  );
+};
+const getEmbedComponent = (url: string): React.ReactElement | null => {
+  try {
+    // Create URL object to properly parse the URL
+    const parsedUrl = new URL(url);
+    const { hostname, pathname } = parsedUrl;
+
+    // TikTok
+    if (hostname.includes("tiktok.com")) {
+      return (
+        <div
+          className="tiktok-embed-container"
+          style={{ width: "100%", margin: "1rem 0" }}
+        >
+          <TikTokEmbed
+            url={url}
+            width="100%"
+            onError={(e) => console.error("TikTok embed error:", e)}
+          />
+        </div>
+      );
+    }
+    // Instagram
+    if (hostname.includes("instagram.com")) {
+      return (
+        <div
+          className="instagram-embed-container"
+          style={{ width: "100%", margin: "1rem 0" }}
+        >
+          <InstagramEmbed
+            url={url}
+            width="100%"
+            onError={(e) => console.error("Instagram embed error:", e)}
+          />
+        </div>
+      );
+    }
+    // Facebook
+    if (hostname.includes("facebook.com")) {
+      return (
+        <div
+          className="facebook-embed-container"
+          style={{ width: "100%", margin: "1rem 0" }}
+        >
+          <FacebookEmbed url={url} width="100%" />;
+        </div>
+      );
+    }
+    // YouTube (using iframe)
+    if (hostname.includes("youtube.com") || hostname.includes("youtu.be")) {
+      let videoId = "";
+
+      // Handle different YouTube URL formats
+      if (pathname.includes("/watch")) {
+        videoId = new URLSearchParams(parsedUrl.search).get("v") || "";
+      } else {
+        videoId = pathname.split("/").pop() || "";
+      }
+
+      if (videoId) {
+        const youtubeUrl = `https://www.youtube.com/embed/${videoId}`;
+        return (
+          <div
+            className="youtube-embed-container"
+            style={{ width: "100%", margin: "1rem 0" }}
+          >
+            <iframe
+              src={youtubeUrl}
+              width="100%"
+              height="500"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="YouTube video player"
+            />
+          </div>
+        );
+      }
+    }
+    return null;
+  } catch (error) {
+    console.error("Error processing embed URL:", error);
+    return null;
+  }
+};
+
+const MediaSection = ({ product }: { product: Product }) => {
+  if (!product.videoSrc) {
+    return (
+      <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
+        <AspectRatio ratio={1} w="full" h="full">
+          <Box
+            bg="gray.700"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Text color="white">No media available</Text>
+          </Box>
+        </AspectRatio>
+      </Box>
+    );
+  }
+
+  if (isSocialMediaUrl(product.videoSrc)) {
+    return (
+      <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
+        <AspectRatio ratio={1} w="full" h="full">
+          <Box>{getEmbedComponent(product.videoSrc)}</Box>
+        </AspectRatio>
+      </Box>
+    );
+  }
+
+  return (
+    <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
+      <AspectRatio ratio={1} w="full" h="full">
+        <video
+          src={product.videoSrc}
+          autoPlay
+          muted
+          loop
+          playsInline
+          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+        />
+      </AspectRatio>
+      {/* Optional duration indicator */}
+      {/* <Box
+        position="absolute"
+        bottom="4"
+        left="4"
+        bg="rgba(0,0,0,0.5)"
+        color="white"
+        px={2}
+        py={1}
+        borderRadius="md"
+      >
+        <Text fontSize="sm">00:24</Text>
+      </Box> */}
+    </Box>
+  );
+};
+
+export default MediaSection;
