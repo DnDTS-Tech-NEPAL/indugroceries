@@ -15,7 +15,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { FaStar, FaHeart } from "react-icons/fa";
-import { MdFullscreen } from "react-icons/md";
 import { useState } from "react";
 
 import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
@@ -24,14 +23,14 @@ import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
 import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
 import { Cart, HeartIcon } from "@/assets/svg";
-import { X } from "lucide-react";
+import { EyeIcon, X } from "lucide-react";
+import { Tooltip } from "@/components/tooltip";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
   image,
   title,
   link,
-  // description,
   price,
   originalPrice,
   isNew,
@@ -66,7 +65,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" });
   const priceFontSize = useBreakpointValue({ base: "md", md: "lg" });
   const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" });
-  const iconSize = useBreakpointValue({ base: 2, md: 1.5 });
+  const iconSize = useBreakpointValue({ base: 14, md: 16 });
   const starIconSize = useBreakpointValue({ base: 2, md: 3 });
   const imageHeight = useBreakpointValue({
     base: "320px",
@@ -79,11 +78,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <VStack
       align="stretch"
       my={4}
-      className="group"
       gap={{ base: 3, md: 5 }}
       w="full"
       position="relative"
-      cursor={"pointer"}
+      cursor="pointer"
       onClick={() =>
         router.push(
           generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
@@ -91,6 +89,12 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           })
         )
       }
+      _hover={{
+        "& .action-buttons": {
+          opacity: 1,
+          transform: "translateY(-5px)",
+        },
+      }}
     >
       <Box position="relative">
         {/* New Badge */}
@@ -112,56 +116,83 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         )}
 
         {/* Action Buttons */}
-        <VStack
+        <HStack
+          className="action-buttons"
           opacity={0}
-          _groupHover={{ transform: "translateY(-5px)", opacity: 1 }}
           position="absolute"
-          top="10px"
-          right="10px"
-          gap={"12px"}
+          top="50%"
+          right="30%"
+          transform="translate(-50%, -50%)"
+          gap={"0"}
+          borderRadius={"md"}
           display={{ base: "none", sm: "flex" }}
           zIndex={2}
           alignItems={"end"}
+          transition="all 0.2s ease"
         >
-          <Button
-            height="auto"
-            minH="23px"
-            bg="#FF6996"
-            color="white"
-            borderRadius="full"
-            fontSize="14px"
-            fontWeight={"400"}
-            px={3}
-            py={0}
-            lineHeight="17px"
-            onClick={(e) => {
-              e.stopPropagation();
-              checkAuth(onAddToWishlist)();
-            }}
-          >
-            Wish List{" "}
-            {isWishlist ? (
-              <FaHeart size={iconSize} />
-            ) : (
-              <HeartIcon color="white" />
-            )}
-          </Button>
-          <Button
-            height="auto"
-            minH="23px"
-            bg="#FF6996"
-            color="white"
-            borderRadius="full"
-            fontSize="14px"
-            fontWeight={"400"}
-            px={3}
-            py={0}
-            lineHeight="1.2"
-            onClick={handleFullScreen}
-          >
-            Full View <MdFullscreen size={iconSize} />
-          </Button>
-        </VStack>
+          <Box onMouseEnter={(e) => e.stopPropagation()}>
+            <Tooltip
+              showArrow
+              content="Add to wishlist"
+              positioning={{ placement: "top" }}
+              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+            >
+              <Button
+                height="auto"
+                minH="30px"
+                bg="white"
+                overflow="hidden"
+                color="#FF6996"
+                border="2px solid #FF6996"
+                borderTopLeftRadius="sm"
+                borderBottomLeftRadius="sm"
+                fontSize="14px"
+                fontWeight={"400"}
+                px={3}
+                py={0}
+                lineHeight="17px"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  checkAuth(onAddToWishlist)();
+                }}
+              >
+                {isWishlist ? (
+                  <FaHeart size={iconSize} />
+                ) : (
+                  <HeartIcon color="#FF6996" />
+                )}
+              </Button>
+            </Tooltip>
+          </Box>
+
+          <Box onMouseEnter={(e) => e.stopPropagation()}>
+            <Tooltip
+              showArrow
+              content="Quick View"
+              positioning={{ placement: "top" }}
+              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+            >
+              <Button
+                height="auto"
+                minH="30px"
+                bg="white"
+                overflow="hidden"
+                color="#FF6996"
+                border="2px solid #FF6996"
+                borderTopRightRadius="sm"
+                borderBottomRightRadius="sm"
+                fontSize="14px"
+                fontWeight={"400"}
+                px={3}
+                py={0}
+                lineHeight="1.2"
+                onClick={handleFullScreen}
+              >
+                <EyeIcon size={iconSize} />
+              </Button>
+            </Tooltip>
+          </Box>
+        </HStack>
 
         {/* Product Image */}
         <Box
