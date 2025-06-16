@@ -281,7 +281,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Button
           height="auto"
           minH="32px"
-          // w={{md:"50%"}}
+          w={{md:"50%"}}
           bg={"transparent"}
           color={"#FF6996"}
           borderRadius="full"
