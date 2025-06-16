@@ -9,3 +9,4 @@ export * from "./swiper";
 export * from "./tabs";
 export * from "./timer";
 export * from "./ui";
+export * from "./tooltip";
