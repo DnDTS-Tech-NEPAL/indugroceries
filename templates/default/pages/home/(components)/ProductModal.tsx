@@ -1,7 +1,11 @@
 "use client";
 
 import { useState } from "react";
-import {TikTokEmbed,InstagramEmbed,FacebookEmbed} from "react-social-media-embed";
+import {
+  TikTokEmbed,
+  InstagramEmbed,
+  FacebookEmbed,
+} from "react-social-media-embed";
 import {
   Box,
   Flex,
@@ -103,7 +107,6 @@ export const ProductModal = ({
     </Dialog>
   );
 };
-
 
 const DetailsSection = ({
   product,
@@ -468,23 +471,11 @@ const MediaSection = ({ product }: { product: Product }) => {
           autoPlay
           muted
           loop
+          controls
           playsInline
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
       </AspectRatio>
-      {/* Optional duration indicator */}
-      {/* <Box
-        position="absolute"
-        bottom="4"
-        left="4"
-        bg="rgba(0,0,0,0.5)"
-        color="white"
-        px={2}
-        py={1}
-        borderRadius="md"
-      >
-        <Text fontSize="sm">00:24</Text>
-      </Box> */}
     </Box>
   );
 };
