@@ -608,36 +608,36 @@ export const SocialFeed = () => {
                       flexDirection="column"
                     >
                       <Box
-                        onClick={() =>
-                          handleProductClick({
-                            id: video.idx || index,
-                            name: "Celimax - The Vita-A Retinol Shot Tightening Serum",
-                            price: 2800,
-                            originalPrice: 3200,
-                            discount: "10% Off",
-                            rating: 4.5,
-                            reviews: 420,
-                            image:
-                              "https://anua.global/cdn/shop/files/anua-us-bundle-glass-skin-full-routine-set-1170826212.png?v=1748645372&width=700",
-                            description:
-                              "A serum formulated with 10% Niacinamide and 4% TXA, designed to look more radiant and balanced.",
-                            videoSrc:
-                              "https://v.ftcdn.net/08/72/78/19/700_F_872781967_oeCwAo2GHj5WbsALmkrYTqUG2lj3phKx_ST.mp4",
-                          })
-                        }
-                        cursor="pointer"
-                        _hover={{ textDecor: "none" }}
+                        position="relative"
+                        overflow="hidden"
+                        width="100%"
+                        borderRadius="lg"
                         flex="1"
-                        display="flex"
-                        flexDirection="column"
+                        bg="black"
                       >
                         <Box
-                          position="relative"
-                          overflow="hidden"
-                          width="100%"
-                          borderRadius="lg"
+                          onClick={() =>
+                            handleProductClick({
+                              id: video.idx || index,
+                              name: "Celimax - The Vita-A Retinol Shot Tightening Serum",
+                              price: 2800,
+                              originalPrice: 3200,
+                              discount: "10% Off",
+                              rating: 4.5,
+                              reviews: 420,
+                              image:
+                                "https://anua.global/cdn/shop/files/anua-us-bundle-glass-skin-full-routine-set-1170826212.png?v=1748645372&width=700",
+                              description:
+                                "A serum formulated with 10% Niacinamide and 4% TXA, designed to look more radiant and balanced.",
+                              videoSrc:
+                                "https://v.ftcdn.net/08/72/78/19/700_F_872781967_oeCwAo2GHj5WbsALmkrYTqUG2lj3phKx_ST.mp4",
+                            })
+                          }
+                          cursor="pointer"
+                          _hover={{ textDecor: "none" }}
                           flex="1"
-                          bg="black"
+                          display="flex"
+                          flexDirection="column"
                         >
                           <AspectRatio ratio={5 / 9} w="full">
                             <video
@@ -665,8 +665,12 @@ export const SocialFeed = () => {
                           maxW="300px"
                           _groupHover={{
                             display: "block",
-                            transform: "translateY(-5px)",
+                            transform: "translateY(5px)",
+                            position: "absolute",
+                            bottom: "0",
+                            width: "100%",
                           }}
+                          transition="all 0.3s ease"
                         >
                           {/* Top Section: Image and Product Info */}
                           <Flex gap={2} my={2}>
