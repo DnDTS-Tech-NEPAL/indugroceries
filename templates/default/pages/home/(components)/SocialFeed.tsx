@@ -565,7 +565,7 @@ export const SocialFeed = () => {
 
           {/* Swiper or Fallback */}
           {videoLinks.length > 0 ? (
-            <Box position="relative" width="full" overflow="hidden" zIndex={0}>
+            <Box position="relative" maxW={"8xl"} mx={"auto"} px={3} width="full"  overflow="hidden" zIndex={0}>
               <Swiper
                 modules={[Autoplay]}
                 spaceBetween={16}
