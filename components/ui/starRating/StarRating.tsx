@@ -72,9 +72,9 @@ export const StarRating: React.FC<StarRatingProps> = ({
         })}
       </HStack>
 
-      <Text fontSize="sm" fontWeight={500} color="gray.600">
+      {/* <Text fontSize="sm" fontWeight={500} color="gray.600">
         {rating > 0 ? `${rating} out of ${stars}` : `0 out of ${stars}`}
-      </Text>
+      </Text> */}
     </HStack>
   );
 };
