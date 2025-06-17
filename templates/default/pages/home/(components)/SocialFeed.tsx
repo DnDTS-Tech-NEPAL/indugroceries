@@ -490,7 +490,8 @@ export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
   const { data: config } = useConfigQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] =
+    useState<VideoProductType | null>(null);
   const [cardDetails, setCardDetails] = useState<VideoProductType[]>([]);
 
   const videoLinks = config?.ecommerce_social_links || [];
@@ -530,21 +531,17 @@ export const SocialFeed = () => {
     fetchAllProducts();
   }, [videoLinks]);
 
-  interface Product {
-    id: number | string;
-    name: string;
-    price: number;
-    originalPrice: number;
-    discount: string;
-    rating: number;
-    reviews: number;
-    image: string;
-    description: string;
-    videoSrc?: string;
-  }
+  const handleProductClick = (index: number) => {
+    const cardDetail = cardDetails[index];
 
-  const handleProductClick = (product: Product) => {
-    setSelectedProduct(product);
+    if (!cardDetail) return;
+
+    const videoProductData: VideoProductType = {
+      products: cardDetail.products,
+      videoInfo: cardDetail.videoInfo,
+    };
+
+    setSelectedProduct(videoProductData);
     setIsModalOpen(true);
   };
 
@@ -667,25 +664,7 @@ export const SocialFeed = () => {
                         bg="black"
                       >
                         <Box
-                          onClick={() =>
-                            handleProductClick({
-                              id: video.idx || index,
-                              name: "Celimax - The Vita-A Retinol Shot Tightening Serum",
-                              price: 2800,
-                              originalPrice: 3200,
-                              discount: "10% Off",
-                              rating: 4.5,
-                              reviews: 420,
-                              image:
-                                "https://anua.global/cdn/shop/files/anua-us-bundle-glass-skin-full-routine-set-1170826212.png?v=1748645372&width=700",
-                              description:
-                                "A serum formulated with 10% Niacinamide and 4% TXA, designed to look more radiant and balanced.",
-                              videoSrc:
-                                video.social_links !== ""
-                                  ? video.social_links
-                                  : video.video_link,
-                            })
-                          }
+                          onClick={() => handleProductClick(video.idx)}
                           cursor="pointer"
                           _hover={{ textDecor: "none" }}
                           flex="1"
