@@ -731,7 +731,10 @@ export const SocialFeed = () => {
                               <Box key={index} my={4}>
                                 <Flex key={index} gap={2} my={2}>
                                   <Image
-                                    src={product?.custom_image_1_link}
+                                    src={
+                                      product?.custom_image_1_link ||
+                                      config?.company_details_url
+                                    }
                                     alt={product?.item_name}
                                     width="55px"
                                     height="55px"
@@ -739,7 +742,11 @@ export const SocialFeed = () => {
                                     borderRadius="lg"
                                   />
                                   <Box>
-                                    <Text fontSize="sm" color="gray.800">
+                                    <Text
+                                      fontSize="sm"
+                                      color="gray.800"
+                                      lineClamp={1}
+                                    >
                                       {product?.item_name}
                                     </Text>
                                     <Text fontSize="md" color="#FF6996">
