@@ -664,7 +664,7 @@ export const SocialFeed = () => {
                         bg="black"
                       >
                         <Box
-                          onClick={() => handleProductClick(video.idx)}
+                          onClick={() => handleProductClick(index)}
                           cursor="pointer"
                           _hover={{ textDecor: "none" }}
                           flex="1"

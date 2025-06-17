@@ -23,24 +23,16 @@ import { FaHeart } from "react-icons/fa";
 import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
 import { Dialog } from "@/components";
 import Image from "next/image";
-
-interface Product {
-  id: number | string;
-  name: string;
-  price: number;
-  originalPrice: number;
-  discount: string;
-  rating: number;
-  reviews: number;
-  image: string;
-  description: string;
-  videoSrc?: string;
-}
-
+import { IndividualProductAPIType } from "@/types";
+import { useConfigQuery } from "@/hooks/api";
+type VideoProductType = {
+  products: (IndividualProductAPIType | undefined)[];
+  videoInfo?: { social_links: string; video_link: string };
+};
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product: Product | null;
+  product: VideoProductType | null;
 }
 
 const RelatedProductCard = ({
@@ -76,6 +68,7 @@ export const ProductModal = ({
   product,
 }: ProductModalProps) => {
   const [quantity, setQuantity] = useState(1);
+  console.log("product dsdd", product);
 
   if (!product) return null;
 
@@ -114,89 +107,99 @@ const DetailsSection = ({
   onDecrease,
   onIncrease,
 }: {
-  product: Product;
+  product: VideoProductType;
   quantity: number;
   onDecrease: () => void;
   onIncrease: () => void;
-}) => (
-  <Box bg="white" p={6} width={{ base: "100%", md: "60%" }} overflow="auto">
-    <Flex justify="space-between" gap={4} align="center">
-      <Box width={400} height={300}>
-        <Image
-          src={"/global-reach-vertical.png"}
-          alt={"name"}
-          width={300}
-          height={300}
-          objectFit="cover"
-        />
-      </Box>
-      <Box>
-        <Heading size="lg" mb={1} color="#2E2E2E">
-          {product.name}
-        </Heading>
+}) => {
+  const { products } = product;
+  const { data: config } = useConfigQuery();
 
-        <RatingSection rating={product.rating} reviews={product.reviews} />
-        <PriceSection
-          price={product.price}
-          originalPrice={product.originalPrice}
-          discount={product.discount}
-        />
-        <Flex justify={"space-between"} gap={4}>
-          <QuantityControl
-            quantity={quantity}
-            onDecrease={onDecrease}
-            onIncrease={onIncrease}
+  return (
+    <Box bg="white" p={6} width={{ base: "100%", md: "60%" }} overflow="auto">
+      <Flex justify="space-between" gap={4} align="center">
+        <Box width={400} height={300}>
+          <Image
+            src={
+              products[0]?.custom_image_1_link || config?.company_details_url
+            }
+            alt={"name"}
+            width={300}
+            height={300}
+            objectFit="cover"
           />
-          <ActionButtons />
-        </Flex>
-      </Box>
-    </Flex>
-    <ProductDescription description={product.description} />
-    <RelatedProducts />
-  </Box>
-);
+        </Box>
+        <Box>
+          <Heading size="lg" mb={1} color="#2E2E2E">
+            {products[0]?.item_name}
+          </Heading>
 
-const RatingSection = ({
-  rating,
-  reviews,
-}: {
-  rating: number;
-  reviews: number;
-}) => (
-  <Flex align="center" mb={4}>
-    <HStack gap={1} color="pink.500">
-      {[1, 2, 3, 4].map((i) => (
-        <Icon key={i} as={FaHeart} />
-      ))}
-      <Icon as={FaHeart} color="gray.300" />
-    </HStack>
-    <Text ml={2} color="gray.600" fontSize="sm">
-      {reviews} reviews
-    </Text>
-  </Flex>
-);
-
-const PriceSection = ({
-  price,
-  originalPrice,
-  discount,
-}: {
-  price: number;
-  originalPrice: number;
-  discount: string;
-}) => (
-  <Flex align="center" mb={6}>
-    <Text fontWeight="bold" fontSize="2xl" mr={2} color={"#2E2E2E"}>
-      Rs {price.toLocaleString()}
-    </Text>
-    <Text as="s" color="gray.500" fontSize="sm" mr={2}>
-      {originalPrice.toLocaleString()}
+          {/* <RatingSection rating={product[0]?.rating} reviews={product[0]?.reviews} /> */}
+          {/* <PriceSection
+          prices={products[0]?.prices[0]?.price_list_rate}
+          // originalPrice={product.originalPrice}
+          // discount={products[0]?.discount}
+        /> */}
+          <Flex align="center" mb={6}>
+            <Text fontWeight="bold" fontSize="md" mr={2} color={"gray.500"}>
+              Rs {products[0]?.prices[0]?.price_list_rate}
+            </Text>
+            {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
+      {originalPrice}
     </Text>
     <Text color="pink.500" fontSize="sm">
       {discount}
-    </Text>
-  </Flex>
-);
+    </Text> */}
+          </Flex>
+          <Flex justify={"space-between"} gap={4}>
+            <QuantityControl
+              quantity={quantity}
+              onDecrease={onDecrease}
+              onIncrease={onIncrease}
+            />
+            <ActionButtons />
+          </Flex>
+        </Box>
+      </Flex>
+      <ProductDescription description={products[0]?.description} />
+      <RelatedProducts />
+    </Box>
+  );
+};
+
+// const RatingSection = ({
+//   rating,
+//   reviews,
+// }: {
+//   rating: number;
+//   reviews: number;
+// }) => (
+//   <Flex align="center" mb={4}>
+//     <HStack gap={1} color="pink.500">
+//       {[1, 2, 3, 4].map((i) => (
+//         <Icon key={i} as={FaHeart} />
+//       ))}
+//       <Icon as={FaHeart} color="gray.300" />
+//     </HStack>
+//     <Text ml={2} color="gray.600" fontSize="sm">
+//       {reviews} reviews
+//     </Text>
+//   </Flex>
+// );
+
+// const PriceSection = ({prices}: {prices:string |number |undefined}) => (
+//   <Flex align="center" mb={6}>
+//     <Text fontWeight="bold" fontSize="2xl" mr={2} color={"#2E2E2E"}>
+//       Rs {prices}
+//     </Text>
+//     {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
+//       {originalPrice}
+//     </Text>
+//     <Text color="pink.500" fontSize="sm">
+//       {discount}
+//     </Text> */}
+//   </Flex>
+// );
 
 const QuantityControl = ({
   quantity,
@@ -279,7 +282,11 @@ const ActionButtons = () => (
   </HStack>
 );
 
-const ProductDescription = ({ description }: { description: string }) => (
+const ProductDescription = ({
+  description,
+}: {
+  description: string | null | undefined;
+}) => (
   <Box mb={6}>
     <Text fontWeight="medium" mb={2} color={"#2E2E2E"}>
       Description
@@ -287,9 +294,9 @@ const ProductDescription = ({ description }: { description: string }) => (
     <Text color="gray.600" fontSize="sm">
       {description}
     </Text>
-    <Link color="blue.400" fontSize="sm">
+    {/* <Link color="blue.400" fontSize="sm">
       See More
-    </Link>
+    </Link> */}
   </Box>
 );
 
@@ -435,8 +442,9 @@ const getEmbedComponent = (url: string): React.ReactElement | null => {
   }
 };
 
-const MediaSection = ({ product }: { product: Product }) => {
-  if (!product.videoSrc) {
+const MediaSection = ({ product }: { product: VideoProductType }) => {
+  const { videoInfo } = product;
+  if (!videoInfo) {
     return (
       <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
         <AspectRatio ratio={1} w="full" h="full">
@@ -453,11 +461,11 @@ const MediaSection = ({ product }: { product: Product }) => {
     );
   }
 
-  if (isSocialMediaUrl(product.videoSrc)) {
+  if (isSocialMediaUrl(videoInfo.social_links)) {
     return (
       <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
         <AspectRatio ratio={1} w="full" h="full">
-          <Box>{getEmbedComponent(product.videoSrc)}</Box>
+          <Box>{getEmbedComponent(videoInfo.social_links)}</Box>
         </AspectRatio>
       </Box>
     );
@@ -467,7 +475,7 @@ const MediaSection = ({ product }: { product: Product }) => {
     <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
       <AspectRatio ratio={1} w="full" h="full">
         <video
-          src={product.videoSrc}
+          src={videoInfo.video_link}
           autoPlay
           muted
           loop
