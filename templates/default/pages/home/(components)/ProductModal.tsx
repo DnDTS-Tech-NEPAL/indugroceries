@@ -11,7 +11,6 @@ import {
   Flex,
   AspectRatio,
   IconButton,
-  Icon,
   Text,
   Heading,
   HStack,
@@ -21,10 +20,10 @@ import {
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
-import { Dialog } from "@/components";
+import { Dialog, StarRating } from "@/components";
 import Image from "next/image";
 import { IndividualProductAPIType } from "@/types";
-import { useConfigQuery } from "@/hooks/api";
+import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 type VideoProductType = {
   products: (IndividualProductAPIType | undefined)[];
   videoInfo?: { social_links: string; video_link: string };
@@ -130,26 +129,23 @@ const DetailsSection = ({
           />
         </Box>
         <Box>
-          <Heading size="lg" mb={1} color="#2E2E2E">
+          <Heading size="md" mb={1} color="#2E2E2E">
             {products[0]?.item_name}
           </Heading>
 
-          {/* <RatingSection rating={product[0]?.rating} reviews={product[0]?.reviews} /> */}
-          {/* <PriceSection
-          prices={products[0]?.prices[0]?.price_list_rate}
-          // originalPrice={product.originalPrice}
-          // discount={products[0]?.discount}
-        /> */}
+          {products[0]?.item_code && (
+            <RatingSection item_code={products[0]?.item_code} />
+          )}
           <Flex align="center" mb={6}>
-            <Text fontWeight="bold" fontSize="md" mr={2} color={"gray.500"}>
+            <Text fontSize="md" color="#FF6996">
               Rs {products[0]?.prices[0]?.price_list_rate}
             </Text>
             {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
-      {originalPrice}
-    </Text>
-    <Text color="pink.500" fontSize="sm">
-      {discount}
-    </Text> */}
+            {originalPrice}
+            </Text>
+            <Text color="pink.500" fontSize="sm">
+            {discount}
+            </Text> */}
           </Flex>
           <Flex justify={"space-between"} gap={4}>
             <QuantityControl
@@ -166,40 +162,28 @@ const DetailsSection = ({
     </Box>
   );
 };
+const RatingSection = ({ item_code }: { item_code: string }) => {
+  const [rating, setRating] = useState<number>(0);
+  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
+  const averageRating = reviewData?.average_rating ?? rating;
 
-// const RatingSection = ({
-//   rating,
-//   reviews,
-// }: {
-//   rating: number;
-//   reviews: number;
-// }) => (
-//   <Flex align="center" mb={4}>
-//     <HStack gap={1} color="pink.500">
-//       {[1, 2, 3, 4].map((i) => (
-//         <Icon key={i} as={FaHeart} />
-//       ))}
-//       <Icon as={FaHeart} color="gray.300" />
-//     </HStack>
-//     <Text ml={2} color="gray.600" fontSize="sm">
-//       {reviews} reviews
-//     </Text>
-//   </Flex>
-// );
-
-// const PriceSection = ({prices}: {prices:string |number |undefined}) => (
-//   <Flex align="center" mb={6}>
-//     <Text fontWeight="bold" fontSize="2xl" mr={2} color={"#2E2E2E"}>
-//       Rs {prices}
-//     </Text>
-//     {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
-//       {originalPrice}
-//     </Text>
-//     <Text color="pink.500" fontSize="sm">
-//       {discount}
-//     </Text> */}
-//   </Flex>
-// );
+  return (
+    <Flex align="center" mb={4}>
+      <HStack gap={1}>
+        {!isLoading && (
+          <StarRating
+            stars={5}
+            isCheckBoxRequired={false}
+            fixedRating={averageRating}
+          />
+        )}
+      </HStack>
+      <Text ml={2} color="gray.600" fontSize="sm">
+        {reviewData?.reviews?.length ?? 0} reviews
+      </Text>
+    </Flex>
+  );
+};
 
 const QuantityControl = ({
   quantity,
@@ -294,9 +278,9 @@ const ProductDescription = ({
     <Text color="gray.600" fontSize="sm">
       {description}
     </Text>
-    {/* <Link color="blue.400" fontSize="sm">
+    <Link color="blue.400" fontSize="sm">
       See More
-    </Link> */}
+    </Link>
   </Box>
 );
 
