@@ -477,17 +477,60 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
 import { HeartIcon } from "@/assets/svg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ProductModal } from "./ProductModal";
+import { getProductDetailByName } from "@/api";
+import { IndividualProductAPIType } from "@/types";
+type VideoProductType = {
+  products: (IndividualProductAPIType | undefined)[];
+  videoInfo?: { social_links: string; video_link: string };
+};
 
 export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
   const { data: config } = useConfigQuery();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [cardDetails, setCardDetails] = useState<VideoProductType[]>([]);
 
   const videoLinks = config?.ecommerce_social_links || [];
-  console.log("videoLinks", videoLinks);
+
+  useEffect(() => {
+    if (videoLinks.length === 0) return;
+
+    const fetchAllProducts = async () => {
+      try {
+        const videoProductsPromises = videoLinks.map(async (videoLink) => {
+          const items = [
+            videoLink.item_1,
+            videoLink.item_2,
+            videoLink.item_3,
+          ].filter(Boolean);
+
+          const itemDetails = await Promise.all(
+            items.map((itemName) => getProductDetailByName(itemName))
+          );
+
+          return {
+            videoInfo: {
+              social_links: videoLink.social_links,
+              video_link: videoLink.video_link,
+            },
+            products: itemDetails.filter(Boolean),
+          };
+        });
+
+        const videoProducts = await Promise.all(videoProductsPromises);
+        console.log("videoProducts:", videoProducts);
+        setCardDetails(videoProducts);
+        console.log("card details:", cardDetails);
+      } catch (error) {
+        console.error("Error in fetchAllProducts:", error);
+      }
+    };
+    fetchAllProducts();
+  }, [videoLinks]);
+
   interface Product {
     id: number | string;
     name: string;
@@ -684,25 +727,32 @@ export const SocialFeed = () => {
                           transition="all 0.3s ease"
                         >
                           {/* Top Section: Image and Product Info */}
-                          <Flex gap={2} my={2}>
-                            <Image
-                              src="https://anua.global/cdn/shop/files/anua-us-bundle-glass-skin-full-routine-set-1170826212.png?v=1748645372&width=700"
-                              alt="Medicube Zero Pore Pad"
-                              // boxSize="60px"
-                              width="55px"
-                              height="55px"
-                              objectFit="cover"
-                              borderRadius="lg"
-                            />
-                            <Box>
-                              <Text fontSize="sm" color="gray.800">
-                                Medicube Zero Pore Pad
-                              </Text>
-                              <Text fontSize="md" color="#FF6996">
-                                Rs 1000
-                              </Text>
-                            </Box>
-                          </Flex>
+                          {cardDetails[index]?.products.map(
+                            (product, index) => (
+                              <Box key={index} my={4}>
+                                <Flex key={index} gap={2} my={2}>
+                                  <Image
+                                    src={product?.custom_image_1_link}
+                                    alt={product?.item_name}
+                                    width="55px"
+                                    height="55px"
+                                    objectFit="cover"
+                                    borderRadius="lg"
+                                  />
+                                  <Box>
+                                    <Text fontSize="sm" color="gray.800">
+                                      {product?.item_name}
+                                    </Text>
+                                    <Text fontSize="md" color="#FF6996">
+                                      Rs.{" "}
+                                      {product?.prices?.[0]?.price_list_rate ??
+                                        "N/A"}
+                                    </Text>
+                                  </Box>
+                                </Flex>
+                              </Box>
+                            )
+                          )}
 
                           {/* Bottom Section: Add to Cart and Wishlist */}
 
