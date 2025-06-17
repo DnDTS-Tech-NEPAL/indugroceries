@@ -726,7 +726,7 @@ export const SocialFeed = () => {
                           transition="all 0.3s ease"
                         >
                           {/* Top Section: Image and Product Info */}
-                          {cardDetails[index]?.products.map(
+                          {/* {cardDetails[index]?.products.map(
                             (product, index) => (
                               <Box key={index} my={4}>
                                 <Flex key={index} gap={2} my={2}>
@@ -758,6 +758,40 @@ export const SocialFeed = () => {
                                 </Flex>
                               </Box>
                             )
+                          )} */}
+                          {cardDetails[index]?.products?.[0] && (
+                            <Box my={4}>
+                              <Flex gap={2} my={2}>
+                                <Image
+                                  src={
+                                    cardDetails[index].products[0]
+                                      ?.custom_image_1_link ||
+                                    config?.company_details_url
+                                  }
+                                  alt={
+                                    cardDetails[index].products[0]?.item_name
+                                  }
+                                  width="55px"
+                                  height="55px"
+                                  objectFit="cover"
+                                  borderRadius="lg"
+                                />
+                                <Box>
+                                  <Text
+                                    fontSize="sm"
+                                    color="gray.800"
+                                    lineClamp={1}
+                                  >
+                                    {cardDetails[index].products[0]?.item_name}
+                                  </Text>
+                                  <Text fontSize="md" color="#FF6996">
+                                    Rs.{" "}
+                                    {cardDetails[index].products[0]?.prices?.[0]
+                                      ?.price_list_rate ?? "N/A"}
+                                  </Text>
+                                </Box>
+                              </Flex>
+                            </Box>
                           )}
 
                           {/* Bottom Section: Add to Cart and Wishlist */}
