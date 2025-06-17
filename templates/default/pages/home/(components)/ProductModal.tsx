@@ -116,15 +116,21 @@ const DetailsSection = ({
 
   return (
     <Box bg="white" p={6} width={{ base: "100%", md: "60%" }} overflow="auto">
-      <Flex justify="space-between" gap={4} align="center">
-        <Box width={400} height={300}>
+      <Flex
+        justify="space-between"
+        gap={4}
+        align="center"
+        justifyItems={"center"}
+        my={"auto"}
+      >
+        <Box alignItems={"center"}>
           <Image
             src={
               products[0]?.custom_image_1_link || config?.company_details_url
             }
             alt={"name"}
-            width={300}
-            height={300}
+            width={400}
+            height={400}
             objectFit="cover"
           />
         </Box>

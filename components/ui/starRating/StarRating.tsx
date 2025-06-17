@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { HStack, Text, Box } from "@chakra-ui/react";
+import { HStack, Box } from "@chakra-ui/react";
 
 import { StarIcon } from "@/assets/svg";
 import { Checkbox } from "@/components/form";
