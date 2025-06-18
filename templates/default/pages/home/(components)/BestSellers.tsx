@@ -10,7 +10,7 @@ export const BestSellers = () => {
   const { data: config } = useConfigQuery();
   return (
     <VisibleSection visibility={config?.best_seller_visibility}>
-      <Box background="system.neutral.background.dark">
+      <Box>
         <ProductSection type="bestSellers" showCategories={true} />
       </Box>
     </VisibleSection>
