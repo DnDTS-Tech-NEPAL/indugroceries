@@ -241,7 +241,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         fontWeight="semibold"
         color="gray.800"
         lineHeight="1.2"
-        minH={"50px"}
+        minH={{ md: "40px" }}
+        lineClamp={{ sm: 2, md: 2 }}
       >
         {title}
       </Text>
