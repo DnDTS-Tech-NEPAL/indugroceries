@@ -259,7 +259,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
       {/* Price and Add to Cart */}
       <Stack
-        direction={{ base: "column", sm: "row" }}
+        direction={{ base: "row", sm: "row" }}
         justify="space-between"
         align="center"
         gap={{ base: 3, sm: 2 }}
@@ -282,7 +282,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         <Button
           height="auto"
           minH="32px"
-          w={{ md: "50%" }}
+          w={{ base: "50%", sm: "55%", md: "50%" }}
           bg={"transparent"}
           color={"#FF6996"}
           borderRadius="full"
