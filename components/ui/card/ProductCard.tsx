@@ -21,7 +21,11 @@ import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
-import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
+import {
+  useAuthCheck,
+  useProductDetailCartMutation,
+  useProductDetailWishlist,
+} from "@/hooks/app";
 import { Cart, HeartIcon } from "@/assets/svg";
 import { EyeIcon, X } from "lucide-react";
 import { Tooltip } from "@/components/tooltip";
@@ -41,6 +45,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { data: config } = useConfigQuery();
   const { data: reviewData } = useReviewDataQuery(item_code);
   const { handleAddToWishlist } = useProductDetailWishlist();
+  const { handleAddToCart } = useProductDetailCartMutation();
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const onAddToWishlist = () => {
@@ -50,6 +55,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     };
     setIsWishlist(true);
     handleAddToWishlist(payload);
+  };
+  const onAddToCart = () => {
+    const payload = {
+      item_code: item_code,
+      item_price: price,
+      quantity: 1,
+    };
+    handleAddToCart(payload);
   };
 
   const handleFullScreen = (e: React.MouseEvent) => {
@@ -81,14 +94,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       gap={{ base: 3, md: 5 }}
       w="full"
       position="relative"
-      cursor="pointer"
-      onClick={() =>
-        router.push(
-          generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-            productName: link,
-          })
-        )
-      }
       _hover={{
         "& .action-buttons": {
           opacity: 1,
@@ -96,156 +101,167 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         },
       }}
     >
-      <Box position="relative">
-        {/* New Badge */}
-        {isNew && (
-          <Badge
+      <Box
+        cursor="pointer"
+        onClick={() =>
+          router.push(
+            generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
+              productName: link,
+            })
+          )
+        }
+      >
+        <Box position="relative">
+          {/* New Badge */}
+          {isNew && (
+            <Badge
+              position="absolute"
+              top="10px"
+              left="10px"
+              bg="#FF6996"
+              color="white"
+              px={3}
+              py={1}
+              borderRadius="full"
+              fontSize={{ base: "xs", md: "sm" }}
+              zIndex={2}
+            >
+              New
+            </Badge>
+          )}
+          {/* Action Buttons */}
+          <HStack
+            className="action-buttons"
+            opacity={0}
             position="absolute"
-            top="10px"
-            left="10px"
-            bg="#FF6996"
-            color="white"
-            px={3}
-            py={1}
-            borderRadius="full"
-            fontSize={{ base: "xs", md: "sm" }}
+            top="50%"
+            right="30%"
+            transform="translate(-50%, -50%)"
+            gap={"0"}
+            borderRadius={"md"}
+            display={{ base: "none", sm: "flex" }}
             zIndex={2}
+            alignItems={"end"}
+            transition="all 0.2s ease"
           >
-            New
-          </Badge>
-        )}
-
-        {/* Action Buttons */}
-        <HStack
-          className="action-buttons"
-          opacity={0}
-          position="absolute"
-          top="50%"
-          right="30%"
-          transform="translate(-50%, -50%)"
-          gap={"0"}
-          borderRadius={"md"}
-          display={{ base: "none", sm: "flex" }}
-          zIndex={2}
-          alignItems={"end"}
-          transition="all 0.2s ease"
-        >
-          <Box onMouseEnter={(e) => e.stopPropagation()}>
-            <Tooltip
-              showArrow
-              content="Add to wishlist"
-              positioning={{ placement: "top" }}
-              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-            >
-              <Button
-                height="auto"
-                minH="30px"
-                bg="white"
-                overflow="hidden"
-                color="#FF6996"
-                border="2px solid #FF6996"
-                borderTopLeftRadius="sm"
-                borderBottomLeftRadius="sm"
-                fontSize="14px"
-                fontWeight={"400"}
-                px={3}
-                py={0}
-                lineHeight="17px"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  checkAuth(onAddToWishlist)();
-                }}
+            <Box onMouseEnter={(e) => e.stopPropagation()}>
+              <Tooltip
+                showArrow
+                content="Add to wishlist"
+                positioning={{ placement: "top" }}
+                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
               >
-                {isWishlist ? (
-                  <FaHeart size={iconSize} />
-                ) : (
-                  <HeartIcon color="#FF6996" />
-                )}
-              </Button>
-            </Tooltip>
-          </Box>
+                <Button
+                  height="auto"
+                  minH="30px"
+                  bg="white"
+                  overflow="hidden"
+                  color="#FF6996"
+                  border="2px solid #FF6996"
+                  borderTopLeftRadius="sm"
+                  borderBottomLeftRadius="sm"
+                  fontSize="14px"
+                  fontWeight={"400"}
+                  px={3}
+                  py={0}
+                  lineHeight="17px"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    checkAuth(onAddToWishlist)();
+                  }}
+                >
+                  {isWishlist ? (
+                    <FaHeart size={iconSize} />
+                  ) : (
+                    <HeartIcon color="#FF6996" />
+                  )}
+                </Button>
+              </Tooltip>
+            </Box>
 
-          <Box onMouseEnter={(e) => e.stopPropagation()}>
-            <Tooltip
-              showArrow
-              content="Quick View"
-              positioning={{ placement: "top" }}
-              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-            >
-              <Button
-                height="auto"
-                minH="30px"
-                bg="white"
-                overflow="hidden"
-                color="#FF6996"
-                border="2px solid #FF6996"
-                borderTopRightRadius="sm"
-                borderBottomRightRadius="sm"
-                fontSize="14px"
-                fontWeight={"400"}
-                px={3}
-                py={0}
-                lineHeight="1.2"
-                onClick={handleFullScreen}
+            <Box onMouseEnter={(e) => e.stopPropagation()}>
+              <Tooltip
+                showArrow
+                content="Quick View"
+                positioning={{ placement: "top" }}
+                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
               >
-                <EyeIcon size={iconSize} />
-              </Button>
-            </Tooltip>
+                <Button
+                  height="auto"
+                  minH="30px"
+                  bg="white"
+                  overflow="hidden"
+                  color="#FF6996"
+                  border="2px solid #FF6996"
+                  borderTopRightRadius="sm"
+                  borderBottomRightRadius="sm"
+                  fontSize="14px"
+                  fontWeight={"400"}
+                  px={3}
+                  py={0}
+                  lineHeight="1.2"
+                  onClick={handleFullScreen}
+                >
+                  <EyeIcon size={iconSize} />
+                </Button>
+              </Tooltip>
+            </Box>
+          </HStack>
+          {/* Product Image */}
+          <Box
+            position="relative"
+            width="100%"
+            height={imageHeight}
+            borderRadius="lg"
+            overflow="hidden"
+          >
+            <Image
+              src={image || config?.company_details_url}
+              alt={title}
+              fill
+              style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
+              onMouseEnter={(e) =>
+                (e.currentTarget.style.transform = "scale(1.05)")
+              }
+              onMouseLeave={(e) =>
+                (e.currentTarget.style.transform = "scale(1)")
+              }
+            />
           </Box>
+        </Box>
+
+        {/* Rating */}
+        <HStack gap={1}>
+          {Array(5)
+            .fill("")
+            .map((_, i) => (
+              <Icon
+                key={i}
+                as={FaStar}
+                color={
+                  i < Math.ceil(reviewData?.average_rating ?? 0)
+                    ? "#FF6996"
+                    : "gray.300"
+                }
+                boxSize={starIconSize}
+              />
+            ))}
+          <Text fontSize={fontSize} color="gray.600" ml={3}>
+            {reviewData?.reviews?.length ?? 0} reviews
+          </Text>
         </HStack>
 
-        {/* Product Image */}
-        <Box
-          position="relative"
-          width="100%"
-          height={imageHeight}
-          borderRadius="lg"
-          overflow="hidden"
+        {/* Title */}
+        <Text
+          fontWeight="semibold"
+          color="gray.800"
+          lineHeight="1.2"
+          minH={{ md: "40px" }}
+          lineClamp={{ sm: 2, md: 2 }}
         >
-          <Image
-            src={image || config?.company_details_url}
-            alt={title}
-            fill
-            style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "scale(1.05)")
-            }
-            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-          />
-        </Box>
-      </Box>
-
-      {/* Rating */}
-      <HStack gap={1}>
-        {Array(5)
-          .fill("")
-          .map((_, i) => (
-            <Icon
-              key={i}
-              as={FaStar}
-              color={
-                i < Math.ceil(reviewData?.average_rating ?? 0)
-                  ? "#FF6996"
-                  : "gray.300"
-              }
-              boxSize={starIconSize}
-            />
-          ))}
-        <Text fontSize={fontSize} color="gray.600" ml={3}>
-          {reviewData?.reviews?.length ?? 0} reviews
+          {title}
         </Text>
-      </HStack>
-
-      {/* Title */}
-      <Text
-        fontWeight="semibold"
-        color="gray.800"
-        lineHeight="1.2"
-        minH={{ md: "40px" }}
-        lineClamp={{ sm: 2, md: 2 }}
-      >
-        {title}
-      </Text>
+      </Box>
 
       {/* Description */}
       {/* <Box color="gray.500" fontSize={descriptionSize} lineHeight="short">
@@ -292,6 +308,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           px={3}
           py={0}
           lineHeight="1.2"
+          onClick={checkAuth(onAddToCart)}
         >
           Add <Cart />
         </Button>
