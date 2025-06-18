@@ -1,6 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
 import {
   TikTokEmbed,
   InstagramEmbed,
@@ -35,7 +40,7 @@ type VideoProductType = {
 interface ProductModalProps {
   isOpen: boolean;
   onClose: () => void;
-  product: VideoProductType | null;
+  product: VideoProductType | VideoProductType[] | null;
 }
 
 const RelatedProductCard = ({
@@ -93,8 +98,12 @@ export const ProductModal = ({
   );
 };
 
-const DetailsSection = ({ product }: { product: VideoProductType }) => {
-  const { products } = product;
+const DetailsSection = ({
+  product,
+}: {
+  product: VideoProductType[] | VideoProductType | null;
+}) => {
+  const { products } = product as VideoProductType;
   const { data: config } = useConfigQuery();
   const { handleAddToCart, isPending: isCartPending } =
     useProductDetailCartMutation();
@@ -130,6 +139,69 @@ const DetailsSection = ({ product }: { product: VideoProductType }) => {
   };
 
   return (
+    // <Box
+    //   bg="white"
+    //   p={6}
+    //   width={{ base: "100%", md: "60%" }}
+    //   overflow="auto"
+    //   scrollbarWidth={"none"}
+    // >
+    //   <Flex
+    //     justify="space-between"
+    //     gap={4}
+    //     align="center"
+    //     justifyItems={"center"}
+    //     my={"auto"}
+    //   >
+    //     <Box alignItems={"center"}>
+    //       <Image
+    //         src={
+    //           products[0]?.custom_image_1_link || config?.company_details_url
+    //         }
+    //         alt={"name"}
+    //         width={400}
+    //         height={400}
+    //         objectFit="cover"
+    //       />
+    //     </Box>
+    //     <Box>
+    //       <Heading size="md" mb={1} color="#2E2E2E">
+    //         {products[0]?.item_name}
+    //       </Heading>
+
+    //       {products[0]?.item_code && (
+    //         <RatingSection item_code={products[0]?.item_code} />
+    //       )}
+    //       <Flex align="center" mb={6}>
+    //         <Text fontSize="md" color="#FF6996">
+    //           Rs {products[0]?.prices[0]?.price_list_rate}
+    //         </Text>
+    //         {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
+    //         {originalPrice}
+    //         </Text>
+    //         <Text color="pink.500" fontSize="sm">
+    //         {discount}
+    //         </Text> */}
+    //       </Flex>
+    //       <Flex justify={"space-between"} gap={4}>
+    //         <QuantityControl
+    //           value={quantity}
+    //           onChange={handleQuantityChange}
+    //           minimum={minimumQuantity}
+    //           maximum={maximumQuantity}
+    //           incrementStep={incrementStep}
+    //         />
+    //         <ActionButtons
+    //           onAddToCart={onAddToCart}
+    //           onAddToWishlist={onAddToWishlist}
+    //         />
+    //       </Flex>
+    //     </Box>
+    //   </Flex>
+    //   <ProductDescription description={products[0]?.description} />
+    //   <RelatedProducts />
+    // </Box>
+
     <Box
       bg="white"
       p={6}
@@ -137,59 +209,83 @@ const DetailsSection = ({ product }: { product: VideoProductType }) => {
       overflow="auto"
       scrollbarWidth={"none"}
     >
-      <Flex
-        justify="space-between"
-        gap={4}
-        align="center"
-        justifyItems={"center"}
-        my={"auto"}
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        slidesPerView={1}
+        loop={true}
+        spaceBetween={3}
       >
-        <Box alignItems={"center"}>
-          <Image
-            src={
-              products[0]?.custom_image_1_link || config?.company_details_url
-            }
-            alt={"name"}
-            width={400}
-            height={400}
-            objectFit="cover"
-          />
-        </Box>
-        <Box>
-          <Heading size="md" mb={1} color="#2E2E2E">
-            {products[0]?.item_name}
-          </Heading>
+        {products.map((product) => (
+          <SwiperSlide key={product?.item_code}>
+            {/* Product Card */}
+            <Flex
+              justify="space-between"
+              gap={4}
+              align="center"
+              justifyItems="center"
+              my="auto"
+              direction={{ base: "column", md: "row" }} // Stack on mobile
+            >
+              {/* Image Section */}
+              <Box
+                width={{ base: "100%", md: "100%" }}
+                height={{ base: "100%", md: "100%" }}
+                textAlign="center"
+              >
+                <Image
+                  src={
+                    product?.custom_image_1_link || config?.company_details_url
+                  }
+                  alt={product?.item_name || "Product Image"}
+                  width={400}
+                  height={400}
+                  objectFit="cover"
+                  style={{ maxWidth: "100%", height: "auto" }}
+                />
+              </Box>
 
-          {products[0]?.item_code && (
-            <RatingSection item_code={products[0]?.item_code} />
-          )}
-          <Flex align="center" mb={6}>
-            <Text fontSize="md" color="#FF6996">
-              Rs {products[0]?.prices[0]?.price_list_rate}
-            </Text>
-            {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
-            {originalPrice}
-            </Text>
-            <Text color="pink.500" fontSize="sm">
-            {discount}
-            </Text> */}
-          </Flex>
-          <Flex justify={"space-between"} gap={4}>
-            <QuantityControl
-              value={quantity}
-              onChange={handleQuantityChange}
-              minimum={minimumQuantity}
-              maximum={maximumQuantity}
-              incrementStep={incrementStep}
-            />
-            <ActionButtons
-              onAddToCart={onAddToCart}
-              onAddToWishlist={onAddToWishlist}
-            />
-          </Flex>
-        </Box>
-      </Flex>
-      <ProductDescription description={products[0]?.description} />
+              {/* Product Details Section */}
+              <Box width={{ base: "100%", md: "70%" }}>
+                <Heading size="md" mb={1} color="#2E2E2E">
+                  {product?.item_name}
+                </Heading>
+
+                {product?.item_code && (
+                  <RatingSection item_code={product?.item_code} />
+                )}
+
+                <Flex align="center" mb={6}>
+                  <Text fontSize="md" color="#FF6996">
+                    Rs {product?.prices[0]?.price_list_rate}
+                  </Text>
+                </Flex>
+
+                <Flex justify="space-between" gap={2} wrap="nowrap">
+                  <QuantityControl
+                    value={quantity}
+                    onChange={handleQuantityChange}
+                    minimum={minimumQuantity}
+                    maximum={maximumQuantity}
+                    incrementStep={incrementStep}
+                  />
+                  <ActionButtons
+                    onAddToCart={onAddToCart}
+                    onAddToWishlist={onAddToWishlist}
+                  />
+                </Flex>
+              </Box>
+            </Flex>
+
+            {/* Description below the product card */}
+            <Box mt={8}>
+              <ProductDescription description={product?.description} />
+            </Box>
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      {/* Related products outside the swiper */}
       <RelatedProducts />
     </Box>
   );
@@ -373,7 +469,7 @@ const ProductDescription = ({
 }: {
   description: string | null | undefined;
 }) => (
-  <Box mb={6}>
+  <Box>
     <Text fontWeight="medium" mb={2} color={"#2E2E2E"}>
       Description
     </Text>
@@ -528,8 +624,12 @@ const getEmbedComponent = (url: string): React.ReactElement | null => {
   }
 };
 
-const MediaSection = ({ product }: { product: VideoProductType }) => {
-  const { videoInfo } = product;
+const MediaSection = ({
+  product,
+}: {
+  product: VideoProductType | VideoProductType[] | null;
+}) => {
+  const { videoInfo } = product as VideoProductType;
   if (!videoInfo) {
     return (
       <Box position="relative" width={{ base: "100%", md: "40%" }} bg="black">
