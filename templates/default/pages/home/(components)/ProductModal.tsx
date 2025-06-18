@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { Swiper as SwiperType } from "swiper";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -46,33 +47,6 @@ interface ProductModalProps {
   onClose: () => void;
   product: VideoProductType | VideoProductType[] | null;
 }
-
-const RelatedProductCard = ({
-  image,
-  name,
-  price,
-  reviews,
-}: {
-  image: string;
-  name: string;
-  price: number;
-  reviews: number;
-}) => (
-  <Box borderRadius="md" overflow="hidden">
-    <Image src={image} alt={name} width={300} height={150} />
-    <Box mt={2}>
-      <Text fontSize="xs" color="pink.500">
-        ★★★★★ {reviews} reviews
-      </Text>
-      <Text fontSize="sm" color="gray.600" lineClamp={1} w={200}>
-        {name}
-      </Text>
-      <Text fontSize="sm" fontWeight="bold" color="pink.500">
-        Rs {price.toLocaleString()}
-      </Text>
-    </Box>
-  </Box>
-);
 
 export const ProductModal = ({
   isOpen,
@@ -122,6 +96,11 @@ const DetailsSection = ({
   const handleQuantityChange = (newQuantity: number) => {
     if (newQuantity < minimumQuantity || newQuantity > maximumQuantity) return;
     setQuantity(newQuantity);
+  };
+  const [activeProductIndex, setActiveProductIndex] = useState(0);
+
+  const handleSlideChange = (swiper: SwiperType) => {
+    setActiveProductIndex(swiper.realIndex);
   };
 
   const onAddToCart = () => {
@@ -219,6 +198,7 @@ const DetailsSection = ({
         slidesPerView={1}
         loop={true}
         spaceBetween={3}
+        onSlideChange={handleSlideChange}
       >
         {products.map((product) => (
           <SwiperSlide key={product?.item_code}>
@@ -289,12 +269,7 @@ const DetailsSection = ({
         ))}
       </Swiper>
       {/* Related products*/}
-      <Text fontWeight="medium" mb={4} color={"#2E2E2E"}>
-        You May Like
-      </Text>
-      {products.map((product) => (
-        <RelatedProducts itemCode={product?.item_code} />
-      ))}
+      <RelatedProducts itemCode={products[activeProductIndex]?.item_code} />
     </Box>
   );
 };
@@ -494,9 +469,11 @@ const RelatedProducts = ({ itemCode }: { itemCode: string | undefined }) => {
   const { data: relatedProducts } = useItemProductsLikeQuery(itemCode);
   return (
     <Box>
-      <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
+      <Text fontWeight="medium" color={"#2E2E2E"}>
+        You May Like
+      </Text>
+      <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={4}>
         {relatedProducts?.map((product, index) => (
-          // <RelatedProductCard key={index} {...product} />
           <ProductCard
             key={index}
             id={index}
