@@ -24,10 +24,14 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import { AddIcon, Cart, HeartIcon, SubtractIcon } from "@/assets/svg";
-import { Dialog, StarRating } from "@/components";
+import { Dialog, ProductCard, StarRating } from "@/components";
 import Image from "next/image";
 import { IndividualProductAPIType, QuantityInputProps } from "@/types";
-import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
+import {
+  useConfigQuery,
+  useItemProductsLikeQuery,
+  useReviewDataQuery,
+} from "@/hooks/api";
 import {
   useAuthCheck,
   useProductDetailCartMutation,
@@ -206,7 +210,7 @@ const DetailsSection = ({
       bg="white"
       p={6}
       width={{ base: "100%", md: "60%" }}
-      overflow="auto"
+      overflowY="auto"
       scrollbarWidth={"none"}
     >
       <Swiper
@@ -284,9 +288,13 @@ const DetailsSection = ({
           </SwiperSlide>
         ))}
       </Swiper>
-
-      {/* Related products outside the swiper */}
-      <RelatedProducts />
+      {/* Related products*/}
+      <Text fontWeight="medium" mb={4} color={"#2E2E2E"}>
+        You May Like
+      </Text>
+      {products.map((product) => (
+        <RelatedProducts itemCode={product?.item_code} />
+      ))}
     </Box>
   );
 };
@@ -482,49 +490,23 @@ const ProductDescription = ({
   </Box>
 );
 
-const RelatedProducts = () => {
-  const relatedProducts = [
-    {
-      name: "Cosrx Advanced Snail 92 All in one Cream",
-      price: 1200,
-      reviews: 420,
-      image: "/global-reach-vertical.png",
-    },
-    {
-      name: "Beauty of Joseon - Matte Sun Stick Duo",
-      price: 1500,
-      reviews: 420,
-      image: "/global-reach-vertical.png",
-    },
-    {
-      name: "Beauty of Joseon - Matte Sun Stick Duo",
-      price: 1500,
-      reviews: 420,
-      image: "/global-reach-vertical.png",
-    },
-    {
-      name: "Beauty of Joseon - Matte Sun Stick Duo",
-      price: 1500,
-      reviews: 420,
-      image: "/global-reach-vertical.png",
-    },
-    {
-      name: "Beauty of Joseon - Matte Sun Stick Duo",
-      price: 1500,
-      reviews: 420,
-      image: "/global-reach-vertical.png",
-    },
-    // Add more products as needed
-  ];
-
+const RelatedProducts = ({ itemCode }: { itemCode: string | undefined }) => {
+  const { data: relatedProducts } = useItemProductsLikeQuery(itemCode);
   return (
     <Box>
-      <Text fontWeight="medium" mb={4} color={"#2E2E2E"}>
-        You May Like
-      </Text>
-      <Grid templateColumns="repeat(auto-fill, minmax(200px, 1fr))" gap={4}>
-        {relatedProducts.map((product, index) => (
-          <RelatedProductCard key={index} {...product} />
+      <Grid templateColumns="repeat(auto-fill, minmax(150px, 1fr))" gap={4}>
+        {relatedProducts?.map((product, index) => (
+          // <RelatedProductCard key={index} {...product} />
+          <ProductCard
+            key={index}
+            id={index}
+            category={product.item_name}
+            image={product.custom_image_1_link}
+            title={product.item_name}
+            price={product.prices?.[0].price_list_rate}
+            link={product.name}
+            item_code={product.item_code}
+          />
         ))}
       </Grid>
     </Box>
