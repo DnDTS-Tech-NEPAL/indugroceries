@@ -18,7 +18,6 @@ import {
   Link,
   Grid,
 } from "@chakra-ui/react";
-import { FaHeart } from "react-icons/fa";
 import { AddIcon, Cart, HeartIcon, SubtractIcon } from "@/assets/svg";
 import { Dialog, StarRating } from "@/components";
 import Image from "next/image";
