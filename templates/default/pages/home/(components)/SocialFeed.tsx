@@ -559,11 +559,11 @@ export const SocialFeed = () => {
     setIsModalOpen(false);
   };
 
-  const onAddToCart = () => {
-    const item_code = selectedProduct?.products[0]?.item_code;
+  const onAddToCart = (index: number) => {
+    const item_code = cardDetails[index]?.products[0]?.item_code;
     const quantity = 1;
     const itemPrice =
-      selectedProduct?.products[0]?.prices?.[0]?.price_list_rate;
+      cardDetails[index]?.products[0]?.prices?.[0]?.price_list_rate;
     const payload = {
       item_code: item_code,
       item_price: itemPrice,
@@ -572,8 +572,8 @@ export const SocialFeed = () => {
     handleAddToCart(payload);
   };
 
-  const onAddToWishlist = () => {
-    const item_code = selectedProduct?.products[0]?.item_code;
+  const onAddToWishlist = (index: number) => {
+    const item_code = cardDetails[index]?.products[0]?.item_code;
     const payload = {
       item_code: item_code,
       quantity: 1,
@@ -823,7 +823,7 @@ export const SocialFeed = () => {
                               py={3}
                               lineHeight="1.2"
                               flex={1}
-                              onClick={checkAuth(onAddToCart)}
+                              onClick={checkAuth(() => onAddToCart(index))}
                               loading={isCartPending}
                             >
                               Add <Cart />
@@ -834,7 +834,7 @@ export const SocialFeed = () => {
                               w="10px"
                               bg={"white"}
                               border={"1px solid #FF6996"}
-                              onClick={checkAuth(onAddToWishlist)}
+                              onClick={checkAuth(() => onAddToWishlist(index))}
                             >
                               <HeartIcon style={{ color: "#FF6996" }} />
                             </Button>
