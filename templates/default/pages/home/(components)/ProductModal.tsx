@@ -67,7 +67,6 @@ export const ProductModal = ({
   product,
 }: ProductModalProps) => {
   const [quantity, setQuantity] = useState(1);
-  console.log("product dsdd", product);
 
   if (!product) return null;
 
@@ -79,7 +78,7 @@ export const ProductModal = ({
       open={isOpen}
       onClose={onClose}
       contentMinWidth={{
-        lg: "900px",
+        lg: "1000px",
         xl: "1000px",
       }}
       hasCloseTrigger
@@ -115,7 +114,13 @@ const DetailsSection = ({
   const { data: config } = useConfigQuery();
 
   return (
-    <Box bg="white" p={6} width={{ base: "100%", md: "60%" }} overflow="auto">
+    <Box
+      bg="white"
+      p={6}
+      width={{ base: "100%", md: "60%" }}
+      overflow="auto"
+      scrollbarWidth={"none"}
+    >
       <Flex
         justify="space-between"
         gap={4}

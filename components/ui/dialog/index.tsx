@@ -36,7 +36,8 @@ export const DialogCloseTrigger = React.forwardRef<
   return (
     <ChakraDialog.CloseTrigger
       position="absolute"
-      top="2"
+      top="-10px!important"
+      right="-10px!important"
       borderRadius="full"
       _focus={{ boxShadow: "none", outline: "none" }}
       _focusVisible={{ boxShadow: "none", outline: "none" }}
@@ -66,7 +67,11 @@ export const Dialog = ({
   return (
     <ChakraDialog.Root open={open} onOpenChange={onClose} size={size}>
       <ChakraDialog.Backdrop />
-      <DialogContent borderRadius="0" minWidth={contentMinWidth}>
+      <DialogContent
+        borderRadius="0"
+        minWidth={contentMinWidth}
+        position="relative"
+      >
         {hasCloseTrigger && <DialogCloseTrigger />}
 
         {title && (
