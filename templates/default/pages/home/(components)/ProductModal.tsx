@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   TikTokEmbed,
   InstagramEmbed,
@@ -19,11 +19,16 @@ import {
   Grid,
 } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
-import { AddIcon, HeartIcon, SubtractIcon } from "@/assets/svg";
+import { AddIcon, Cart, HeartIcon, SubtractIcon } from "@/assets/svg";
 import { Dialog, StarRating } from "@/components";
 import Image from "next/image";
-import { IndividualProductAPIType } from "@/types";
+import { IndividualProductAPIType, QuantityInputProps } from "@/types";
 import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
+import {
+  useAuthCheck,
+  useProductDetailCartMutation,
+  useProductDetailWishlist,
+} from "@/hooks/app";
 type VideoProductType = {
   products: (IndividualProductAPIType | undefined)[];
   videoInfo?: { social_links: string; video_link: string };
@@ -66,12 +71,7 @@ export const ProductModal = ({
   onClose,
   product,
 }: ProductModalProps) => {
-  const [quantity, setQuantity] = useState(1);
-
   if (!product) return null;
-
-  const decreaseQuantity = () => setQuantity(Math.max(1, quantity - 1));
-  const increaseQuantity = () => setQuantity(Math.min(10, quantity + 1));
 
   return (
     <Dialog
@@ -88,30 +88,47 @@ export const ProductModal = ({
         <MediaSection product={product} />
 
         {/* Details Section */}
-        <DetailsSection
-          product={product}
-          quantity={quantity}
-          onDecrease={decreaseQuantity}
-          onIncrease={increaseQuantity}
-        />
+        <DetailsSection product={product} />
       </Flex>
     </Dialog>
   );
 };
 
-const DetailsSection = ({
-  product,
-  quantity,
-  onDecrease,
-  onIncrease,
-}: {
-  product: VideoProductType;
-  quantity: number;
-  onDecrease: () => void;
-  onIncrease: () => void;
-}) => {
+const DetailsSection = ({ product }: { product: VideoProductType }) => {
   const { products } = product;
   const { data: config } = useConfigQuery();
+  const { handleAddToCart, isPending: isCartPending } =
+    useProductDetailCartMutation();
+  const { handleAddToWishlist, isPending: isWishlistPending } =
+    useProductDetailWishlist();
+
+  const minimumQuantity = products[0]?.custom_minimum_order_quantity || 1;
+  const maximumQuantity = products[0]?.custom_maximum_order_quantity || 100;
+  const incrementStep = products[0]?.custom_increment_on_quantity || 1;
+  const [quantity, setQuantity] = useState(minimumQuantity);
+
+  const handleQuantityChange = (newQuantity: number) => {
+    if (newQuantity < minimumQuantity || newQuantity > maximumQuantity) return;
+    setQuantity(newQuantity);
+  };
+
+  const onAddToCart = () => {
+    const payload = {
+      item_code: products[0]?.item_code,
+      item_price: products[0]?.prices[0]?.price_list_rate || "",
+      quantity,
+    };
+    handleAddToCart(payload);
+  };
+
+  const onAddToWishlist = () => {
+    const payload = {
+      item_code: products[0]?.item_code,
+      quantity,
+    };
+
+    handleAddToWishlist(payload);
+  };
 
   return (
     <Box
@@ -160,11 +177,16 @@ const DetailsSection = ({
           </Flex>
           <Flex justify={"space-between"} gap={4}>
             <QuantityControl
-              quantity={quantity}
-              onDecrease={onDecrease}
-              onIncrease={onIncrease}
+              value={quantity}
+              onChange={handleQuantityChange}
+              minimum={minimumQuantity}
+              maximum={maximumQuantity}
+              incrementStep={incrementStep}
             />
-            <ActionButtons />
+            <ActionButtons
+              onAddToCart={onAddToCart}
+              onAddToWishlist={onAddToWishlist}
+            />
           </Flex>
         </Box>
       </Flex>
@@ -196,86 +218,156 @@ const RatingSection = ({ item_code }: { item_code: string }) => {
   );
 };
 
-const QuantityControl = ({
-  quantity,
-  onDecrease,
-  onIncrease,
-}: {
-  quantity: number;
-  onDecrease: () => void;
-  onIncrease: () => void;
-}) => (
-  <Flex mb={6} align="center">
-    <Flex
-      borderColor="gray.200"
-      borderRadius="md"
-      // w="100px"
-      flex={1}
-      gap={2}
-      align="center"
-    >
-      <IconButton
-        aria-label="Decrease quantity"
-        variant="ghost"
-        borderRadius="2rem"
-        minWidth="3rem"
-        minHeight="3rem"
-        color={"#7A7A7A"}
-        backgroundColor="#f0f0f0"
-        border={"1px solid #7A7A7A"}
-        onClick={onDecrease}
-      >
-        <SubtractIcon />
-      </IconButton>
+const QuantityControl: React.FC<QuantityInputProps> = ({
+  value,
+  onChange,
+  minimum = 1,
+  maximum = 100,
+  incrementStep = 1,
+  quantityPayload,
+}) => {
+  const [tempValue, setTempValue] = React.useState(value?.toString());
 
-      <Box
-        flex="1"
-        textAlign="center"
-        borderRadius="3rem"
-        color={"#7A7A7A"}
-        backgroundColor="#f0f0f0"
-        border="1px solid #2E2E2E"
-        display="inline-flex"
-        justifyContent="center"
-        alignItems="center"
-        minWidth="3rem"
-        minHeight="3rem"
+  React.useEffect(() => {
+    setTempValue(value?.toString());
+  }, [value]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value;
+    if (/^\d*$/.test(newValue)) {
+      setTempValue(newValue);
+    }
+  };
+
+  const validateAndSetValue = () => {
+    if (tempValue === "") {
+      setTempValue(minimum.toString());
+      onChange(minimum);
+    } else {
+      let numValue = Number(tempValue);
+      if (numValue < minimum) numValue = minimum;
+      if (numValue > maximum) numValue = maximum;
+      onChange(numValue);
+      setTempValue(numValue.toString());
+    }
+  };
+
+  const increment = () => {
+    const newValue = Math.min(value + incrementStep, maximum);
+    onChange(newValue);
+    if (quantityPayload) {
+      quantityPayload(incrementStep);
+    }
+  };
+
+  const decrement = () => {
+    const newValue = Math.max(value - incrementStep, minimum);
+    onChange(newValue);
+    if (quantityPayload) {
+      quantityPayload(-incrementStep);
+    }
+  };
+
+  return (
+    <Flex mb={6} align="center">
+      <Flex
+        borderColor="gray.200"
+        borderRadius="md"
+        // w="100px"
+        flex={1}
+        gap={2}
+        align="center"
       >
-        {quantity}
-      </Box>
-      <IconButton
-        aria-label="Increase quantity"
-        variant="ghost"
-        borderRadius="2rem"
-        minWidth="3rem"
-        minHeight="3rem"
-        color={"#7A7A7A"}
-        backgroundColor="#f0f0f0"
-        border={"1px solid #7A7A7A"}
-        onClick={onIncrease}
-      >
-        <AddIcon />
-      </IconButton>
+        <IconButton
+          aria-label="Decrease quantity"
+          variant="ghost"
+          borderRadius="2rem"
+          minWidth="3rem"
+          minHeight="3rem"
+          color={"#7A7A7A"}
+          backgroundColor="#f0f0f0"
+          border={"1px solid #7A7A7A"}
+          onClick={decrement}
+        >
+          <SubtractIcon />
+        </IconButton>
+
+        <Box
+          flex="1"
+          textAlign="center"
+          borderRadius="3rem"
+          color={"#7A7A7A"}
+          backgroundColor="#f0f0f0"
+          border="1px solid #2E2E2E"
+          display="inline-flex"
+          justifyContent="center"
+          onChange={handleChange}
+          onBlur={validateAndSetValue}
+          alignItems="center"
+          minWidth="3rem"
+          minHeight="3rem"
+        >
+          {value}
+        </Box>
+        <IconButton
+          aria-label="Increase quantity"
+          variant="ghost"
+          borderRadius="2rem"
+          minWidth="3rem"
+          minHeight="3rem"
+          color={"#7A7A7A"}
+          backgroundColor="#f0f0f0"
+          border={"1px solid #7A7A7A"}
+          onClick={increment}
+        >
+          <AddIcon />
+        </IconButton>
+      </Flex>
     </Flex>
-  </Flex>
-);
+  );
+};
 
-const ActionButtons = () => (
-  <HStack gap="20px" w="100%" mb={6}>
-    <Button rounded="full" bg="#FF6996" flex={1} w="100%">
-      Add to Bag
-    </Button>
-    <Button
-      borderRadius="xl"
-      h="10px"
-      w="10px"
-      bg="white"
-      border="1px solid #FF6996"
-    >
-      <HeartIcon style={{ color: "#FF6996" }} />
-    </Button>
-  </HStack>
-);
+const ActionButtons = ({
+  onAddToCart,
+  onAddToWishlist,
+}: {
+  onAddToCart: () => void;
+  onAddToWishlist: () => void;
+}) => {
+  const { checkAuth } = useAuthCheck();
+  return (
+    <HStack gap="20px" w="100%" mb={6}>
+      <Button
+        height="auto"
+        minH="32px"
+        minW="150px"
+        w={{ md: "50%" }}
+        bg={"transparent"}
+        color={"#FF6996"}
+        borderRadius="full"
+        border={"0.5px solid #FF6996"}
+        fontSize="14px"
+        fontWeight={"400"}
+        px={3}
+        py={3}
+        lineHeight="1.2"
+        onClick={checkAuth(onAddToCart)}
+      >
+        Add <Cart />
+      </Button>
+      <Button
+        borderRadius="xl"
+        h="10px"
+        w="10px"
+        bg="white"
+        border="1px solid #FF6996"
+        onClick={checkAuth(onAddToWishlist)}
+      >
+        <HeartIcon style={{ color: "#FF6996" }} />
+      </Button>
+    </HStack>
+  );
+};
 
 const ProductDescription = ({
   description,
