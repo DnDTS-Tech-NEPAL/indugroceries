@@ -456,7 +456,12 @@
 "use client";
 
 import { useConfigQuery } from "@/hooks/api";
-import { useSocialLinks } from "@/hooks/app";
+import {
+  useAuthCheck,
+  useProductDetailCartMutation,
+  useProductDetailWishlist,
+  useSocialLinks,
+} from "@/hooks/app";
 import {
   Box,
   Heading,
@@ -476,7 +481,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
-import { HeartIcon } from "@/assets/svg";
+import { Cart, CartIcon, HeartIcon } from "@/assets/svg";
 import { useEffect, useState } from "react";
 import { ProductModal } from "./ProductModal";
 import { getProductDetailByName } from "@/api";
@@ -489,6 +494,11 @@ type VideoProductType = {
 export const SocialFeed = () => {
   const socialLinks = useSocialLinks();
   const { data: config } = useConfigQuery();
+  const { handleAddToCart, isPending: isCartPending } =
+    useProductDetailCartMutation();
+  const { handleAddToWishlist, isPending: isWishlistPending } =
+    useProductDetailWishlist();
+  const { checkAuth } = useAuthCheck();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] =
     useState<VideoProductType | null>(null);
@@ -547,6 +557,28 @@ export const SocialFeed = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const onAddToCart = () => {
+    const item_code = selectedProduct?.products[0]?.item_code;
+    const quantity = 1;
+    const itemPrice =
+      selectedProduct?.products[0]?.prices?.[0]?.price_list_rate;
+    const payload = {
+      item_code: item_code,
+      item_price: itemPrice,
+      quantity,
+    };
+    handleAddToCart(payload);
+  };
+
+  const onAddToWishlist = () => {
+    const item_code = selectedProduct?.products[0]?.item_code;
+    const payload = {
+      item_code: item_code,
+      quantity: 1,
+    };
+    handleAddToWishlist(payload);
   };
 
   return (
@@ -776,8 +808,25 @@ export const SocialFeed = () => {
                           {/* Bottom Section: Add to Cart and Wishlist */}
 
                           <HStack gap="20px" width="100%">
-                            <Button rounded="xl" bg="#FF6996" flex={1}>
-                              Add to Bag
+                            <Button
+                              height="auto"
+                              minH="32px"
+                              minW="150px"
+                              w={{ md: "50%" }}
+                              bg={"transparent"}
+                              color={"#FF6996"}
+                              borderRadius="full"
+                              border={"0.5px solid #FF6996"}
+                              fontSize="14px"
+                              fontWeight={"400"}
+                              px={3}
+                              py={3}
+                              lineHeight="1.2"
+                              flex={1}
+                              onClick={checkAuth(onAddToCart)}
+                              loading={isCartPending}
+                            >
+                              Add <Cart />
                             </Button>
                             <Button
                               borderRadius="xl"
@@ -785,6 +834,7 @@ export const SocialFeed = () => {
                               w="10px"
                               bg={"white"}
                               border={"1px solid #FF6996"}
+                              onClick={checkAuth(onAddToWishlist)}
                             >
                               <HeartIcon style={{ color: "#FF6996" }} />
                             </Button>
