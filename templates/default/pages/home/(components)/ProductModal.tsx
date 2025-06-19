@@ -1,12 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
-import { Swiper as SwiperType } from "swiper";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
 import {
   TikTokEmbed,
   InstagramEmbed,
@@ -24,7 +18,14 @@ import {
   Link,
   Grid,
 } from "@chakra-ui/react";
-import { AddIcon, Cart, HeartIcon, SubtractIcon } from "@/assets/svg";
+import {
+  AddIcon,
+  Cart,
+  HeartIcon,
+  SubtractIcon,
+  ArrowRightIcon,
+  ArrowLeftIcon,
+} from "@/assets/svg";
 import { Dialog, ProductCard, StarRating } from "@/components";
 import Image from "next/image";
 import { IndividualProductAPIType, QuantityInputProps } from "@/types";
@@ -38,6 +39,9 @@ import {
   useProductDetailCartMutation,
   useProductDetailWishlist,
 } from "@/hooks/app";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 type VideoProductType = {
   products: (IndividualProductAPIType | undefined)[];
   videoInfo?: { social_links: string; video_link: string };
@@ -76,6 +80,40 @@ export const ProductModal = ({
   );
 };
 
+// Custom Arrow Components
+const NextArrow = ({ onClick }: { onClick: () => void }) => (
+  <IconButton
+    aria-label="Next"
+    onClick={onClick}
+    position="absolute"
+    right="-16px"
+    bottom="-8%"
+    transform="translateY(-50%)"
+    zIndex={2}
+    bg="transparent"
+    color="#FF6996"
+    borderRadius="full"
+  >
+    <ArrowRightIcon />
+  </IconButton>
+);
+
+const PrevArrow = ({ onClick }: { onClick: () => void }) => (
+  <IconButton
+    aria-label="Prev"
+    onClick={onClick}
+    position="absolute"
+    right="32px"
+    bottom="-8%"
+    transform="translateY(-50%)"
+    zIndex={2}
+    bg="transparent"
+    color="#FF6996"
+    borderRadius="full"
+  >
+    <ArrowLeftIcon />
+  </IconButton>
+);
 const DetailsSection = ({
   product,
 }: {
@@ -99,8 +137,8 @@ const DetailsSection = ({
   };
   const [activeProductIndex, setActiveProductIndex] = useState(0);
 
-  const handleSlideChange = (swiper: SwiperType) => {
-    setActiveProductIndex(swiper.realIndex);
+  const handleSlideChange = (currentIndex: number) => {
+    setActiveProductIndex(currentIndex);
   };
 
   const onAddToCart = () => {
@@ -119,6 +157,28 @@ const DetailsSection = ({
     };
 
     handleAddToWishlist(payload);
+  };
+
+  const settings = {
+    // dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    // autoplay: true,
+    // autoplaySpeed: 4000,
+    afterChange: handleSlideChange,
+    nextArrow: <NextArrow onClick={() => {}} />,
+    prevArrow: <PrevArrow onClick={() => {}} />,
+    // appendDots: (dots: ReactNode) => (
+    //   <Box mt={8}>
+    //     <ul style={{ position: "absolute", bottom: "-8%", left: "2%" }}>
+    //       {dots}
+    //     </ul>
+    //   </Box>
+    // ),
+    // dotsClass: "slick-dots slick-thumb",
   };
 
   return (
@@ -192,16 +252,9 @@ const DetailsSection = ({
       overflowY="auto"
       scrollbarWidth={"none"}
     >
-      <Swiper
-        modules={[Navigation]}
-        navigation
-        slidesPerView={1}
-        loop={true}
-        spaceBetween={3}
-        onSlideChange={handleSlideChange}
-      >
+      <Slider {...settings}>
         {products.map((product) => (
-          <SwiperSlide key={product?.item_code}>
+          <Box key={product?.item_code}>
             {/* Product Card */}
             <Flex
               justify="space-between"
@@ -265,9 +318,9 @@ const DetailsSection = ({
             <Box mt={8}>
               <ProductDescription description={product?.description} />
             </Box>
-          </SwiperSlide>
+          </Box>
         ))}
-      </Swiper>
+      </Slider>
       {/* Related products*/}
       <RelatedProducts itemCode={products[activeProductIndex]?.item_code} />
     </Box>
