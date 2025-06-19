@@ -244,11 +244,28 @@
 
 import { useParams } from "next/navigation";
 import { useState, useEffect, useMemo } from "react";
-import { Flex, Heading, HStack, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  HStack,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 
 import { HeartIcon } from "@/assets/svg";
-import { Button, ProductVariantTabs, QuantityInput } from "@/components";
-import { useConfigQuery, useProductDetailByNameQuery } from "@/hooks/api";
+import {
+  Button,
+  ProductVariantTabs,
+  QuantityInput,
+  StarRating,
+} from "@/components";
+import {
+  useConfigQuery,
+  useProductDetailByNameQuery,
+  useReviewDataQuery,
+} from "@/hooks/api";
 import {
   useAuthCheck,
   useProductDetailCartMutation,
@@ -260,6 +277,7 @@ import { ProductReviews } from "./ProductReviews";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
 import { IndividualProductAPIType, ProductVariantType } from "@/types";
+import { Highlights } from "./Highlights";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -267,6 +285,9 @@ export const ProductInformation = () => {
   const { data: config } = useConfigQuery();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
+  const item_code = productDetail?.has_variants
+    ? activeVariant
+    : productDetail?.item_code;
 
   const { handleAddToCart, isPending: isCartPending } =
     useProductDetailCartMutation();
@@ -335,6 +356,10 @@ export const ProductInformation = () => {
   };
 
   const { checkAuth } = useAuthCheck();
+  const { data: reviewData, isLoading } = useReviewDataQuery(
+    item_code as string
+  );
+  const averageRating = reviewData?.average_rating ?? 0;
 
   return (
     <Flex flex={1} flexDirection="column" width="100%">
@@ -351,12 +376,29 @@ export const ProductInformation = () => {
               </Text>
             </HStack>
 
-            <Heading
-              color="black"
-              fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
-            >
-              {displayProduct?.item_name}
-            </Heading>
+            <Box>
+              <Heading
+                color="black"
+                fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
+              >
+                {displayProduct?.item_name}
+              </Heading>
+              {/* Rating */}
+              <Flex align="center" my={4}>
+                <HStack gap={1}>
+                  {!isLoading && (
+                    <StarRating
+                      stars={5}
+                      isCheckBoxRequired={false}
+                      fixedRating={averageRating}
+                    />
+                  )}
+                </HStack>
+                <Text ml={2} color="gray.600" fontSize="sm">
+                  {reviewData?.reviews?.length ?? 0} reviews
+                </Text>
+              </Flex>
+            </Box>
 
             {/* <Text color="system.text.light.light" variant="subtitle2">
               {displayProduct?.description}
@@ -418,6 +460,7 @@ export const ProductInformation = () => {
           </HStack>
         </VisibleSection>
       </VStack>
+      <Highlights />
 
       <ProductDescription />
       <ProductReviews item_code={productDetail?.item_code ?? ""} />

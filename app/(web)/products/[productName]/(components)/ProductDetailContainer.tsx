@@ -11,7 +11,6 @@ import { useVariantStore } from "@/store";
 import { ProductImages } from "./ProductImages";
 import { ProductInformation } from "./ProductInformation";
 import { ProductsYouMayLike } from "./ProductsYouMayLike";
-import { Highlights } from "./Highlights";
 import {
   BenefitsSection,
   SocialFeed,
@@ -61,7 +60,6 @@ export const ProductDetailContainer = ({
             alignItems="stretch"
           >
             <ProductImages />
-            <Highlights />
           </Flex>
 
           <ProductInformation />

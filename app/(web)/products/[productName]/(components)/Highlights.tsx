@@ -24,7 +24,14 @@ export const Highlights = () => {
   ];
 
   return (
-    <VStack align="start" gap={4}>
+    <VStack
+      mt={5}
+      align="start"
+      gap={4}
+      color={"#2E2E2E"}
+      borderTop={"1px solid #E6E6E6"}
+      pt={6}
+    >
       {items.map((item, index) => (
         <Flex key={index} align="center" gap={3}>
           <Icon as={item.icon} boxSize={5} />
