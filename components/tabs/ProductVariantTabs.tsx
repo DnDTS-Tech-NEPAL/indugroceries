@@ -582,11 +582,10 @@ export const ProductVariantTabs = ({
                   <ColorSwatch
                     key={`${attr}-${value}`}
                     value={color}
-                    color={color}
-                    bg={color}
                     width={selectedValues[attr] === value ? "140px" : "46px"}
                     height="52px"
-                    rounded="none"
+                    rounded="sm"
+                    mr={1}
                     onClick={() => handleAttributeChange(attr, value)}
                     cursor="pointer"
                     position="relative"
@@ -598,7 +597,6 @@ export const ProductVariantTabs = ({
                     transition="all 0.2s"
                   >
                     <Box
-                      bg={color}
                       color="white"
                       p={1}
                       fontSize="sm"
