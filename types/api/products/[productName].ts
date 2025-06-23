@@ -4,6 +4,7 @@ import { ProductPrice } from "./products";
 export type ProductAttribute = {
   attribute: string;
   attribute_value: string;
+  color: string;
 };
 
 export type ProductVariantType = {
