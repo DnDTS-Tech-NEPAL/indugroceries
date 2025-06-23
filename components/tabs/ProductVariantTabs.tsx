@@ -370,17 +370,16 @@
 //   );
 // };
 
-
 "use client";
-import { 
-  Box, 
-  VStack, 
-  Text, 
-  Flex, 
-  Wrap, 
-  WrapItem, 
+import {
+  Box,
+  VStack,
+  Text,
+  Flex,
+  Wrap,
+  WrapItem,
   ColorSwatch,
-  Group
+  Group,
 } from "@chakra-ui/react";
 import { useVariantStore } from "@/store";
 import { ProductVariantTabsProps } from "@/types";
@@ -395,17 +394,9 @@ export const ProductVariantTabs = ({
   ) => void;
 }) => {
   const { activeVariant, updateVariant } = useVariantStore();
-  const [selectedValues, setSelectedValues] = useState<Record<string, string>>({});
-
-  // Enhanced color map with hex values
-  const colorMap: Record<string, string> = {
-    "Ruby Woo": "#9F1F31",  // MAC Ruby Woo red
-    "Velvet Teddy": "#B1876B", // MAC Velvet Teddy
-    "Whirl": "#C6A493", // MAC Whirl
-    "Pillow Talk": "#D4B8B5", // Charlotte Tilbury
-    "Snob": "#D8C9D3", // MAC Snob
-    // Add more color mappings as needed
-  };
+  const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
+    {}
+  );
 
   const allAttributes = useMemo(() => {
     const attributes = new Set<string>();
@@ -432,7 +423,7 @@ export const ProductVariantTabs = ({
         .filter(([key]) => key !== attribute)
         .every(([key, value]) =>
           variant.attributes?.some(
-            (attr) => attr.attribute === key && attr.attribute_value === value 
+            (attr) => attr.attribute === key && attr.attribute_value === value
           )
         );
     });
@@ -447,6 +438,22 @@ export const ProductVariantTabs = ({
           )
           .filter(Boolean) as string[]
       )
+    );
+  };
+
+  // Get color for a specific attribute value
+  const getColorForValue = (attribute: string, value: string): string => {
+    const variantWithColor = variants?.find((v) =>
+      v.attributes?.some(
+        (a) =>
+          a.attribute === attribute && a.attribute_value === value && a.color
+      )
+    );
+
+    return (
+      variantWithColor?.attributes?.find(
+        (a) => a.attribute === attribute && a.attribute_value === value
+      )?.color || "#cccccc"
     );
   };
 
@@ -504,103 +511,112 @@ export const ProductVariantTabs = ({
     }));
   };
 
+  // Group attributes by type (size/volume vs shades)
+  const attributeGroups = useMemo(() => {
+    const groups: Record<string, string[]> = {
+      size: [],
+      shade: [],
+    };
+
+    allAttributes.forEach((attr) => {
+      if (
+        attr.toLowerCase().includes("size") ||
+        attr.toLowerCase().includes("volume")
+      ) {
+        groups.size.push(attr);
+      } else if (
+        attr.toLowerCase().includes("color") ||
+        attr.toLowerCase().includes("shade")
+      ) {
+        groups.shade.push(attr);
+      }
+    });
+
+    return groups;
+  }, [allAttributes]);
+
   return (
     <VStack align="flex-start" gap={6} w="full">
-      {allAttributes.map((attribute) => {
-        const availableValues = getAvailableValues(attribute);
-        console.log("avialable values",availableValues);
-        const isColorAttribute = attribute.toLowerCase().includes('color') || 
-                                attribute.toLowerCase().includes('shade');
-        console.log("isColorAttribute",isColorAttribute);
-
-        return (
-          <Box key={attribute} w="full">
-            <Text fontSize="md" fontWeight="medium" mb={3}>
-              Select {attribute}:
-            </Text>
-            
-            {isColorAttribute ? (
-              <Group gap={0} width="full" maxW="container.sm">
-                {availableValues.map((value) => {
-                  const hexColor = colorMap[value] || "#cccccc";
-                  return (
-                    <ColorSwatch
-                      key={value}
-                      value={value}
-                      color={hexColor}
-                      size="2xl"
-                      rounded="none"
-                      borderWidth="2px"
-                      borderColor={
-                        selectedValues[attribute] === value 
-                          ? "blue.500" 
-                          : "transparent"
-                      }
-                      onClick={() => handleAttributeChange(attribute, value)}
-                      cursor="pointer"
-                      position="relative"
-                      _hover={{
-                        transform: "scale(1.1)",
-                        zIndex: 1,
-                        boxShadow: "md"
-                      }}
-                      transition="all 0.2s"
-                    >
-                      <Box
-                        position="absolute"
-                        bottom="0"
-                        left="0"
-                        right="0"
-                        // bg={attr.color}
-                        color="white"
-                        p={1}
-                        fontSize="xs"
-                        textAlign="center"
-                        textTransform="capitalize"
-                        lineClamp={1}
-                      >
-                        {value}ttt
-                      </Box>
-                    </ColorSwatch>
-                  );
-                })}
-              </Group>
-            ) : (
-              <Wrap gap={3}>
-                {availableValues.map((value) => (
-                  <WrapItem key={value}>
-                    <Box
-                      as="button"
-                      px={4}
-                      py={2}
-                      borderRadius="md"
-                      borderWidth="2px"
-                      borderColor={
-                        selectedValues[attribute] === value 
-                          ? "blue.500" 
-                          : "gray.200"
-                      }
-                      bg="white"
-                      fontWeight={
-                        selectedValues[attribute] === value 
-                          ? "bold" 
-                          : "normal"
-                      }
-                      onClick={() => handleAttributeChange(attribute, value)}
-                      _hover={{
-                        bg: "gray.50"
-                      }}
-                    >
-                      {value}
-                    </Box>
-                  </WrapItem>
-                ))}
-              </Wrap>
+      {/* Size/Volume Section */}
+      {attributeGroups.size.length > 0 && (
+        <Box w="full">
+          <Text fontSize="md" fontWeight="medium" mb={3}>
+            Size/Volume
+          </Text>
+          <Wrap gap={3}>
+            {attributeGroups.size.flatMap((attr) =>
+              getAvailableValues(attr).map((value) => (
+                <WrapItem key={`${attr}-${value}`}>
+                  <Box
+                    as="button"
+                    px={4}
+                    py={1}
+                    border={
+                      selectedValues[attr] === value ? "none" : "1px solid gray"
+                    }
+                    borderRadius={"full"}
+                    bg={selectedValues[attr] === value ? "#FF6996" : "white"}
+                    color={selectedValues[attr] === value ? "white" : "black"}
+                    onClick={() => handleAttributeChange(attr, value)}
+                  >
+                    {value}
+                  </Box>
+                </WrapItem>
+              ))
             )}
-          </Box>
-        );
-      })}
+          </Wrap>
+        </Box>
+      )}
 
+      {/* Shades Section */}
+      {attributeGroups.shade.length > 0 && (
+        <Box w="full">
+          <Text fontSize="md" fontWeight="medium" mb={3}>
+            Shades
+          </Text>
+          <Group gap={0} width="full" maxW="container.sm">
+            {attributeGroups.shade.flatMap((attr) =>
+              getAvailableValues(attr).map((value) => {
+                const color = getColorForValue(attr, value);
+                return (
+                  <ColorSwatch
+                    key={`${attr}-${value}`}
+                    value={color}
+                    color={color}
+                    bg={color}
+                    width={selectedValues[attr] === value ? "140px" : "46px"}
+                    height="52px"
+                    rounded="none"
+                    onClick={() => handleAttributeChange(attr, value)}
+                    cursor="pointer"
+                    position="relative"
+                    _hover={{
+                      transform: "scale(1.1)",
+                      zIndex: 1,
+                      boxShadow: "md",
+                    }}
+                    transition="all 0.2s"
+                  >
+                    <Box
+                      bg={color}
+                      color="white"
+                      p={1}
+                      fontSize="sm"
+                      textAlign="center"
+                      textTransform="capitalize"
+                      lineClamp={1}
+                    >
+                      {selectedValues[attr] === value ? value : ""}
+                    </Box>
+                  </ColorSwatch>
+                );
+              })
+            )}
+          </Group>
+        </Box>
+      )}
+
+      {/* Selected Variant Info (optional) */}
       {/* {activeVariant && (
         <Box mt={4} w="full">
           <Text fontSize="lg" fontWeight="bold" mb={3}>
@@ -620,7 +636,6 @@ export const ProductVariantTabs = ({
                     {attr.attribute}:
                   </Text>
                   <Text color="gray.700">{attr.attribute_value}</Text>
-                  <Text color="gray.700">{attr.color}</Text>
                 </Flex>
               ))}
           </Box>
