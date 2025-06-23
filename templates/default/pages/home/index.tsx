@@ -8,27 +8,28 @@ import {
   HeroSection,
   NewArrivals,
   SummerSale,
-   SocialFeed,
+  SocialFeed,
   BenefitsSection,
   ShopBySkinType,
   InStoreVisit,
 } from "./(components)";
 import ProductShowcase from "./(components)/ProductShowcase";
+import { ShopSkinCareMakeup } from "./(components)/Shop";
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
- 
   return (
     <>
       <HeroSection initialData={initialData} />
       <FeaturedCategory />
-      <ProductShowcase/>
+      <ProductShowcase />
       <BrandCategory />
       <BestSellers />
-      <ShopBySkinType/>   
+      <ShopBySkinType />
       <SummerSale />
       <NewArrivals />
-      <InStoreVisit/>
-      <SocialFeed/>
-      <BenefitsSection/>
+      <ShopSkinCareMakeup />
+      <InStoreVisit />
+      <SocialFeed />
+      <BenefitsSection />
     </>
   );
 };

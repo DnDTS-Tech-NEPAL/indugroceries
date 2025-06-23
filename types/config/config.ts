@@ -148,4 +148,5 @@ export type BannerType = {
   title: string;
   image_url: string;
   description: string;
+  redirect_url?: string;
 };
