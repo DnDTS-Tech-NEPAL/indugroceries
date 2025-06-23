@@ -375,7 +375,6 @@ import {
   Box,
   VStack,
   Text,
-  Flex,
   Wrap,
   WrapItem,
   ColorSwatch,
@@ -393,7 +392,7 @@ export const ProductVariantTabs = ({
     variant: ProductVariantTabsProps["variants"][number]
   ) => void;
 }) => {
-  const { activeVariant, updateVariant } = useVariantStore();
+  const { updateVariant } = useVariantStore();
   const [selectedValues, setSelectedValues] = useState<Record<string, string>>(
     {}
   );
