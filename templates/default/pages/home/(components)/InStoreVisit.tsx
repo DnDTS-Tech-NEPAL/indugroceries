@@ -20,14 +20,14 @@ export const InStoreVisit = () => {
       boxShadow="md"
     >
       {/* Image Section (50%)  */}
-      <Box 
+      <Box
         flex={{ base: "none", md: "1.5" }}
         width={{ base: "100%", md: "60%" }}
         position="relative"
         minH={{ base: "300px", md: "80dvh" }}
       >
         <Image
-          src={storeData.banner_1_image_url}
+          src={storeData.banners[2].image_url}
           alt="K-Beauty Store"
           fill
           style={{
@@ -43,25 +43,19 @@ export const InStoreVisit = () => {
         bg="pink.50"
         p={{ base: 8, md: 16 }}
       >
-        <VStack 
-          align="start" 
-          gapY={8} 
-          height="100%"
-          justify="center"
-        >
+        <VStack align="start" gapY={8} height="100%" justify="center">
           <Heading fontSize={{ base: "2xl", md: "4xl" }} color="#FF6996">
-            {storeData.banner_1_title}
+            {storeData.banners[2].title}
           </Heading>
           <Text fontSize={{ base: "md", md: "3xl" }} lineHeight={1.6}>
-            {storeData.banner_1_description}
+            {storeData.banners[2].description}
           </Text>
           <Button
             colorScheme="pink"
             bg="#FF6996"
             borderRadius="full"
-            onClick={() => router.push(storeData.banner_1_image_url)}
+            onClick={() => router.push(storeData.banners[2].image_url)}
             _hover={{ bg: "#e55c84" }}
-            
           >
             Locate our Stores <ArrowRight size={20} />
           </Button>

@@ -104,11 +104,8 @@ export type ConfigType = {
   location: string;
   template: string;
 
-  //in store visit section
-  banner_1_title: string;
-  banner_1_description: string;
-  banner_1_image: string;
-  banner_1_image_url: string;
+  //in store visit section and shop by makeup/skincare
+  banners: BannerType[];
 
   //homebenefit section
   footer_cards: FooterCardType[];
@@ -146,4 +143,9 @@ export type QuickLinkType = {
   idx: number;
   label: string;
   route: string;
+};
+export type BannerType = {
+  title: string;
+  image_url: string;
+  description: string;
 };
