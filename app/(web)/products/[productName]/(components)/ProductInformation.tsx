@@ -273,7 +273,6 @@ import {
 } from "@/hooks/app";
 
 import { ProductDescription } from "./ProductDescription";
-import { ProductReviews } from "./ProductReviews";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
 import { IndividualProductAPIType, ProductVariantType } from "@/types";
@@ -463,7 +462,7 @@ export const ProductInformation = () => {
       <Highlights />
 
       <ProductDescription />
-      <ProductReviews item_code={productDetail?.item_code ?? ""} />
+      {/* <ProductReviews item_code={productDetail?.item_code ?? ""} /> */}
     </Flex>
   );
 };
