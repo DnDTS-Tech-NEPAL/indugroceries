@@ -425,9 +425,12 @@ export const ProductInformation = () => {
         {/* Rest of your existing UI */}
         <VisibleSection visibility={config?.cart_visibility}>
           <Stack gap="12px">
-            <Text variant="subtitle1" color="system.text.normal.light">
+            {/* <Text variant="subtitle1" color="system.text.normal.light">
               Quantity
-            </Text>
+            </Text> */}
+          </Stack>
+
+          <HStack gap="20px" width="80%">
             <QuantityInput
               value={quantity}
               onChange={handleQuantityChange}
@@ -435,9 +438,6 @@ export const ProductInformation = () => {
               maximum={maximumQuantity}
               incrementStep={incrementStep}
             />
-          </Stack>
-
-          <HStack gap="20px" width="100%">
             <Button
               rounded="3xl"
               bg="#FF6996"
@@ -445,7 +445,7 @@ export const ProductInformation = () => {
               onClick={checkAuth(onAddToCart)}
               loading={isCartPending}
             >
-              Add to Bag
+              Add to Cart
             </Button>
             <Button
               borderRadius="full"
