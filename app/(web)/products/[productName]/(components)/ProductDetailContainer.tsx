@@ -15,6 +15,7 @@ import {
   BenefitsSection,
   SocialFeed,
 } from "@/templates/default/pages/home/(components)";
+import { TabsDescription } from "./TabsDescription";
 
 export const ProductDetailContainer = ({
   product,
@@ -65,6 +66,7 @@ export const ProductDetailContainer = ({
           <ProductInformation />
         </Flex>
 
+        <TabsDescription />
         <ProductsYouMayLike />
         <SocialFeed />
         <BenefitsSection />

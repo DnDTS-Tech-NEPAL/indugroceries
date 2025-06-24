@@ -12,6 +12,7 @@ export * from "./pagetitle";
 export * from "./radio";
 export * from "./seeAll";
 export * from "./starRating";
+export * from "./tabs";
 export * from "./tag";
 export * from "./toaster";
 export * from "./visibleSection";
