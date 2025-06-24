@@ -60,9 +60,12 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({
       <Button
         onClick={decrement}
         bg={"grey.100"}
-        borderRadius="4px"
-        p={2}
-        h={"40px"}
+        borderRadius="2rem"
+        p={0}
+        h={"35px"}
+        w={"35px"}
+        minW={0} // Prevents minimum width issues
+        minH={0}
         disabled={value <= minimum}
         cursor={value <= minimum ? "not-allowed" : "pointer"}
         opacity={value <= minimum ? 0.5 : 1}
@@ -72,21 +75,27 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({
 
       <ChakraInput
         value={tempValue}
-        height={"40px !important"}
+        height={"35px !important"}
         onChange={handleChange}
         onBlur={validateAndSetValue}
         minH={0}
+        minW={0}
+        p={0}
+        borderRadius={"full"}
         textAlign="center"
-        width={"95px"}
+        width={"35px"}
         readOnly
       />
 
       <Button
         onClick={increment}
         bg={"grey.100"}
-        borderRadius="4px"
-        p={2}
-        h={"40px"}
+        borderRadius="full"
+        p={0}
+        h={"35px"}
+        w={"35px"}
+        minH={0}
+        minW={0}
         disabled={value >= maximum}
         cursor={value >= maximum ? "not-allowed" : "pointer"}
         opacity={value >= maximum ? 0.5 : 1}
