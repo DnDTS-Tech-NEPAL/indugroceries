@@ -14,25 +14,18 @@ import { useQueryClient } from "@tanstack/react-query";
 import { StarIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  FaRegThumbsDown,
-  FaStar,
-  FaThumbsUp,
-  FaUserCircle,
-} from "react-icons/fa";
-
-const reviews = [
-  { rating: 5, count: 2823 },
-  { rating: 4, count: 38 },
-  { rating: 3, count: 4 },
-  { rating: 2, count: 0 },
-  { rating: 1, count: 0 },
-];
-
-const totalReviews = reviews.reduce((sum, r) => sum + r.count, 0);
-const averageRating = 4.5;
+import { FaStar, FaUserCircle } from "react-icons/fa";
 
 const ProductReview = ({ item_code }: { item_code: string }) => {
+  const { data: reviewData } = useReviewDataQuery(item_code);
+  const averageRating = reviewData?.average_rating;
+  const reviews = reviewData?.reviews;
+  const ratingSummary = [5, 4, 3, 2, 1].map((star) => {
+    const count = reviews?.filter(
+      (review) => Math.round(review.rating) === star
+    ).length;
+    return { rating: star, count };
+  });
   return (
     <Box
       maxW="7xl"
@@ -66,7 +59,8 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             flexShrink={0}
           >
             <ProgressCircle.Root
-              value={(averageRating / 5) * 100}
+              //   value={(averageRating / 5) * 100}
+              value={averageRating}
               colorPalette="yellow"
               size="xl"
             >
@@ -76,7 +70,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
               </ProgressCircle.Circle>
               <AbsoluteCenter>
                 <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
-                  {averageRating}
+                  {averageRating?.toFixed(1)}
                 </Text>
               </AbsoluteCenter>
             </ProgressCircle.Root>
@@ -101,21 +95,22 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                 ))}
               </Flex>
               <Text fontSize="sm" color="gray.600">
-                from 1.25k reviews
+                from {reviewData?.reviews?.length} reviews
               </Text>
             </Box>
           </Flex>
 
           {/* Ratings Breakdown */}
           <Stack gap={3} flex="1" w="100%">
-            {reviews.map((review) => {
+            {ratingSummary.map((review, index) => {
+              const totalReviews = reviews?.length;
               const percent = (review.count / totalReviews) * 100;
               return (
-                <Progress.Root key={review.rating} value={percent}>
+                <Progress.Root key={index} value={percent}>
                   <HStack gap={3} align="center" w="100%" flexWrap="wrap">
                     <Flex align="center" minW="60px">
                       <Text fontSize="sm" mr={1}>
-                        {review.rating}.0
+                        {review.rating}
                       </Text>
                       <StarIcon
                         color="orange"
@@ -152,27 +147,9 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
 };
 
 export default ProductReview;
-const reviewsList = [
-  {
-    id: 1,
-    name: "Darrell Steward",
-    avatar: "/avatar1.jpg",
-    date: "July 2, 2020 03:29 PM",
-    review: "This is amazing product I have.",
-    likes: 128,
-  },
-  {
-    id: 2,
-    name: "Darlene Robertson",
-    avatar: "/avatar2.jpg",
-    date: "July 2, 2020 03:29 PM",
-    review: "This is amazing product I have.",
-    likes: 128,
-  },
-];
 
 const ReviewList = ({ item_code }: { item_code: string }) => {
-  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
+  const { data: reviewData } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
 
   const { mutate: submitReview } = useReviewMutation();
@@ -180,7 +157,7 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   const methods = useForm({
     defaultValues: {
       name: "",
-      item_code: "",
+      item_code: item_code || "",
     },
   });
 
@@ -210,54 +187,55 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   };
   return (
     <>
-      {item_code && reviewData && reviewData.reviews.length > 0 ? (
-        <Box maxW="7xl" mx="auto" mt={10}>
-          <Text fontSize="xl" fontWeight="bold" mb={4}>
-            Review Lists
-          </Text>
-          <Box
-            fontSize="sm"
-            color="green.500"
-            mb={6}
-            borderBottom={"1px solid #ccc"}
-          >
-            <Text
-              display={"inline-block"}
-              px={3}
-              borderBottom={"2px solid #009B43"}
-            >
-              All Reviews
+      <Box maxW="7xl" mx="auto" mt={10}>
+        {reviewData && reviewData.reviews.length > 0 ? (
+          <Box>
+            <Text fontSize="xl" fontWeight="bold" mb={4}>
+              Review Lists
             </Text>
-          </Box>
-
-          {reviewData?.reviews?.map((review, index) => (
             <Box
-              key={index}
-              py={6}
-              borderBottom={
-                index < reviewData?.reviews?.length - 1
-                  ? "1px dashed #ccc"
-                  : "none"
-              }
+              fontSize="sm"
+              color="green.500"
+              mb={6}
+              borderBottom={"1px solid #ccc"}
             >
-              <HStack gap={1} mb={2}>
-                {[...Array(5)].map((_, i) => (
-                  <FaStar key={i} color="orange" />
-                ))}
-              </HStack>
-              <Text mb={1}>{review.review}</Text>
-              <Text fontSize="sm" color="gray.500" mb={3}>
-                {/* {review.date} */}
+              <Text
+                display={"inline-block"}
+                px={3}
+                borderBottom={"2px solid #009B43"}
+              >
+                All Reviews
               </Text>
+            </Box>
 
-              <HStack justifyContent="space-between">
-                <HStack>
-                  {/* <Avatar name={r.name} src={r.avatar} size="sm" /> */}
-                  <FaUserCircle size={20} color={"#007FD9"} />
-                  <Text fontSize="sm">{review.user}</Text>
+            {reviewData?.reviews?.map((review, index) => (
+              <Box
+                key={index}
+                py={6}
+                borderBottom={
+                  index < reviewData?.reviews?.length - 1
+                    ? "1px dashed #ccc"
+                    : "none"
+                }
+              >
+                <HStack gap={1} mb={2}>
+                  {[...Array(5)].map((_, i) => (
+                    <FaStar key={i} color="orange" />
+                  ))}
                 </HStack>
+                <Text mb={1}>{review.review}</Text>
+                <Text fontSize="sm" color="gray.500" mb={3}>
+                  {/* {review.date} */}
+                </Text>
 
-                {/* <HStack gap={2}>
+                <HStack justifyContent="space-between">
+                  <HStack>
+                    {/* <Avatar name={r.name} src={r.avatar} size="sm" /> */}
+                    <FaUserCircle size={20} color={"#007FD9"} />
+                    <Text fontSize="sm">{review.user}</Text>
+                  </HStack>
+
+                  {/* <HStack gap={2}>
               <Button
                 size="sm"
                 bg={"white"}
@@ -278,36 +256,37 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                 <FaRegThumbsDown color="#FF4530" />
               </Button>
             </HStack> */}
-              </HStack>
-            </Box>
-          ))}
+                </HStack>
+              </Box>
+            ))}
+          </Box>
+        ) : null}
 
-          <FormProvider methods={methods} onSubmit={submitHandler}>
-            <Stack gap="12px" mt={6}>
-              <Textarea name="name" placeholder="Write your review" />
-              <HStack gap="20px" justifyContent={"flex-end"}>
-                <Text variant="subtitle1" color="primary.400">
-                  Give Rating:
-                </Text>
-                <StarRating
-                  stars={5}
-                  fillColor={"#FFAB00"}
-                  isCheckBoxRequired={false}
-                  onChange={setRating}
-                />
-                <Button
-                  type="submit"
-                  bg={"#009B43"}
-                  color={"white"}
-                  borderRadius={"2rem"}
-                >
-                  Comment
-                </Button>
-              </HStack>
-            </Stack>
-          </FormProvider>
-        </Box>
-      ) : null}
+        <FormProvider methods={methods} onSubmit={submitHandler}>
+          <Stack gap="12px" mt={6}>
+            <Textarea name="name" placeholder="Write your review" />
+            <HStack gap="20px" justifyContent={"flex-end"}>
+              <Text variant="subtitle1" color="primary.400">
+                Give Rating:
+              </Text>
+              <StarRating
+                stars={5}
+                fillColor={"#FFAB00"}
+                isCheckBoxRequired={false}
+                onChange={setRating}
+              />
+              <Button
+                type="submit"
+                bg={"#009B43"}
+                color={"white"}
+                borderRadius={"2rem"}
+              >
+                Comment
+              </Button>
+            </HStack>
+          </Stack>
+        </FormProvider>
+      </Box>
     </>
   );
 };
