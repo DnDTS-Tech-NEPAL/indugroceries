@@ -12,6 +12,7 @@ export const StarRating: React.FC<StarRatingProps> = ({
   onChange,
   isCheckBoxRequired = true,
   fixedRating,
+  fillColor,
 }) => {
   const [rating, setRating] = useState(fixedRating || 0);
 
@@ -42,11 +43,11 @@ export const StarRating: React.FC<StarRatingProps> = ({
               <StarIcon
                 style={{
                   fill: isFull
-                    ? "#FF6996"
+                    ? fillColor || "#646966"
                     : isPartial
                       ? `url(#partial-${index})`
                       : "none",
-                  stroke: index < rating ? "#FF6996" : "#E9EAEB",
+                  stroke: index < rating ? fillColor || "#FFAB00" : "#646966",
                   width: "20px",
                   height: "20px",
                 }}

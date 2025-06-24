@@ -3,4 +3,5 @@ export type StarRatingProps = {
   onChange?: (rating: number) => void;
   isCheckBoxRequired?: boolean;
   fixedRating?: number;
+  fillColor?: string;
 };
