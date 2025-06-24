@@ -103,8 +103,8 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
           {/* Ratings Breakdown */}
           <Stack gap={3} flex="1" w="100%">
             {ratingSummary.map((review, index) => {
-              const totalReviews = reviews?.length;
-              const percent = (review.count / totalReviews) * 100;
+              const totalReviews = reviews?.length || 0;
+              const percent = ((review.count || 0) / totalReviews) * 100;
               return (
                 <Progress.Root key={index} value={percent}>
                   <HStack gap={3} align="center" w="100%" flexWrap="wrap">
