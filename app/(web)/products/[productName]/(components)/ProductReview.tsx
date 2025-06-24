@@ -1,5 +1,5 @@
 import { FormProvider, StarRating, Textarea } from "@/components";
-import { useReviewMutation } from "@/hooks/api";
+import { useReviewDataQuery, useReviewMutation } from "@/hooks/api";
 import {
   Box,
   Flex,
@@ -32,7 +32,7 @@ const reviews = [
 const totalReviews = reviews.reduce((sum, r) => sum + r.count, 0);
 const averageRating = 4.5;
 
-const ProductReview = () => {
+const ProductReview = ({ item_code }: { item_code: string }) => {
   return (
     <Box
       maxW="7xl"
@@ -146,7 +146,7 @@ const ProductReview = () => {
           </Stack>
         </Flex>
       </Box>
-      <ReviewList />
+      <ReviewList item_code={item_code} />
     </Box>
   );
 };
@@ -171,8 +171,8 @@ const reviewsList = [
   },
 ];
 
-const ReviewList = () => {
-  // const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
+const ReviewList = ({ item_code }: { item_code: string }) => {
+  const { data: reviewData, isLoading } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
 
   const { mutate: submitReview } = useReviewMutation();
@@ -209,7 +209,9 @@ const ReviewList = () => {
     );
   };
   return (
-    <Box maxW="7xl" mx="auto" mt={10}>
+    <>
+    {item_code && reviewData && reviewData.reviews.length > 0 ? (
+        <Box maxW="7xl" mx="auto" mt={10}>
       <Text fontSize="xl" fontWeight="bold" mb={4}>
         Review Lists
       </Text>
@@ -228,30 +230,30 @@ const ReviewList = () => {
         </Text>
       </Box>
 
-      {reviewsList.map((r, i) => (
+      {reviewData?.reviews?.map((review, index) => (
         <Box
-          key={r.id}
+          key={index}
           py={6}
-          borderBottom={i < reviewsList.length - 1 ? "1px dashed #ccc" : "none"}
+          borderBottom={index < reviewData?.reviews?.length - 1 ? "1px dashed #ccc" : "none"}
         >
           <HStack gap={1} mb={2}>
             {[...Array(5)].map((_, i) => (
               <FaStar key={i} color="orange" />
             ))}
           </HStack>
-          <Text mb={1}>{r.review}</Text>
+          <Text mb={1}>{review.review}</Text>
           <Text fontSize="sm" color="gray.500" mb={3}>
-            {r.date}
+            {/* {review.date} */}
           </Text>
 
           <HStack justifyContent="space-between">
             <HStack>
               {/* <Avatar name={r.name} src={r.avatar} size="sm" /> */}
               <FaUserCircle size={20} color={"#007FD9"} />
-              <Text fontSize="sm">{r.name}</Text>
+              <Text fontSize="sm">{review.user}</Text>
             </HStack>
 
-            <HStack gap={2}>
+            {/* <HStack gap={2}>
               <Button
                 size="sm"
                 bg={"white"}
@@ -271,7 +273,7 @@ const ReviewList = () => {
               >
                 <FaRegThumbsDown color="#FF4530" />
               </Button>
-            </HStack>
+            </HStack> */}
           </HStack>
         </Box>
       ))}
@@ -301,5 +303,8 @@ const ReviewList = () => {
         </Stack>
       </FormProvider>
     </Box>
+    ):null
+    }
+    </>
   );
 };
