@@ -16,7 +16,7 @@ import {
   SocialFeed,
 } from "@/templates/default/pages/home/(components)";
 import { TabsDescription } from "./TabsDescription";
-import { ProductReviews } from "./ProductReviews";
+import ProductReview from "./ProductReview";
 
 export const ProductDetailContainer = ({
   product,
@@ -68,7 +68,8 @@ export const ProductDetailContainer = ({
         </Flex>
 
         <TabsDescription />
-        <ProductReviews item_code={product?.item_code ?? ""} />
+        <ProductReview />
+        {/* <ProductReviews item_code={product?.item_code ?? ""} /> */}
         <ProductsYouMayLike />
         <SocialFeed />
         <BenefitsSection />
