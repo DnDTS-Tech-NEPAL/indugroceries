@@ -1,17 +1,17 @@
 "use client";
 
+import { Pickup, ProductDelivery } from "@/assets/svg";
 import { Flex, Icon, Text, VStack } from "@chakra-ui/react";
-import { FaCheck } from "react-icons/fa";
 
 export const Highlights = () => {
   const items = [
-    // {
-    //   icon: FaTruck,
-    //   text: "Free Delivery, Free Returns within Kathmandu valley, Nepal",
-    // },
     {
-      icon: FaCheck,
+      icon: Pickup,
       text: `Pickup available at Beautymandu usually ready in 24 hours. View store information`,
+    },
+    {
+      icon: ProductDelivery,
+      text: "Express delivery available, get it by tomorrow with express delivery.",
     },
     // {
     //   icon: FaExchangeAlt,
@@ -34,7 +34,7 @@ export const Highlights = () => {
     >
       {items.map((item, index) => (
         <Flex key={index} align="center" gap={3}>
-          <Icon as={item.icon} boxSize={4} color={"#00C843"} />
+          <Icon as={item.icon} boxSize={6} color={"#2E2E2E"} />
           <Text fontSize={"14px"}>{item.text}</Text>
         </Flex>
       ))}
