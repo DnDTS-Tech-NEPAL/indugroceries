@@ -5,14 +5,13 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 
 const RecentlyViewed = () => {
-  const pathname = usePathname(); // listens to route changes
+  const pathname = usePathname();
   const { data: recentlyViewedProducts, refetch } =
     useRecentlyViewedProductsQuery();
 
   useEffect(() => {
     refetch();
   }, [pathname]);
-  console.log(recentlyViewedProducts);
   return (
     <Box p={5}>
       <VStack gap={2} mb={6} textAlign="center">
