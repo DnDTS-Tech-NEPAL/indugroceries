@@ -1,12 +1,12 @@
 import { Tabs as ChakraTabs, Box } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export type TabItem = {
   value: string;
   label: string;
   icon?: IconType;
-  content: string | ReactNode; // updated to allow raw HTML string or JSX
+  content: string | ReactNode;
   shortContent?: string;
 };
 
@@ -29,6 +29,7 @@ export const Tabs = ({
   style = {},
 }: TabsProps) => {
   const defaultTab = defaultValue || tabs[0]?.value;
+  const [showFullContent, setShowFullContent] = React.useState(false);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%">
@@ -76,9 +77,28 @@ export const Tabs = ({
               fontWeight: "400",
             }}
           >
-            {tab.shortContent && <Box mb={2}>{tab.shortContent}</Box>}
-
-            {typeof tab.content === "string" ? (
+            {tab.shortContent ? (
+              <>
+                <Box mb={2}>
+                  {tab.shortContent}
+                  <Box
+                    color={"#2C8FFF"}
+                    cursor={"pointer"}
+                    textDecoration={"underline"}
+                    mt={2}
+                    onClick={() => setShowFullContent(!showFullContent)}
+                  >
+                    {showFullContent ? "See Less" : "See More"}
+                  </Box>
+                </Box>
+                {showFullContent &&
+                  (typeof tab.content === "string" ? (
+                    <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
+                  ) : (
+                    tab.content
+                  ))}
+              </>
+            ) : typeof tab.content === "string" ? (
               <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
             ) : (
               tab.content
