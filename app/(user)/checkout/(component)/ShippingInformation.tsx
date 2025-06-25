@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Stack, Input, Text, VStack } from "@chakra-ui/react";
+import { Stack, Input, Text, VStack } from "@chakra-ui/react";
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { Portal, Select, createListCollection } from "@chakra-ui/react";
 import { AccordionItem, AccordionItemContent, AccordionItemTrigger, AccordionRoot } from "@/components";
