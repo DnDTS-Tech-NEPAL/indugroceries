@@ -249,12 +249,13 @@ import {
   Flex,
   Heading,
   HStack,
+  Icon,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 
-import { HeartIcon } from "@/assets/svg";
+import { HeartIcon, LoyaltyPoints } from "@/assets/svg";
 import {
   Button,
   ProductVariantTabs,
@@ -420,13 +421,24 @@ export const ProductInformation = () => {
           </Stack>
         )}
 
-        {/* Rest of your existing UI */}
+        <Box
+          p={4}
+          borderRadius={"md"}
+          color={"#2E2E2E"}
+          bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
+        >
+          <Flex align="center" gap={3}>
+            <Icon as={LoyaltyPoints} boxSize={6} color={"#2E2E2E"} />
+            <Text>Buy this product and collect 100 points.</Text>
+          </Flex>
+        </Box>
+
         <VisibleSection visibility={config?.cart_visibility}>
-          <Stack gap="12px">
-            {/* <Text variant="subtitle1" color="system.text.normal.light">
+          {/* <Stack gap="12px">
+            <Text variant="subtitle1" color="system.text.normal.light">
               Quantity
-            </Text> */}
-          </Stack>
+            </Text>
+          </Stack> */}
 
           <HStack gap="20px" width="80%">
             <QuantityInput
