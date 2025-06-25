@@ -66,6 +66,12 @@ export type IndividualProductAPIType = {
   // remove this after api update
   discount: string;
   original_price: string;
+  // custom description,how to use,ingredients
+  custom_long_description: string;
+  custom_ingredients: string;
+  custom_how_to_use: string;
+  custom_recommendation: string;
+  custom_avoid_by: string;
 };
 
 export type IndividualProductAPIResponseType = {

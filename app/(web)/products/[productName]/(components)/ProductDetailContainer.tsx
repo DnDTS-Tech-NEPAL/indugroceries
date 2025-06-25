@@ -69,7 +69,7 @@ export const ProductDetailContainer = ({
           <ProductInformation />
         </Flex>
 
-        <TabsDescription />
+        <TabsDescription productName={productName} />
         <FrequentlyBoughtProduct />
         <ProductReview item_code={product?.item_code ?? ""} />
         {/* <ProductReviews item_code={product?.item_code ?? ""} /> */}

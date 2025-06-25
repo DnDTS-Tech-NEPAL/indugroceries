@@ -7,6 +7,7 @@ export type TabItem = {
   label: string;
   icon?: IconType;
   content: ReactNode;
+  shortContent?: string;
 };
 
 type TabsProps = {
@@ -74,11 +75,11 @@ export const Tabs = ({
               width: "100%",
               fontSize: "16px",
               fontWeight: "400",
-              color: "#7A7A7A",
             }}
           >
+            {tab.shortContent}
             {typeof tab.content === "string" ? (
-              <Box>{tab.content}</Box>
+              <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
             ) : (
               tab.content
             )}
