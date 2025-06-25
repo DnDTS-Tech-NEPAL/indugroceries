@@ -280,7 +280,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         align="center"
         gap={{ base: 3, sm: 2 }}
       >
-        <Box gap={2} display={"flex"}  flexDirection={{ base:"column",md: "row" }}>
+        <Box
+          gap={2}
+          display={"flex"}
+          flexDirection={{ base: "column", md: "row" }}
+        >
           {originalPrice && (
             <Text
               fontSize={originalPriceFontSize}
