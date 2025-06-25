@@ -46,7 +46,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="lg" boxShadow="sm">
         <Flex
           direction={{ base: "column", md: "row" }}
-          align={{ base: "flex-start", md: "center" }}
+          align={{ base: "flex-start", md: "start" }}
           gap={{ base: 6, md: 10 }}
           flexWrap="wrap"
         >
@@ -59,14 +59,13 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             flexShrink={0}
           >
             <ProgressCircle.Root
-              //   value={(averageRating / 5) * 100}
-              value={averageRating}
-              colorPalette="yellow"
+              value={((averageRating || 0) / 5) * 100}
+              // value={averageRating}
               size="xl"
             >
-              <ProgressCircle.Circle>
+              <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
                 <ProgressCircle.Track />
-                <ProgressCircle.Range color="orange.400" />
+                <ProgressCircle.Range stroke="orange" rotate={"90deg"} />
               </ProgressCircle.Circle>
               <AbsoluteCenter>
                 <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
