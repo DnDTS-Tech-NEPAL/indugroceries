@@ -18,6 +18,7 @@ import {
 import { TabsDescription } from "./TabsDescription";
 import ProductReview from "./ProductReview";
 import FrequentlyBoughtProduct from "./FrequentlyBoughtProduct";
+import RecentlyViewed from "./RecentlyViewed ";
 
 export const ProductDetailContainer = ({
   product,
@@ -73,6 +74,7 @@ export const ProductDetailContainer = ({
         <ProductReview item_code={product?.item_code ?? ""} />
         {/* <ProductReviews item_code={product?.item_code ?? ""} /> */}
         <ProductsYouMayLike />
+        <RecentlyViewed />
         <SocialFeed />
         <BenefitsSection />
       </Flex>
