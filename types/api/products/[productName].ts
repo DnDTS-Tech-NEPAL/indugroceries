@@ -29,6 +29,13 @@ export type ProductVariantType = {
   custom_best_seller_product: number;
   attributes: ProductAttribute[];
   prices: ProductPrice[];
+
+  // custom description,how to use,ingredients
+  custom_long_description: string;
+  custom_ingredients: string;
+  custom_how_to_use: string;
+  custom_recommendation: string;
+  custom_avoid_by: string;
 };
 
 export type PriceType = {
