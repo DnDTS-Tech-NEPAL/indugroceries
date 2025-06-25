@@ -1,58 +1,18 @@
 import { Box, Text, VStack, SimpleGrid, Heading } from "@chakra-ui/react";
 import { ProductCard } from "@/components";
-
-const products = [
-  {
-    id: 1,
-    title: "Medicube Zero Pore Pad",
-    image: "/images/product1.jpg",
-    item_code: "Medicube-Zero-Pore-Pad",
-    rating: 4,
-    reviews: 420,
-    price: 17.0,
-    originalPrice: 19.99,
-    tag: "10% Discount",
-    link: "/medicube-zero-pore-pad",
-  },
-  {
-    id: 2,
-    title: "CICA Houttuynia Tea Tree",
-    item_code: "CICA-Houttuynia-Tea-Tree",
-    image: "/images/product2.jpg",
-    rating: 4,
-    reviews: 420,
-    price: 21.99,
-    originalPrice: 15,
-    tag: "Sale",
-    link: "/cica-houttuynia-tea-tree",
-  },
-  {
-    id: 3,
-    title: "Carrot Carotene",
-    image: "/images/product3.jpg",
-    item_code: "Carrot-Carotene",
-    rating: 4,
-    reviews: 420,
-    price: 15.99,
-    originalPrice: 20.99,
-    tag: "10% Discount",
-    link: "/carrot-carotene",
-  },
-  {
-    id: 4,
-    title: "Medicube plus",
-    image: "/images/product4.jpg",
-    item_code: "Medicube-plus",
-    rating: 4,
-    reviews: 420,
-    price: 20.99,
-    originalPrice: 24.99,
-    tag: "10% Discount",
-    link: "/medicube-plus",
-  },
-];
+import { useRecentlyViewedProductsQuery } from "@/hooks/api";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 const RecentlyViewed = () => {
+  const pathname = usePathname(); // listens to route changes
+  const { data: recentlyViewedProducts, refetch } =
+    useRecentlyViewedProductsQuery();
+
+  useEffect(() => {
+    refetch();
+  }, [pathname]);
+  console.log(recentlyViewedProducts);
   return (
     <Box p={5}>
       <VStack gap={2} mb={6} textAlign="center">
@@ -71,8 +31,15 @@ const RecentlyViewed = () => {
       </VStack>
 
       <SimpleGrid columns={[1, 2, 2, 4]} gap={6}>
-        {products.map((product, index) => (
-          <ProductCard key={index} {...product} />
+        {recentlyViewedProducts?.map((product, index) => (
+          <ProductCard
+            key={index}
+            image={product.image_url}
+            title={product.item_name}
+            price={product.item_price}
+            link={product.item_code}
+            {...product}
+          />
         ))}
       </SimpleGrid>
     </Box>

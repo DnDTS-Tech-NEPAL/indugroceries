@@ -22,6 +22,5 @@ export const useRecentlyViewedProductsQuery = () => {
     queryKey: ["recently-viewed"],
     queryFn: () => getRecentlyViewedProducts(),
     select: (response) => response as RecentlyViewedProductAPIType[],
-    staleTime: 60,
   });
 };
