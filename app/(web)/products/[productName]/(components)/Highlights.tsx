@@ -29,7 +29,9 @@ export const Highlights = () => {
       align="start"
       gap={4}
       color={"#2E2E2E"}
-      borderY={"1px solid #E6E6E6"}
+      bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
+      borderRadius={"md"}
+      px={2}
       py={6}
     >
       {items.map((item, index) => (
