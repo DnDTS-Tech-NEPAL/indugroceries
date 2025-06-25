@@ -17,6 +17,10 @@ export { default as Recommend2 } from "./recommend-2.jpg";
 //payment methods
 export { default as StripeImage } from "./stripe.png";
 export { default as CashOnDeliveryImage } from "./cash-on-delivery.png";
+export { default as Esewa } from "./esewa.png";
+export { default as Khalti } from "./khalti.png";
+export { default as ImePay } from "./imepay.png";
+export { default as CashOnDelivery } from "./cod.png";
 
 // empty state
 export { default as EmptyStateImage } from "./empty-state.png";
