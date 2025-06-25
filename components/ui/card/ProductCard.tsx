@@ -281,9 +281,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         gap={{ base: 3, sm: 2 }}
       >
         <HStack gap={2} align="baseline">
-          <Text fontSize={priceFontSize} fontWeight="bold" color="#FF6996">
-            {config?.currency} {price}
-          </Text>
           {originalPrice && (
             <Text
               fontSize={originalPriceFontSize}
@@ -293,12 +290,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {config?.currency} {originalPrice}
             </Text>
           )}
+          <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+            {config?.currency} {price}
+          </Text>
         </HStack>
 
         <Button
           height="auto"
           minH="32px"
-          w={{ base: "50%", sm: "55%", md: "50%" }}
+          w={{ base: "50%", sm: "55%", md: "45%" }}
           bg={"transparent"}
           color={"#FF6996"}
           borderRadius="full"
