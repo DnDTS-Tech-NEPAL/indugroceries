@@ -22,6 +22,9 @@ import DeliveryMethod from "./DeliveryMethod"
 import PaymentInformation from "./PaymentInformation"
 import RememberMeSection from "./RememberMeSection"
 import RelatedProducts from "./RelatedProducts"
+import SelectedProduct from "./SelectedProduct"
+import { InputGroup } from "@/components/form/input/InputGroup"
+import { Tag } from "lucide-react"
 
 const CheckoutSection = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free")
@@ -50,6 +53,23 @@ const CheckoutSection = () => {
       originalPrice: 1200,
       discountedPrice: 900,
       quantity: 1,
+    },
+  ]
+
+  const selectedProducts = [
+    {
+      id: "4",
+      name: "Radiant Glow Vitamin C",
+      image: "/placeholder.svg?height=60&width=60",
+      originalPrice: 3500,
+      discountedPrice: 2000,
+    },
+    {
+      id: "5",
+      name: "Hydra Boost Serum",
+      image: "/placeholder.svg?height=60&width=60",
+      originalPrice: 3000,
+      discountedPrice: 1800,
     },
   ]
 
@@ -103,52 +123,70 @@ const CheckoutSection = () => {
 
         {/* Right Side - Summary */}
         <GridItem>
-          <Box border="1px" borderColor="gray.200" borderRadius="lg" p={6} bg="white">
-            <VStack align="stretch" gap={4}>
-              {/* Product Summary */}
-              {products.map(product => (
-                <HStack key={product.id} justify="space-between">
-                  <Text fontSize="sm">{product.name}</Text>
-                  <Text fontSize="sm" fontWeight="bold">Rs {product.discountedPrice}</Text>
-                </HStack>
-              ))}
+           <Box border="1px" borderColor="gray.200" borderRadius="lg" p={6} bg="white">
+      <VStack align="stretch" gap={6}>
+        <SelectedProduct products={selectedProducts} />
 
-              <Separator />
 
-              {/* Price Breakdown */}
-              <VStack gap={2} align="stretch">
-                <HStack justify="space-between">
-                  <Text fontSize="sm">Subtotal</Text>
-                  <Text fontSize="sm">Rs {subtotal}</Text>
-                </HStack>
-                <HStack justify="space-between">
-                  <Text fontSize="sm">Shipping</Text>
-                  <Text fontSize="sm">Rs {shipping}</Text>
-                </HStack>
-                <HStack justify="space-between">
-                  <Text fontSize="sm">Discount</Text>
-                  <Text fontSize="sm" color="green.500">-Rs {totalDiscount}</Text>
-                </HStack>
+          <InputGroup
+      startElement={<Tag size={16} color="#CBD5E0" />}
+      endElement={<span style={{ color: "#718096", fontSize: "14px" }}>Apply</span>}
+      border="1px solid #E2E8F0"
+      borderRadius="999px"
+      px={4}
+      py={2}
+    >
+      <Input
+        placeholder="Discount Code"
+        fontSize="sm"
+        _placeholder={{ color: "gray.400" }}
+      />
+    </InputGroup>
 
-                <Separator />
+     
 
-                <HStack justify="space-between">
-                  <Text fontWeight="bold">Total</Text>
-                  <Text fontWeight="bold" fontSize="lg">Rs {total}</Text>
-                </HStack>
-              </VStack>
+        {products.map((product) => (
+          <HStack key={product.id} justify="space-between">
+            <Text fontSize="sm">{product.name}</Text>
+            <Text fontSize="sm" fontWeight="bold">
+              Rs {product.discountedPrice}
+            </Text>
+          </HStack>
+        ))}
 
-              <Separator />
+        <Separator />
 
-              {/* Discount Code Input */}
-              <HStack>
-                <Input placeholder="Discount Code" size="sm" />
-                <Button size="sm" variant="outline">Apply</Button>
-              </HStack>
+        <VStack gap={2} align="stretch">
+          <HStack justify="space-between">
+            <Text fontSize="sm">Subtotal</Text>
+            <Text fontSize="sm">Rs {subtotal}</Text>
+          </HStack>
+          <HStack justify="space-between">
+            <Text fontSize="sm">Shipping</Text>
+            <Text fontSize="sm">Rs {shipping}</Text>
+          </HStack>
+          <HStack justify="space-between">
+            <Text fontSize="sm">Discount</Text>
+            <Text fontSize="sm" color="green.500">
+              -Rs {totalDiscount}
+            </Text>
+          </HStack>
+        </VStack>
 
-              <RelatedProducts products={relatedProducts} />
-            </VStack>
-          </Box>
+        <Separator />
+
+        <HStack justify="space-between">
+          <Text fontWeight="bold">Total</Text>
+          <Text fontWeight="bold" fontSize="lg">
+            Rs {total}
+          </Text>
+        </HStack>
+
+        <Separator />
+
+        <RelatedProducts products={relatedProducts} />
+      </VStack>
+    </Box>
         </GridItem>
       </Grid>
     </Container>
