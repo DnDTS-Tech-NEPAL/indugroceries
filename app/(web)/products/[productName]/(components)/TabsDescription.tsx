@@ -15,12 +15,12 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
     {
       value: "ingredients",
       label: "Ingredients",
-      content:productDetail?.custom_ingredients,
+      content: productDetail?.custom_ingredients,
     },
     {
       value: "How to use",
       label: "How to use",
-      content:productDetail?.custom_how_to_use,
+      content: productDetail?.custom_how_to_use,
     },
   ];
   return (
