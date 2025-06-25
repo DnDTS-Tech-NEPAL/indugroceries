@@ -25,6 +25,10 @@ export const BREADCRUMB_CONFIG = {
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "Favorite", href: ROUTES.USER.FAVORITE },
   ],
+    CHECKOUT: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "Favorite", href: ROUTES.USER.CHECKOUT },
+  ],
   PAYMENT: [
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "Cart", href: ROUTES.DEFAULT },
