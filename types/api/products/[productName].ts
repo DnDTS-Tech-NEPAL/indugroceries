@@ -84,3 +84,13 @@ export type IndividualProductAPIType = {
 export type IndividualProductAPIResponseType = {
   data: IndividualProductAPIType[];
 };
+
+export type RecentlyViewedProductAPIType = {
+  id: string;
+  item_code: string;
+  item_name: string;
+  item_group: string;
+  stock_uom: string;
+  image_url: string;
+  item_price: string;
+}

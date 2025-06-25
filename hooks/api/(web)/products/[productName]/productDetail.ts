@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getProductDetailByName } from "@/api";
-import { IndividualProductAPIType } from "@/types";
+import { getProductDetailByName, getRecentlyViewedProducts } from "@/api";
+import { IndividualProductAPIType, RecentlyViewedProductAPIType } from "@/types";
 
 export const useProductDetailByNameQuery = (
   productName: string,
@@ -13,5 +13,15 @@ export const useProductDetailByNameQuery = (
     initialData,
     select: (response) => response as IndividualProductAPIType,
     staleTime: Infinity,
+  });
+};
+
+// Custom React Query hook to fetch and cache recently viewed products
+export const useRecentlyViewedProductsQuery = () => {
+  return useQuery({
+    queryKey: ["recently-viewed"],
+    queryFn: () => getRecentlyViewedProducts(),
+    select: (response) => response as RecentlyViewedProductAPIType[],
+    staleTime: 60,
   });
 };
