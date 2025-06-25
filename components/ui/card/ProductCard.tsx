@@ -280,7 +280,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         align="center"
         gap={{ base: 3, sm: 2 }}
       >
-        <HStack gap={2} align="baseline">
+        <Box gap={2} display={"flex"}  flexDirection={{ base:"column",md: "row" }}>
           {originalPrice && (
             <Text
               fontSize={originalPriceFontSize}
@@ -293,7 +293,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
             {config?.currency} {price}
           </Text>
-        </HStack>
+        </Box>
 
         <Button
           height="auto"
