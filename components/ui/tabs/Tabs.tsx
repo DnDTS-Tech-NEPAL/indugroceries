@@ -6,7 +6,7 @@ export type TabItem = {
   value: string;
   label: string;
   icon?: IconType;
-  content: ReactNode;
+  content: string | ReactNode; // updated to allow raw HTML string or JSX
   shortContent?: string;
 };
 
@@ -17,7 +17,7 @@ type TabsProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   style?: React.CSSProperties;
-  // variant: "default" | "line" | "enclosed" | "enclosed-colored" | "soft-rounded" | "solid-rounded"
+  // variant?: "default" | "line" | "enclosed" | "enclosed-colored" | "soft-rounded" | "solid-rounded"
 };
 
 export const Tabs = ({
@@ -25,7 +25,6 @@ export const Tabs = ({
   tabs,
   orientation = "horizontal",
   size = "md",
-  // variant = "default",
   className = "",
   style = {},
 }: TabsProps) => {
@@ -77,7 +76,8 @@ export const Tabs = ({
               fontWeight: "400",
             }}
           >
-            {tab.shortContent}
+            {tab.shortContent && <Box mb={2}>{tab.shortContent}</Box>}
+
             {typeof tab.content === "string" ? (
               <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
             ) : (
