@@ -194,14 +194,14 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
             </Text>
             <Box
               fontSize="sm"
-              color="green.500"
+              color="#FF6996"
               mb={6}
               borderBottom={"1px solid #ccc"}
             >
               <Text
                 display={"inline-block"}
                 px={3}
-                borderBottom={"2px solid #009B43"}
+                borderBottom={"2px solid #FF6996"}
               >
                 All Reviews
               </Text>
@@ -276,7 +276,7 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
               />
               <Button
                 type="submit"
-                bg={"#009B43"}
+                bg={"#FF6996"}
                 color={"white"}
                 borderRadius={"2rem"}
               >
