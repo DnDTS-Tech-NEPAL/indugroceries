@@ -1,5 +1,6 @@
-import { FormProvider, StarRating, Textarea } from "@/components";
+import { FormProvider, StarRating, Textarea, Tooltip } from "@/components";
 import { useReviewDataQuery, useReviewMutation } from "@/hooks/api";
+import { useAuthCheck } from "@/hooks/app";
 import {
   Box,
   Flex,
@@ -150,6 +151,7 @@ export default ProductReview;
 const ReviewList = ({ item_code }: { item_code: string }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
+  const { checkAuth } = useAuthCheck();
 
   const { mutate: submitReview } = useReviewMutation();
 
@@ -167,22 +169,24 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   // };
 
   const submitHandler = (data: { name: string; item_code: string }) => {
-    submitReview(
-      {
-        item_code: data.item_code,
-        review: data.name,
-        rating,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["review-data"],
-          });
-          // setShowReviewForm(false);
-          methods.reset();
+    checkAuth(() => {
+      submitReview(
+        {
+          item_code: data.item_code,
+          review: data.name,
+          rating,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            setRating(0);
+            queryClient.invalidateQueries({
+              queryKey: ["review-data"],
+            });
+            methods.reset();
+          },
+        }
+      );
+    })();
   };
   return (
     <>
@@ -218,7 +222,7 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                 }
               >
                 <HStack gap={1} mb={2}>
-                  {[...Array(5)].map((_, i) => (
+                  {Array.from({ length: Math.floor(review.rating) }, (_, i) => (
                     <FaStar key={i} color="orange" />
                   ))}
                 </HStack>
@@ -272,16 +276,26 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                 stars={5}
                 fillColor={"#FFAB00"}
                 isCheckBoxRequired={false}
+                value={rating}
                 onChange={setRating}
               />
-              <Button
-                type="submit"
-                bg={"#FF6996"}
-                color={"white"}
-                borderRadius={"2rem"}
+              <Tooltip
+                content="Kindly rate the product to leave a comment."
+                showArrow={true}
+                disabled={rating !== 0}
+                positioning={{ placement: "top" }}
+                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
               >
-                Comment
-              </Button>
+                <Button
+                  type="submit"
+                  bg={"#FF6996"}
+                  color={"white"}
+                  borderRadius={"2rem"}
+                  disabled={rating === 0}
+                >
+                  Comment
+                </Button>
+              </Tooltip>
             </HStack>
           </Stack>
         </FormProvider>

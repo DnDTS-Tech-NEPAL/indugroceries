@@ -13,13 +13,16 @@ export const StarRating: React.FC<StarRatingProps> = ({
   isCheckBoxRequired = true,
   fixedRating,
   fillColor,
+  value,
 }) => {
-  const [rating, setRating] = useState(fixedRating || 0);
+  // const [rating, setRating] = useState(fixedRating || 0);
+  const rating = fixedRating ?? value ?? 0;
 
   const handleClick = (index: number) => {
     const newRating = index + 1;
-    setRating(newRating);
-    onChange?.(newRating);
+    if (!fixedRating) {
+      onChange?.(newRating);
+    }
   };
 
   return (
