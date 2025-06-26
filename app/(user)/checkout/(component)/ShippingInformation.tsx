@@ -45,11 +45,11 @@ const ShippingInformation = () => {
               <Stack direction={{ base: "column", md: "row" }}  gap={6} width="full">
                 <FormControl isRequired flex={1}>
                   <FormLabel>First Name</FormLabel>
-                  <Input placeholder="First Name" />
+                  <Input placeholder="First Name" mt={2} />
                 </FormControl>
                 <FormControl isRequired flex={1} >
                   <FormLabel>Last Name</FormLabel>
-                  <Input placeholder="Last Name" />
+                  <Input placeholder="Last Name" mt={2}/>
                 </FormControl>
               </Stack>
 
@@ -57,11 +57,11 @@ const ShippingInformation = () => {
               <Stack direction={{ base: "column", md: "row" }} gap={4} width="full">
                 <FormControl isRequired flex={1}>
                   <FormLabel>Email Address</FormLabel>
-                  <Input type="email" placeholder="Email Address" />
+                  <Input type="email" placeholder="Email Address" mt={2} />
                 </FormControl>
                 <FormControl isRequired flex={1}>
                   <FormLabel>Phone Number</FormLabel>
-                  <Input type="tel" placeholder="Phone Number" />
+                  <Input type="tel" placeholder="Phone Number" mt={2} />
                 </FormControl>
               </Stack>
 
@@ -69,11 +69,11 @@ const ShippingInformation = () => {
               <Stack direction={{ base: "column", md: "row" }} gap={4} width="full">
               <FormControl isRequired width="full" flex={1}>
                 <FormLabel>Country / Region</FormLabel>
-                <Select.Root collection={countriesCollection} size="sm">
+                <Select.Root collection={countriesCollection} size="sm" mt={2}>
                   <Select.HiddenSelect />
                   <Select.Control>
                     <Select.Trigger>
-                      <Select.ValueText placeholder="Select country" />
+                      <Select.ValueText placeholder="Select country" height={"45px"} display={"flex"} alignItems={"center"} />
                     </Select.Trigger>
                     <Select.IndicatorGroup>
                       <Select.Indicator />
@@ -98,7 +98,7 @@ const ShippingInformation = () => {
               <Stack direction={{ base: "column", md: "row" }} gap={4} width="full">
                 <FormControl isRequired flex={1}>
                   <FormLabel>Province/State</FormLabel>
-                  <Select.Root collection={provincesCollection} size="sm">
+                  <Select.Root collection={provincesCollection} size="sm" mt={2}>
                     <Select.HiddenSelect />
                     <Select.Control>
                       <Select.Trigger>
@@ -125,11 +125,11 @@ const ShippingInformation = () => {
                 
                 <FormControl isRequired flex={1}>
                   <FormLabel>City</FormLabel>
-                  <Input placeholder="City" />
+                  <Input placeholder="City" mt={2} />
                 </FormControl>
                 <FormControl isRequired>
                   <FormLabel>Zip Code</FormLabel>
-                  <Input placeholder="Zip Code" />
+                  <Input placeholder="Zip Code" mt={2} />
                 </FormControl>
               </Stack>
             </VStack>
