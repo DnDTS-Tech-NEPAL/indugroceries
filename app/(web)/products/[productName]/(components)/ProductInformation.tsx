@@ -367,12 +367,27 @@ export const ProductInformation = () => {
         <Stack gap={{ base: "12px", lg: "24px" }} width="100%">
           <Stack gap="12px">
             <HStack justifyContent="space-between">
+              {displayProduct && displayProduct?.stock_qty <= 0 && (
+                <Text
+                  display={"inline-block"}
+                  color="red.500"
+                  variant="subtitle1"
+                  borderRadius={"2rem"}
+                  px="3"
+                  py="1"
+                  fontSize="14px"
+                  bg={"red.100"}
+                  width="fit-content"
+                >
+                  Out of stock
+                </Text>
+              )}
               <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_group}
               </Text>
-              <Text color="system.text.light.light" variant="subtitle2">
+              {/* <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_code}
-              </Text>
+              </Text> */}
             </HStack>
 
             <Box>
