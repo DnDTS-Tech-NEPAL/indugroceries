@@ -1,12 +1,11 @@
-import { HStack, RadioGroup, Text, VStack } from "@chakra-ui/react";
+import { HStack, Text, VStack } from "@chakra-ui/react";
 import {
   AccordionItem,
   AccordionItemContent,
   AccordionItemTrigger,
   AccordionRoot,
-
 } from "@/components";
-import { useColorModeValue } from "@/components/ui/color-mode";
+import * as RadioGroup from "@radix-ui/react-radio-group";
 
 const deliveryOptions = [
   {
@@ -24,60 +23,50 @@ const deliveryOptions = [
 ];
 
 const DeliveryMethod = ({ deliveryMethod, setDeliveryMethod }: any) => {
-  const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-  const activeBorderColor = "#D89CA2";
-  const activeBgColor = "#FFFDFD";
-
-  const title = "Delivery Method";
-
   return (
-    <AccordionRoot
-      collapsible
-      as={VStack}
-      alignItems="stretch"
-      defaultValue={[title]}
-      borderTop={"1px solid #D0D0D0"}
-      pt={10}
-    >
-      <AccordionItem value={title} border="none">
+    <AccordionRoot collapsible as={VStack} alignItems="stretch" borderTop="1px solid #D0D0D0" pt={10}>
+      <AccordionItem value="Delivery Method" border="none">
         <AccordionItemTrigger hasAccordionIcon isOpen>
-          <Text fontSize="xl" fontWeight={500}>
-            {title}
-          </Text>
+          <Text fontSize="xl" fontWeight={500}>Delivery Method</Text>
         </AccordionItemTrigger>
         <AccordionItemContent>
-          <RadioGroup.Root 
-            value={deliveryMethod} 
-            onValueChange={setDeliveryMethod}
-          >
-            <HStack gap={4} flexWrap="wrap" pt={4}>
+          <RadioGroup.Root value={deliveryMethod} onValueChange={setDeliveryMethod} style={{ width: '100%' }}>
+            <HStack gap={3} pt={4}>
               {deliveryOptions.map((item) => (
-                <RadioGroup.Item 
+                <RadioGroup.Item
                   key={item.value}
                   value={item.value}
                   style={{
-                    border: "1px solid",
-                    borderColor: deliveryMethod === item.value ? activeBorderColor : borderColor,
-                    borderRadius: "8px",
-                    background: deliveryMethod === item.value ? activeBgColor : bgColor,
-                    padding: "16px",
+                    border: '2px solid',
+                    borderColor: deliveryMethod === item.value ? '#D89CA2' : '#E2E8F0',
+                    borderRadius: '8px',
+                    padding: '12px 16px',
                     flex: 1,
-                    
-                    cursor: "pointer",
+                    display: 'flex',
+                    alignItems: 'center',
+                    backgroundColor: deliveryMethod === item.value ? '#FFFDFD' : 'white',
+                    gap: '8px',
                   }}
                 >
-                  <VStack align="start" gap={1}>
-                    <Text fontWeight="medium" fontSize="md">
-                      {item.label}
-                    </Text>
-                    <Text fontSize="sm" color="gray.600">
-                      {item.description}
-                    </Text>
-                    <Text fontWeight="bold" fontSize="md">
-                      Rs {item.price}
-                    </Text>
+                  {/* Radio indicator at start */}
+                  <div style={{
+                    width: '16px',
+                    height: '16px',
+                    borderRadius: '50%',
+                    border: deliveryMethod === item.value ? '4px solid #D89CA2' : '2px solid #CBD5E0',
+                    flexShrink: 0,
+                  }} />
+
+                  {/* Label and description - tightly packed */}
+                  <VStack align="flex-start" gap={0} flex={1} ml={2}>
+                    <Text fontWeight="medium" fontSize="sm">{item.label}</Text>
+                    <Text fontSize="xs" color="gray.600">{item.description}</Text>
                   </VStack>
+
+                  {/* Price at end */}
+                  <Text fontWeight="bold" fontSize="sm" whiteSpace="nowrap" ml={2}>
+                    Rs {item.price}
+                  </Text>
                 </RadioGroup.Item>
               ))}
             </HStack>
