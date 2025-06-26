@@ -29,6 +29,7 @@ export type ProductVariantType = {
   custom_best_seller_product: number;
   attributes: ProductAttribute[];
   prices: ProductPrice[];
+  stock_qty: number;
 
   // custom description,how to use,ingredients
   custom_long_description: string;
@@ -67,6 +68,7 @@ export type IndividualProductAPIType = {
   item_group_hierarchy: CategoryType[];
   prices: PriceType[];
   variants: ProductVariantType[];
+  stock_qty: number;
 
   error?: string;
 
