@@ -26,7 +26,7 @@ export const ROUTES = {
     CART: "/cart",
     FAVORITE: "/favorite",
     CHECKOUT: "/checkout",
-
+    WISHLIST: "/wishlist",
     PROFILE: "/profile",
   },
 
