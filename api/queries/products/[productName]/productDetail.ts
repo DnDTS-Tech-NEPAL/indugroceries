@@ -29,6 +29,6 @@ export const getRecentlyViewedProducts = async (): Promise<
       API_ROUTES.APP.PRODUCTS.INDIVIDUAL_PRODUCT.RECENTLY_VIEWED
     );
     const products = response?.data?.data;
-    return products;
+    return products??[];
   } catch (e) {}
 };
