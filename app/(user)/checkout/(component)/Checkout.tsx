@@ -23,7 +23,7 @@ import RememberMeSection from "./RememberMeSection";
 import RelatedProducts from "./RelatedProducts";
 import SelectedProduct from "./SelectedProduct";
 import { InputGroup } from "@/components/form/input/InputGroup";
-import { Tag } from "lucide-react";
+import { FaTags } from "react-icons/fa";
 
 const CheckoutSection = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free");
@@ -110,8 +110,8 @@ const CheckoutSection = () => {
       >
         Check Out
       </Text>
-      <Grid templateColumns={{ base: "1fr", lg: "2fr 1fr" }} gap={16}>
-        {/* Left Side - Form Section */}
+      <Grid templateColumns={{ base: "1fr", lg: "60% 40%" }} gap={8}>
+        {/* Left Side - Form Section  */}
         <GridItem>
           <VStack gap={8} align="stretch">
             <ShippingInformation />
@@ -159,23 +159,16 @@ const CheckoutSection = () => {
           >
             <VStack align="stretch" gap={6}>
               <SelectedProduct products={selectedProducts} />
-
-              <InputGroup startElement={<Tag />} endElement="Apply">
+ 
+              <InputGroup startElement={<FaTags color="#D0D0D0" size={20} />} endElement="Apply">
                 <Input
                   placeholder="Discount Code"
                   fontSize="sm"
                   _placeholder={{ color: "gray.400" }}
+                  p={3}
                 />
               </InputGroup>
-
-              {/* {products.map((product) => (
-                <HStack key={product.id} justify="space-between">
-                  <Text fontSize="sm">{product.name}</Text>
-                  <Text fontSize="sm" fontWeight="medium">
-                    Rs {product.discountedPrice}
-                  </Text>
-                </HStack>
-              ))} */}
+             
 
               <VStack gap={2} align="stretch">
                 <HStack justify="space-between">
