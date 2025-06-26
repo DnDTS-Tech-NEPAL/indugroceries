@@ -13,12 +13,11 @@ import { useState } from "react"
 import { CashOnDelivery, Esewa, ImePay, Khalti } from "@/assets/image"
 import Image from "next/image"
 
-
 const paymentMethods = [
   { 
     id: "esewa", 
     name: "eSewa", 
-    image: Esewa ,
+    image: Esewa,
     fields: [
       { label: "eSewa Id", placeholder: "eSewa Id", type: "text" },
       { label: "Password", placeholder: "Password", type: "password" },
@@ -46,7 +45,7 @@ const paymentMethods = [
   { 
     id: "cod", 
     name: "Cash on Delivery", 
-   image: CashOnDelivery,
+    image: CashOnDelivery,
     fields: [] 
   }
 ]
@@ -84,7 +83,7 @@ export default function PaymentInformation() {
               {paymentMethods.map((method) => (
                 <Box
                   key={method.id}
-                  border="1px"
+                  border="2px"
                   borderColor={selectedMethod === method.id ? activeBorderColor : borderColor}
                   borderRadius="md"
                   p={4}
@@ -92,16 +91,28 @@ export default function PaymentInformation() {
                   onClick={() => setSelectedMethod(method.id)}
                   _hover={{ borderColor: activeBorderColor }}
                   flex={1}
+                  minW="150px"
+                  transition="border-color 0.2s ease"
                 >
-                 <Image src={method.image} alt={method.name} width={150} height={40} objectFit="cover"/>
+                  <Image 
+                    src={method.image} 
+                    alt={method.name} 
+                    width={150} 
+                    height={40} 
+                    style={{
+                      opacity: selectedMethod === method.id ? 1 : 0.8,
+                      border: selectedMethod === method.id ? '2px solid #D89CA2' : '',
+                      transition: 'opacity 0.2s ease'
+                    }}
+                  />
                 </Box>
               ))}
             </HStack>
 
             {selectedMethod && currentMethod && currentMethod.fields.length > 0 && (
-              <HStack gap={4} width="full" flexWrap="wrap">
+              <HStack gap={4} width="full" flexWrap="wrap" mt={4}>
                 {currentMethod.fields.map((field, index) => (
-                  <FormControl key={index} flex={1}>
+                  <FormControl key={index} flex={1} minW="200px">
                     <FormLabel fontSize="sm" color="gray.600">
                       {field.label}
                     </FormLabel>
