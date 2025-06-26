@@ -382,12 +382,12 @@ export const ProductInformation = () => {
                   Out of stock
                 </Text>
               )}
-              <Text color="system.text.light.light" variant="subtitle2">
-                {displayProduct?.item_group}
-              </Text>
               {/* <Text color="system.text.light.light" variant="subtitle2">
-                {displayProduct?.item_code}
+                {displayProduct?.item_group}
               </Text> */}
+              <Text color="system.text.light.light" variant="subtitle2">
+                {displayProduct?.item_code}
+              </Text>
             </HStack>
 
             <Box>
