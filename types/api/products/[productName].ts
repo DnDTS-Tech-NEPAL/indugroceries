@@ -95,6 +95,25 @@ export type RecentlyViewedProductAPIType = {
   item_name: string;
   item_group: string;
   stock_uom: string;
-  image_url: string;
-  item_price: string;
-}
+  brand: string;
+  description: string;
+  custom_key_features: string;
+  custom_specifications: string;
+  country_of_origin: string;
+  custom_image_1_link: string;
+  custom_image_2_link: string;
+  custom_image_3_link: string;
+  custom_image_4_link: string;
+  custom_minimum_order_quantity: number;
+  custom_increment_on_quantity: number;
+  has_variants: number;
+  custom_new_arrivals: number;
+  custom_best_seller_product: number;
+  custom_maximum_order_quantity: number;
+  variant_of: string;
+  item_group_hierarchy: CategoryType[];
+  prices: PriceType[];
+  variants: ProductVariantType[];
+  stock_qty: number;
+  skin_types: string[];
+};

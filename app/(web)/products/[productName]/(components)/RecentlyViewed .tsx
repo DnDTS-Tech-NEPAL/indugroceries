@@ -3,15 +3,16 @@ import { ProductCard } from "@/components";
 import { useRecentlyViewedProductsQuery } from "@/hooks/api";
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@/hooks/app";
 
 const RecentlyViewed = () => {
   const pathname = usePathname();
-  const { data: recentlyViewedProducts, refetch } =
-    useRecentlyViewedProductsQuery();
+  const { isAuthenticated } = useAuth();
+  const { data: recentlyViewedProducts, refetch } = useRecentlyViewedProductsQuery(isAuthenticated);
 
   useEffect(() => {
     refetch();
-  }, [pathname]);
+  }, [pathname, isAuthenticated]);
 
   if (!recentlyViewedProducts || recentlyViewedProducts.length === 0) {
     return null;
@@ -37,11 +38,13 @@ const RecentlyViewed = () => {
         {recentlyViewedProducts?.map((product, index) => (
           <ProductCard
             key={index}
-            image={product.image_url}
-            title={product.item_name}
-            price={product.item_price}
-            link={product.item_code}
             {...product}
+            item_code={product.item_code}
+            image={product.custom_image_1_link}
+            title={product.item_name}
+            // price={product?.prices[0]?.price_list_rate || ""}
+            price={500}
+            link={product.item_code}
           />
         ))}
       </SimpleGrid>

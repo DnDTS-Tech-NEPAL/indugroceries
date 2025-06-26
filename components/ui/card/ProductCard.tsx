@@ -29,6 +29,7 @@ import {
 import { Cart, HeartIcon } from "@/assets/svg";
 import { EyeIcon, X } from "lucide-react";
 import { Tooltip } from "@/components/tooltip";
+import { addRecentlyViewedProduct } from "@/api";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -103,13 +104,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       <Box
         cursor="pointer"
-        onClick={() =>
+        onClick={() => {
           router.push(
             generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
               productName: link,
             })
-          )
-        }
+          );
+          addRecentlyViewedProduct(link);
+        }}
       >
         <Box position="relative">
           {/* New Badge */}
@@ -217,7 +219,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           >
             <Image
               src={image || config?.company_details_url}
-              alt={title}
+              alt={title || "Product Image"}
               fill
               style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
               onMouseEnter={(e) =>

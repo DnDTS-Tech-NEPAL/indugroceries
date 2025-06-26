@@ -19,3 +19,13 @@ export const useAuthCheck = () => {
 
   return { checkAuth };
 };
+
+export const useAuth = () => {
+  const queryClient = useQueryClient();
+
+  // Get user profile data from cache
+  const user = queryClient.getQueryData(["user-profile"]) || "";
+  const isAuthenticated = !!user;
+
+  return { isAuthenticated, user };
+};

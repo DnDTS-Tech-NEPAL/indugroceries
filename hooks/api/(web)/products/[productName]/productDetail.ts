@@ -1,7 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getProductDetailByName, getRecentlyViewedProducts } from "@/api";
-import { IndividualProductAPIType, RecentlyViewedProductAPIType } from "@/types";
+import {
+  IndividualProductAPIType,
+  RecentlyViewedProductAPIType,
+} from "@/types";
 
 export const useProductDetailByNameQuery = (
   productName: string,
@@ -17,10 +20,12 @@ export const useProductDetailByNameQuery = (
 };
 
 // Custom React Query hook to fetch and cache recently viewed products
-export const useRecentlyViewedProductsQuery = () => {
+export const useRecentlyViewedProductsQuery = (isAuthenticated: boolean) => {
   return useQuery({
     queryKey: ["recently-viewed"],
     queryFn: () => getRecentlyViewedProducts(),
     select: (response) => response as RecentlyViewedProductAPIType[],
+    enabled: isAuthenticated,
+    retry: false,
   });
 };
