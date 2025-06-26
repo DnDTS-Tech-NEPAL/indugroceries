@@ -784,8 +784,8 @@ export const ProductVariantTabs = ({
   }, [selectedValues, variants, updateVariant, allAttributes]);
 
   const handleAttributeChange = (attribute: string, value: string) => {
-    const isDisabled = !getAvailableValues(attribute).has(value);
-    if (isDisabled) return;
+    // const isDisabled = !getAvailableValues(attribute).has(value);
+    // if (isDisabled) return;
     setSelectedValues((prev) => ({
       ...prev,
       [attribute]: value,
