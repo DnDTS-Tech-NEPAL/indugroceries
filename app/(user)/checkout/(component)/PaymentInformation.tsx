@@ -47,7 +47,7 @@ const paymentMethods = [
     id: "cod", 
     name: "Cash on Delivery", 
    image: CashOnDelivery,
-    fields: [] // No fields needed for cash on delivery
+    fields: [] 
   }
 ]
 

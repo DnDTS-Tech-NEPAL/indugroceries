@@ -4,8 +4,8 @@ import { Box,  HStack,  Image, Text, VStack, Badge } from "@chakra-ui/react"
 
 export default function RelatedProducts({ products }: { products: any[] }) {
   return (
-      <Box>
-      <Text fontSize="xl" fontWeight={500}>
+      <Box paddingY={6}>
+      <Text fontSize="xl" fontWeight={500} mb={4}>
         Related Products
       </Text>
       <VStack gap={3} align="stretch">
@@ -34,22 +34,23 @@ export default function RelatedProducts({ products }: { products: any[] }) {
                   <Text fontSize="md" fontWeight="bold" color="pink.500">
                     Rs {product.discountedPrice}
                   </Text>
-                  <Text
+                 
+                  <Text colorScheme="pink" color={"pink.500"} fontSize="xs">
+                  Discounted Price
+                </Text>
+                </HStack>
+                <Text
                     fontSize="xs"
                     color="gray.500"
                     textDecoration="line-through"
                   >
                     Rs {product.originalPrice}
                   </Text>
-                </HStack>
-                <Badge colorScheme="pink" fontSize="2xs">
-                  Discounted Price
-                </Badge>
               </VStack>
             </HStack>
 
             {/* "Add" as plain pink text (not a button) */}
-            <Text fontSize="sm" color="pink.500" fontWeight="medium">
+            <Text fontSize="sm" color="pink.500" fontWeight="medium" textDecoration={"underline"}>
               Add
             </Text>
           </HStack>
