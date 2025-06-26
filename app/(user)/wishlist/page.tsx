@@ -6,6 +6,8 @@ import { ROUTES } from "@/constants";
 
 import { useUserProfileQuery } from "@/hooks/api";
 import MyWishlist from "./(components)/MyWishlist";
+import { ProductsYouMayLike } from "@/app/(web)/products/[productName]/(components)";
+import { BenefitsSection } from "@/templates/default/pages/home/(components)";
 
 
 const Wishlist = () => {
@@ -21,7 +23,8 @@ const Wishlist = () => {
       />
 
      <MyWishlist/>  
-
+<ProductsYouMayLike/>
+<BenefitsSection/>
   
     </>
   );
