@@ -12,6 +12,10 @@ const RecentlyViewed = () => {
   useEffect(() => {
     refetch();
   }, [pathname]);
+
+  if (!recentlyViewedProducts || recentlyViewedProducts.length === 0) {
+    return null;
+  }
   return (
     <Box p={5}>
       <VStack gap={2} mb={6} textAlign="center">
