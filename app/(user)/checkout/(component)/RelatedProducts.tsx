@@ -1,8 +1,19 @@
 "use client";
 
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
+interface productType {
+  id: string;
+  name: string;
+  image: string;
+  originalPrice: number;
+  discountedPrice: number;
+}
 
-export default function RelatedProducts({ products }: { products: any[] }) {
+export default function RelatedProducts({
+  products,
+}: {
+  products: productType[];
+}) {
   return (
     <Box paddingY={6}>
       <Text fontSize="xl" fontWeight={500} mb={4}>

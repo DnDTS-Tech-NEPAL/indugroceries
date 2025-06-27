@@ -22,7 +22,15 @@ const deliveryOptions = [
   },
 ];
 
-const DeliveryMethod = ({ deliveryMethod, setDeliveryMethod }: any) => {
+interface DeliveryMethodProps {
+  deliveryMethod: string;
+  setDeliveryMethod: (value: string) => void;
+}
+
+const DeliveryMethod = ({
+  deliveryMethod,
+  setDeliveryMethod,
+}: DeliveryMethodProps) => {
   return (
     <AccordionRoot
       collapsible

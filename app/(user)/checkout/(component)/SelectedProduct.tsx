@@ -2,7 +2,16 @@
 
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
-export default function SelectedProduct({ products }: { products: any[] }) {
+type Product = {
+  id: string;
+  name: string;
+  image?: string;
+  discountedPrice: number;
+  originalPrice: number;
+  quantity?: number;
+};
+
+export default function SelectedProduct({ products }: { products: Product[] }) {
   return (
     <Box>
       <VStack gap={4} align="stretch">
