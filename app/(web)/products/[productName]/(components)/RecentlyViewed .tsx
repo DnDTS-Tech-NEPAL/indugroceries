@@ -42,8 +42,7 @@ const RecentlyViewed = () => {
             item_code={product.item_code}
             image={product.custom_image_1_link}
             title={product.item_name}
-            // price={product?.prices[0]?.price_list_rate || ""}
-            price={500}
+            price={product?.prices[0]?.price_list_rate || ""}
             link={product.item_code}
           />
         ))}
