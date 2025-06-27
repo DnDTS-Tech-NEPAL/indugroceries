@@ -88,7 +88,11 @@ export const Tabs = ({
                     mt={2}
                     onClick={() => setShowFullContent(!showFullContent)}
                   >
-                    {showFullContent ? "See Less" : "See More"}
+                    {tab.content === " "
+                      ? null
+                      : showFullContent
+                        ? "See Less"
+                        : "See More"}
                   </Box>
                 </Box>
                 {showFullContent &&
