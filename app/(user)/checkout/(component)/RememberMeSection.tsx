@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import { Box, Text, VStack, Input} from "@chakra-ui/react"
+import { Box, Text, VStack, Input } from "@chakra-ui/react";
 import {
   AccordionItem,
   AccordionItemContent,
   AccordionItemTrigger,
   AccordionRoot,
-  Checkbox
-} from "@/components"
+  Checkbox,
+} from "@/components";
 
-import { FormControl, FormLabel } from "@chakra-ui/form-control"
+import { FormControl, FormLabel } from "@chakra-ui/form-control";
 
 export default function RememberMeSection() {
-  const title = "Remember Me"
+  const title = "Remember Me";
 
   return (
     <AccordionRoot
@@ -34,17 +34,17 @@ export default function RememberMeSection() {
             <Checkbox colorScheme="pink">
               Save my information for a faster checkout.
             </Checkbox>
-<Box width={"full"}>
-            <FormControl flex={1}>
-              <FormLabel fontSize="sm" color="gray.600" mb={10}>
-                Phone Number
-              </FormLabel>
-              <Input placeholder="Phone Number" />
-            </FormControl>
+            <Box width={"full"}>
+              <FormControl flex={1}>
+                <FormLabel fontSize="sm" color="gray.600" mb={10}>
+                  Phone Number
+                </FormLabel>
+                <Input placeholder="Phone Number" />
+              </FormControl>
             </Box>
           </VStack>
         </AccordionItemContent>
       </AccordionItem>
     </AccordionRoot>
-  )
+  );
 }

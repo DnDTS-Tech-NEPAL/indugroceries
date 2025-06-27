@@ -5,8 +5,6 @@ import CheckoutSection from "./(component)/Checkout";
 import { ProductsYouMayLike } from "@/app/(web)/products/[productName]/(components)";
 import { SocialFeed } from "@/templates/default/pages/home/(components)";
 
-
-
 const Checkout = async () => {
   return (
     <>
@@ -16,9 +14,9 @@ const Checkout = async () => {
         title="Checkout"
         breadcrumb={BREADCRUMB_CONFIG.CHECKOUT}
       />
-     <CheckoutSection/>
-     <ProductsYouMayLike/>
-     <SocialFeed/>
+      <CheckoutSection />
+      <ProductsYouMayLike />
+      <SocialFeed />
     </>
   );
 };

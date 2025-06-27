@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { Box,  HStack,  Image, Text, VStack, Badge } from "@chakra-ui/react"
+import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 export default function RelatedProducts({ products }: { products: any[] }) {
   return (
-      <Box paddingY={6}>
+    <Box paddingY={6}>
       <Text fontSize="xl" fontWeight={500} mb={4}>
         Related Products
       </Text>
@@ -34,28 +34,33 @@ export default function RelatedProducts({ products }: { products: any[] }) {
                   <Text fontSize="md" fontWeight="bold" color="pink.500">
                     Rs {product.discountedPrice}
                   </Text>
-                 
+
                   <Text colorScheme="pink" color={"pink.500"} fontSize="xs">
-                  Discounted Price
-                </Text>
+                    Discounted Price
+                  </Text>
                 </HStack>
                 <Text
-                    fontSize="xs"
-                    color="gray.500"
-                    textDecoration="line-through"
-                  >
-                    Rs {product.originalPrice}
-                  </Text>
+                  fontSize="xs"
+                  color="gray.500"
+                  textDecoration="line-through"
+                >
+                  Rs {product.originalPrice}
+                </Text>
               </VStack>
             </HStack>
 
             {/* "Add" as plain pink text (not a button) */}
-            <Text fontSize="sm" color="pink.500" fontWeight="medium" textDecoration={"underline"}>
+            <Text
+              fontSize="sm"
+              color="pink.500"
+              fontWeight="medium"
+              textDecoration={"underline"}
+            >
               Add
             </Text>
           </HStack>
         ))}
       </VStack>
     </Box>
-  )
+  );
 }
