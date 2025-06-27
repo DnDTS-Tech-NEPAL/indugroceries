@@ -78,6 +78,7 @@ export type IndividualProductAPIType = {
   discount: string;
   original_price: string;
   // custom description,how to use,ingredients
+  custom_short_description: string;
   custom_long_description: string;
   custom_ingredients: string;
   custom_how_to_use: string;
