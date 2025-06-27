@@ -311,15 +311,43 @@ export const ProductInformation = () => {
     }
   }, [productDetail, activeVariant]);
 
+  const discountedPrice = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.discounted_price ?? null;
+    }
+
+    return productDetail.prices?.[0]?.discounted_price ?? null;
+  }, [productDetail, activeVariant]);
+
   const price = useMemo(() => {
     if (!productDetail) return null;
+
     if (productDetail.has_variants) {
       const selectedVariant = productDetail.variants?.find(
         (variant) => variant.item_code === activeVariant
       );
       return selectedVariant?.prices?.[0]?.price_list_rate ?? null;
     }
+
     return productDetail.prices?.[0]?.price_list_rate ?? null;
+  }, [productDetail, activeVariant]);
+
+  const discountPercent = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.discount ?? null;
+    }
+
+    return productDetail.prices?.[0]?.discount ?? null;
   }, [productDetail, activeVariant]);
 
   const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
@@ -420,9 +448,41 @@ export const ProductInformation = () => {
           </Stack>
           <HStack gap="0">
             <VisibleSection visibility={config?.rate_visibility}>
-              <Heading variant="heading6" fontWeight="400">
-                {config?.currency} {price}
-              </Heading>
+              <VStack gap="2" align="start">
+                <Heading
+                  variant="heading6"
+                  fontWeight="500"
+                  fontSize={{ sm: "sm", md: "32px" }}
+                >
+                  {config?.currency} {discountedPrice?.toFixed(2)}
+                </Heading>
+
+                {discountPercent && discountPercent > 0 ? (
+                  <HStack align="center" gap="2">
+                    <Heading
+                      variant="heading6"
+                      color="#7A7A7A"
+                      textDecoration="line-through"
+                      fontWeight="500"
+                      lineHeight={1.5}
+                      fontSize={["sm", "18px"]}
+                    >
+                      {price?.toFixed(2)}
+                    </Heading>
+
+                    <Text
+                      color={"#FF6996"}
+                      px="2"
+                      py="1"
+                      fontSize={{ sm: "sm", md: "18px" }}
+                      fontWeight="400"
+                      lineHeight={1.5}
+                    >
+                      {discountPercent}% Off
+                    </Text>
+                  </HStack>
+                ) : null}
+              </VStack>
             </VisibleSection>
           </HStack>
         </Stack>

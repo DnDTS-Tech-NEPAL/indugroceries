@@ -41,7 +41,9 @@ export type ProductVariantType = {
 };
 
 export type PriceType = {
-  price_list_rate: string;
+  price_list_rate: number;
+  discount: number;
+  discounted_price: number;
 };
 
 export type IndividualProductAPIType = {

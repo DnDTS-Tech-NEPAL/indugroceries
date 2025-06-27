@@ -1,6 +1,8 @@
 export type ProductPrice = {
   price_list: string;
   price_list_rate: number;
+  discount: number;
+  discounted_price: number;
 };
 
 export type ProductAPIType = {
