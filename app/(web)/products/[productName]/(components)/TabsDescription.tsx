@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/react";
 export const TabsDescription = ({ productName }: { productName: string }) => {
   const { data: productDetail } = useProductDetailByNameQuery(productName);
 
-  let tabs = [];
+  const tabs = [];
   if (
     productDetail?.custom_specifications ||
     productDetail?.custom_short_description

@@ -8,7 +8,8 @@ import { useAuth } from "@/hooks/app";
 const RecentlyViewed = () => {
   const pathname = usePathname();
   const { isAuthenticated } = useAuth();
-  const { data: recentlyViewedProducts, refetch } = useRecentlyViewedProductsQuery(isAuthenticated);
+  const { data: recentlyViewedProducts, refetch } =
+    useRecentlyViewedProductsQuery(isAuthenticated);
 
   useEffect(() => {
     refetch();
