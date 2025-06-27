@@ -222,7 +222,7 @@ export const Summary = ({ disabled = false }) => {
       <Button
         w={"full"}
         mb={{ base: "8px", lg: 0 }}
-        onClick={() => router.push(ROUTES.APP.PAYMENT)}
+        onClick={() => router.push(ROUTES.APP.CHECKOUT)}
       >
         Proceed
       </Button>

@@ -11,6 +11,7 @@ export const ROUTES = {
     INDIVIDUAL_BRAND: "/brands/:brandName",
     CONTACT_US: "/contact-us",
     PAYMENT: "/payment",
+    CHECKOUT: "/checkout",
     PRIVACY: "/privacy-policy",
     RETURN: "/return-policy",
     TERMS: "/terms-and-condition",
@@ -24,6 +25,8 @@ export const ROUTES = {
   USER: {
     CART: "/cart",
     FAVORITE: "/favorite",
+    CHECKOUT: "/checkout",
+    WISHLIST: "/wishlist",
     PROFILE: "/profile",
   },
 
