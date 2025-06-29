@@ -293,8 +293,8 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
             {hasPendingChanges && (
               <Button
                 borderRadius="8px"
-                bg={"primary.500"}
-                color={"gray.700"}
+                bg={"#FF6996"}
+                color={"white"}
                 onClick={handleApplyChanges}
                 size="sm"
               >
