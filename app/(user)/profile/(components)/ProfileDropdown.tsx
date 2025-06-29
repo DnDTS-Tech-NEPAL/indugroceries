@@ -48,7 +48,7 @@ export const ProfileDropdown = () => {
       <MenuRoot>
         <MenuTrigger asChild>
           <Button p={0} bg="primary.50" color={"black"}>
-            <Profile fontSize={"50px"} />
+            <Profile />
           </Button>
         </MenuTrigger>
         <MenuContent>
