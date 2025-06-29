@@ -2,14 +2,9 @@
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-
-
-import { useUserProfileQuery } from "@/hooks/api";
 import AccountDashboard from "./MyAccount";
 
 const UserAccount = () => {
-  const { data: profileData } = useUserProfileQuery();
-
   return (
     <>
       <PageTitle
@@ -19,7 +14,7 @@ const UserAccount = () => {
         breadcrumb={BREADCRUMB_CONFIG.PROFILE}
       />
 
-     <AccountDashboard/>
+      <AccountDashboard />
 
       {/* <CartWishlistSection /> */}
     </>
