@@ -42,10 +42,14 @@ export const useProductImages = (productDetail: IndividualProductAPIType) => {
     // only update the variant images when variant is found
     if (selectedVariantDetail) {
       productImages = [
-        selectedVariantDetail?.custom_image_1_link,
-        selectedVariantDetail?.custom_image_2_link,
-        selectedVariantDetail?.custom_image_3_link,
-        selectedVariantDetail?.custom_image_4_link,
+        selectedVariantDetail?.custom_image_1_link ||
+          productDetail?.custom_image_1_link,
+        selectedVariantDetail?.custom_image_2_link ||
+          productDetail?.custom_image_2_link,
+        selectedVariantDetail?.custom_image_3_link ||
+          productDetail?.custom_image_3_link,
+        selectedVariantDetail?.custom_image_4_link ||
+          productDetail?.custom_image_4_link,
       ];
     }
   } else {

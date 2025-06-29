@@ -1,12 +1,13 @@
 import { Tabs as ChakraTabs, Box } from "@chakra-ui/react";
 import { IconType } from "react-icons";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export type TabItem = {
   value: string;
   label: string;
   icon?: IconType;
-  content: ReactNode;
+  content: string | ReactNode;
+  shortContent?: string;
 };
 
 type TabsProps = {
@@ -16,7 +17,7 @@ type TabsProps = {
   size?: "sm" | "md" | "lg";
   className?: string;
   style?: React.CSSProperties;
-  // variant: "default" | "line" | "enclosed" | "enclosed-colored" | "soft-rounded" | "solid-rounded"
+  // variant?: "default" | "line" | "enclosed" | "enclosed-colored" | "soft-rounded" | "solid-rounded"
 };
 
 export const Tabs = ({
@@ -24,11 +25,11 @@ export const Tabs = ({
   tabs,
   orientation = "horizontal",
   size = "md",
-  // variant = "default",
   className = "",
   style = {},
 }: TabsProps) => {
   const defaultTab = defaultValue || tabs[0]?.value;
+  const [showFullContent, setShowFullContent] = React.useState(false);
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" width="100%">
@@ -74,11 +75,35 @@ export const Tabs = ({
               width: "100%",
               fontSize: "16px",
               fontWeight: "400",
-              color: "#7A7A7A",
             }}
           >
-            {typeof tab.content === "string" ? (
-              <Box>{tab.content}</Box>
+            {tab.shortContent ? (
+              <>
+                <Box mb={2}>
+                  {tab.shortContent}
+                  <Box
+                    color={"#2C8FFF"}
+                    cursor={"pointer"}
+                    textDecoration={"underline"}
+                    mt={2}
+                    onClick={() => setShowFullContent(!showFullContent)}
+                  >
+                    {tab.content === " "
+                      ? null
+                      : showFullContent
+                        ? "See Less"
+                        : "See More"}
+                  </Box>
+                </Box>
+                {showFullContent &&
+                  (typeof tab.content === "string" ? (
+                    <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
+                  ) : (
+                    tab.content
+                  ))}
+              </>
+            ) : typeof tab.content === "string" ? (
+              <Box dangerouslySetInnerHTML={{ __html: tab.content }} />
             ) : (
               tab.content
             )}

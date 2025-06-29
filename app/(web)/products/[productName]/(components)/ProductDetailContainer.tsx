@@ -17,6 +17,8 @@ import {
 } from "@/templates/default/pages/home/(components)";
 import { TabsDescription } from "./TabsDescription";
 import ProductReview from "./ProductReview";
+import FrequentlyBoughtProduct from "./FrequentlyBoughtProduct";
+import RecentlyViewed from "./RecentlyViewed ";
 
 export const ProductDetailContainer = ({
   product,
@@ -67,10 +69,12 @@ export const ProductDetailContainer = ({
           <ProductInformation />
         </Flex>
 
-        <TabsDescription />
+        <TabsDescription productName={productName} />
+        <FrequentlyBoughtProduct />
         <ProductReview item_code={product?.item_code ?? ""} />
         {/* <ProductReviews item_code={product?.item_code ?? ""} /> */}
         <ProductsYouMayLike />
+        <RecentlyViewed />
         <SocialFeed />
         <BenefitsSection />
       </Flex>

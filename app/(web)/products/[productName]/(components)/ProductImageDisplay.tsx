@@ -7,6 +7,7 @@ import { ProductImageDisplayProps } from "@/types";
 export const ProductImageDisplay: React.FC<ProductImageDisplayProps> = ({
   selectedImage,
   productName,
+  productDetail,
 }) => {
   const [hoverPosition, setHoverPosition] = useState({ x: 0, y: 0 });
 
@@ -39,6 +40,27 @@ export const ProductImageDisplay: React.FC<ProductImageDisplayProps> = ({
         onMouseLeave={() => setHoverPosition({ x: 0, y: 0 })}
         bg="white"
       >
+        {/* Item Group Ribbon */}
+        {productDetail && productDetail.item_group ? (
+          <Box
+            position="absolute"
+            top="2"
+            right="2"
+            px={2}
+            width="fit-content"
+            borderRadius={"2rem"}
+            bg="#FF6996"
+            color="white"
+            textAlign="center"
+            lineHeight="1"
+            fontSize="md"
+            fontWeight="semibold"
+            py={1}
+            zIndex="1"
+          >
+            {productDetail.item_group}
+          </Box>
+        ) : null}
         {selectedImage && (
           <Image
             src={selectedImage}

@@ -249,12 +249,13 @@ import {
   Flex,
   Heading,
   HStack,
+  Icon,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 
-import { HeartIcon } from "@/assets/svg";
+import { HeartIcon, LoyaltyPoints } from "@/assets/svg";
 import {
   Button,
   ProductVariantTabs,
@@ -272,11 +273,12 @@ import {
   useProductDetailWishlist,
 } from "@/hooks/app";
 
-import { ProductDescription } from "./ProductDescription";
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
 import { IndividualProductAPIType, ProductVariantType } from "@/types";
 import { Highlights } from "./Highlights";
+import { ROUTES } from "@/constants";
+import ShareButton from "@/components/ui/button/ShareButton";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -284,9 +286,9 @@ export const ProductInformation = () => {
   const { data: config } = useConfigQuery();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
-  const item_code = productDetail?.has_variants
-    ? activeVariant
-    : productDetail?.item_code;
+  // const item_code = productDetail?.has_variants
+  //   ? activeVariant
+  //   : productDetail?.item_code;
 
   const { handleAddToCart, isPending: isCartPending } =
     useProductDetailCartMutation();
@@ -311,15 +313,43 @@ export const ProductInformation = () => {
     }
   }, [productDetail, activeVariant]);
 
+  const discountedPrice = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.discounted_price ?? null;
+    }
+
+    return productDetail.prices?.[0]?.discounted_price ?? null;
+  }, [productDetail, activeVariant]);
+
   const price = useMemo(() => {
     if (!productDetail) return null;
+
     if (productDetail.has_variants) {
       const selectedVariant = productDetail.variants?.find(
         (variant) => variant.item_code === activeVariant
       );
       return selectedVariant?.prices?.[0]?.price_list_rate ?? null;
     }
+
     return productDetail.prices?.[0]?.price_list_rate ?? null;
+  }, [productDetail, activeVariant]);
+
+  const discountPercent = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.discount ?? null;
+    }
+
+    return productDetail.prices?.[0]?.discount ?? null;
   }, [productDetail, activeVariant]);
 
   const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
@@ -356,7 +386,7 @@ export const ProductInformation = () => {
 
   const { checkAuth } = useAuthCheck();
   const { data: reviewData, isLoading } = useReviewDataQuery(
-    item_code as string
+    productDetail?.item_code as string
   );
   const averageRating = reviewData?.average_rating ?? 0;
 
@@ -367,21 +397,47 @@ export const ProductInformation = () => {
         <Stack gap={{ base: "12px", lg: "24px" }} width="100%">
           <Stack gap="12px">
             <HStack justifyContent="space-between">
-              <Text color="system.text.light.light" variant="subtitle2">
+              {displayProduct && displayProduct?.stock_qty <= 0 && (
+                <Text
+                  display={"inline-block"}
+                  color="red.500"
+                  variant="subtitle1"
+                  borderRadius={"2rem"}
+                  px="3"
+                  py="1"
+                  fontSize="14px"
+                  bg={"red.100"}
+                  width="fit-content"
+                >
+                  Out of stock
+                </Text>
+              )}
+              {/* <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_group}
-              </Text>
+              </Text> */}
               <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_code}
               </Text>
             </HStack>
 
             <Box>
-              <Heading
-                color="black"
-                fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
-              >
-                {displayProduct?.item_name}
-              </Heading>
+              <HStack>
+                <Heading
+                  color="black"
+                  fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
+                >
+                  {displayProduct?.item_name}
+                </Heading>
+                <ShareButton
+                  // title={displayProduct?.item_name}
+                  url={
+                    "https://kbpecom.dndts.net" +
+                    ROUTES.APP.PRODUCTS +
+                    "/" +
+                    displayProduct?.item_code
+                  }
+                />
+              </HStack>
               {/* Rating */}
               <Flex align="center" my={4}>
                 <HStack gap={1}>
@@ -390,6 +446,7 @@ export const ProductInformation = () => {
                       stars={5}
                       isCheckBoxRequired={false}
                       fixedRating={averageRating}
+                      fillColor="#FF6996"
                     />
                   )}
                 </HStack>
@@ -405,9 +462,41 @@ export const ProductInformation = () => {
           </Stack>
           <HStack gap="0">
             <VisibleSection visibility={config?.rate_visibility}>
-              <Heading variant="heading6" fontWeight="400">
-                {config?.currency} {price}
-              </Heading>
+              <VStack gap="2" align="start">
+                <Heading
+                  variant="heading6"
+                  fontWeight="500"
+                  fontSize={{ sm: "sm", md: "32px" }}
+                >
+                  {config?.currency} {discountedPrice?.toFixed(2)}
+                </Heading>
+
+                {discountPercent && discountPercent > 0 ? (
+                  <HStack align="center" gap="2">
+                    <Heading
+                      variant="heading6"
+                      color="#7A7A7A"
+                      textDecoration="line-through"
+                      fontWeight="500"
+                      lineHeight={1.5}
+                      fontSize={["sm", "18px"]}
+                    >
+                      {price?.toFixed(2)}
+                    </Heading>
+
+                    <Text
+                      color={"#FF6996"}
+                      px="2"
+                      py="1"
+                      fontSize={{ sm: "sm", md: "18px" }}
+                      fontWeight="400"
+                      lineHeight={1.5}
+                    >
+                      {discountPercent}% Off
+                    </Text>
+                  </HStack>
+                ) : null}
+              </VStack>
             </VisibleSection>
           </HStack>
         </Stack>
@@ -421,13 +510,24 @@ export const ProductInformation = () => {
           </Stack>
         )}
 
-        {/* Rest of your existing UI */}
+        <Box
+          p={4}
+          borderRadius={"md"}
+          color={"#2E2E2E"}
+          bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
+        >
+          <Flex align="center" gap={3}>
+            <Icon as={LoyaltyPoints} boxSize={6} color={"#2E2E2E"} />
+            <Text>Buy this product and collect 100 points.</Text>
+          </Flex>
+        </Box>
+
         <VisibleSection visibility={config?.cart_visibility}>
-          <Stack gap="12px">
-            {/* <Text variant="subtitle1" color="system.text.normal.light">
+          {/* <Stack gap="12px">
+            <Text variant="subtitle1" color="system.text.normal.light">
               Quantity
-            </Text> */}
-          </Stack>
+            </Text>
+          </Stack> */}
 
           <HStack gap="20px" width="80%">
             <QuantityInput
@@ -461,7 +561,7 @@ export const ProductInformation = () => {
       </VStack>
       <Highlights />
 
-      <ProductDescription />
+      {/* <ProductDescription /> */}
       {/* <ProductReviews item_code={productDetail?.item_code ?? ""} /> */}
     </Flex>
   );

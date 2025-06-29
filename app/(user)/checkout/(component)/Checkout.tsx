@@ -6,7 +6,6 @@ import {
   Grid,
   GridItem,
   VStack,
-  Heading,
   Box,
   Separator,
   HStack,
@@ -159,8 +158,11 @@ const CheckoutSection = () => {
           >
             <VStack align="stretch" gap={6}>
               <SelectedProduct products={selectedProducts} />
- 
-              <InputGroup startElement={<FaTags color="#D0D0D0" size={20} />} endElement="Apply">
+
+              <InputGroup
+                startElement={<FaTags color="#D0D0D0" size={20} />}
+                endElement="Apply"
+              >
                 <Input
                   placeholder="Discount Code"
                   fontSize="sm"
@@ -168,7 +170,6 @@ const CheckoutSection = () => {
                   p={3}
                 />
               </InputGroup>
-             
 
               <VStack gap={2} align="stretch">
                 <HStack justify="space-between">

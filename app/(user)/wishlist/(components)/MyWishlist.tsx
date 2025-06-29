@@ -6,7 +6,6 @@ import {
   Button,
   VStack,
   HStack,
-  IconButton,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Minus, Plus } from "lucide-react";
@@ -85,7 +84,7 @@ export default function MyWishlist() {
       <VStack gap={4} mt={4} align="stretch">
         {items.map((item) => (
           <Box key={item.id} bg="#28353D0A" p={4} rounded="md">
-            <Flex  align="center">
+            <Flex align="center">
               {/* Item Info */}
               <Flex flex="1" align="center" gap={4}>
                 <Image
@@ -102,35 +101,31 @@ export default function MyWishlist() {
               </Flex>
 
               {/* Quantity */}
-            
+
               <Flex
                 w="150px"
                 border="1px solid"
                 bg={"white"}
                 borderColor="#28353D26"
                 borderRadius="xl"
-                px={3} py={3}
+                px={3}
+                py={3}
                 align="center"
                 justify="space-between"
                 overflow="hidden"
               >
-            
-                  <Minus  onClick={() => decrement(item.id)} size={16} />
-               
+                <Minus onClick={() => decrement(item.id)} size={16} />
 
                 <Box
                   px={2}
                   minW="32px"
                   textAlign="center"
-                 
                   borderColor="gray.200"
                 >
                   {item.quantity}
                 </Box>
 
-           
-                  <Plus onClick={() => increment(item.id)} size={16} />
-              
+                <Plus onClick={() => increment(item.id)} size={16} />
               </Flex>
 
               {/* Subtotal */}
@@ -139,8 +134,11 @@ export default function MyWishlist() {
               </Box>
 
               {/* Actions */}
-              <HStack justify="center" gap={4} ml={9}> 
-                  <RiDeleteBinLine  size={25}  onClick={() => removeItem(item.id)} />
+              <HStack justify="center" gap={4} ml={9}>
+                <RiDeleteBinLine
+                  size={25}
+                  onClick={() => removeItem(item.id)}
+                />
                 <Button
                   bg="#FF6996"
                   color="white"

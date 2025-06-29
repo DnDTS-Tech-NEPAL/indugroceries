@@ -155,7 +155,7 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
   const columns = useMemo(() => {
     const columnsList: ColumnDef<ProductDetail>[] = [
       {
-        header: "Product Name",
+        header: "Items",
         accessorKey: "title",
         cell: ({ row }) => (
           <HStack alignItems="stretch">
@@ -180,13 +180,16 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
               cursor={"pointer"}
             >
               <Heading variant="heading7" color="primary.400">
-                {row.original.title?.length > 18
+                {row.original.title?.length > 80
                   ? `${row.original.title?.slice(0, 18)}...`
                   : row.original.title}
               </Heading>
-              <Text variant="subtitle3" color="primary.300">
+              {/* <Text variant="subtitle3" color="primary.300">
                 {row.original.type}
                 {row.original.subType && ` / ${row.original.subType}`}
+              </Text> */}
+              <Text variant="subtitle3" color="primary.300">
+                {config.currency} {row.original.price}
               </Text>
             </Stack>
           </HStack>
@@ -217,19 +220,19 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
           );
         },
       },
+      // {
+      //   header: "Rate",
+      //   accessorKey: "price",
+      //   cell: ({ row }) => (
+      //     <HStack gap="0">
+      //       <Text>
+      //         {config.currency} {row.original.price}
+      //       </Text>
+      //     </HStack>
+      //   ),
+      // },
       {
-        header: "Rate",
-        accessorKey: "price",
-        cell: ({ row }) => (
-          <HStack gap="0">
-            <Text>
-              {config.currency} {row.original.price}
-            </Text>
-          </HStack>
-        ),
-      },
-      {
-        header: "Total",
+        header: "Subtotal",
         accessorFn: (row: ProductDetail) => {
           return parseInt(row.price) * row.quantity;
         },
@@ -293,8 +296,8 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
             {hasPendingChanges && (
               <Button
                 borderRadius="8px"
-                bg={"primary.500"}
-                color={"gray.700"}
+                bg={"#FF6996"}
+                color={"white"}
                 onClick={handleApplyChanges}
                 size="sm"
               >

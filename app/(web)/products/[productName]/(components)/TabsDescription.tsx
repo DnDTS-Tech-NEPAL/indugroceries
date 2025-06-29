@@ -1,48 +1,40 @@
 import { Tabs } from "@/components";
+import { useProductDetailByNameQuery } from "@/hooks/api";
 import { Box } from "@chakra-ui/react";
 
-export const TabsDescription = () => {
-  const tabs = [
-    {
+export const TabsDescription = ({ productName }: { productName: string }) => {
+  const { data: productDetail } = useProductDetailByNameQuery(productName);
+
+  const tabs = [];
+  if (
+    productDetail?.custom_specifications ||
+    productDetail?.custom_short_description
+  ) {
+    tabs.push({
       value: "description",
       label: "Description",
-      content: (
-        <div>
-          <p>
-            AXIS-Y Dark Spot Correcting Glow Toner is a Korean skincare product
-            designed to brighten skin and reduce the appearance of dark spots.
-            Its dual-layer formula combines potent brightening agents with
-            hydrating ingredients, making it suitable for all skin types,
-            including sensitive skin.
-          </p>
-        </div>
-      ),
-    },
-    {
+      shortContent: productDetail.custom_specifications,
+      content:
+        productDetail.custom_long_description ||
+        productDetail.custom_specifications,
+    });
+  }
+
+  if (productDetail?.custom_ingredients?.trim()) {
+    tabs.push({
       value: "ingredients",
       label: "Ingredients",
-      content: (
-        <div>
-          <ol>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit</li>
-          </ol>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed</p>
-        </div>
-      ),
-    },
-    {
-      value: "How to use",
+      content: productDetail.custom_ingredients,
+    });
+  }
+
+  if (productDetail?.custom_how_to_use?.trim()) {
+    tabs.push({
+      value: "how-to-use",
       label: "How to use",
-      content: (
-        <div>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed</p>
-        </div>
-      ),
-    },
-  ];
+      content: productDetail.custom_how_to_use,
+    });
+  }
   return (
     <Box
       display="flex"

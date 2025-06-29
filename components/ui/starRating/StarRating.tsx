@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { HStack, Box } from "@chakra-ui/react";
 
 import { StarIcon } from "@/assets/svg";
@@ -13,13 +13,16 @@ export const StarRating: React.FC<StarRatingProps> = ({
   isCheckBoxRequired = true,
   fixedRating,
   fillColor,
+  value,
 }) => {
-  const [rating, setRating] = useState(fixedRating || 0);
+  // const [rating, setRating] = useState(fixedRating || 0);
+  const rating = fixedRating ?? value ?? 0;
 
   const handleClick = (index: number) => {
     const newRating = index + 1;
-    setRating(newRating);
-    onChange?.(newRating);
+    if (!fixedRating) {
+      onChange?.(newRating);
+    }
   };
 
   return (
@@ -43,11 +46,11 @@ export const StarRating: React.FC<StarRatingProps> = ({
               <StarIcon
                 style={{
                   fill: isFull
-                    ? fillColor || "#646966"
+                    ? fillColor
                     : isPartial
-                      ? `url(#partial-${index})`
+                      ? `url(#partial-${index}-${fillColor?.replace("#", "")})`
                       : "none",
-                  stroke: index < rating ? fillColor || "#FFAB00" : "#646966",
+                  stroke: index < rating ? fillColor : "#646966",
                   width: "20px",
                   height: "20px",
                 }}
@@ -55,10 +58,16 @@ export const StarRating: React.FC<StarRatingProps> = ({
               {isPartial && (
                 <svg width="0" height="0">
                   <defs>
-                    <linearGradient id={`partial-${index}`}>
+                    <linearGradient
+                      id={`partial-${index}-${fillColor?.replace("#", "")}`}
+                      x1="0%"
+                      y1="0%"
+                      x2="100%"
+                      y2="0%"
+                    >
                       <stop
                         offset={`${(rating % 1) * 100}%`}
-                        stopColor="#FF6996"
+                        stopColor={fillColor}
                       />
                       <stop
                         offset={`${(rating % 1) * 100}%`}
@@ -68,6 +77,23 @@ export const StarRating: React.FC<StarRatingProps> = ({
                   </defs>
                 </svg>
               )}
+
+              {/* {isPartial && (
+                <svg width="0" height="0">
+                  <defs>
+                    <linearGradient id={`partial-${index}`}>
+                      <stop
+                        offset={`${(rating % 1) * 100}%`}
+                        stopColor={fillColor}
+                      />
+                      <stop
+                        offset={`${(rating % 1) * 100}%`}
+                        stopColor="#fff"
+                      />
+                    </linearGradient>
+                  </defs>
+                </svg>
+              )} */}
             </Box>
           );
         })}

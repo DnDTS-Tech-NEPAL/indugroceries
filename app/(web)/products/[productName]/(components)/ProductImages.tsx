@@ -32,6 +32,7 @@ export const ProductImages = () => {
       <ProductImageDisplay
         selectedImage={selectedImage || config.company_details_url}
         productName={productName}
+        productDetail={productDetail as IndividualProductAPIType}
       />
       <ProductImageThumbnail
         productImages={productImages}

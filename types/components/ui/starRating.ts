@@ -4,4 +4,5 @@ export type StarRatingProps = {
   isCheckBoxRequired?: boolean;
   fixedRating?: number;
   fillColor?: string;
+  value?: number;
 };

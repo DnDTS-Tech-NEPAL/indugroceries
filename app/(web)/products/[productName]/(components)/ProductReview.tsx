@@ -1,5 +1,15 @@
-import { FormProvider, StarRating, Textarea } from "@/components";
+import {
+  AccordionItem,
+  AccordionItemContent,
+  AccordionItemTrigger,
+  AccordionRoot,
+  FormProvider,
+  StarRating,
+  Textarea,
+  Tooltip,
+} from "@/components";
 import { useReviewDataQuery, useReviewMutation } from "@/hooks/api";
+import { useAuthCheck } from "@/hooks/app";
 import {
   Box,
   Flex,
@@ -80,18 +90,12 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                 justify={{ base: "center", sm: "flex-start" }}
                 align="center"
               >
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon
-                    key={i}
-                    color="orange"
-                    style={{
-                      fill: "orange",
-                      stroke: "orange",
-                      width: "20px",
-                      height: "20px",
-                    }}
-                  />
-                ))}
+                <StarRating
+                  stars={5}
+                  isCheckBoxRequired={false}
+                  fixedRating={averageRating}
+                  fillColor={"#FFAB00"}
+                />
               </Flex>
               <Text fontSize="sm" color="gray.600">
                 from {reviewData?.reviews?.length} reviews
@@ -150,6 +154,7 @@ export default ProductReview;
 const ReviewList = ({ item_code }: { item_code: string }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
+  const { checkAuth } = useAuthCheck();
 
   const { mutate: submitReview } = useReviewMutation();
 
@@ -167,99 +172,106 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   // };
 
   const submitHandler = (data: { name: string; item_code: string }) => {
-    submitReview(
-      {
-        item_code: data.item_code,
-        review: data.name,
-        rating,
-      },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries({
-            queryKey: ["review-data"],
-          });
-          // setShowReviewForm(false);
-          methods.reset();
+    checkAuth(() => {
+      submitReview(
+        {
+          item_code: data.item_code,
+          review: data.name,
+          rating,
         },
-      }
-    );
+        {
+          onSuccess: () => {
+            setRating(0);
+            queryClient.invalidateQueries({
+              queryKey: ["review-data"],
+            });
+            methods.reset();
+          },
+        }
+      );
+    })();
   };
   return (
     <>
-      <Box maxW="7xl" mx="auto" mt={10}>
-        {reviewData && reviewData.reviews.length > 0 ? (
-          <Box>
-            <Text fontSize="xl" fontWeight="bold" mb={4}>
-              Review Lists
-            </Text>
-            <Box
-              fontSize="sm"
-              color="green.500"
-              mb={6}
-              borderBottom={"1px solid #ccc"}
-            >
-              <Text
-                display={"inline-block"}
-                px={3}
-                borderBottom={"2px solid #009B43"}
-              >
-                All Reviews
+      <Box maxW="7xl" mx="auto" mt={4}>
+        <AccordionRoot collapsible defaultValue={["review-list"]}>
+          <AccordionItem value="review-list" border="none">
+            <AccordionItemTrigger hasAccordionIcon>
+              <Text fontSize="xl" fontWeight="bold">
+                Review Lists
               </Text>
-            </Box>
+            </AccordionItemTrigger>
 
-            {reviewData?.reviews?.map((review, index) => (
+            <AccordionItemContent>
               <Box
-                key={index}
-                py={6}
-                borderBottom={
-                  index < reviewData?.reviews?.length - 1
-                    ? "1px dashed #ccc"
-                    : "none"
-                }
+                maxH="500px"
+                overflowY="auto"
+                pr={2}
+                mb={6}
+                css={{
+                  "&::-webkit-scrollbar": {
+                    width: "0px",
+                    height: "0px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    background: "transparent",
+                  },
+                  scrollbarWidth: "none",
+                  msOverflowStyle: "none",
+                }}
               >
-                <HStack gap={1} mb={2}>
-                  {[...Array(5)].map((_, i) => (
-                    <FaStar key={i} color="orange" />
-                  ))}
-                </HStack>
-                <Text mb={1}>{review.review}</Text>
-                <Text fontSize="sm" color="gray.500" mb={3}>
-                  {/* {review.date} */}
-                </Text>
+                {reviewData && reviewData.reviews.length > 0 ? (
+                  <Box>
+                    <Box
+                      fontSize="sm"
+                      color="#FF6996"
+                      mb={6}
+                      borderBottom={"1px solid #ccc"}
+                    >
+                      <Text
+                        display={"inline-block"}
+                        px={3}
+                        borderBottom={"2px solid #FF6996"}
+                      >
+                        All Reviews
+                      </Text>
+                    </Box>
 
-                <HStack justifyContent="space-between">
-                  <HStack>
-                    {/* <Avatar name={r.name} src={r.avatar} size="sm" /> */}
-                    <FaUserCircle size={20} color={"#007FD9"} />
-                    <Text fontSize="sm">{review.user}</Text>
-                  </HStack>
+                    {reviewData?.reviews?.map((review, index) => (
+                      <Box
+                        key={index}
+                        py={6}
+                        borderBottom={
+                          index < reviewData?.reviews?.length - 1
+                            ? "1px dashed #ccc"
+                            : "none"
+                        }
+                      >
+                        <HStack gap={1} mb={2}>
+                          {Array.from(
+                            { length: Math.floor(review.rating) },
+                            (_, i) => (
+                              <FaStar key={i} color="orange" />
+                            )
+                          )}
+                        </HStack>
+                        <Text mb={1}>{review.review}</Text>
+                        <Text fontSize="sm" color="gray.500" mb={3} />
 
-                  {/* <HStack gap={2}>
-              <Button
-                size="sm"
-                bg={"white"}
-                border={"1px solid #EBEDEC"}
-                variant="ghost"
-                borderRadius={"8px"}
-              >
-                <FaThumbsUp color="#007FD9" />
-                {r.likes}
-              </Button>
-              <Button
-                size="sm"
-                variant="ghost"
-                bg={"white"}
-                border={"1px solid #EBEDEC"}
-                borderRadius={"8px"}
-              >
-                <FaRegThumbsDown color="#FF4530" />
-              </Button>
-            </HStack> */}
-                </HStack>
+                        <HStack justifyContent="space-between">
+                          <HStack>
+                            <FaUserCircle size={20} color={"#007FD9"} />
+                            <Text fontSize="sm">{review.user}</Text>
+                          </HStack>
+                        </HStack>
+                      </Box>
+                    ))}
+                  </Box>
+                ) : null}
               </Box>
-            ))}
-          </Box>
-        ) : null}
+            </AccordionItemContent>
+          </AccordionItem>
+        </AccordionRoot>
 
         <FormProvider methods={methods} onSubmit={submitHandler}>
           <Stack gap="12px" mt={6}>
@@ -272,16 +284,26 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                 stars={5}
                 fillColor={"#FFAB00"}
                 isCheckBoxRequired={false}
+                value={rating}
                 onChange={setRating}
               />
-              <Button
-                type="submit"
-                bg={"#009B43"}
-                color={"white"}
-                borderRadius={"2rem"}
+              <Tooltip
+                content="Kindly rate the product to leave a comment."
+                showArrow={true}
+                disabled={rating !== 0}
+                positioning={{ placement: "top" }}
+                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
               >
-                Comment
-              </Button>
+                <Button
+                  type="submit"
+                  bg={"#FF6996"}
+                  color={"white"}
+                  borderRadius={"2rem"}
+                  disabled={rating === 0}
+                >
+                  Comment
+                </Button>
+              </Tooltip>
             </HStack>
           </Stack>
         </FormProvider>

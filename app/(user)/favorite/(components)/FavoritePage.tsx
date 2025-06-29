@@ -10,16 +10,21 @@ import {
   Image,
   Stack,
   Text,
+  VStack,
 } from "@chakra-ui/react";
-
-import { CartIcon } from "@/assets/svg";
-import { Button, TableWithCheckbox, WishlistDeleteButton } from "@/components";
+import {
+  Button,
+  Checkbox,
+  TableWithCheckbox,
+  WishlistDeleteButton,
+} from "@/components";
 import { useConfigQuery, useWishlistQuery } from "@/hooks/api";
 import {
   useProductDetailCartMutation,
   useRemoveFromWishlist,
 } from "@/hooks/app";
 import { WishlistFormType } from "@/types";
+import { BsCart3 } from "react-icons/bs";
 
 export const FavouritePage = () => {
   const { data: wishlistData = [] } = useWishlistQuery();
@@ -115,17 +120,15 @@ export const FavouritePage = () => {
               height={{ base: "10px", lg: "40px" }}
               width={{ base: "10px", lg: "140px" }}
               borderRadius={"8px"}
+              bg="#FF6996"
+              color="white"
+              _hover={{ bg: "#FF4F82" }}
+              rounded="full"
               onClick={() => handleSingleItemAddToCart(row.original)}
               loading={isCartPending}
             >
-              <CartIcon />
-              <Text
-                display={{ base: "none", lg: "block" }}
-                fontWeight={400}
-                fontSize={"14px"}
-              >
-                Add to Cart
-              </Text>
+              <BsCart3 />
+              Add To Bag
             </Button>
           </HStack>
         ),
@@ -168,7 +171,10 @@ export const FavouritePage = () => {
           />
           <Button
             variant={"ghost"}
-            borderRadius="8px"
+            bg="#FF6996"
+            color="white"
+            _hover={{ bg: "#FF4F82" }}
+            rounded="full"
             disabled={!selectedCount}
             onClick={() => {
               const selectedProducts = wishlistData.filter((item) =>
@@ -187,17 +193,17 @@ export const FavouritePage = () => {
             }}
           >
             <HStack>
-              <CartIcon />
+              <BsCart3 />
               <Text display={{ base: "none", lg: "block" }}>
                 {selectedCount > 0
-                  ? `Add to cart (${selectedCount} items)`
-                  : "Add to cart"}
+                  ? `Add to bag (${selectedCount} items)`
+                  : "Add to bag"}
               </Text>
             </HStack>
           </Button>
         </HStack>
       </Flex>
-      <Box>
+      <Box display={{ base: "none", md: "block" }}>
         <TableWithCheckbox
           data={wishlistData}
           columns={columns}
@@ -205,6 +211,140 @@ export const FavouritePage = () => {
           onSelectionChange={onSelectionChange}
           setSelectedItems={setSelectedItems}
         />
+      </Box>
+      {/* Mobile View */}
+      <Box display={{ base: "block", md: "none" }} mb={2}>
+        <Stack gap={4}>
+          {wishlistData.map((item) => (
+            <Box
+              key={item.id}
+              borderWidth="1px"
+              borderRadius="md"
+              position={"relative"}
+              overflow={"hidden"}
+              padding={4}
+            >
+              {/* Discount Ribbon */}
+              {/* {item.discounted_percentage &&
+              Number(item.discounted_percentage) > 0 ? (
+                <Box
+                  position="absolute"
+                  top=" -17px"
+                  right="-68px"
+                  width="162px"
+                  height="74px"
+                  bg="green.500"
+                  color="white"
+                  textAlign="center"
+                  lineHeight="1"
+                  fontSize="sm"
+                  fontWeight="bold"
+                  transform="rotate(45deg)"
+                  py={1}
+                  zIndex="1"
+                >
+                  <HStack
+                    gap="0.6rem"
+                    align="center"
+                    position={"absolute"}
+                    top=" 2.4rem"
+                    dropShadow={"md"}
+                    right="3.4rem"
+                    rotate={"-45deg"}
+                  >
+                    <Box
+                      textShadow="9px 1px 3px #22c55e"
+                      css={{
+                        WebkitTextStrokeWidth: "3px",
+                        WebkitTextStrokeColor: "#22c55e",
+                      }}
+                      letterSpacing="-6px"
+                      fontSize="3.5rem"
+                    >
+                      {item.discounted_percentage}
+                    </Box>
+                    <VStack gap="0">
+                      <Text>%</Text>
+                      <Text>OFF</Text>
+                    </VStack>
+                  </HStack>
+                </Box>
+              ) : null} */}
+
+              <Checkbox
+                height={"16px"}
+                width={"16px"}
+                checked={selectedItems.has(item.id)}
+                onChange={() => onSelectionChange(item.id)}
+              />
+
+              <HStack align="center" gap={4}>
+                <Box position={"relative"}>
+                  <Image
+                    src={item.image || config?.company_details_url || ""}
+                    alt={item.title}
+                    width={90}
+                    height={90}
+                    objectFit="cover"
+                  />
+                </Box>
+
+                <Stack gap={1} flex="1">
+                  <Text
+                    fontWeight="bold"
+                    fontSize="md"
+                    // w={
+                    //   item.discounted_percentage &&
+                    //   Number(item.discounted_percentage) > 0
+                    //     ? "80%"
+                    //     : "auto"
+                    // }
+                  >
+                    {item.title?.length > 40
+                      ? `${item.title.slice(0, 40)}...`
+                      : item.title}
+                  </Text>
+                  <Text fontSize="sm" color="gray.500">
+                    {item.category}
+                  </Text>
+
+                  <HStack mt={2}>
+                    <Button
+                      variant={"ghost"}
+                      bg="#FF6996"
+                      color="white"
+                      _hover={{ bg: "#FF4F82" }}
+                      rounded="full"
+                      onClick={() => handleSingleItemAddToCart(item)}
+                    >
+                      <BsCart3 />
+                      <Text fontSize={"12px"} ml={1}>
+                        Add to Cart
+                      </Text>
+                    </Button>
+                  </HStack>
+                </Stack>
+              </HStack>
+
+              <Flex justifyContent="space-between" alignItems="center" mt={3}>
+                <VStack gap="0" alignItems="flex-start">
+                  <Text>
+                    {config?.currency} {item.item_price}
+                  </Text>
+                  {/* {item.discounted_price !== item.item_price ? (
+                    <Text color="red.400" textDecoration={"line-through"}>
+                      {config?.currency} {item.item_price}
+                    </Text>
+                  ) : null} */}
+                </VStack>
+
+                <Text fontSize="sm" color="primary.300">
+                  Added: {item.addedDate}
+                </Text>
+              </Flex>
+            </Box>
+          ))}
+        </Stack>
       </Box>
     </Stack>
   );

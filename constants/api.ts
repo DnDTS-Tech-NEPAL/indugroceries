@@ -58,6 +58,8 @@ export const API_ROUTES = {
 
       INDIVIDUAL_PRODUCT: {
         GET: "individualitem",
+        ADD_RECENTLY_VIEWED:"addrecentlyviewed",
+        RECENTLY_VIEWED:"recentlyviewed"
       },
     },
 

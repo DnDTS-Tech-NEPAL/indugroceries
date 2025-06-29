@@ -41,6 +41,9 @@ export const TableWithCheckbox = <T,>({
           <Table.Row key={headerGroup.id}>
             <Table.ColumnHeader
               py="16px"
+              bg="#28353D0A"
+              p={4}
+              rounded="md"
               borderColor="system.neutral.separator.light"
             >
               <Checkbox
@@ -63,6 +66,8 @@ export const TableWithCheckbox = <T,>({
                 <Table.ColumnHeader
                   key={header.id}
                   py="16px"
+                  bg="#28353D0A"
+                  p={4}
                   borderColor="system.neutral.separator.light"
                   fontSize="14px"
                   color="system.text.normal.light"

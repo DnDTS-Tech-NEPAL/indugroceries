@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
-import { FavoriteProductCard } from "@/components";
+import { ProductCard } from "@/components";
 import {
   useItemProductsLikeQuery,
   useProductDetailByNameQuery,
@@ -62,7 +62,7 @@ export const ProductsYouMayLike = () => {
                 base: "paragraphSmall",
                 md: "paragraphRegular",
               }}
-              color="system.text.normal.light"
+              color="gray.500"
             >
               Top-rated favorites our customers can’t live without.
             </Text>
@@ -97,7 +97,17 @@ export const ProductsYouMayLike = () => {
           gap="20px"
         >
           {itemProductLike?.map((productInfo, index) => (
-            <FavoriteProductCard
+            // <FavoriteProductCard
+            //   key={index}
+            //   id={index}
+            //   category={productInfo.item_name}
+            //   image={productInfo.custom_image_1_link}
+            //   title={productInfo.item_name}
+            //   price={productInfo.prices?.[0].price_list_rate}
+            //   link={productInfo.name}
+            //   item_code={productInfo.item_code}
+            // />
+            <ProductCard
               key={index}
               id={index}
               category={productInfo.item_name}

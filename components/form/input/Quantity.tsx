@@ -56,7 +56,7 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({
   };
 
   return (
-    <HStack gap={"12px"}>
+    <HStack gap={"12px"} justifyContent={"center"}>
       <Button
         onClick={decrement}
         bg={"grey.100"}

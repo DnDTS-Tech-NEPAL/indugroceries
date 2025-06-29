@@ -29,6 +29,7 @@ import {
 import { Cart, HeartIcon } from "@/assets/svg";
 import { EyeIcon, X } from "lucide-react";
 import { Tooltip } from "@/components/tooltip";
+import { addRecentlyViewedProduct } from "@/api";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -103,13 +104,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     >
       <Box
         cursor="pointer"
-        onClick={() =>
+        onClick={() => {
           router.push(
             generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
               productName: link,
             })
-          )
-        }
+          );
+          addRecentlyViewedProduct(link);
+        }}
       >
         <Box position="relative">
           {/* New Badge */}
@@ -217,7 +219,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           >
             <Image
               src={image || config?.company_details_url}
-              alt={title}
+              alt={title || "Product Image"}
               fill
               style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
               onMouseEnter={(e) =>
@@ -280,10 +282,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         align="center"
         gap={{ base: 3, sm: 2 }}
       >
-        <HStack gap={2} align="baseline">
-          <Text fontSize={priceFontSize} fontWeight="bold" color="#FF6996">
-            {config?.currency} {price}
-          </Text>
+        <Box
+          gap={2}
+          display={"flex"}
+          flexDirection={{ base: "column", md: "row" }}
+        >
           {originalPrice && (
             <Text
               fontSize={originalPriceFontSize}
@@ -293,12 +296,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               {config?.currency} {originalPrice}
             </Text>
           )}
-        </HStack>
+          <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+            {config?.currency} {price}
+          </Text>
+        </Box>
 
         <Button
           height="auto"
           minH="32px"
-          w={{ base: "50%", sm: "55%", md: "50%" }}
+          w={{ base: "50%", sm: "55%", md: "45%" }}
           bg={"transparent"}
           color={"#FF6996"}
           borderRadius="full"
