@@ -90,18 +90,12 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                 justify={{ base: "center", sm: "flex-start" }}
                 align="center"
               >
-                {[...Array(5)].map((_, i) => (
-                  <StarIcon
-                    key={i}
-                    color="orange"
-                    style={{
-                      fill: "orange",
-                      stroke: "orange",
-                      width: "20px",
-                      height: "20px",
-                    }}
-                  />
-                ))}
+                <StarRating
+                  stars={5}
+                  isCheckBoxRequired={false}
+                  fixedRating={averageRating}
+                  fillColor={"#FFAB00"}
+                />
               </Flex>
               <Text fontSize="sm" color="gray.600">
                 from {reviewData?.reviews?.length} reviews

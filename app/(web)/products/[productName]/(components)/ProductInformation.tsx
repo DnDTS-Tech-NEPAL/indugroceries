@@ -284,9 +284,9 @@ export const ProductInformation = () => {
   const { data: config } = useConfigQuery();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
-  const item_code = productDetail?.has_variants
-    ? activeVariant
-    : productDetail?.item_code;
+  // const item_code = productDetail?.has_variants
+  //   ? activeVariant
+  //   : productDetail?.item_code;
 
   const { handleAddToCart, isPending: isCartPending } =
     useProductDetailCartMutation();
@@ -384,7 +384,7 @@ export const ProductInformation = () => {
 
   const { checkAuth } = useAuthCheck();
   const { data: reviewData, isLoading } = useReviewDataQuery(
-    item_code as string
+    productDetail?.item_code as string
   );
   const averageRating = reviewData?.average_rating ?? 0;
 
@@ -433,6 +433,7 @@ export const ProductInformation = () => {
                       stars={5}
                       isCheckBoxRequired={false}
                       fixedRating={averageRating}
+                      fillColor="#FF6996"
                     />
                   )}
                 </HStack>
