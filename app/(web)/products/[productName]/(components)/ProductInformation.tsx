@@ -277,6 +277,8 @@ import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
 import { IndividualProductAPIType, ProductVariantType } from "@/types";
 import { Highlights } from "./Highlights";
+import { ROUTES } from "@/constants";
+import ShareButton from "@/components/ui/button/ShareButton";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -419,12 +421,23 @@ export const ProductInformation = () => {
             </HStack>
 
             <Box>
-              <Heading
-                color="black"
-                fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
-              >
-                {displayProduct?.item_name}
-              </Heading>
+              <HStack>
+                <Heading
+                  color="black"
+                  fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
+                >
+                  {displayProduct?.item_name}
+                </Heading>
+                <ShareButton
+                  // title={displayProduct?.item_name}
+                  url={
+                    "https://kbpecom.dndts.net" +
+                    ROUTES.APP.PRODUCTS +
+                    "/" +
+                    displayProduct?.item_code
+                  }
+                />
+              </HStack>
               {/* Rating */}
               <Flex align="center" my={4}>
                 <HStack gap={1}>
