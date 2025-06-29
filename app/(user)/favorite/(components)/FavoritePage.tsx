@@ -12,8 +12,6 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-
-import { CartIcon } from "@/assets/svg";
 import {
   Button,
   Checkbox,
