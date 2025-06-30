@@ -66,3 +66,10 @@ export { default as Esewa } from "./esewa.svg";
 export { default as Khalti } from "./khalti.svg";
 export { default as ImePay } from "./imepay.svg";
 export { default as CashOnDelivery } from "./cod.svg";
+
+//accountdashboard section
+export { default as AccountPersonal } from "./personal-account.svg";
+export { default as AccountOrders } from "./orders-account.svg";
+export { default as AccountReturns } from "./returns-account.svg";
+export { default as AccountReviews } from "./reviews-account.svg";
+export {default as AccountLogout} from "./logout.svg";
