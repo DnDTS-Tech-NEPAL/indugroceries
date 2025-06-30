@@ -8,32 +8,24 @@ import {
   Flex,
   Image,
   HStack,
-  Button,
+  Spinner,
 } from "@chakra-ui/react";
 import StarRating from "./StarRating";
 import { useColorModeValue } from "@/components/ui/color-mode";
+import { useUserProfileQuery } from "@/hooks/api";
 
-type Review = {
-  product: string;
-  price: string;
-  date: string;
-  rating: number;
-  review: string;
-  image: string;
-};
-
-export default function Reviews({ reviews }: { reviews: Review[] }) {
+export default function Reviews() {
   const borderColor = useColorModeValue("gray.200", "gray.600");
   const textColor = useColorModeValue("gray.600", "gray.300");
+  const { data: profileData, isLoading } = useUserProfileQuery();
+  const reviews = profileData?.reviews ?? [];
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
-    <Box
-      bg="white"
-      rounded="lg"
-      border="1px"
-      borderColor={borderColor}
-    >
-     <Text fontSize={"2xl"} fontWeight={"medium"} mb={8}>
+    <Box bg="white" rounded="lg" border="1px" borderColor={borderColor}>
+      <Text fontSize="2xl" fontWeight="medium" mb={8}>
         Reviews ({reviews.length} items)
       </Text>
 
@@ -41,23 +33,23 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
         {reviews.map((review, index) => (
           <Box
             key={index}
-            bg={"#28353D0A"}
+            bg="#28353D0A"
             pb={8}
             p={4}
-            borderRadius={"md"}
+            borderRadius="md"
             borderBottom="1px"
             borderColor={borderColor}
             _last={{ borderBottom: "none" }}
           >
             <Flex justify="space-between" align="start" mb={4}>
               <Text fontSize="sm" color={textColor}>
-                {review.date}
+                {review.posted_on}
               </Text>
             </Flex>
 
             <HStack align="start" gap={4}>
               <Image
-                src={review.image}
+                src={review.custom_image_1_link}
                 alt="Product"
                 boxSize="60px"
                 rounded="lg"
@@ -65,10 +57,8 @@ export default function Reviews({ reviews }: { reviews: Review[] }) {
                 borderColor={borderColor}
               />
               <VStack align="start" gap={2} flex={1}>
-                <Text fontWeight="medium">{review.product}</Text>
-                <Text fontSize="sm" color={textColor}>
-                  {review.price}
-                </Text>
+                <Text fontWeight="medium">{review.item_code}</Text>
+                {/* You can show actual product title if available via separate API */}
                 <StarRating rating={review.rating} />
                 <Text fontSize="sm" color="gray.700" lineHeight="relaxed">
                   {review.review}
