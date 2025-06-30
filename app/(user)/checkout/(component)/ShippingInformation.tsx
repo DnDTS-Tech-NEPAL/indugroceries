@@ -92,7 +92,11 @@ const ShippingInformation = () => {
                     variant="outline"
                     borderRadius="md"
                   />
-                  <FormHelperText fontStyle="italic" fontSize={"small"} color={"#7A7A7A"}>
+                  <FormHelperText
+                    fontStyle="italic"
+                    fontSize={"small"}
+                    color={"#7A7A7A"}
+                  >
                     You will receive surprise gift from us on the purchase of
                     your birthday month.
                   </FormHelperText>
