@@ -32,7 +32,7 @@ import {
 import { FormControl, FormLabel } from "@chakra-ui/form-control";
 import { useColorModeValue } from "@/components/ui/color-mode";
 
-export default function AccountDashboard() {
+export default function AccountDash() {
   const [activeSection, setActiveSection] = useState("personal");
 
   const bgColor = useColorModeValue("white", "gray.800");
