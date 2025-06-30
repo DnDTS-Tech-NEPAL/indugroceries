@@ -60,7 +60,12 @@ export const AccordionItemTrigger = React.forwardRef<
               <Box mr={4}>{rest.customiconclosed ?? <AddIcon />}</Box>
             )
           ) : (
-            <LuChevronDown />
+            <Box
+              as={LuChevronDown}
+              color="black"
+              fontSize="30px"
+              filter={isOpen ? "brightness(0) contrast(200%)" : "none"}
+            />
           )}
         </Accordion.ItemIndicator>
       )}

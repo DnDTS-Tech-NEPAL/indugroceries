@@ -203,7 +203,8 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   return (
     <>
       <Box maxW="7xl" mx="auto" mt={4}>
-        <AccordionRoot collapsible defaultValue={["review-list"]}>
+        {/* <AccordionRoot collapsible defaultValue={["review-list"]}> */}
+        <AccordionRoot collapsible defaultValue={[]}>
           <AccordionItem value="review-list" border="none">
             <AccordionItemTrigger hasAccordionIcon>
               <Text fontSize="xl" fontWeight="bold">
