@@ -1,7 +1,11 @@
 "use client";
 
 import { Stack, Input, Text, VStack } from "@chakra-ui/react";
-import { FormControl, FormLabel } from "@chakra-ui/form-control";
+import {
+  FormControl,
+  FormHelperText,
+  FormLabel,
+} from "@chakra-ui/form-control";
 import { Portal, Select, createListCollection } from "@chakra-ui/react";
 import {
   AccordionItem,
@@ -52,13 +56,13 @@ const ShippingInformation = () => {
                 width="full"
               >
                 <FormControl isRequired flex={1}>
-                  <FormLabel>First Name</FormLabel>
-                  <Input placeholder="First Name" mt={2} />
+                  <FormLabel>Full Name</FormLabel>
+                  <Input placeholder="Full Name" mt={2} />
                 </FormControl>
-                <FormControl isRequired flex={1}>
+                {/* <FormControl isRequired flex={1}>
                   <FormLabel>Last Name</FormLabel>
                   <Input placeholder="Last Name" mt={2} />
-                </FormControl>
+                </FormControl> */}
               </Stack>
 
               {/* Contact Section */}
@@ -77,13 +81,31 @@ const ShippingInformation = () => {
                 </FormControl>
               </Stack>
 
+              {/* Date of birth */}
+              <Stack width={"full"}>
+                <FormControl isRequired flex={1}>
+                  <FormLabel>Date of Birth</FormLabel>
+                  <Input
+                    type="date"
+                    placeholder="Select Date"
+                    mt={2}
+                    variant="outline"
+                    borderRadius="md"
+                  />
+                  <FormHelperText fontStyle="italic" fontSize={"small"} color={"#7A7A7A"}>
+                    You will receive surprise gift from us on the purchase of
+                    your birthday month.
+                  </FormHelperText>
+                </FormControl>
+              </Stack>
+
               {/* Address Section */}
               <Stack
                 direction={{ base: "column", md: "row" }}
                 gap={4}
                 width="full"
               >
-                <FormControl isRequired width="full" flex={1}>
+                {/* <FormControl isRequired width="full" flex={1}>
                   <FormLabel>Country / Region</FormLabel>
                   <Select.Root
                     collection={countriesCollection}
@@ -117,10 +139,15 @@ const ShippingInformation = () => {
                       </Select.Positioner>
                     </Portal>
                   </Select.Root>
+                </FormControl> */}
+
+                <FormControl isRequired flex={1}>
+                  <FormLabel>Delivery Address</FormLabel>
+                  <Input placeholder="Delivery Address" mt={2} />
                 </FormControl>
               </Stack>
 
-              <Stack
+              {/* <Stack
                 direction={{ base: "column", md: "row" }}
                 gap={4}
                 width="full"
@@ -169,7 +196,7 @@ const ShippingInformation = () => {
                   <FormLabel>Zip Code</FormLabel>
                   <Input placeholder="Zip Code" mt={2} />
                 </FormControl>
-              </Stack>
+              </Stack> */}
             </VStack>
           </AccordionItemContent>
         </AccordionItem>
