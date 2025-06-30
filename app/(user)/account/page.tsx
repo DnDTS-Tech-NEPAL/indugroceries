@@ -2,7 +2,8 @@
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-import AccountDashboard from "./MyAccount";
+import AccountDashboard from ".";
+
 
 const UserAccount = () => {
   return (
