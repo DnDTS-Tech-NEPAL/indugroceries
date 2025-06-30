@@ -123,29 +123,9 @@ export default function AccountDashboard() {
       image: "/placeholder.svg?height=60&width=60",
     },
   ];
-  const reviews = [
-    {
-      product: "Power Bullet Matte Lipstick",
-      price: "NPR. 455",
-      date: "21 Jul 2024",
-      rating: 5,
-      review:
-        "This product is really very amazing.i personally Like this product very much.it change my skin tone nd it looks more younger than before... It's very reasonable nd nice product for all typl love the shade , and the most important part its absolutely smudge proof , stick into my lips up to long hours. This velvety mat finish omg😍 ladies you can give it a try, and trust me smash box never gonna let you down😊es of skin👍",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-    {
-      product: "Power Bullet Matte Lipstick",
-      price: "NPR. 455",
-      date: "21 Jul 2024",
-      rating: 5,
-      review:
-        "This product is really very amazing.i personally Like this product very much.it change my skin tone nd it looks more younger than before... It's very reasonable nd nice product for all typl love the shade , and the most important part its absolutely smudge proof , stick into my lips up to long hours. This velvety mat finish omg😍 ladies you can give it a try, and trust me smash box never gonna let you down😊es of skin👍",
-      image: "/placeholder.svg?height=60&width=60",
-    },
-  ];
 
   return (
-    <Box minH="100vh" >
+    <Box minH="100vh">
       <Container maxW="7xl" py={8}>
         <Flex gap={8}>
           <Box
@@ -153,19 +133,18 @@ export default function AccountDashboard() {
             rounded="lg"
             border="1px solid"
             height={"fit-content"}
-            borderColor={"#2E2E2E24"} 
-            py={6} px={2}
+            borderColor={"#2E2E2E24"}
+            py={6}
+            px={2}
           >
             <Sidebar items={sidebarItems} onSelect={setActiveSection} />
           </Box>
 
           <Box flex={1}>
-            {activeSection === "personal" && (
-              <PersonalInfo bgColor={bgColor} />
-            )}
+            {activeSection === "personal" && <PersonalInfo bgColor={bgColor} />}
             {activeSection === "orders" && <Orders orders={orders} />}
             {activeSection === "returns" && <Returns returns={returns} />}
-            {activeSection === "reviews" && <Reviews reviews={reviews} />}
+            {activeSection === "reviews" && <Reviews />}
             {/* {activeSection === "wishlist" && <Wishlist />}
             {activeSection === "payment" && <Payment />} */}
           </Box>
