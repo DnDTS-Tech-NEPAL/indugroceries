@@ -125,7 +125,7 @@
 //   );
 // };
 
-import { Tabs as ChakraTabs, Box, Text, VStack } from "@chakra-ui/react";
+import { Tabs as ChakraTabs, Box, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import React, { ReactNode } from "react";
 import { Button } from "../button";
