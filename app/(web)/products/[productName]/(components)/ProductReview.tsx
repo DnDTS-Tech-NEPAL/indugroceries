@@ -21,10 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { ProgressCircle, Progress } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { StarIcon } from "lucide-react";
+import { FilePenLine, Pen, StarIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaStar, FaUserCircle } from "react-icons/fa";
+import { FaPenAlt, FaStar, FaUserCircle } from "react-icons/fa";
 
 const ProductReview = ({ item_code }: { item_code: string }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
@@ -56,50 +56,59 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="lg" boxShadow="sm">
         <Flex
           direction={{ base: "column", md: "row" }}
-          align={{ base: "flex-start", md: "start" }}
+          justifyContent={"space-between"}
+          // align={{ base: "center", md: "start" }}
           gap={{ base: 6, md: 10 }}
           flexWrap="wrap"
         >
           {/* Average Rating Circle */}
-          <Flex
-            direction={{ base: "column", sm: "row" }}
-            align="center"
-            justify="center"
-            gap={4}
-            flexShrink={0}
-          >
-            <ProgressCircle.Root
-              value={((averageRating || 0) / 5) * 100}
-              // value={averageRating}
-              size="xl"
+          <Flex direction={"column"} justifyContent={"space-between"}>
+            <Flex
+              direction={"row"}
+              align="center"
+              justify="center"
+              gap={4}
+              flexShrink={0}
             >
-              <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
-                <ProgressCircle.Track />
-                <ProgressCircle.Range stroke="orange" rotate={"90deg"} />
-              </ProgressCircle.Circle>
-              <AbsoluteCenter>
-                <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
-                  {averageRating?.toFixed(1)}
-                </Text>
-              </AbsoluteCenter>
-            </ProgressCircle.Root>
-
-            <Box textAlign={{ base: "center", sm: "left" }}>
-              <Flex
-                mt={2}
-                justify={{ base: "center", sm: "flex-start" }}
-                align="center"
+              <ProgressCircle.Root
+                value={((averageRating || 0) / 5) * 100}
+                // value={averageRating}
+                size="xl"
               >
-                <StarRating
-                  stars={5}
-                  isCheckBoxRequired={false}
-                  fixedRating={averageRating}
-                  fillColor={"#FFAB00"}
-                />
-              </Flex>
-              <Text fontSize="sm" color="gray.600">
-                from {reviewData?.reviews?.length} reviews
-              </Text>
+                <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range stroke="orange" rotate={"90deg"} />
+                </ProgressCircle.Circle>
+                <AbsoluteCenter>
+                  <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
+                    {averageRating?.toFixed(1)}
+                  </Text>
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
+
+              <Box textAlign={{ base: "center", sm: "left" }}>
+                <Flex
+                  mt={2}
+                  justify={{ base: "center", sm: "flex-start" }}
+                  align="center"
+                >
+                  <StarRating
+                    stars={5}
+                    isCheckBoxRequired={false}
+                    fixedRating={averageRating}
+                    fillColor={"#FFAB00"}
+                  />
+                </Flex>
+                <Text fontSize="sm" color="gray.600">
+                  from {reviewData?.reviews?.length} reviews
+                </Text>
+              </Box>
+            </Flex>
+            {/* Bottom: Write a review */}
+            <Box mt={4} textAlign={{ base: "center", md: "left" }}>
+              <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
+                <FilePenLine /> Write a review
+              </Button>
             </Box>
           </Flex>
 
