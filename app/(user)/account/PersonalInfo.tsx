@@ -11,8 +11,9 @@ export default function PersonalInfo({ bgColor, borderColor }: any) {
           <GridItem><FormControl><FormLabel>Email Address</FormLabel><Input placeholder="Email" /></FormControl></GridItem>
           <GridItem><FormControl><FormLabel>Phone Number</FormLabel><Input placeholder="Phone" /></FormControl></GridItem>
           <GridItem ><FormControl><FormLabel>Country / Region</FormLabel><Input placeholder="Country / Region" /></FormControl></GridItem>
+          <GridItem colSpan={2}><FormControl><FormLabel>Date of Birth</FormLabel><Input placeholder="Date of Birth" /></FormControl></GridItem>
         </Grid>
-        <Flex justify="flex-end"><Button bgColor={"#FF6996"} colorScheme="pink" px={4} borderRadius={"md"}>Save Changes</Button></Flex>
+        {/* <Flex justify="flex-end"><Button bgColor={"#FF6996"} colorScheme="pink" px={4} borderRadius={"md"}>Save Changes</Button></Flex> */}
         <Separator />
         <Box>
           <Text fontSize={"2xl"} fontWeight={"medium"} mb={8}>Change Password</Text>
