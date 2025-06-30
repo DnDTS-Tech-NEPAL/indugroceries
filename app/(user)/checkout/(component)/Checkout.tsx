@@ -12,6 +12,7 @@ import {
   Input,
   Button,
   Text,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { Checkbox } from "@/components";
@@ -23,9 +24,12 @@ import RelatedProducts from "./RelatedProducts";
 import SelectedProduct from "./SelectedProduct";
 import { InputGroup } from "@/components/form/input/InputGroup";
 import { FaTags } from "react-icons/fa";
+import { useCartQuery } from "@/hooks/api";
 
 const CheckoutSection = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free");
+  const { data: selectedProducts = [], isLoading } = useCartQuery();
+  console.log("hello selected products", selectedProducts);
 
   const products = [
     {
@@ -54,22 +58,22 @@ const CheckoutSection = () => {
     },
   ];
 
-  const selectedProducts = [
-    {
-      id: "4",
-      name: "Radiant Glow Vitamin C",
-      image: "/placeholder.svg?height=60&width=60",
-      originalPrice: 3500,
-      discountedPrice: 2000,
-    },
-    {
-      id: "5",
-      name: "Hydra Boost Serum",
-      image: "/placeholder.svg?height=60&width=60",
-      originalPrice: 3000,
-      discountedPrice: 1800,
-    },
-  ];
+  // const selectedProducts = [
+  //   {
+  //     id: "4",
+  //     name: "Radiant Glow Vitamin C",
+  //     image: "/placeholder.svg?height=60&width=60",
+  //     originalPrice: 3500,
+  //     discountedPrice: 2000,
+  //   },
+  //   {
+  //     id: "5",
+  //     name: "Hydra Boost Serum",
+  //     image: "/placeholder.svg?height=60&width=60",
+  //     originalPrice: 3000,
+  //     discountedPrice: 1800,
+  //   },
+  // ];
 
   const relatedProducts = [
     {
@@ -157,7 +161,13 @@ const CheckoutSection = () => {
             bg="white"
           >
             <VStack align="stretch" gap={6}>
-              <SelectedProduct products={selectedProducts} />
+              {isLoading ? (
+                <Grid placeItems="center" height="300px">
+                  <Spinner />
+                </Grid>
+              ) : (
+                <SelectedProduct products={selectedProducts} />
+              )}
 
               <InputGroup
                 startElement={<FaTags color="#D0D0D0" size={20} />}

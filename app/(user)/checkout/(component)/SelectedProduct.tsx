@@ -1,17 +1,20 @@
 "use client";
-
+import { useConfigQuery } from "@/hooks/api";
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 type Product = {
   id: string;
-  name: string;
+  title: string;
   image?: string;
-  discountedPrice: number;
-  originalPrice: number;
+  name?: string;
+  price?: string;
+  discountedPrice?: number;
+  originalPrice?: number;
   quantity?: number;
 };
 
 export default function SelectedProduct({ products }: { products: Product[] }) {
+  const { data: config } = useConfigQuery();
   return (
     <Box>
       <VStack gap={4} align="stretch">
@@ -24,22 +27,22 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
             py={3}
             w="full"
           >
-            <HStack justify="space-between" align="flex-start">
+            <HStack justify="space-between" align="flex-end">
               <HStack gap={4}>
                 <Image
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.name}
+                  src={product.image || config.company_details_url}
+                  alt={product.title}
                   boxSize="60px"
                   borderRadius="md"
                   objectFit="cover"
                 />
                 <VStack align="start" gap={1}>
                   <Text fontWeight="medium" fontSize="sm">
-                    {product.name}
+                    {product.title}
                   </Text>
                   <HStack gap={2}>
                     <Text fontSize="md" fontWeight="bold" color="pink.500">
-                      Rs {product.discountedPrice}
+                      Rs {product.price}
                     </Text>
                     <Text fontSize="sm" color="pink.400">
                       Discounted Price
@@ -54,7 +57,12 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
                   </Text>
                 </VStack>
               </HStack>
-              <Text fontSize="sm" color="gray.600" whiteSpace="nowrap">
+              <Text
+                fontSize="sm"
+                color="gray.600"
+                whiteSpace="nowrap"
+                alignItems={"end"}
+              >
                 Qty: {product.quantity || 1}
               </Text>
             </HStack>
