@@ -4,4 +4,5 @@ export type UserProfileType = {
   custom_phone: string;
   custom_address: string;
   user: string;
+  custom_date_of_birth:string;
 };
