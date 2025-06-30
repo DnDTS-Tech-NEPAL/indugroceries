@@ -19,7 +19,6 @@ import { Checkbox } from "@/components";
 import ShippingInformation from "./ShippingInformation";
 import DeliveryMethod from "./DeliveryMethod";
 import PaymentInformation from "./PaymentInformation";
-import RememberMeSection from "./RememberMeSection";
 import RelatedProducts from "./RelatedProducts";
 import SelectedProduct from "./SelectedProduct";
 import { InputGroup } from "@/components/form/input/InputGroup";
@@ -123,7 +122,7 @@ const CheckoutSection = () => {
               setDeliveryMethod={setDeliveryMethod}
             />
             <PaymentInformation />
-            <RememberMeSection />
+            {/* <RememberMeSection /> */}
 
             <Box borderTop="1px solid #D0D0D0" pt={10} spaceY={4}>
               <Text fontSize="sm" color="gray.600" mb={4}>
