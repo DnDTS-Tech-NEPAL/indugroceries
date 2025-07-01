@@ -135,11 +135,11 @@ export default function AccountDashboard() {
             py={6}
             px={2}
           >
-            <Sidebar items={sidebarItems} onSelect={setActiveSection}  />
+            <Sidebar items={sidebarItems} onSelect={setActiveSection} />
           </Box>
 
           <Box flex={1}>
-            {activeSection === "personal" && <PersonalInfo  />}
+            {activeSection === "personal" && <PersonalInfo />}
             {activeSection === "orders" && <Orders orders={orders} />}
             {activeSection === "returns" && <Returns returns={returns} />}
             {activeSection === "reviews" && <Reviews />}

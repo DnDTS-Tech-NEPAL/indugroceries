@@ -1,9 +1,13 @@
+import { SidebarItem } from "@/types/components/ui/sidebar";
 import { VStack, Button, Icon } from "@chakra-ui/react";
-
-export default function Sidebar({ items, onSelect }: any) {
+type SidebarProps = {
+  items: SidebarItem[];
+  onSelect: (id: string) => void;
+};
+export default function Sidebar({ items, onSelect }: SidebarProps) {
   return (
     <VStack gap={2} align="stretch">
-      {items.map((item: any) => (
+      {items.map((item) => (
         <Button
           key={item.id}
           onClick={() => onSelect(item.id)}
