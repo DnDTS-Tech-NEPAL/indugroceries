@@ -5,10 +5,12 @@ import { BrandCarousel } from "./(components)/BrandCarousel";
 import { getBrandDetailByName } from "@/api/queries/brands/[brandName]";
 import { redirect } from "next/navigation";
 import { BrandDetailPageProps } from "@/types";
+import { BrandDescription } from "./(components)";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
 
   const brand = await getBrandDetailByName();
+  const brandName = decodeURI((await params).brandName);
   
   if (!brand || brand.error) {
     return redirect(ROUTES.NOT_FOUND);
@@ -23,6 +25,7 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
       <BrandCarousel />
+      <BrandDescription brandName={brandName} />
     </>
   );
 };
