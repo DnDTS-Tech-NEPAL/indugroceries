@@ -289,7 +289,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   Box,
@@ -316,12 +316,13 @@ import { calculateHeightAndWidth, extractMenu } from "@/utils";
 
 import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
-import { Login, Register } from "@/assets/svg";
+import { Login, Profile, Register } from "@/assets/svg";
 import { useNavMenuQuery } from "@/hooks/api/navMenu";
 import { ProfileDropdown } from "@/app/(user)/profile";
 import { NavItem } from "./NavItem";
 
 export const Navbar = () => {
+  const router = useRouter();
   const { data: config } = useConfigQuery();
   const { data: NavbarData } = useNavMenuQuery();
   const pathname = usePathname();
@@ -481,7 +482,8 @@ export const Navbar = () => {
                 </Box>
               </VisibleSection>
               {/* Profile */}
-              <ProfileDropdown />
+              <Profile cursor={"pointer"} height={22} width={22} onClick={() => router.push(ROUTES.USER.PROFILE)}
+              />
             </>
             </>
           {/* )} */}

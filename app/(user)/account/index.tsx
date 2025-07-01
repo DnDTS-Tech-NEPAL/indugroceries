@@ -13,6 +13,10 @@ import {
   AccountReturns,
   AccountReviews,
 } from "@/assets/svg";
+import { useQueryClient } from "@tanstack/react-query";
+import { removeTokenFromClient } from "@/service";
+import { useRouter } from "next/navigation";
+import { ROUTES } from "@/constants";
 
 export default function AccountDashboard() {
   const [activeSection, setActiveSection] = useState("personal");
@@ -121,6 +125,19 @@ export default function AccountDashboard() {
       image: "/placeholder.svg?height=60&width=60",
     },
   ];
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  const handleLogout = () => {
+    queryClient.invalidateQueries({ queryKey: ["user-profile"] });
+    removeTokenFromClient();
+    queryClient.resetQueries({ queryKey: ["user-profile"] });
+    router.push(ROUTES.APP.HOMEPAGE);
+    //Clear cart and wishlist count
+    queryClient.resetQueries({ queryKey: ["cart-count"] });
+    queryClient.resetQueries({ queryKey: ["wishlist-count"] });
+    queryClient.resetQueries({ queryKey: ["payment-method"] });
+  };
 
   return (
     <Box minH="100vh">
@@ -135,7 +152,17 @@ export default function AccountDashboard() {
             py={6}
             px={2}
           >
-            <Sidebar items={sidebarItems} onSelect={setActiveSection} />
+            {/* <Sidebar items={sidebarItems} onSelect={setActiveSection} /> */}
+            <Sidebar
+              items={sidebarItems}
+              onSelect={(id) => {
+                if (id === "logout") {
+                  handleLogout();
+                } else {
+                  setActiveSection(id);
+                }
+              }}
+            />
           </Box>
 
           <Box flex={1}>
