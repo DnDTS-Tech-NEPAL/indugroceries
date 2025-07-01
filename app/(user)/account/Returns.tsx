@@ -3,7 +3,6 @@
 import { useColorModeValue } from "@/components/ui/color-mode";
 import {
   Box,
-  Heading,
   VStack,
   Grid,
   Text,

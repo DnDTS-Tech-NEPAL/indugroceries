@@ -4,7 +4,6 @@ import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import AccountDashboard from ".";
 
-
 const UserAccount = () => {
   return (
     <>

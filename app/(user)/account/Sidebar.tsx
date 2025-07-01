@@ -1,9 +1,8 @@
 import { VStack, Button, Icon } from "@chakra-ui/react";
 
 export default function Sidebar({ items, onSelect }: any) {
-    
   return (
-    <VStack gap={2} align="stretch" >
+    <VStack gap={2} align="stretch">
       {items.map((item: any) => (
         <Button
           key={item.id}

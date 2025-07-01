@@ -17,8 +17,6 @@ import {
 export default function AccountDashboard() {
   const [activeSection, setActiveSection] = useState("personal");
   const bgColor = useColorModeValue("white", "gray.800");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-
   const sidebarItems = [
     {
       id: "personal",

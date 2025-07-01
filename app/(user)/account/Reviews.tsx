@@ -2,7 +2,6 @@
 
 import {
   Box,
-  Heading,
   VStack,
   Text,
   Flex,

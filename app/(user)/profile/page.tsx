@@ -10,7 +10,7 @@ import { useUserProfileQuery } from "@/hooks/api";
 
 const UserProfile = () => {
   const { data: profileData } = useUserProfileQuery();
-  const userData=profileData?.data[0];
+  const userData = profileData?.data[0];
 
   return (
     <>
