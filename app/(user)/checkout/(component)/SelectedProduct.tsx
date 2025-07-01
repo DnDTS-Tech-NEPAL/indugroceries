@@ -10,8 +10,8 @@ type Product = {
   price?: string;
   item_price?: string;
   total?: number;
-  discountedPrice?: number;
-  discountPercentage?: number;
+  discountedPrice?: string;
+  discountPercentage?: string;
   originalPrice?: number;
   quantity?: number;
 };
