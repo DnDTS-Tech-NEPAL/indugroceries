@@ -8,19 +8,18 @@ import { useState } from "react";
 import { Collapsible } from "@chakra-ui/react";
 
 interface BrandDescriptionProps {
-  brandName: string; // pass the brand name to show
+  brandName: string; 
 }
 
 export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
   const { data: brandData = [] } = useBrandsListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  // Find the brand matching the given name (case-insensitive)
+
   const brand = brandData.find(
     (b) => b.name.toLowerCase() === brandName.toLowerCase()
   );
 
-  // If no brand found, you can show fallback or nothing
   if (!brand) {
     return <Text>No brand found with the name "{brandName}"</Text>;
   }
