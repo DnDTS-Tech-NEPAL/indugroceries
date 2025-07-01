@@ -23,7 +23,7 @@ const defaultValues: SetPasswordType = {
   confirmPassword: "",
 };
 
-export default function PersonalInfo({ bgColor, borderColor }: any) {
+export default function PersonalInfo() {
   const { data: profileData } = useUserProfileQuery();
 
 
@@ -50,7 +50,7 @@ export default function PersonalInfo({ bgColor, borderColor }: any) {
   };
 
   return (
-    <Box bg={bgColor} rounded="lg" border="1px" borderColor={borderColor}>
+    <Box  rounded="lg" border="1px" >
       <Text fontSize={"2xl"} fontWeight={"medium"} mb={8}>
         Personal
       </Text>
