@@ -28,7 +28,6 @@ import { useCartQuery } from "@/hooks/api";
 const CheckoutSection = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free");
   const { data: selectedProducts = [], isLoading } = useCartQuery();
-  console.log("hello selected products", selectedProducts);
 
   const products = [
     {

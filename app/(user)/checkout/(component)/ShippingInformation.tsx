@@ -6,7 +6,7 @@ import {
   FormHelperText,
   FormLabel,
 } from "@chakra-ui/form-control";
-import { Portal, Select, createListCollection } from "@chakra-ui/react";
+// import { Portal, Select, createListCollection } from "@chakra-ui/react";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -14,21 +14,21 @@ import {
   AccordionRoot,
 } from "@/components";
 
-const countriesCollection = createListCollection({
-  items: [
-    { label: "United States", value: "us" },
-    { label: "Canada", value: "ca" },
-    { label: "United Kingdom", value: "uk" },
-  ],
-});
+// const countriesCollection = createListCollection({
+//   items: [
+//     { label: "United States", value: "us" },
+//     { label: "Canada", value: "ca" },
+//     { label: "United Kingdom", value: "uk" },
+//   ],
+// });
 
-const provincesCollection = createListCollection({
-  items: [
-    { label: "California", value: "ca" },
-    { label: "New York", value: "ny" },
-    { label: "Texas", value: "tx" },
-  ],
-});
+// const provincesCollection = createListCollection({
+//   items: [
+//     { label: "California", value: "ca" },
+//     { label: "New York", value: "ny" },
+//     { label: "Texas", value: "tx" },
+//   ],
+// });
 
 const ShippingInformation = () => {
   const title = "Shipping Information";

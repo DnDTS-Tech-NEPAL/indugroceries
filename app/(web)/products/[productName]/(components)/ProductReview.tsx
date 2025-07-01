@@ -21,10 +21,10 @@ import {
 } from "@chakra-ui/react";
 import { ProgressCircle, Progress } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
-import { FilePenLine, Pen, StarIcon } from "lucide-react";
+import { FilePenLine, StarIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { FaPenAlt, FaStar, FaUserCircle } from "react-icons/fa";
+import { FaStar, FaUserCircle } from "react-icons/fa";
 
 const ProductReview = ({ item_code }: { item_code: string }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);

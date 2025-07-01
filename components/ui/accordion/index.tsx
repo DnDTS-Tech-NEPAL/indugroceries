@@ -1,7 +1,6 @@
 import * as React from "react";
 import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { Accordion, Box, HStack } from "@chakra-ui/react";
-import { AddIcon, SubtractIcon } from "@/assets/svg";
 import { ExtendedAccordionItemTriggerProps } from "@/types";
 
 type AccordionItemTriggerProps = React.ComponentProps<
