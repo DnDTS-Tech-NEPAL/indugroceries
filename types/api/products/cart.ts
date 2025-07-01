@@ -7,6 +7,10 @@ export type CartType = {
   custom_minimum_order_quantity: number;
   custom_maximum_order_quantity: number;
   custom_increment_on_quantity: number;
+  discount_percentage: number;
+  discounted_price: number;
+  total: number;
+  stock_qty: number;
 };
 
 export type CartAPIResponseType = {

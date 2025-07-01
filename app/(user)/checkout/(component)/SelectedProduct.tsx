@@ -1,5 +1,6 @@
 "use client";
 import { useConfigQuery } from "@/hooks/api";
+import { CartType } from "@/types";
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 type Product = {
@@ -7,8 +8,11 @@ type Product = {
   title: string;
   image?: string;
   name?: string;
-  price?: string;
+  price?: number;
+  item_price?: number;
+  total?: number;
   discountedPrice?: number;
+  discountPercentage?: number;
   originalPrice?: number;
   quantity?: number;
 };
@@ -42,19 +46,24 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
                   </Text>
                   <HStack gap={2}>
                     <Text fontSize="md" fontWeight="bold" color="pink.500">
-                      Rs {product.price}
+                      Rs {product.discountedPrice}
                     </Text>
                     <Text fontSize="sm" color="pink.400">
                       Discounted Price
                     </Text>
                   </HStack>
-                  <Text
-                    fontSize="xs"
-                    color="gray.500"
-                    textDecoration="line-through"
-                  >
-                    Rs {product.originalPrice}
-                  </Text>
+                  <HStack gap={2}>
+                    <Text
+                      fontSize="xs"
+                      color="gray.500"
+                      textDecoration="line-through"
+                    >
+                      Rs {product.price}
+                    </Text>
+                    <Text fontSize="xs" color="pink.400">
+                      {product.discountPercentage} % Off
+                    </Text>
+                  </HStack>
                 </VStack>
               </HStack>
               <Text
