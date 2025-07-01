@@ -1,6 +1,5 @@
 "use client";
 import { useConfigQuery } from "@/hooks/api";
-import { CartType } from "@/types";
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 type Product = {
