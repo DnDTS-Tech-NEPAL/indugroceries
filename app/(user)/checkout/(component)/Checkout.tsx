@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -8,55 +8,65 @@ import {
   VStack,
   Box,
   Separator,
-  HStack,
   Input,
   Button,
   Text,
   Spinner,
+  Flex,
 } from "@chakra-ui/react";
 
-import { Checkbox } from "@/components";
+import { Checkbox, FormProvider } from "@/components";
 import ShippingInformation from "./ShippingInformation";
 import DeliveryMethod from "./DeliveryMethod";
 import PaymentInformation from "./PaymentInformation";
-import RelatedProducts from "./RelatedProducts";
 import SelectedProduct from "./SelectedProduct";
-import { InputGroup } from "@/components/form/input/InputGroup";
 import { FaTags } from "react-icons/fa";
-import { useCartQuery } from "@/hooks/api";
+import { useAddPromo, useCartQuery } from "@/hooks/api";
+import { useSummary } from "@/hooks/app";
+import { usePromoFormStore, usePromoStore } from "@/store";
+import { PromoFormData } from "@/types";
+import { useForm } from "react-hook-form";
+import { InputGroup } from "@/components/form/input/InputGroup";
 
 const CheckoutSection = () => {
   const [deliveryMethod, setDeliveryMethod] = useState("free");
   const { data: selectedProducts = [], isLoading } = useCartQuery();
+  const methods = useForm<PromoFormData>();
+  const { summaryItems, total } = useSummary();
+  const { mutate: applyPromo } = useAddPromo();
+  const { setPromoData, promoData } = usePromoStore();
+  const { resetFlag, clearResetFlag, setPromoCode, setDeliveryLocation } =
+    usePromoFormStore();
+  const promoCode = methods.watch("promoCode");
 
-  const products = [
-    {
-      id: "1",
-      name: "Dark Spot Glow Cream",
-      image: "/placeholder.svg?height=80&width=80",
-      originalPrice: 2500,
-      discountedPrice: 2000,
-      quantity: 1,
-    },
-    {
-      id: "2",
-      name: "CICA Houttuynia Tea Tree",
-      image: "/placeholder.svg?height=80&width=80",
-      originalPrice: 2000,
-      discountedPrice: 1800,
-      quantity: 1,
-    },
-    {
-      id: "3",
-      name: "Probio CICA Enrich Cream",
-      image: "/placeholder.svg?height=80&width=80",
-      originalPrice: 1200,
-      discountedPrice: 900,
-      quantity: 1,
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: "1",
+  //     name: "Dark Spot Glow Cream",
+  //     image: "/placeholder.svg?height=80&width=80",
+  //     originalPrice: 2500,
+  //     discountedPrice: 2000,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "CICA Houttuynia Tea Tree",
+  //     image: "/placeholder.svg?height=80&width=80",
+  //     originalPrice: 2000,
+  //     discountedPrice: 1800,
+  //     quantity: 1,
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "Probio CICA Enrich Cream",
+  //     image: "/placeholder.svg?height=80&width=80",
+  //     originalPrice: 1200,
+  //     discountedPrice: 900,
+  //     quantity: 1,
+  //   },
+  // ];
 
-  // const selectedProducts = [
+  // const relatedProducts = [
   //   {
   //     id: "4",
   //     name: "Radiant Glow Vitamin C",
@@ -73,34 +83,52 @@ const CheckoutSection = () => {
   //   },
   // ];
 
-  const relatedProducts = [
-    {
-      id: "4",
-      name: "Radiant Glow Vitamin C",
-      image: "/placeholder.svg?height=60&width=60",
-      originalPrice: 3500,
-      discountedPrice: 2000,
-    },
-    {
-      id: "5",
-      name: "Hydra Boost Serum",
-      image: "/placeholder.svg?height=60&width=60",
-      originalPrice: 3000,
-      discountedPrice: 1800,
-    },
-  ];
-
-  const subtotal = products.reduce(
-    (sum, item) => sum + item.discountedPrice * item.quantity,
-    0
-  );
   const shipping = deliveryMethod === "express" ? 100 : 0;
-  const discountCode = 50;
-  const membershipPoints = 50;
-  const totalDiscount = 100;
-  const total =
-    subtotal + shipping - discountCode - membershipPoints - totalDiscount;
+  useEffect(() => {
+    if (!promoCode && promoData) {
+      applyPromo(
+        {
+          coupon: "",
+          delivery_charge: String(shipping),
+        },
+        {
+          onSuccess: (response) => {
+            setPromoData(response.data.data);
+          },
+        }
+      );
+    }
+  }, [promoCode, promoData, shipping, deliveryMethod]);
+  const onSubmit = (data: PromoFormData) => {
+    const promo = data.promoCode?.trim() || "";
 
+    setPromoCode(promo);
+
+    applyPromo(
+      {
+        coupon: promo,
+        delivery_charge: String(shipping),
+      },
+      {
+        onSuccess: (response) => {
+          setPromoData(response.data.data);
+        },
+      }
+    );
+  };
+
+  useEffect(() => {
+    if (resetFlag) {
+      methods.reset({
+        promoCode: "",
+        deliveryLocation: "",
+      });
+
+      setPromoCode("");
+      setDeliveryLocation("");
+      clearResetFlag();
+    }
+  }, [resetFlag]);
   return (
     <Container maxW="7xl" py={8} spaceY={6}>
       <Text
@@ -167,19 +195,34 @@ const CheckoutSection = () => {
                 <SelectedProduct products={selectedProducts} />
               )}
 
-              <InputGroup
-                startElement={<FaTags color="#D0D0D0" size={20} />}
-                endElement="Apply"
-              >
-                <Input
-                  placeholder="Discount Code"
-                  fontSize="sm"
-                  _placeholder={{ color: "gray.400" }}
-                  p={3}
-                />
-              </InputGroup>
-
-              <VStack gap={2} align="stretch">
+              <FormProvider methods={methods} onSubmit={onSubmit}>
+                <InputGroup
+                  startElement={<FaTags color="#D0D0D0" size={20} />}
+                  endElement={
+                    <Button
+                      type="submit"
+                      size="xs"
+                      bg={"transparent"}
+                      position={"absolute"}
+                      right={"1rem"}
+                      color={"#D0D0D0"}
+                      me="-2"
+                      zIndex={5}
+                    >
+                      Apply
+                    </Button>
+                  }
+                >
+                  <Input
+                    {...methods.register("promoCode")}
+                    placeholder="Discount Code"
+                    fontSize="sm"
+                    _placeholder={{ color: "gray.400" }}
+                    p={3}
+                  />
+                </InputGroup>
+              </FormProvider>
+              {/* <VStack gap={2} align="stretch">
                 <HStack justify="space-between">
                   <Text fontSize="sm">Subtotal</Text>
                   <Text fontSize="sm">Rs {subtotal}</Text>
@@ -206,18 +249,54 @@ const CheckoutSection = () => {
                     -Rs {totalDiscount}
                   </Text>
                 </HStack>
+              </VStack> */}
+              <VStack align="stretch" gap={4} mt={{ base: "24px", lg: "32px" }}>
+                {summaryItems.map(({ label, value }, index) => (
+                  <Flex justify="space-between" key={index} width="full">
+                    <Text
+                      variant="subtitle1"
+                      color="system.neutral.separator.black.dark"
+                      fontWeight={500}
+                      fontSize={"14px"}
+                    >
+                      {label}
+                    </Text>
+                    <Text
+                      variant="subtitle1"
+                      fontWeight={400}
+                      color={"primary.400"}
+                    >
+                      {value}
+                    </Text>
+                  </Flex>
+                ))}
+
+                <Separator my={2} />
+
+                <Flex justify="space-between" width="full">
+                  <Text
+                    variant="subtitle2"
+                    color="system.neutral.separator.black.dark"
+                    fontWeight={500}
+                  >
+                    Total
+                  </Text>
+                  <Text
+                    variant="subtitle1"
+                    fontWeight={400}
+                    color="primary.400"
+                  >
+                    {total}
+                  </Text>
+                </Flex>
               </VStack>
-
               <Separator />
-
-              <HStack justify="space-between">
-                <Text fontWeight="medium">Total</Text>
-                <Text fontWeight="medium" fontSize="lg">
-                  Rs {total}
-                </Text>
-              </HStack>
-
-              <RelatedProducts products={relatedProducts} />
+              {/* <RelatedProducts products={relatedProducts} /> */}
+              <Input
+                placeholder="Add Special Note in your order"
+                textAlign="center"
+                h={20}
+              />
             </VStack>
           </Box>
         </GridItem>
