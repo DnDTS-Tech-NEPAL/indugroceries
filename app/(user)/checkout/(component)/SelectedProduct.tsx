@@ -47,26 +47,28 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
                     <Text fontSize="md" fontWeight="bold" color="pink.500">
                       Rs {product.discountedPrice}
                     </Text>
-                    {product.discountPercentage && product.discountPercentage !== "0.00" ? (
+                    {product.discountPercentage &&
+                    product.discountPercentage !== "0.00" ? (
                       <Text fontSize="sm" color="pink.400">
-                      Discounted Price
-                    </Text>
-                    ):null}
+                        Discounted Price
+                      </Text>
+                    ) : null}
                   </HStack>
-                  {product.discountPercentage && product.discountPercentage !== "0.00" ? (
+                  {product.discountPercentage &&
+                  product.discountPercentage !== "0.00" ? (
                     <HStack gap={2}>
-                    <Text
-                      fontSize="xs"
-                      color="gray.500"
-                      textDecoration="line-through"
-                    >
-                      Rs {product.price}
-                    </Text>
-                    <Text fontSize="xs" color="pink.400">
-                      {product.discountPercentage} % Off
-                    </Text>
-                  </HStack>
-                  ): null}
+                      <Text
+                        fontSize="xs"
+                        color="gray.500"
+                        textDecoration="line-through"
+                      >
+                        Rs {product.price}
+                      </Text>
+                      <Text fontSize="xs" color="pink.400">
+                        {product.discountPercentage} % Off
+                      </Text>
+                    </HStack>
+                  ) : null}
                 </VStack>
               </HStack>
               <Text

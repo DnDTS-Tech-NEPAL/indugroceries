@@ -15,7 +15,7 @@ import {
   // FormProvider,
 } from "@/components";
 import { useAddPromo, useDeliveryLocationsQuery } from "@/hooks/api";
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { usePromoFormStore, usePromoStore } from "@/store";
 
 // const countriesCollection = createListCollection({
@@ -38,10 +38,8 @@ const ShippingInformation = () => {
   const title = "Shipping Information";
   const { data: deliveryData } = useDeliveryLocationsQuery();
   const { mutate: applyPromo } = useAddPromo();
-
-  const { setPromoData, promoData } = usePromoStore();
-  const { resetFlag, clearResetFlag, setPromoCode, setDeliveryLocation } =
-    usePromoFormStore();
+  const { setPromoData } = usePromoStore();
+  const { setDeliveryLocation } = usePromoFormStore();
   const methods = useForm({
     defaultValues: {
       deliveryLocation: {
@@ -52,7 +50,7 @@ const ShippingInformation = () => {
   });
 
   //  const promoCode = methods.watch("promoCode");
-  const deliveryLocation = methods.watch("deliveryLocation");
+  // const deliveryLocation = methods.watch("deliveryLocation");
 
   //    useEffect(() => {
   //   const selectedPlace = deliveryLocation?.place || "";
