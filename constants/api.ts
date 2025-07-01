@@ -89,7 +89,9 @@ export const API_ROUTES = {
     ORDER: {
       POST: "orderpost",
       LIST: "orderlist",
-      DELIVERY: "deliverycharges",
+      // DELIVERY: "deliverycharges",
+      DELIVERY: "deliverylocations",
+
     },
     PROMO: {
       POST: "couponcalculation",

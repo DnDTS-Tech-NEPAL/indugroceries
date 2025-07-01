@@ -8,7 +8,7 @@ import { Box, Flex, Separator, Text, VStack } from "@chakra-ui/react";
 
 import { Button, FormProvider, TextFieldInput } from "@/components";
 import { ROUTES } from "@/constants";
-import { useAddPromo, useDeliveryChargesQuery } from "@/hooks/api";
+import { useAddPromo, useDeliveryLocationsQuery } from "@/hooks/api";
 import { useSummary } from "@/hooks/app";
 import { usePromoFormStore, usePromoStore } from "@/store";
 import { PromoFormData } from "@/types";
@@ -19,7 +19,7 @@ export const Summary = ({ disabled = false }) => {
 
   const { summaryItems, total } = useSummary();
   const { mutate: applyPromo, isPending } = useAddPromo();
-  const { data: deliveryData } = useDeliveryChargesQuery();
+  const { data: deliveryData } = useDeliveryLocationsQuery();
 
   const { setPromoData, promoData } = usePromoStore();
   const { resetFlag, clearResetFlag, setPromoCode, setDeliveryLocation } =
@@ -33,7 +33,7 @@ export const Summary = ({ disabled = false }) => {
       const delivery =
         deliveryLocation ||
         (Array.isArray(deliveryData) && deliveryData.length > 0
-          ? deliveryData[0].name1
+          ? deliveryData[0].place
           : "");
 
       applyPromo(
@@ -54,7 +54,7 @@ export const Summary = ({ disabled = false }) => {
     const delivery =
       data.deliveryLocation ||
       (Array.isArray(deliveryData) && deliveryData.length > 0
-        ? deliveryData[0].name1
+        ? deliveryData[0].place
         : "");
 
     const promo = data.promoCode?.trim() || "";
@@ -165,8 +165,8 @@ export const Summary = ({ disabled = false }) => {
               </option>
               {Array.isArray(deliveryData) &&
                 deliveryData.map((item, index) => (
-                  <option key={index} value={item.name1}>
-                    {item.name1}
+                  <option key={index} value={item.place}>
+                    {item.place}
                   </option>
                 ))}
             </select>
