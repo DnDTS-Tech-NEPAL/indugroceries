@@ -25,8 +25,6 @@ const defaultValues: SetPasswordType = {
 
 export default function PersonalInfo() {
   const { data: profileData } = useUserProfileQuery();
-
-
   const methods = useForm<SetPasswordType>({
     resolver: zodResolver(setPasswordSchema),
     defaultValues,
@@ -50,7 +48,7 @@ export default function PersonalInfo() {
   };
 
   return (
-    <Box  rounded="lg" border="1px" >
+    <Box rounded="lg" border="1px">
       <Text fontSize={"2xl"} fontWeight={"medium"} mb={8}>
         Personal
       </Text>
@@ -61,14 +59,14 @@ export default function PersonalInfo() {
               <FormLabel>Full Name</FormLabel>
               <Input
                 placeholder="First name"
-                value={profileData?.customer_name}
+                value={profileData?.data[0]?.customer_name}
               />
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl>
               <FormLabel>Email Address</FormLabel>
-              <Input placeholder="Email" value={profileData?.user} />
+              <Input placeholder="Email" value={profileData?.data[0]?.user} />
             </FormControl>
           </GridItem>
           <GridItem>
@@ -76,7 +74,7 @@ export default function PersonalInfo() {
               <FormLabel>Phone Number</FormLabel>
               <Input
                 placeholder="Phone"
-                value={profileData?.custom_customer_contact}
+                value={profileData?.data[0]?.custom_customer_contact}
               />
             </FormControl>
           </GridItem>
@@ -85,7 +83,7 @@ export default function PersonalInfo() {
               <FormLabel>Date of Birth</FormLabel>
               <Input
                 placeholder="Date of Birth"
-                value={profileData?.custom_date_of_birth}
+                value={profileData?.data[0]?.custom_date_of_birth}
               />
             </FormControl>
           </GridItem>
