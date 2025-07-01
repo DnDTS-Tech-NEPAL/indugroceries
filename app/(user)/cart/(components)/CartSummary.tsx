@@ -188,9 +188,21 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
                 {row.original.type}
                 {row.original.subType && ` / ${row.original.subType}`}
               </Text> */}
-              <Text variant="subtitle3" color="primary.300">
-                {config.currency} {row.original.price}
+              <Text variant="subtitle3" fontSize={"md"} color="primary.300">
+                {config.currency} {row.original.discountedPrice}
               </Text>
+              <HStack gap={2}>
+                <Text
+                  variant="subtitle3"
+                  color="gray.500"
+                  textDecoration="line-through"
+                >
+                  {config.currency} {row.original.price}
+                </Text>
+                <Text variant="subtitle3" color="pink.400">
+                  {row.original.discountPercentage} % Off
+                </Text>
+              </HStack>
             </Stack>
           </HStack>
         ),
@@ -234,10 +246,11 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
       {
         header: "Subtotal",
         accessorFn: (row: ProductDetail) => {
-          return parseInt(row.price) * row.quantity;
+          return parseInt(row.discountedPrice) * row.quantity;
         },
         cell: ({ row }) => {
-          const total = parseFloat(row.original.price) * row.original.quantity;
+          const total =
+            parseFloat(row.original.discountedPrice) * row.original.quantity;
           const formattedTotal =
             total % 1 === 0
               ? total
