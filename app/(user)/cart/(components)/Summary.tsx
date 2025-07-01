@@ -39,7 +39,8 @@ export const Summary = ({ disabled = false }) => {
       applyPromo(
         {
           coupon: "",
-          delivery_charge: delivery,
+          delivery_place: delivery,
+          loyalty_points: 0,
         },
         {
           onSuccess: (response) => {
@@ -65,7 +66,8 @@ export const Summary = ({ disabled = false }) => {
     applyPromo(
       {
         coupon: promo,
-        delivery_charge: delivery,
+        delivery_place: delivery,
+        loyalty_points: 0,
       },
       {
         onSuccess: (response) => {
@@ -82,7 +84,8 @@ export const Summary = ({ disabled = false }) => {
       applyPromo(
         {
           coupon: promoCode?.trim() || "",
-          delivery_charge: deliveryLocation,
+          delivery_place: deliveryLocation,
+          loyalty_points: 0,
         },
         {
           onSuccess: (response) => {

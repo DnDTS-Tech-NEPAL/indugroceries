@@ -14,8 +14,9 @@ import {
   AccordionRoot,
   // FormProvider,
 } from "@/components";
-import { useDeliveryLocationsQuery } from "@/hooks/api";
-import { useForm } from "react-hook-form";
+import { useAddPromo, useDeliveryLocationsQuery } from "@/hooks/api";
+import { set, useForm } from "react-hook-form";
+import { usePromoFormStore, usePromoStore } from "@/store";
 
 // const countriesCollection = createListCollection({
 //   items: [
@@ -34,7 +35,13 @@ import { useForm } from "react-hook-form";
 // });
 
 const ShippingInformation = () => {
+  const title = "Shipping Information";
   const { data: deliveryData } = useDeliveryLocationsQuery();
+  const { mutate: applyPromo } = useAddPromo();
+
+  const { setPromoData, promoData } = usePromoStore();
+  const { resetFlag, clearResetFlag, setPromoCode, setDeliveryLocation } =
+    usePromoFormStore();
   const methods = useForm({
     defaultValues: {
       deliveryLocation: {
@@ -43,7 +50,28 @@ const ShippingInformation = () => {
       },
     },
   });
-  const title = "Shipping Information";
+
+  //  const promoCode = methods.watch("promoCode");
+  const deliveryLocation = methods.watch("deliveryLocation");
+
+  //    useEffect(() => {
+  //   const selectedPlace = deliveryLocation?.place || "";
+
+  //   if (!promoData) {
+  //     applyPromo(
+  //       {
+  //         coupon: "",
+  //         delivery_place: selectedPlace,
+  //         loyalty_points: 0,
+  //       },
+  //       {
+  //         onSuccess: (response) => {
+  //           setPromoData(response.data.data);
+  //         },
+  //       }
+  //     );
+  //   }
+  // }, [deliveryLocation.place, promoData]);
 
   return (
     <VStack alignItems="stretch">
@@ -131,6 +159,7 @@ const ShippingInformation = () => {
                           e.target.value
                         );
                         methods.setValue("deliveryLocation.place", "");
+                        setDeliveryLocation(e.target.value);
                       }}
                       style={{
                         width: "100%",
@@ -162,6 +191,29 @@ const ShippingInformation = () => {
                     <select
                       id="place"
                       {...methods.register("deliveryLocation.place")}
+                      onChange={(e) => {
+                        const selectedPlace = e.target.value;
+
+                        methods.setValue(
+                          "deliveryLocation.place",
+                          selectedPlace
+                        );
+
+                        // Apply promo immediately when a place is selected
+                        applyPromo(
+                          {
+                            coupon: "",
+                            delivery_place: selectedPlace,
+                            loyalty_points: 0,
+                          },
+                          {
+                            onSuccess: (response) => {
+                              setDeliveryLocation(selectedPlace);
+                              setPromoData(response.data.data);
+                            },
+                          }
+                        );
+                      }}
                       style={{
                         width: "100%",
                         padding: "10px",
@@ -189,8 +241,21 @@ const ShippingInformation = () => {
                   </Box>
                 </HStack>
               )}
-              {/* Address Section */}
-              {/* <Stack direction={{ base: "column", md: "row" }} gap={4}  width="full" >
+            </VStack>
+          </AccordionItemContent>
+        </AccordionItem>
+      </AccordionRoot>
+    </VStack>
+  );
+};
+
+export default ShippingInformation;
+
+{
+  /* Address Section */
+}
+{
+  /* <Stack direction={{ base: "column", md: "row" }} gap={4}  width="full" >
                  <FormControl isRequired width="full" flex={1}>
                   <FormLabel>Country / Region</FormLabel>
                   <Select.Root
@@ -280,13 +345,5 @@ const ShippingInformation = () => {
                   <FormLabel>Zip Code</FormLabel>
                   <Input placeholder="Zip Code" mt={2} />
                 </FormControl>
-              </Stack>  */}
-            </VStack>
-          </AccordionItemContent>
-        </AccordionItem>
-      </AccordionRoot>
-    </VStack>
-  );
-};
-
-export default ShippingInformation;
+              </Stack>  */
+}

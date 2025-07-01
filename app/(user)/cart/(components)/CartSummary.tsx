@@ -70,7 +70,8 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
     applyPromo(
       {
         coupon: "",
-        delivery_charge: "",
+        delivery_place: "",
+        loyalty_points: 0,
       },
       {
         onSuccess: (res) => {
@@ -119,7 +120,8 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
             applyPromo(
               {
                 coupon: "",
-                delivery_charge: "",
+                delivery_place: "",
+                loyalty_points: 0,
               },
               {
                 onSuccess: (res) => {

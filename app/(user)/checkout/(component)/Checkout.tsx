@@ -35,61 +35,21 @@ const CheckoutSection = () => {
   const { summaryItems, total } = useSummary();
   const { mutate: applyPromo } = useAddPromo();
   const { setPromoData, promoData } = usePromoStore();
-  const { resetFlag, clearResetFlag, setPromoCode, setDeliveryLocation } =
-    usePromoFormStore();
+  const {
+    resetFlag,
+    clearResetFlag,
+    deliveryLocation,
+    setPromoCode,
+    setDeliveryLocation,
+  } = usePromoFormStore();
   const promoCode = methods.watch("promoCode");
 
-  // const products = [
-  //   {
-  //     id: "1",
-  //     name: "Dark Spot Glow Cream",
-  //     image: "/placeholder.svg?height=80&width=80",
-  //     originalPrice: 2500,
-  //     discountedPrice: 2000,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: "2",
-  //     name: "CICA Houttuynia Tea Tree",
-  //     image: "/placeholder.svg?height=80&width=80",
-  //     originalPrice: 2000,
-  //     discountedPrice: 1800,
-  //     quantity: 1,
-  //   },
-  //   {
-  //     id: "3",
-  //     name: "Probio CICA Enrich Cream",
-  //     image: "/placeholder.svg?height=80&width=80",
-  //     originalPrice: 1200,
-  //     discountedPrice: 900,
-  //     quantity: 1,
-  //   },
-  // ];
-
-  // const relatedProducts = [
-  //   {
-  //     id: "4",
-  //     name: "Radiant Glow Vitamin C",
-  //     image: "/placeholder.svg?height=60&width=60",
-  //     originalPrice: 3500,
-  //     discountedPrice: 2000,
-  //   },
-  //   {
-  //     id: "5",
-  //     name: "Hydra Boost Serum",
-  //     image: "/placeholder.svg?height=60&width=60",
-  //     originalPrice: 3000,
-  //     discountedPrice: 1800,
-  //   },
-  // ];
-
-  // const shipping = deliveryMethod === "express" ? 100 : 0;
   useEffect(() => {
-    if (!promoCode && promoData) {
+    if (!promoData) {
       applyPromo(
         {
           coupon: "",
-          delivery_place: "",
+          delivery_place: deliveryLocation,
           loyalty_points: 0,
         },
         {
@@ -99,7 +59,7 @@ const CheckoutSection = () => {
         }
       );
     }
-  }, [promoCode, promoData, deliveryMethod]);
+  }, [promoCode, promoData]);
   const onSubmit = (data: PromoFormData) => {
     const promo = data.promoCode?.trim() || "";
 
@@ -108,7 +68,7 @@ const CheckoutSection = () => {
     applyPromo(
       {
         coupon: promo,
-        delivery_place: "",
+        delivery_place: deliveryLocation,
         loyalty_points: 0,
       },
       {
