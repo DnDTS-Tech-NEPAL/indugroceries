@@ -37,7 +37,7 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
       </Text>
       <Box>
         {brand.description && (
-          <Text fontSize="lg" color="gray.500" textAlign="center" mt={12}>
+          <Text fontSize="md"   mt={12}>
             {brand.description}
           </Text>
         )}
@@ -51,9 +51,9 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
                   e.preventDefault();
                   setIsExpanded(!isExpanded);
                 }}
-                style={{ color: "blue" }}
+                style={{ color: "blue", marginTop: "10px", textDecoration: "underline" }}
               >
-                Learn more
+                Show more
               </Link>
             </Collapsible.Trigger>
             <Collapsible.Content>
