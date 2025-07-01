@@ -1,7 +1,7 @@
 export type CartType = {
   item_code: string;
   quantity: number;
-  item_price: number;
+  item_price: string;
   image_url: string;
   item_group: string;
   custom_minimum_order_quantity: number;

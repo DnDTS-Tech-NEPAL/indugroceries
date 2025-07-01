@@ -7,8 +7,8 @@ type Product = {
   title: string;
   image?: string;
   name?: string;
-  price?: number;
-  item_price?: number;
+  price?: string;
+  item_price?: string;
   total?: number;
   discountedPrice?: number;
   discountPercentage?: number;
