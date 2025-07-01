@@ -28,6 +28,7 @@ export type PromoData = {
   total_tax: number;
   total_after_tax: number;
   discount_amount: number;
+  loyalty_points_discount?: number;
   grand_total_after_discount: number;
   delivery_charge: number;
   final_total: number;

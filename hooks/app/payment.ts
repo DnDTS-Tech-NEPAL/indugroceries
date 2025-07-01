@@ -26,7 +26,7 @@ export const usePaymentMethods = () => {
     paymentMethod?.map((method: any) => ({
       icon: method.icon_link,
       description: method.description,
-      value: method.name ,
+      value: method.name,
     })) || defaultItems;
 
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
@@ -54,20 +54,20 @@ export const useSummary = () => {
   const ShippingValue = calculationData?.delivery_charge ?? 0;
   // const EstimatedTax = calculationData?.total_tax ?? 0;
   const Discount = calculationData?.discount_amount ?? 0;
+  const loyalty = calculationData?.loyalty_points_discount ?? 0;
   // const TotalAfterTax = calculationData?.total_after_tax ?? 0;
-  const TotalAfterDiscount = calculationData?.grand_total_after_discount ?? 0;
+  const TotalAfterDiscount = Discount + loyalty;
 
   const summaryItems = [
     { label: "Sub Total", value: `${config.currency} ${subTotal}` },
     { label: "Shipping", value: `${config.currency} ${ShippingValue}` },
     { label: "Discount Code", value: `${config.currency} ${Discount}` },
-    { label: "Membership Points", value: `${config.currency} ${Discount}` },
-
+    { label: "Membership Points", value: `${config.currency} ${loyalty}` },
 
     // { label: "Estimated Tax", value: `${config.currency} ${EstimatedTax}` },
     // { label: "Sub Total + Tax", value: `${config.currency} ${TotalAfterTax}` },
     {
-      label: "Total After Discount",
+      label: "Total  Discount",
       value: `${config.currency} ${TotalAfterDiscount}`,
     },
   ];
