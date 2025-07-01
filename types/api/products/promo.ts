@@ -1,6 +1,8 @@
+import { LoyaltyPoints } from '@/assets/svg';
 export type PromoCouponType = {
   coupon: string;
-  delivery_charge: string;
+  delivery_place: string;
+  loyalty_points: number;
 };
 
 export type PromoCouponResponseData = {
@@ -19,6 +21,7 @@ export type PromoCouponResponseData = {
 export type PromoFormData = {
   promoCode: string;
   deliveryLocation: string;
+  LoyaltyPoints:number;
 };
 
 export type PromoData = {

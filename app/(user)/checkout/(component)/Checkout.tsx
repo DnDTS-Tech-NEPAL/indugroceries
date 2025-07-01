@@ -83,13 +83,14 @@ const CheckoutSection = () => {
   //   },
   // ];
 
-  const shipping = deliveryMethod === "express" ? 100 : 0;
+  // const shipping = deliveryMethod === "express" ? 100 : 0;
   useEffect(() => {
     if (!promoCode && promoData) {
       applyPromo(
         {
           coupon: "",
-          delivery_charge: String(shipping),
+          delivery_place: "",
+          loyalty_points: 0,
         },
         {
           onSuccess: (response) => {
@@ -98,7 +99,7 @@ const CheckoutSection = () => {
         }
       );
     }
-  }, [promoCode, promoData, shipping, deliveryMethod]);
+  }, [promoCode, promoData, deliveryMethod]);
   const onSubmit = (data: PromoFormData) => {
     const promo = data.promoCode?.trim() || "";
 
@@ -107,7 +108,8 @@ const CheckoutSection = () => {
     applyPromo(
       {
         coupon: promo,
-        delivery_charge: String(shipping),
+        delivery_place: "",
+        loyalty_points: 0,
       },
       {
         onSuccess: (response) => {
