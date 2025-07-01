@@ -191,18 +191,21 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
               <Text variant="subtitle3" fontSize={"md"} color="primary.300">
                 {config.currency} {row.original.discountedPrice}
               </Text>
-              <HStack gap={2}>
-                <Text
-                  variant="subtitle3"
-                  color="gray.500"
-                  textDecoration="line-through"
-                >
-                  {config.currency} {row.original.price}
-                </Text>
-                <Text variant="subtitle3" color="pink.400">
-                  {row.original.discountPercentage} % Off
-                </Text>
-              </HStack>
+              {row.original.discountPercentage &&
+              row.original.discountPercentage !== "0.00" ? (
+                <HStack gap={2}>
+                  <Text
+                    variant="subtitle3"
+                    color="gray.500"
+                    textDecoration="line-through"
+                  >
+                    {config.currency} {row.original.price}
+                  </Text>
+                  <Text variant="subtitle3" color="pink.400">
+                    {row.original.discountPercentage} % Off
+                  </Text>
+                </HStack>
+              ) : null}
             </Stack>
           </HStack>
         ),
