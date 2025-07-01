@@ -59,14 +59,15 @@ export const useSummary = () => {
 
   const summaryItems = [
     { label: "Sub Total", value: `${config.currency} ${subTotal}` },
+    { label: "Shipping", value: `${config.currency} ${ShippingValue}` },
+    { label: "Discount Code", value: `${config.currency} ${Discount}` },
+
     { label: "Estimated Tax", value: `${config.currency} ${EstimatedTax}` },
     { label: "Sub Total + Tax", value: `${config.currency} ${TotalAfterTax}` },
-    { label: "Discount", value: `${config.currency} ${Discount}` },
     {
       label: "Total After Discount",
       value: `${config.currency} ${TotalAfterDiscount}`,
     },
-    { label: "Shipping", value: `${config.currency} ${ShippingValue}` },
   ];
 
   const total = calculationData?.final_total;
