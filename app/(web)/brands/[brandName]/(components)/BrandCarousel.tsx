@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Box, Collapsible, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { Swiper as SwiperCore, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
 import { useBrandsListQuery } from "@/hooks/api";
@@ -67,4 +67,3 @@ export const BrandCarousel = () => {
     </Box>
   );
 };
-

@@ -8,10 +8,9 @@ import { BrandDetailPageProps } from "@/types";
 import { BrandDescription } from "./(components)";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
-
   const brand = await getBrandDetailByName();
   const brandName = decodeURI((await params).brandName);
-  
+
   if (!brand || brand.error) {
     return redirect(ROUTES.NOT_FOUND);
   }

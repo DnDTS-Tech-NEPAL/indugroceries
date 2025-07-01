@@ -8,20 +8,19 @@ import { useState } from "react";
 import { Collapsible } from "@chakra-ui/react";
 
 interface BrandDescriptionProps {
-  brandName: string; 
+  brandName: string;
 }
 
 export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
   const { data: brandData = [] } = useBrandsListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
-
   const brand = brandData.find(
     (b) => b.name.toLowerCase() === brandName.toLowerCase()
   );
 
   if (!brand) {
-    return <Text>No brand found with the name "{brandName}"</Text>;
+    return <Text>No brand found with the name &quot;{brandName}&quot;</Text>;
   }
 
   return (
@@ -37,7 +36,7 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
       </Text>
       <Box>
         {brand.description && (
-          <Text fontSize="md"   mt={12}>
+          <Text fontSize="md" mt={12}>
             {brand.description}
           </Text>
         )}
@@ -51,7 +50,11 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
                   e.preventDefault();
                   setIsExpanded(!isExpanded);
                 }}
-                style={{ color: "blue", marginTop: "10px", textDecoration: "underline" }}
+                style={{
+                  color: "blue",
+                  marginTop: "10px",
+                  textDecoration: "underline",
+                }}
               >
                 Show more
               </Link>

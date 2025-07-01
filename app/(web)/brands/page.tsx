@@ -22,7 +22,7 @@ const Brands = () => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
-      <HeroSection/>
+      <HeroSection />
       <AllBrands />
     </>
   );
