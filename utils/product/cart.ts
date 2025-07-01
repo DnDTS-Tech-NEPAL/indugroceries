@@ -5,7 +5,7 @@ export const formatCartData = (cart: CartType[]) => {
 
   return cart.map((item, index) => ({
     id: index.toString(),
-    title: item.item_code,
+    title: item.item_name,
     category: "",
     type: item.item_group,
     subType: "",

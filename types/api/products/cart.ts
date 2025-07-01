@@ -1,5 +1,6 @@
 export type CartType = {
   item_code: string;
+  item_name: string;
   quantity: number;
   item_price: string;
   image_url: string;
