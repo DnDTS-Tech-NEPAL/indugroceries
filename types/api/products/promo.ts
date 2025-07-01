@@ -1,4 +1,3 @@
-import { LoyaltyPoints } from '@/assets/svg';
 export type PromoCouponType = {
   coupon: string;
   delivery_place: string;
