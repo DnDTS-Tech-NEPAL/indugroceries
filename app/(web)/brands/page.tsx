@@ -4,6 +4,7 @@ import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import AllBrands from "./(components)/AllBrands";
+import HeroSection from "./(components)/HeroSection";
 
 export const metadata: Metadata = {
   title: "Brands",
@@ -21,6 +22,7 @@ const Brands = () => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
+      <HeroSection/>
       <AllBrands />
     </>
   );
