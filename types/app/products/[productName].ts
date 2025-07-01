@@ -32,3 +32,7 @@ export type ColorVariantProps = {
   name: string;
   onClick?: VoidFunction;
 };
+
+export type BrandDetailPageProps = {
+  params: Promise<{ brandName: string }>;
+};
