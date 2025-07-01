@@ -71,10 +71,6 @@ const ShippingInformation = () => {
                   <FormLabel>Full Name</FormLabel>
                   <Input placeholder="Full Name" mt={2} />
                 </FormControl>
-                {/* <FormControl isRequired flex={1}>
-                  <FormLabel>Last Name</FormLabel>
-                  <Input placeholder="Last Name" mt={2} />
-                </FormControl> */}
               </Stack>
 
               {/* Contact Section */}
