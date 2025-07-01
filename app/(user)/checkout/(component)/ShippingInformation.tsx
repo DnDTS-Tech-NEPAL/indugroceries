@@ -17,6 +17,7 @@ import {
 import { useAddPromo, useDeliveryLocationsQuery } from "@/hooks/api";
 import { useForm } from "react-hook-form";
 import { usePromoFormStore, usePromoStore } from "@/store";
+import { useEffect } from "react";
 
 // const countriesCollection = createListCollection({
 //   items: [
@@ -38,7 +39,7 @@ const ShippingInformation = () => {
   const title = "Shipping Information";
   const { data: deliveryData } = useDeliveryLocationsQuery();
   const { mutate: applyPromo } = useAddPromo();
-  const { setPromoData } = usePromoStore();
+  const { setPromoData, promoData } = usePromoStore();
   const { setDeliveryLocation } = usePromoFormStore();
   const methods = useForm({
     defaultValues: {
@@ -50,26 +51,26 @@ const ShippingInformation = () => {
   });
 
   //  const promoCode = methods.watch("promoCode");
-  // const deliveryLocation = methods.watch("deliveryLocation");
+  const deliveryLocation = methods.watch("deliveryLocation");
 
-  //    useEffect(() => {
-  //   const selectedPlace = deliveryLocation?.place || "";
+  useEffect(() => {
+    const selectedPlace = deliveryLocation?.place || "";
 
-  //   if (!promoData) {
-  //     applyPromo(
-  //       {
-  //         coupon: "",
-  //         delivery_place: selectedPlace,
-  //         loyalty_points: 0,
-  //       },
-  //       {
-  //         onSuccess: (response) => {
-  //           setPromoData(response.data.data);
-  //         },
-  //       }
-  //     );
-  //   }
-  // }, [deliveryLocation.place, promoData]);
+    if (!promoData) {
+      applyPromo(
+        {
+          coupon: "",
+          delivery_place: selectedPlace,
+          loyalty_points: 0,
+        },
+        {
+          onSuccess: (response) => {
+            setPromoData(response.data.data);
+          },
+        }
+      );
+    }
+  }, [deliveryLocation.place, promoData]);
 
   return (
     <VStack alignItems="stretch">
