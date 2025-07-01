@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Input, Text, VStack } from "@chakra-ui/react";
+import { Stack, Input, Text, VStack, Box, HStack } from "@chakra-ui/react";
 import {
   FormControl,
   FormHelperText,
@@ -12,7 +12,10 @@ import {
   AccordionItemContent,
   AccordionItemTrigger,
   AccordionRoot,
+  // FormProvider,
 } from "@/components";
+import { useDeliveryLocationsQuery } from "@/hooks/api";
+import { useForm } from "react-hook-form";
 
 // const countriesCollection = createListCollection({
 //   items: [
@@ -31,6 +34,15 @@ import {
 // });
 
 const ShippingInformation = () => {
+  const { data: deliveryData } = useDeliveryLocationsQuery();
+  const methods = useForm({
+    defaultValues: {
+      deliveryLocation: {
+        district: "",
+        place: "",
+      },
+    },
+  });
   const title = "Shipping Information";
 
   return (
@@ -103,13 +115,87 @@ const ShippingInformation = () => {
                 </FormControl>
               </Stack>
 
+              {/* new address section */}
+              {deliveryData && (
+                <HStack
+                  mt={4}
+                  gap={4}
+                  align="flex-start"
+                  w={"full"}
+                  flexWrap="wrap"
+                >
+                  {/* District Dropdown */}
+                  <Box flex="1">
+                    <label htmlFor="district">District*</label>
+                    <select
+                      id="district"
+                      onChange={(e) => {
+                        methods.setValue(
+                          "deliveryLocation.district",
+                          e.target.value
+                        );
+                        methods.setValue("deliveryLocation.place", "");
+                      }}
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "1px solid #ccc",
+                        marginTop: "4px",
+                        cursor: "pointer",
+                      }}
+                      value={methods.watch("deliveryLocation.district") || ""}
+                    >
+                      <option value="" disabled>
+                        Select District
+                      </option>
+                      {Array.isArray(deliveryData) &&
+                        [
+                          ...new Set(deliveryData.map((item) => item.district)),
+                        ].map((district, index) => (
+                          <option key={`district-${index}`} value={district}>
+                            {district}
+                          </option>
+                        ))}
+                    </select>
+                  </Box>
+
+                  {/* Place Dropdown */}
+                  <Box flex="1">
+                    <label htmlFor="place">Place*</label>
+                    <select
+                      id="place"
+                      {...methods.register("deliveryLocation.place")}
+                      style={{
+                        width: "100%",
+                        padding: "10px",
+                        borderRadius: "8px",
+                        border: "1px solid #ccc",
+                        marginTop: "4px",
+                        cursor: "pointer",
+                      }}
+                    >
+                      <option value="" disabled>
+                        Select Place
+                      </option>
+                      {deliveryData
+                        .filter(
+                          (item) =>
+                            item.district ===
+                            methods.watch("deliveryLocation.district")
+                        )
+                        .map((item, index) => (
+                          <option key={`place-${index}`} value={item.place}>
+                            {item.place}
+                          </option>
+                        ))}
+                    </select>
+                  </Box>
+                </HStack>
+              )}
               {/* Address Section */}
-              <Stack
-                direction={{ base: "column", md: "row" }}
-                gap={4}
-                width="full"
-              >
-                {/* <FormControl isRequired width="full" flex={1}>
+              {/* <Stack direction={{ base: "column", md: "row" }} gap={4}  width="full" >
+                 <FormControl isRequired width="full" flex={1}>
                   <FormLabel>Country / Region</FormLabel>
                   <Select.Root
                     collection={countriesCollection}
@@ -143,15 +229,13 @@ const ShippingInformation = () => {
                       </Select.Positioner>
                     </Portal>
                   </Select.Root>
-                </FormControl> */}
-
+                </FormControl> 
                 <FormControl isRequired flex={1}>
                   <FormLabel>Delivery Address</FormLabel>
                   <Input placeholder="Delivery Address" mt={2} />
                 </FormControl>
               </Stack>
-
-              {/* <Stack
+              <Stack
                 direction={{ base: "column", md: "row" }}
                 gap={4}
                 width="full"
@@ -200,7 +284,7 @@ const ShippingInformation = () => {
                   <FormLabel>Zip Code</FormLabel>
                   <Input placeholder="Zip Code" mt={2} />
                 </FormControl>
-              </Stack> */}
+              </Stack>  */}
             </VStack>
           </AccordionItemContent>
         </AccordionItem>
