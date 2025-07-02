@@ -12,14 +12,14 @@ export const API_ROUTES = {
   },
 
   APP: {
-    MENU_NAV:"megamenu",
+    MENU_NAV: "megamenu",
     CONFIG: "websiteconfig",
     FAQ: "faq",
-    SAAF:"singlebrand",
-    SKIN_TEST:"quizpage",
-    SKIN_TYPE:"skintype",
-    QUALITY:"quality",
-    CALL_FOR_INFLUENCER:"influencerpage",
+    SAAF: "singlebrand",
+    SKIN_TEST: "quizpage",
+    SKIN_TYPE: "skintype",
+    QUALITY: "quality",
+    CALL_FOR_INFLUENCER: "influencerpage",
 
     HOMEPAGE: "homepage",
     FEATURED_CATEGORY: "featuredcategories",
@@ -58,8 +58,8 @@ export const API_ROUTES = {
 
       INDIVIDUAL_PRODUCT: {
         GET: "individualitem",
-        ADD_RECENTLY_VIEWED:"addrecentlyviewed",
-        RECENTLY_VIEWED:"recentlyviewed"
+        ADD_RECENTLY_VIEWED: "addrecentlyviewed",
+        RECENTLY_VIEWED: "recentlyviewed",
       },
     },
 
@@ -86,12 +86,14 @@ export const API_ROUTES = {
     RETURN_POLICY: {
       LIST: "return",
     },
+    SHIPPING_DELIVERY: {
+      LIST: "shipping",
+    },
     ORDER: {
       POST: "orderpost",
       LIST: "orderlist",
       // DELIVERY: "deliverycharges",
       DELIVERY: "deliverylocations",
-
     },
     PROMO: {
       POST: "couponcalculation",
