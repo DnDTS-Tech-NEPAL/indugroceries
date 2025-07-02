@@ -31,16 +31,15 @@ interface BrandProductsPageProps {
 
 export default function BrandProductsPage({ brandName }: BrandProductsPageProps) {
   const [priceRange, setPriceRange] = useState([0, 2500])
-  const { item_group, bestseller, pricerange, page, setPage } =
-      useFilterStore();
+ 
 
    // Fetch filtered products
     const { data, isLoading } = useFilterProductsQuery({
       brand:[brandName],
-      item_group,
-      bestseller: +bestseller,
-      pricerange: +pricerange,
-      page,
+      item_group:[],
+      bestseller: 0,
+      pricerange: 0,
+      page:1,
       size: PAGE_SIZE,
     });
 
