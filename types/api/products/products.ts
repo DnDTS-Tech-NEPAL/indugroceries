@@ -120,6 +120,7 @@ export type ProductFilterAPIType = {
   item_group: string[];
   bestseller: number;
   pricerange: number;
+  in_stock: number;
   page: number;
   size: number;
 };
