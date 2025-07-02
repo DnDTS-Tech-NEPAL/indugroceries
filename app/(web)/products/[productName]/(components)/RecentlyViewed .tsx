@@ -23,8 +23,7 @@ const RecentlyViewed = () => {
     base: 1,
     sm: 2,
     md: 4,
-    lg: 5,
-    xl: 5,
+    lg: 4,
   });
 
   useEffect(() => {
@@ -80,8 +79,19 @@ const RecentlyViewed = () => {
               item_code={product.item_code}
               image={product.custom_image_1_link}
               title={product.item_name}
-              price={product?.prices[0]?.price_list_rate || ""}
+              price={
+                Array.isArray(product?.prices) && product.prices.length > 0
+                  ? product.prices[0].discounted_price
+                  : 0
+              }
+              originalPrice={
+                Array.isArray(product?.prices) && product.prices.length > 0
+                  ? product.prices[0].price_list_rate
+                  : 0
+              }
               link={product.item_code}
+              id={index}
+              category={product.item_name}
             />
           </Box>
         ))}

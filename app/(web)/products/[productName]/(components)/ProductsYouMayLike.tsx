@@ -113,7 +113,8 @@ export const ProductsYouMayLike = () => {
               category={productInfo.item_name}
               image={productInfo.custom_image_1_link}
               title={productInfo.item_name}
-              price={productInfo.prices?.[0].price_list_rate}
+              originalPrice={productInfo.prices?.[0].price_list_rate}
+              price={productInfo.prices?.[0].discounted_price}
               link={productInfo.name}
               item_code={productInfo.item_code}
             />

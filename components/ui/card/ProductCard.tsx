@@ -287,7 +287,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           display={"flex"}
           flexDirection={{ base: "column", md: "row" }}
         >
-          {originalPrice && (
+          {originalPrice && originalPrice !== price && (
             <Text
               fontSize={originalPriceFontSize}
               color="gray.400"
