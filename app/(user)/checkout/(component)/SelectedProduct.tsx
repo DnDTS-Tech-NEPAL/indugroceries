@@ -20,7 +20,7 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
   const { data: config } = useConfigQuery();
   return (
     <Box>
-      <VStack gap={4} align="stretch">
+      <VStack gap={4} align="stretch" maxH={"350px"} overflowY="auto">
         {products.map((product) => (
           <Box
             key={product.id}

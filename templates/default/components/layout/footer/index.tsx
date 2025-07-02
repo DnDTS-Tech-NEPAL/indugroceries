@@ -63,7 +63,7 @@ export const Footer = () => {
           <VStack align="start" gap={2} color="#FF6996">
             <Text fontWeight="bold" fontSize="lg">Quick Links</Text>
             {links.map(({ route, label }) => (
-              <Link key={route} href={route} passHref legacyBehavior>
+              <Link key={label} href={route} passHref legacyBehavior>
                 <ChakraLink
                   color="#D0D0D0"
                   _hover={{ color: "pink.500", textDecoration: "none" }}

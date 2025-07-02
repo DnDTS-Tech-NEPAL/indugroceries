@@ -27,7 +27,9 @@ export const ROUTES = {
     FAVORITE: "/favorite",
     CHECKOUT: "/checkout",
     WISHLIST: "/wishlist",
-    PROFILE: "/profile",
+    // PROFILE: "/profile",
+    PROFILE: "/account",
+
   },
 
   NOT_FOUND: "/not-found",

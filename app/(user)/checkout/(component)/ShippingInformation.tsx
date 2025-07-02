@@ -14,7 +14,11 @@ import {
   AccordionRoot,
   // FormProvider,
 } from "@/components";
-import { useAddPromo, useDeliveryLocationsQuery } from "@/hooks/api";
+import {
+  useAddPromo,
+  useDeliveryLocationsQuery,
+  useUserProfileQuery,
+} from "@/hooks/api";
 import { useForm } from "react-hook-form";
 import { usePromoFormStore, usePromoStore } from "@/store";
 import { useEffect } from "react";
@@ -38,6 +42,9 @@ import { useEffect } from "react";
 const ShippingInformation = () => {
   const title = "Shipping Information";
   const { data: deliveryData } = useDeliveryLocationsQuery();
+  const { data: profileData } = useUserProfileQuery();
+  const user = profileData?.data[0];
+  console.log(user);
   const { mutate: applyPromo } = useAddPromo();
   const { setPromoData, promoData } = usePromoStore();
   const { setDeliveryLocation } = usePromoFormStore();
@@ -96,7 +103,12 @@ const ShippingInformation = () => {
               >
                 <FormControl isRequired flex={1}>
                   <FormLabel>Full Name</FormLabel>
-                  <Input placeholder="Full Name" mt={2} />
+                  <Input
+                    placeholder="Full Name"
+                    mt={2}
+                    value={user?.customer_name}
+                    readOnly
+                  />
                 </FormControl>
               </Stack>
 
@@ -108,35 +120,71 @@ const ShippingInformation = () => {
               >
                 <FormControl isRequired flex={1}>
                   <FormLabel>Email Address</FormLabel>
-                  <Input type="email" placeholder="Email Address" mt={2} />
+                  <Input
+                    type="email"
+                    placeholder="Email Address"
+                    mt={2}
+                    value={user?.user}
+                    readOnly
+                  />
                 </FormControl>
                 <FormControl isRequired flex={1}>
                   <FormLabel>Phone Number</FormLabel>
-                  <Input type="tel" placeholder="Phone Number" mt={2} />
+                  <Input
+                    type="tel"
+                    placeholder="Phone Number"
+                    mt={2}
+                    value={user?.custom_customer_contact}
+                    readOnly
+                  />
                 </FormControl>
               </Stack>
 
               {/* Date of birth */}
-              <Stack width={"full"}>
-                <FormControl isRequired flex={1}>
-                  <FormLabel>Date of Birth</FormLabel>
-                  <Input
-                    type="date"
-                    placeholder="Select Date"
-                    mt={2}
-                    variant="outline"
-                    borderRadius="md"
-                  />
-                  <FormHelperText
-                    fontStyle="italic"
-                    fontSize={"small"}
-                    color={"#7A7A7A"}
-                  >
-                    You will receive surprise gift from us on the purchase of
-                    your birthday month.
-                  </FormHelperText>
-                </FormControl>
-              </Stack>
+              {user?.custom_date_of_birth ? (
+                <Stack width={"full"}>
+                  <FormControl isRequired flex={1}>
+                    <FormLabel>Date of Birth</FormLabel>
+                    <Input
+                      type="text"
+                      value={user?.custom_date_of_birth}
+                      placeholder="Select Date"
+                      mt={2}
+                      variant="outline"
+                      borderRadius="md"
+                    />
+                    <FormHelperText
+                      fontStyle="italic"
+                      fontSize={"small"}
+                      color={"#7A7A7A"}
+                    >
+                      You will receive surprise gift from us on the purchase of
+                      your birthday month.
+                    </FormHelperText>
+                  </FormControl>
+                </Stack>
+              ) : (
+                <Stack width={"full"}>
+                  <FormControl isRequired flex={1}>
+                    <FormLabel>Date of Birth</FormLabel>
+                    <Input
+                      type="date"
+                      placeholder="Select Date"
+                      mt={2}
+                      variant="outline"
+                      borderRadius="md"
+                    />
+                    <FormHelperText
+                      fontStyle="italic"
+                      fontSize={"small"}
+                      color={"#7A7A7A"}
+                    >
+                      You will receive surprise gift from us on the purchase of
+                      your birthday month.
+                    </FormHelperText>
+                  </FormControl>
+                </Stack>
+              )}
 
               {/* new address section */}
               {deliveryData && (
