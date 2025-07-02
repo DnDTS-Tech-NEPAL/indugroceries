@@ -27,7 +27,7 @@ export const ShopSkinCareMakeup = () => {
         <Box
           key={index}
           w="100%"
-          maxW={{ base: "100%", sm: "100%", md: "48%",lg: "50%" }}
+          maxW={{ base: "100%", sm: "100%", md: "48%", lg: "50%" }}
           h={{ base: "300px", sm: "350px", md: "350px" }}
           position="relative"
           aspectRatio={{ base: "1/1", sm: "16/9" }}
