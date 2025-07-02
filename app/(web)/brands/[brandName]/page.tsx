@@ -26,7 +26,7 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
       />
       <BrandCarousel />
       <BrandDescription brandName={brandName} />
-      <BrandProductsPage brandName={brandName}/>
+      <BrandProductsPage brandName={brandName} />
     </>
   );
 };

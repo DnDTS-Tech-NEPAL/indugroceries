@@ -24,20 +24,17 @@ interface BrandProductsPageProps {
   brandName: string;
 }
 
-export default function BrandProductsPage({ brandName }: BrandProductsPageProps) {
-  const {
-    category,
-    priceRange,
-    discount,
-    inStock,
-  } = useBrandFilterStore();
+export default function BrandProductsPage({
+  brandName,
+}: BrandProductsPageProps) {
+  const { category, priceRange, discount, inStock } = useBrandFilterStore();
 
-  const { data, isLoading } = useFilterProductsQuery({
+  const { data } = useFilterProductsQuery({
     brand: [brandName],
     item_group: category.length ? category : ["All Item Groups"],
     in_stock: inStock,
     bestseller: discount,
-    pricerange: 0, 
+    pricerange: 0,
     page: 1,
     size: 20000,
   });
@@ -53,7 +50,7 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
 
   // Filter products frontend by price range selected
   const filteredProducts = products.filter((product) => {
-    const price = product.price || 0; 
+    const price = product.price || 0;
 
     return price >= priceRange[0] && price <= priceRange[1];
   });
@@ -79,8 +76,8 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
             <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
               <Box>
                 <HStack gap={4} align="baseline">
-                  <Heading size="lg">All Products</Heading>
-                  ({filteredProducts.length} products found)
+                  <Heading size="lg">All Products</Heading>(
+                  {filteredProducts.length} products found)
                   <Heading size="lg" color="gray.800">
                     {brandName}
                   </Heading>
@@ -88,7 +85,11 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
               </Box>
               <HStack>
                 <Text fontSize="sm">Sort By :</Text>
-                <Select.Root collection={orderStatusOptions} size="sm" width="200px">
+                <Select.Root
+                  collection={orderStatusOptions}
+                  size="sm"
+                  width="200px"
+                >
                   <Select.HiddenSelect />
                   <Flex>
                     <Select.Control>

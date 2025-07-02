@@ -98,7 +98,11 @@ export const BrandFilter = ({ minPrice, maxPrice }: BrandFilterProps) => {
               </AccordionItem>
 
               {/* Discount Section */}
-              <AccordionItem value="discount" borderBottom="1 px solid #D0D0D0" p={2}>
+              <AccordionItem
+                value="discount"
+                borderBottom="1 px solid #D0D0D0"
+                p={2}
+              >
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Discount
@@ -123,7 +127,11 @@ export const BrandFilter = ({ minPrice, maxPrice }: BrandFilterProps) => {
               </AccordionItem>
 
               {/* Price Section */}
-              <AccordionItem value="price" borderBottom="1 px solid #D0D0D0" p={2}>
+              <AccordionItem
+                value="price"
+                borderBottom="1 px solid #D0D0D0"
+                p={2}
+              >
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Price
@@ -156,13 +164,23 @@ export const BrandFilter = ({ minPrice, maxPrice }: BrandFilterProps) => {
                       <Text fontSize="sm" mb={1}>
                         From
                       </Text>
-                      <Input size="sm" value={`NPR ${priceRange[0]}`} readOnly bg="white" />
+                      <Input
+                        size="sm"
+                        value={`NPR ${priceRange[0]}`}
+                        readOnly
+                        bg="white"
+                      />
                     </Box>
                     <Box>
                       <Text fontSize="sm" mb={1}>
                         To
                       </Text>
-                      <Input size="sm" value={`NPR ${priceRange[1]}`} readOnly bg="white" />
+                      <Input
+                        size="sm"
+                        value={`NPR ${priceRange[1]}`}
+                        readOnly
+                        bg="white"
+                      />
                     </Box>
                   </HStack>
                 </AccordionItemContent>
