@@ -16,12 +16,10 @@ import {
   createListCollection,
 } from "@chakra-ui/react";
 
-import { FilterSelect, ProductCard } from "@/components";
+import { ProductCard } from "@/components";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { BrandFilter } from "./BrandFilter";
-import { SortIcon } from "@/assets/svg";
-import { priceRangeFilterOptions } from "@/constants";
 
 interface BrandProductsPageProps {
   brandName: string;
@@ -34,7 +32,8 @@ export default function BrandProductsPage({
 
   const [sortBy, setSortBy] = useState<string>("");
 
-  const priceSortOrder = sortBy === "low-high" ? 1 : sortBy === "high-low" ? 0 : 0;
+  const priceSortOrder =
+    sortBy === "low-high" ? 1 : sortBy === "high-low" ? 0 : 0;
 
   const { data } = useFilterProductsQuery({
     brand: [brandName],
@@ -138,5 +137,3 @@ export default function BrandProductsPage({
     </Container>
   );
 }
-
-
