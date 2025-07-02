@@ -44,7 +44,6 @@ const ShippingInformation = () => {
   const { data: deliveryData } = useDeliveryLocationsQuery();
   const { data: profileData } = useUserProfileQuery();
   const user = profileData?.data[0];
-  console.log(user);
   const { mutate: applyPromo } = useAddPromo();
   const { setPromoData, promoData } = usePromoStore();
   const { setDeliveryLocation } = usePromoFormStore();
