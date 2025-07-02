@@ -6,6 +6,7 @@ import { getBrandDetailByName } from "@/api/queries/brands/[brandName]";
 import { redirect } from "next/navigation";
 import { BrandDetailPageProps } from "@/types";
 import { BrandDescription } from "./(components)";
+import BrandProductsPage from "./(components)/Products";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
   const brand = await getBrandDetailByName();
@@ -25,6 +26,7 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
       />
       <BrandCarousel />
       <BrandDescription brandName={brandName} />
+      <BrandProductsPage brandName={brandName}/>
     </>
   );
 };

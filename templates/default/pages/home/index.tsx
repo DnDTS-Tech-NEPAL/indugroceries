@@ -15,6 +15,7 @@ import {
 } from "./(components)";
 import ProductShowcase from "./(components)/ProductShowcase";
 import { ShopSkinCareMakeup } from "./(components)/Shop";
+import { ProductSection } from "./(components)/ProductSection";
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
   return (
     <>
@@ -30,6 +31,7 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
       <InStoreVisit />
       <SocialFeed />
       <BenefitsSection />
+      <ProductSection type="bestSellers" showCategories={false} />
     </>
   );
 };
