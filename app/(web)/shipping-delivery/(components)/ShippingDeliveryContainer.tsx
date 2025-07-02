@@ -1,14 +1,17 @@
 "use client";
 
 import { Box, Heading, Stack, Text, VStack } from "@chakra-ui/react";
-import { useReturnPolicy } from "@/hooks/api";
+import { useShippingDelivery } from "@/hooks/api";
 
-export const ReturnPolicyContainer = () => {
-  const { data: ReturnData } = useReturnPolicy();
+const ShippingDelivery = () => {
+  const { data: ReturnData } = useShippingDelivery();
 
-  const title = ReturnData?.data?.data?.page_title?.trim();
-  const content = ReturnData?.data?.data?.content;
-  const lastUpdated = ReturnData?.data?.data?.last_updated;
+  const title =
+    ReturnData?.data?.data.page_title?.trim() || "Shipping & Delivery";
+  const content = ReturnData?.data?.data.content || "";
+  const lastUpdated = ReturnData?.data?.data.last_updated || "";
+
+  if (!ReturnData?.data) return null; // Optional: avoid rendering empty page
 
   return (
     <Box
@@ -34,7 +37,7 @@ export const ReturnPolicyContainer = () => {
               fontSize="sm"
               fontWeight={400}
               color="primary.400"
-              dangerouslySetInnerHTML={{ __html: content || "" }}
+              dangerouslySetInnerHTML={{ __html: content }}
             />
           </Box>
         </Stack>
@@ -42,3 +45,4 @@ export const ReturnPolicyContainer = () => {
     </Box>
   );
 };
+export default ShippingDelivery;
