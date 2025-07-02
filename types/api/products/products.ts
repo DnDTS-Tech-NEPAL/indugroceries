@@ -3,6 +3,7 @@ export type ProductPrice = {
   price_list_rate: number;
   discount: number;
   discounted_price: number;
+  
 };
 
 export type ProductAPIType = {
@@ -106,6 +107,7 @@ export type ProductAPIType = {
 
   // remove this after api update
   original_price: string;
+  
 };
 
 export type ProductAPIResponseType = {
@@ -120,7 +122,7 @@ export type ProductFilterAPIType = {
   item_group: string[];
   bestseller: number;
   pricerange: number;
-  in_stock: number;
+  in_stock?: number;
   page: number;
   size: number;
 };
