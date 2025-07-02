@@ -15,11 +15,16 @@ import {
   AccordionRoot,
   Checkbox,
 } from "@/components";
-import { useProductsFilter } from "@/hooks/app";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
+import { useProductsFilter } from "@/hooks/app";
 
-export const BrandFilter = () => {
-  const filters = useProductsFilter();
+interface BrandFilterProps {
+  minPrice: number;
+  maxPrice: number;
+}
+
+export const BrandFilter = ({ minPrice, maxPrice }: BrandFilterProps) => {
+  const filter = useProductsFilter();
   const {
     category,
     priceRange,
@@ -56,7 +61,10 @@ export const BrandFilter = () => {
             fontSize="xl"
             fontWeight={"medium"}
             cursor="pointer"
-            onClick={resetFilters}
+            onClick={() => {
+              resetFilters();
+              setPriceRange([minPrice, maxPrice]);
+            }}
           >
             Reset
           </Text>
@@ -73,7 +81,7 @@ export const BrandFilter = () => {
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
-                    {filters[1].items.map((item) => (
+                    {filter[1].items.map((item) => (
                       <Checkbox
                         key={item.value}
                         color={"#7A7A7A"}
@@ -90,11 +98,7 @@ export const BrandFilter = () => {
               </AccordionItem>
 
               {/* Discount Section */}
-              <AccordionItem
-                value="discount"
-                borderBottom="1 px solid #D0D0D0"
-                p={2}
-              >
+              <AccordionItem value="discount" borderBottom="1 px solid #D0D0D0" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Discount
@@ -119,11 +123,7 @@ export const BrandFilter = () => {
               </AccordionItem>
 
               {/* Price Section */}
-              <AccordionItem
-                value="price"
-                borderBottom="1 px solid #D0D0D0"
-                p={2}
-              >
+              <AccordionItem value="price" borderBottom="1 px solid #D0D0D0" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Price
@@ -132,14 +132,15 @@ export const BrandFilter = () => {
                 <AccordionItemContent>
                   <Slider.Root
                     maxW="md"
-                    defaultValue={priceRange}
+                    value={priceRange}
                     minStepsBetweenThumbs={10}
-                    min={0}
-                    max={2500}
-                    onValueChange={(details) => {
-                      if (Array.isArray(details?.value)) {
-                        setPriceRange([details.value[0], details.value[1]]);
-                      }
+                    min={minPrice}
+                    max={maxPrice}
+                    onValueChange={(details: { value: number[] }) => {
+                      const value = Array.isArray(details?.value)
+                        ? details.value
+                        : [minPrice, maxPrice];
+                      setPriceRange([value[0], value[1]]);
                     }}
                   >
                     <Slider.Control>
@@ -149,28 +150,19 @@ export const BrandFilter = () => {
                       <Slider.Thumbs />
                     </Slider.Control>
                   </Slider.Root>
+
                   <HStack py={3}>
                     <Box>
                       <Text fontSize="sm" mb={1}>
                         From
                       </Text>
-                      <Input
-                        size="sm"
-                        value={`NPR ${priceRange[0]}`}
-                        readOnly
-                        bg="white"
-                      />
+                      <Input size="sm" value={`NPR ${priceRange[0]}`} readOnly bg="white" />
                     </Box>
                     <Box>
                       <Text fontSize="sm" mb={1}>
                         To
                       </Text>
-                      <Input
-                        size="sm"
-                        value={`NPR ${priceRange[1]}`}
-                        readOnly
-                        bg="white"
-                      />
+                      <Input size="sm" value={`NPR ${priceRange[1]}`} readOnly bg="white" />
                     </Box>
                   </HStack>
                 </AccordionItemContent>

@@ -10,7 +10,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     title: item.item_name,
     link: item.name,
     description: item.description,
-    price: String(item.prices?.[0]?.price_list_rate),
+    price: item.prices?.[0]?.price_list_rate || 0,
     originalPrice: item.original_price,
     discount: String(item.max_discount),
   }));

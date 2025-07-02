@@ -1,7 +1,8 @@
-"use client"
-import { ProductCard } from "@/components"
-import { useFilterProductsQuery } from "@/hooks/api"
-import { useBrandFilterStore } from "@/store/products/brandFilterStore"
+"use client";
+
+import { ProductCard } from "@/components";
+import { useFilterProductsQuery } from "@/hooks/api";
+import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 
 import {
   Box,
@@ -16,10 +17,8 @@ import {
   Select,
   Portal,
   createListCollection,
-} from "@chakra-ui/react"
-import { PAGE_SIZE } from "@/constants";
-import { useState } from "react"
-import { BrandFilter } from "./BrandFilter"
+} from "@chakra-ui/react";
+import { BrandFilter } from "./BrandFilter";
 
 interface BrandProductsPageProps {
   brandName: string;
@@ -38,14 +37,26 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
     item_group: category.length ? category : ["All Item Groups"],
     in_stock: inStock,
     bestseller: discount,
-    pricerange: 0,
+    pricerange: 0, 
     page: 1,
-    size: PAGE_SIZE,
+    size: 20000,
   });
 
   const products = data?.products || [];
-  const total_count = data?.total_count || 0;
-  // const totalPages = Math.ceil(total_count / PAGE_SIZE);
+
+  // Extract prices from nested API field, fallback 0
+  const allPrices = products.map((p) => p.price || 0);
+
+  // Compute dynamic min and max price for slider
+  const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
+  const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
+
+  // Filter products frontend by price range selected
+  const filteredProducts = products.filter((product) => {
+    const price = product.price || 0; 
+
+    return price >= priceRange[0] && price <= priceRange[1];
+  });
 
   const orderStatusOptions = createListCollection({
     items: [
@@ -59,7 +70,7 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
     <Container maxW="7xl" py={8}>
       <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
         {/* Sidebar Filters */}
-        <BrandFilter />
+        <BrandFilter minPrice={minPrice} maxPrice={maxPrice} />
 
         {/* Main Content */}
         <GridItem>
@@ -69,7 +80,7 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
               <Box>
                 <HStack gap={4} align="baseline">
                   <Heading size="lg">All Products</Heading>
-                  ({total_count} products found)
+                  ({filteredProducts.length} products found)
                   <Heading size="lg" color="gray.800">
                     {brandName}
                   </Heading>
@@ -114,7 +125,7 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
               }}
               gap={6}
             >
-              {products.map((product) => (
+              {filteredProducts.map((product) => (
                 <ProductCard key={product.title} {...product} />
               ))}
             </Grid>
@@ -122,6 +133,5 @@ export default function BrandProductsPage({ brandName }: BrandProductsPageProps)
         </GridItem>
       </Grid>
     </Container>
-  )
+  );
 }
-
