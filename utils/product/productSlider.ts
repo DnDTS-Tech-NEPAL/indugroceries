@@ -13,5 +13,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     price: item.prices?.[0]?.price_list_rate || 0,
     originalPrice: item.original_price,
     discount: String(item.max_discount),
+    creation : item.creation,
+  
   }));
 };
