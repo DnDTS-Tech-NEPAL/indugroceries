@@ -141,7 +141,12 @@ export const BrandFilter = ({ minPrice, maxPrice }: BrandFilterProps) => {
                   <Slider.Root
                     maxW="md"
                     value={priceRange}
-                    minStepsBetweenThumbs={10}
+                    // minStepsBetweenThumbs={10}
+                    step={1}
+                    minStepsBetweenThumbs={Math.min(
+                      10,
+                      Math.floor((maxPrice - minPrice) / 1)
+                    )}
                     min={minPrice}
                     max={maxPrice}
                     onValueChange={(details: { value: number[] }) => {
