@@ -289,22 +289,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Input,
-  InputGroup,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Box, Button, Flex, HStack, Input, InputGroup } from "@chakra-ui/react";
 
-import {
-  LoginDialog,
-  RegisterDialog,
-  SearchDialog,
-} from "@/components";
+import { LoginDialog, RegisterDialog } from "@/components";
 import { navbarIconsList, ROUTES } from "@/constants";
 import {
   useCartCountQuery,
@@ -313,14 +301,8 @@ import {
   useWishlistCountQuery,
 } from "@/hooks/api";
 import { useAuthentication } from "@/hooks/app";
-import {
-  useLayoutDialogStore,
-  useRegisterDialogStore,
-} from "@/store";
-import {
-  calculateHeightAndWidth,
-  extractMenu,
-} from "@/utils";
+import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
+import { calculateHeightAndWidth, extractMenu } from "@/utils";
 
 import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
@@ -336,12 +318,6 @@ export const Navbar = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const {
-    open: isSearchOpen,
-    onOpen: onSearchOpen,
-    onClose: onSearchClose,
-  } = useDisclosure();
-
   const navItems = extractMenu(NavbarData);
 
   const { height, width } = calculateHeightAndWidth(
@@ -355,14 +331,20 @@ export const Navbar = () => {
 
   const { data: wishlistCount } = useWishlistCountQuery();
   const { data: cartCount } = useCartCountQuery();
-  const {
-    data: userProfileData,
-    isLoading,
-    isError,
-  } = useUserProfileQuery();
+  const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
 
   const wishlistTotalCount = wishlistCount?.count ?? "";
   const cartTotalCount = cartCount?.count ?? "";
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    const trimmed = searchInput.trim();
+    if (trimmed.length > 0) {
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+    } else if (pathname === "/search") {
+      router.push(ROUTES.APP.HOMEPAGE);
+    }
+  }, [searchInput]);
 
   return (
     <>
@@ -401,7 +383,10 @@ export const Navbar = () => {
             startElement={navbarIconsList[0].icon}
             width={"560px"}
           >
-            <Input placeholder="Search for products" onClick={onSearchOpen} />
+            <Input
+              placeholder="Search for products"
+              onChange={(e) => setSearchInput(e.target.value)}
+            />
           </InputGroup>
 
           {/* Icons + Auth */}
@@ -544,15 +529,9 @@ export const Navbar = () => {
         {navbarIconsList[3].icon}
       </Box>
 
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
-      <SearchDialog open={isSearchOpen} onClose={onSearchClose} />
-      <LoginDialog
-        open={signInOpen}
-        onClose={() => updateSignInOpen(false)}
-      />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+      <LoginDialog open={signInOpen} onClose={() => updateSignInOpen(false)} />
       <RegisterDialog
         open={signUpOpen}
         onClose={() => updateSignUpOpen(false)}
