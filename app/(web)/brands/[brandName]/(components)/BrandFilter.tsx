@@ -3,7 +3,6 @@ import {
   Box,
   GridItem,
   Text,
-  Button,
   Input,
   VStack,
   HStack,
@@ -16,12 +15,35 @@ import {
   AccordionRoot,
   Checkbox,
 } from "@/components";
-import { useState } from "react";
 import { useProductsFilter } from "@/hooks/app";
+import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 
 export const BrandFilter = () => {
-  const [priceRange, setPriceRange] = useState([0, 2500]);
-const filters = useProductsFilter();
+  const filters = useProductsFilter();
+  const {
+    category,
+    priceRange,
+    discount,
+    inStock,
+    setCategory,
+    setPriceRange,
+    setDiscount,
+    setInStock,
+    resetFilters,
+  } = useBrandFilterStore();
+
+  const handleCategoryToggle = (value: string) => {
+    if (category.includes(value)) {
+      setCategory(category.filter((c) => c !== value));
+    } else {
+      setCategory([...category, value]);
+    }
+  };
+
+  const handleDiscountSelect = (value: number) => {
+    setDiscount(discount === value ? 0 : value);
+  };
+
   return (
     <>
       <GridItem>
@@ -29,17 +51,19 @@ const filters = useProductsFilter();
           <Text fontSize="xl" fontWeight={"medium"}>
             Filter by
           </Text>
-          <Text color="gray.600" fontSize="xl" fontWeight={"medium"}>
+          <Text
+            color="gray.600"
+            fontSize="xl"
+            fontWeight={"medium"}
+            cursor="pointer"
+            onClick={resetFilters}
+          >
             Reset
           </Text>
         </HStack>
         <Box p={6} shadow={"lg"}>
           <VStack gap={6} align="stretch">
-            <AccordionRoot
-              // allowMultiple
-              as={VStack}
-              alignItems="stretch"
-            >
+            <AccordionRoot as={VStack} alignItems="stretch">
               {/* Category Section */}
               <AccordionItem value="category" border="none">
                 <AccordionItemTrigger hasAccordionIcon>
@@ -49,18 +73,18 @@ const filters = useProductsFilter();
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
-                  
-                      {filters[1].items.map((item) => (
-                        <Checkbox
-                          key={item.value}
-                          color={"#7A7A7A"}
-                          py={2}
-                          colorScheme="pink"
-                        >
-                          {item.title}
-                        </Checkbox>
-                      ))}
-                   
+                    {filters[1].items.map((item) => (
+                      <Checkbox
+                        key={item.value}
+                        color={"#7A7A7A"}
+                        py={2}
+                        colorScheme="pink"
+                        checked={category.includes(item.title)}
+                        onChange={() => handleCategoryToggle(item.title)}
+                      >
+                        {item.title}
+                      </Checkbox>
+                    ))}
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
@@ -78,19 +102,23 @@ const filters = useProductsFilter();
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
-                    <Checkbox color={"#7A7A7A"} py={2} colorScheme="pink">
-                      10% or more
-                    </Checkbox>
-                    <Checkbox color={"#7A7A7A"} py={2} colorScheme="pink">
-                      20% or more
-                    </Checkbox>
-                    <Checkbox color={"#7A7A7A"} py={2} colorScheme="pink">
-                      30% or more
-                    </Checkbox>
+                    {[10, 20, 30].map((val) => (
+                      <Checkbox
+                        key={val}
+                        color={"#7A7A7A"}
+                        py={2}
+                        colorScheme="pink"
+                        checked={discount === val}
+                        onChange={() => handleDiscountSelect(val)}
+                      >
+                        {val}% or more
+                      </Checkbox>
+                    ))}
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
 
+              {/* Price Section */}
               <AccordionItem
                 value="price"
                 borderBottom="1 px solid #D0D0D0"
@@ -104,8 +132,15 @@ const filters = useProductsFilter();
                 <AccordionItemContent>
                   <Slider.Root
                     maxW="md"
-                    defaultValue={[20, 60]}
-                    minStepsBetweenThumbs={8}
+                    defaultValue={priceRange}
+                    minStepsBetweenThumbs={10}
+                    min={0}
+                    max={2500}
+                    onValueChange={(details) => {
+                      if (Array.isArray(details?.value)) {
+                        setPriceRange([details.value[0], details.value[1]]);
+                      }
+                    }}
                   >
                     <Slider.Control>
                       <Slider.Track>
@@ -141,6 +176,7 @@ const filters = useProductsFilter();
                 </AccordionItemContent>
               </AccordionItem>
 
+              {/* Availability Section */}
               <AccordionItem value="availability" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
@@ -150,7 +186,13 @@ const filters = useProductsFilter();
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2}>
                     <HStack justify="space-between">
-                      <Checkbox color={"#7A7A7A"} py={2} colorScheme="pink">
+                      <Checkbox
+                        color={"#7A7A7A"}
+                        py={2}
+                        colorScheme="pink"
+                        checked={inStock === 1}
+                        onChange={() => setInStock(inStock === 1 ? 0 : 1)}
+                      >
                         In Stock
                       </Checkbox>
                       <Text fontSize="sm" color="gray.600">
@@ -158,7 +200,13 @@ const filters = useProductsFilter();
                       </Text>
                     </HStack>
                     <HStack justify="space-between">
-                      <Checkbox color={"#7A7A7A"} py={2} colorScheme="pink">
+                      <Checkbox
+                        color={"#7A7A7A"}
+                        py={2}
+                        colorScheme="pink"
+                        checked={inStock === 2}
+                        onChange={() => setInStock(inStock === 2 ? 0 : 2)}
+                      >
                         Out of Stock
                       </Checkbox>
                       <Text fontSize="sm" color="gray.600">
@@ -175,5 +223,3 @@ const filters = useProductsFilter();
     </>
   );
 };
-
-
