@@ -33,7 +33,7 @@ export default function BrandProductsPage({
   const [sortBy, setSortBy] = useState<string>("");
 
   const priceSortOrder =
-    sortBy === "low-high" ? 1 : sortBy === "high-low" ? 0 : 0;
+    sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   const { data } = useFilterProductsQuery({
     brand: [brandName],
