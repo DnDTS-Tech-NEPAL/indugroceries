@@ -167,7 +167,7 @@ const CheckoutSection = () => {
                       bg={"transparent"}
                       position={"absolute"}
                       right={"1rem"}
-                      color={"#D0D0D0"}
+                      color={"black"}
                       me="-2"
                       zIndex={5}
                     >
