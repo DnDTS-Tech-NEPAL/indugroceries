@@ -1,12 +1,17 @@
 export type CartType = {
   item_code: string;
+  item_name: string;
   quantity: number;
-  item_price: number;
+  item_price: string;
   image_url: string;
   item_group: string;
   custom_minimum_order_quantity: number;
   custom_maximum_order_quantity: number;
   custom_increment_on_quantity: number;
+  discount_percentage: string;
+  discounted_price: string;
+  total: number;
+  stock_qty: number;
 };
 
 export type CartAPIResponseType = {

@@ -1,6 +1,7 @@
 export type PromoCouponType = {
   coupon: string;
-  delivery_charge: string;
+  delivery_place: string;
+  loyalty_points: number;
 };
 
 export type PromoCouponResponseData = {
@@ -19,6 +20,7 @@ export type PromoCouponResponseData = {
 export type PromoFormData = {
   promoCode: string;
   deliveryLocation: string;
+  LoyaltyPoints:number;
 };
 
 export type PromoData = {
@@ -26,6 +28,7 @@ export type PromoData = {
   total_tax: number;
   total_after_tax: number;
   discount_amount: number;
+  loyalty_points_discount?: number;
   grand_total_after_discount: number;
   delivery_charge: number;
   final_total: number;

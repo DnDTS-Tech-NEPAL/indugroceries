@@ -1,7 +1,6 @@
 import * as React from "react";
-import { LuChevronDown } from "react-icons/lu";
+import { LuChevronDown, LuChevronUp } from "react-icons/lu";
 import { Accordion, Box, HStack } from "@chakra-ui/react";
-import { AddIcon, SubtractIcon } from "@/assets/svg";
 import { ExtendedAccordionItemTriggerProps } from "@/types";
 
 type AccordionItemTriggerProps = React.ComponentProps<
@@ -55,12 +54,17 @@ export const AccordionItemTrigger = React.forwardRef<
           )} */}
           {hasCustomIcon ? (
             isOpen ? (
-              <Box ml={4}>{rest.customiconopen ?? <SubtractIcon />}</Box>
+              <Box ml={4}>{rest.customiconopen ?? <LuChevronUp />}</Box>
             ) : (
-              <Box mr={4}>{rest.customiconclosed ?? <AddIcon />}</Box>
+              <Box mr={4}>{rest.customiconclosed ?? <LuChevronDown />}</Box>
             )
           ) : (
-            <LuChevronDown />
+            <Box
+              as={LuChevronDown}
+              color="black"
+              fontSize="30px"
+              filter={isOpen ? "brightness(0) contrast(200%)" : "none"}
+            />
           )}
         </Accordion.ItemIndicator>
       )}

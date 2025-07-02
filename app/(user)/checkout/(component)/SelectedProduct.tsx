@@ -1,20 +1,26 @@
 "use client";
-
+import { useConfigQuery } from "@/hooks/api";
 import { Box, HStack, Image, Text, VStack } from "@chakra-ui/react";
 
 type Product = {
   id: string;
-  name: string;
+  title: string;
   image?: string;
-  discountedPrice: number;
-  originalPrice: number;
+  name?: string;
+  price?: string;
+  item_price?: string;
+  total?: number;
+  discountedPrice?: string;
+  discountPercentage?: string;
+  originalPrice?: number;
   quantity?: number;
 };
 
 export default function SelectedProduct({ products }: { products: Product[] }) {
+  const { data: config } = useConfigQuery();
   return (
     <Box>
-      <VStack gap={4} align="stretch">
+      <VStack gap={4} align="stretch" maxH={"350px"} overflowY="auto">
         {products.map((product) => (
           <Box
             key={product.id}
@@ -24,37 +30,53 @@ export default function SelectedProduct({ products }: { products: Product[] }) {
             py={3}
             w="full"
           >
-            <HStack justify="space-between" align="flex-start">
+            <HStack justify="space-between" align="flex-end">
               <HStack gap={4}>
                 <Image
-                  src={product.image || "/placeholder.svg"}
-                  alt={product.name}
+                  src={product.image || config.company_details_url}
+                  alt={product.title}
                   boxSize="60px"
                   borderRadius="md"
                   objectFit="cover"
                 />
                 <VStack align="start" gap={1}>
                   <Text fontWeight="medium" fontSize="sm">
-                    {product.name}
+                    {product.title}
                   </Text>
                   <HStack gap={2}>
                     <Text fontSize="md" fontWeight="bold" color="pink.500">
                       Rs {product.discountedPrice}
                     </Text>
-                    <Text fontSize="sm" color="pink.400">
-                      Discounted Price
-                    </Text>
+                    {product.discountPercentage &&
+                    product.discountPercentage !== "0.00" ? (
+                      <Text fontSize="sm" color="pink.400">
+                        Discounted Price
+                      </Text>
+                    ) : null}
                   </HStack>
-                  <Text
-                    fontSize="xs"
-                    color="gray.500"
-                    textDecoration="line-through"
-                  >
-                    Rs {product.originalPrice}
-                  </Text>
+                  {product.discountPercentage &&
+                  product.discountPercentage !== "0.00" ? (
+                    <HStack gap={2}>
+                      <Text
+                        fontSize="xs"
+                        color="gray.500"
+                        textDecoration="line-through"
+                      >
+                        Rs {product.price}
+                      </Text>
+                      <Text fontSize="xs" color="pink.400">
+                        {product.discountPercentage} % Off
+                      </Text>
+                    </HStack>
+                  ) : null}
                 </VStack>
               </HStack>
-              <Text fontSize="sm" color="gray.600" whiteSpace="nowrap">
+              <Text
+                fontSize="sm"
+                color="gray.600"
+                whiteSpace="nowrap"
+                alignItems={"end"}
+              >
                 Qty: {product.quantity || 1}
               </Text>
             </HStack>

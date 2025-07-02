@@ -11,6 +11,8 @@ export type ItemProductLikeApiType = {
   prices: [
     {
       price_list_rate: number;
+      discounted_price: number;
+      discount: number;
     },
   ];
 };

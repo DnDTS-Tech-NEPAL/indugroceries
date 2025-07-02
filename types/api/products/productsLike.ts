@@ -18,6 +18,8 @@ export type ProductLikeApiType = {
     {
       price_list: string;
       price_list_rate: number;
+      discounted_price: number;
+      discount: number;
     },
   ];
 };

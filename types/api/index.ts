@@ -19,3 +19,4 @@ export * from "./navMenu";
 export * from "./skin-test";
 export * from "./skin-type";
 export * from "./callForinfluencer";
+export * from "./shipping-delivery";

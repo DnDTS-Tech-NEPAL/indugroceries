@@ -21,12 +21,12 @@ export type SidebarProps = {
 
 export type SidebarItemProps = NavItemProps & {
   isLastChild: boolean;
-   id: string | number;
-  label: string;
-  icon: IconType;
-  active?: boolean; 
-  items : NavItemProps[];
-  onSelect: (id: string | number) => void;
+  id?: string | number;
+  label?: string;
+  icon?: IconType;
+  active?: boolean;
+  items?: NavItemProps[];
+  onSelect?: (id: string | number) => void;
 };
 
 export type LinkItemProps = {

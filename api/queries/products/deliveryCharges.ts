@@ -2,9 +2,10 @@ import { API_ROUTES } from "@/constants";
 import { httpClient } from "@/lib";
 
 export type DeliveryChargesAPIResponseType = {
-  data: {
-    name1: string;
-  };
+  data: [{
+    place: string;
+    district: string;
+  }];
 };
 
 export const getDeliveryData = async () => {

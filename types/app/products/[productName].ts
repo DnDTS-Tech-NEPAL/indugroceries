@@ -14,6 +14,8 @@ export type ProductDetail = {
   id: string;
   category: string;
   price: string;
+  discountedPrice: string;
+  discountPercentage: string;
   image: StaticImageData | string;
   title: string;
   description: string;

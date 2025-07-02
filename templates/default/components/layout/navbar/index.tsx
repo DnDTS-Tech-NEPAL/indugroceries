@@ -289,22 +289,10 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import {
-  Box,
-  Button,
-  Flex,
-  HStack,
-  Input,
-  InputGroup,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Box, Button, Flex, HStack, Input, InputGroup } from "@chakra-ui/react";
 
-import {
-  LoginDialog,
-  RegisterDialog,
-  SearchDialog,
-} from "@/components";
+import { LoginDialog, RegisterDialog } from "@/components";
 import { navbarIconsList, ROUTES } from "@/constants";
 import {
   useCartCountQuery,
@@ -313,14 +301,8 @@ import {
   useWishlistCountQuery,
 } from "@/hooks/api";
 import { useAuthentication } from "@/hooks/app";
-import {
-  useLayoutDialogStore,
-  useRegisterDialogStore,
-} from "@/store";
-import {
-  calculateHeightAndWidth,
-  extractMenu,
-} from "@/utils";
+import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
+import { calculateHeightAndWidth, extractMenu } from "@/utils";
 
 import { Sidebar } from "../sidebar";
 import { VisibleSection } from "@/components/ui/visibleSection";
@@ -336,12 +318,6 @@ export const Navbar = () => {
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
-  const {
-    open: isSearchOpen,
-    onOpen: onSearchOpen,
-    onClose: onSearchClose,
-  } = useDisclosure();
-
   const navItems = extractMenu(NavbarData);
 
   const { height, width } = calculateHeightAndWidth(
@@ -355,14 +331,20 @@ export const Navbar = () => {
 
   const { data: wishlistCount } = useWishlistCountQuery();
   const { data: cartCount } = useCartCountQuery();
-  const {
-    data: userProfileData,
-    isLoading,
-    isError,
-  } = useUserProfileQuery();
+  const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
 
   const wishlistTotalCount = wishlistCount?.count ?? "";
   const cartTotalCount = cartCount?.count ?? "";
+  const [searchInput, setSearchInput] = useState("");
+
+  useEffect(() => {
+    const trimmed = searchInput.trim();
+    if (trimmed.length > 0) {
+      router.push(`/search?q=${encodeURIComponent(trimmed)}`);
+    } else if (pathname === "/search") {
+      router.push(ROUTES.APP.HOMEPAGE);
+    }
+  }, [searchInput]);
 
   return (
     <>
@@ -389,125 +371,123 @@ export const Navbar = () => {
             />
           </Box>
         </Link>
-
-        <Box
-          gapX={6}
-          display={{ base: "none", lg: "flex" }}
-          alignItems="center"
+        {/* Search Input */}
+        <InputGroup
+          // flex="1"
+          width={"50%"}
+          startElement={navbarIconsList[0].icon}
+          // width={"560px"}
         >
-          {/* Search Input */}
-          <InputGroup
-            flex="1"
-            startElement={navbarIconsList[0].icon}
-            width={"560px"}
-          >
-            <Input placeholder="Search for products" onClick={onSearchOpen} />
-          </InputGroup>
+          <Input
+            borderRadius={"full"}
+            placeholder="Search for products"
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </InputGroup>
 
-          {/* Icons + Auth */}
-          <HStack gap="12px">
-            {/* Auth Section */}
-            {!isLoading && userProfileData && !isError ? (
-              // ✅ Show profile icon if logged in
-              <Profile
-                cursor={"pointer"}
-                height={22}
-                width={22}
-                onClick={() => router.push(ROUTES.USER.PROFILE)}
-              />
-            ) : (
-              // ✅ Show Login/Register buttons if not logged in
-              <>
-                <Button
-                  bg="gray.200"
-                  color="black"
-                  borderRadius="full"
-                  px="20px"
-                  onClick={() => updateSignInOpen(true)}
-                >
-                  <Login />
-                  Login
-                </Button>
-                <Button
-                  bg="#FF6996"
-                  color="white"
-                  borderRadius="full"
-                  px="20px"
-                  onClick={() => updateSignUpOpen(true)}
-                >
-                  <Register />
-                  Register
-                </Button>
-              </>
-            )}
+        {/* Icons + Auth */}
+        <HStack gap="12px">
+          {/* Auth Section */}
+          {!isLoading && userProfileData && !isError ? (
+            // ✅ Show profile icon if logged in
+            <Profile
+              cursor={"pointer"}
+              height={22}
+              width={22}
+              onClick={() => router.push(ROUTES.USER.PROFILE)}
+            />
+          ) : (
+            // ✅ Show Login/Register buttons if not logged in
+            <>
+              <Button
+                bg="gray.200"
+                color="black"
+                borderRadius="full"
+                px="20px"
+                onClick={() => updateSignInOpen(true)}
+              >
+                <Login />
+                Login
+              </Button>
+              <Button
+                bg="#FF6996"
+                color="white"
+                borderRadius="full"
+                px="20px"
+                onClick={() => updateSignUpOpen(true)}
+              >
+                <Register />
+                Register
+              </Button>
+            </>
+          )}
 
-            {/* Wishlist */}
-            <VisibleSection visibility={config?.wishlist_visibility}>
-              <Box position="relative" cursor="pointer">
-                <Flex
-                  onClick={() =>
-                    authenticate(navbarIconsList[1].href, () =>
-                      updateSignInOpen(true)
-                    )
-                  }
-                >
-                  {navbarIconsList[1].icon}
-                  {wishlistTotalCount !== "" && wishlistTotalCount > 0 && (
-                    <Box
-                      position="absolute"
-                      top="-1"
-                      right="-1"
-                      bg="red.500"
-                      color="white"
-                      fontSize="8px"
-                      borderRadius="full"
-                      w="3.5"
-                      h="3.5"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      {wishlistTotalCount}
-                    </Box>
-                  )}
-                </Flex>
-              </Box>
-            </VisibleSection>
+          {/* Wishlist */}
+          <VisibleSection visibility={config?.wishlist_visibility}>
+            <Box position="relative" cursor="pointer">
+              <Flex
+                onClick={() =>
+                  authenticate(navbarIconsList[1].href, () =>
+                    updateSignInOpen(true)
+                  )
+                }
+              >
+                {navbarIconsList[1].icon}
+                {wishlistTotalCount !== "" && wishlistTotalCount > 0 && (
+                  <Box
+                    position="absolute"
+                    top="-1"
+                    right="-1"
+                    bg="red.500"
+                    color="white"
+                    fontSize="8px"
+                    borderRadius="full"
+                    w="3.5"
+                    h="3.5"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {wishlistTotalCount}
+                  </Box>
+                )}
+              </Flex>
+            </Box>
+          </VisibleSection>
 
-            {/* Cart */}
-            <VisibleSection visibility={config?.cart_visibility}>
-              <Box position="relative" cursor="pointer">
-                <Flex
-                  onClick={() =>
-                    authenticate(navbarIconsList[2].href, () =>
-                      updateSignInOpen(true)
-                    )
-                  }
-                >
-                  {navbarIconsList[2].icon}
-                  {cartTotalCount !== "" && cartTotalCount > 0 && (
-                    <Box
-                      position="absolute"
-                      top="-1"
-                      right="-1"
-                      bg="red.500"
-                      color="white"
-                      fontSize="8px"
-                      borderRadius="full"
-                      w="3.5"
-                      h="3.5"
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="center"
-                    >
-                      {cartTotalCount}
-                    </Box>
-                  )}
-                </Flex>
-              </Box>
-            </VisibleSection>
-          </HStack>
-        </Box>
+          {/* Cart */}
+          <VisibleSection visibility={config?.cart_visibility}>
+            <Box position="relative" cursor="pointer">
+              <Flex
+                onClick={() =>
+                  authenticate(navbarIconsList[2].href, () =>
+                    updateSignInOpen(true)
+                  )
+                }
+              >
+                {navbarIconsList[2].icon}
+                {cartTotalCount !== "" && cartTotalCount > 0 && (
+                  <Box
+                    position="absolute"
+                    top="-1"
+                    right="-1"
+                    bg="red.500"
+                    color="white"
+                    fontSize="8px"
+                    borderRadius="full"
+                    w="3.5"
+                    h="3.5"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                  >
+                    {cartTotalCount}
+                  </Box>
+                )}
+              </Flex>
+            </Box>
+          </VisibleSection>
+        </HStack>
       </Flex>
 
       {/* Bottom Navigation */}
@@ -544,15 +524,9 @@ export const Navbar = () => {
         {navbarIconsList[3].icon}
       </Box>
 
-      <Sidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-      />
-      <SearchDialog open={isSearchOpen} onClose={onSearchClose} />
-      <LoginDialog
-        open={signInOpen}
-        onClose={() => updateSignInOpen(false)}
-      />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+
+      <LoginDialog open={signInOpen} onClose={() => updateSignInOpen(false)} />
       <RegisterDialog
         open={signUpOpen}
         onClose={() => updateSignUpOpen(false)}

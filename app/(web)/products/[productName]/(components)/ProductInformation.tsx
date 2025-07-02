@@ -261,6 +261,7 @@ import {
   ProductVariantTabs,
   QuantityInput,
   StarRating,
+  Tooltip,
 } from "@/components";
 import {
   useConfigQuery,
@@ -298,7 +299,6 @@ export const ProductInformation = () => {
   const [displayProduct, setDisplayProduct] = useState<
     IndividualProductAPIType | ProductVariantType | null
   >(null);
-
   // Initialize with base product or selected variant
   useEffect(() => {
     if (productDetail) {
@@ -352,8 +352,19 @@ export const ProductInformation = () => {
     return productDetail.prices?.[0]?.discount ?? null;
   }, [productDetail, activeVariant]);
 
-  const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
-  const maximumQuantity = displayProduct?.custom_maximum_order_quantity || 100;
+  // const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
+  // const maximumQuantity = displayProduct?.custom_maximum_order_quantity || 100;
+  // const incrementStep = displayProduct?.custom_increment_on_quantity || 1;
+  const minimumQuantity =
+    Math.min(
+      displayProduct?.custom_minimum_order_quantity ?? Infinity,
+      displayProduct?.stock_qty ?? 0
+    ) || 1;
+  const maximumQuantity =
+    (displayProduct?.custom_maximum_order_quantity ||
+      displayProduct?.stock_qty) ??
+    100;
+
   const incrementStep = displayProduct?.custom_increment_on_quantity || 1;
   const [quantity, setQuantity] = useState(minimumQuantity);
 
@@ -361,6 +372,9 @@ export const ProductInformation = () => {
     if (newQuantity < minimumQuantity || newQuantity > maximumQuantity) return;
     setQuantity(newQuantity);
   };
+  useEffect(() => {
+    setQuantity(minimumQuantity);
+  }, [minimumQuantity]);
 
   const onAddToWishlist = () => {
     const payload = {
@@ -537,15 +551,37 @@ export const ProductInformation = () => {
               maximum={maximumQuantity}
               incrementStep={incrementStep}
             />
-            <Button
-              rounded="3xl"
-              bg="#FF6996"
-              flex={1}
-              onClick={checkAuth(onAddToCart)}
-              loading={isCartPending}
-            >
-              Add to Cart
-            </Button>
+            {displayProduct && displayProduct?.stock_qty <= 0 ? (
+              <Tooltip
+                content="This product is currently out of stock."
+                showArrow={true}
+                disabled={displayProduct?.stock_qty !== (0 || 0.0)}
+                positioning={{ placement: "top" }}
+                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+              >
+                <Button
+                  rounded="3xl"
+                  bg="#FF6996"
+                  cursor={"not-allowed"}
+                  flex={1}
+                  onClick={checkAuth(onAddToCart)}
+                  loading={isCartPending}
+                >
+                  Add to Cart
+                </Button>
+              </Tooltip>
+            ) : (
+              <Button
+                rounded="3xl"
+                bg="#FF6996"
+                cursor={"pointer"}
+                flex={1}
+                onClick={checkAuth(onAddToCart)}
+                loading={isCartPending}
+              >
+                Add to Cart
+              </Button>
+            )}
             <Button
               borderRadius="full"
               h="10px"
