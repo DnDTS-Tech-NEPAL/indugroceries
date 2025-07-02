@@ -4,5 +4,5 @@ import { UserProfileType } from "@/types";
 
 export const getLoggedInUserDetail = async (): Promise<UserProfileType> => {
   const response = await httpClient.post(API_ROUTES.USER.PROFILE.GET);
-  return response?.data?.data?.[0];
+  return response?.data;
 };

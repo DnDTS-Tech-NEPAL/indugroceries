@@ -2,61 +2,68 @@
 
 import Image from "next/image";
 import { Box } from "@chakra-ui/react";
-
-import { useHomePageQuery } from "@/hooks/api";
-import { VisibleSection } from "@/components/ui/visibleSection";
-import { Swiper } from "@/components";
+import { Swiper as SwiperCore, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination } from "swiper/modules";
+import { useBrandsListQuery } from "@/hooks/api";
+import "swiper/css";
+import "swiper/css/pagination";
 
 export const BrandCarousel = () => {
-  const { data: summerSaleData } = useHomePageQuery();
+  const { data: brandImageData = [] } = useBrandsListQuery();
   const fallbackImage = "/fallback.jpg";
 
-  const brandImages = [
-    summerSaleData?.sale_image_url,
-    summerSaleData?.sale_image_url,
-    summerSaleData?.sale_image_url,
-  ];
-  const slides = brandImages.map((src, index) => (
-    <Box key={index} px={{ base: "0", md: "4" }}>
-      <Box
-        borderRadius={{ base: "none", md: "xl" }}
-        overflow="hidden"
-        position="relative"
-        width="100%"
-        height={{
-          base: "150px",
-          sm: "200px",
-          md: "300px",
-          lg: "400px",
-          xl: "450px",
-        }}
-      >
-        <Image
-          src={src || fallbackImage}
-          alt={`Brand ${index + 1}`}
-          fill
-          style={{
-            objectFit: "cover",
-          }}
-          sizes="(max-width: 480px) 100vw, (max-width: 768px) 90vw, (max-width: 1200px) 80vw, 1200px"
-          priority={index === 0}
-        />
-      </Box>
-    </Box>
-  ));
+  const heroImages = brandImageData.flatMap((brand) =>
+    [
+      brand.custom_hero_image_1_link,
+      brand.custom_hero_image_2_link,
+      brand.custom_hero_image_3_link,
+    ].filter(Boolean)
+  );
 
   return (
-    <VisibleSection visibility={summerSaleData?.sale_visibility}>
-      <Box
-        width={{ base: "100%", md: "7xl" }}
-        maxWidth="100%"
-        mx="auto"
-        px={{ base: "0", md: "4" }}
-        py={{ base: "4", md: "8", lg: "12" }}
-        position="relative"
+    <Box
+      width={{ base: "100%", md: "7xl" }}
+      maxWidth="100%"
+      mx="auto"
+      px={{ base: "0", md: "4" }}
+      py={{ base: "4", md: "8", lg: "12" }}
+      position="relative"
+    >
+      <SwiperCore
+        modules={[Autoplay, Pagination]}
+        autoplay={{ delay: 4000, disableOnInteraction: false }}
+        pagination={{ clickable: true }}
+        loop
+        spaceBetween={16}
+        slidesPerView={1}
       >
-        <Swiper slides={slides} direction="horizontal" />
-      </Box>
-    </VisibleSection>
+        {heroImages.map((src, index) => (
+          <SwiperSlide key={index}>
+            <Box
+              borderRadius={{ base: "none", md: "xl" }}
+              overflow="hidden"
+              position="relative"
+              width="100%"
+              height={{
+                base: "150px",
+                sm: "200px",
+                md: "300px",
+                lg: "400px",
+                xl: "450px",
+              }}
+            >
+              <Image
+                src={src || fallbackImage}
+                alt={`Brand Hero ${index + 1}`}
+                fill
+                style={{ objectFit: "cover" }}
+                sizes="100vw"
+                priority={index === 0}
+              />
+            </Box>
+          </SwiperSlide>
+        ))}
+      </SwiperCore>
+    </Box>
   );
 };

@@ -10,6 +10,7 @@ import { useUserProfileQuery } from "@/hooks/api";
 
 const UserProfile = () => {
   const { data: profileData } = useUserProfileQuery();
+  const userData = profileData?.data[0];
 
   return (
     <>
@@ -30,14 +31,14 @@ const UserProfile = () => {
 
           {/* Name and user info stacked vertically */}
           <Flex direction="column">
-            <Heading variant="heading5">{profileData?.customer_name}</Heading>
-            {profileData?.user && (
+            <Heading variant="heading5">{userData?.customer_name}</Heading>
+            {userData?.user && (
               <>
                 <Text fontSize="sm" color="gray.600" mt={1}>
-                  {profileData.user}
+                  {userData.user}
                 </Text>
                 <Text fontSize="sm" color="gray.600" mt={1}>
-                  {profileData.custom_customer_contact}
+                  {userData.custom_customer_contact}
                 </Text>
               </>
             )}

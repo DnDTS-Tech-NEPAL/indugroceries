@@ -25,7 +25,7 @@ export const NavItem = ({
 
   return (
     <Box position="relative" className="group">
-      <HStack cursor="pointer" color="primary.400">
+      <HStack cursor="pointer" color="primary.400" >
         <Link href={menu_redirect_link}>
           <Text
             variant="subtitle2"
@@ -59,6 +59,7 @@ export const NavItem = ({
           minWidth="200px"
           background="white"
           color="system.text.dark.light"
+          zIndex={10}
           _groupHover={{
             display: "flex",
           }}
