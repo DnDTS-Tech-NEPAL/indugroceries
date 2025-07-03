@@ -10,13 +10,13 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     title: item.item_name,
     link: item.name,
     description: item.description,
-    price: item.prices?.[0]?.price_list_rate || 0,
-    originalPrice: item.original_price,
+    price: item.prices?.[0]?.discounted_price || 0,
+    originalPrice: item.prices?.[0]?.price_list_rate,
     min_price: item.prices?.[0]?.min_price,
     max_price: item.prices?.[0]?.max_price,
     discount: String(item.max_discount),
     creation : item.creation,
     stock_qty: item.stock_qty,
-  
+    
   }));
 };
