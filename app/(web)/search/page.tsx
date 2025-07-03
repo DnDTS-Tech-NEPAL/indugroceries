@@ -38,6 +38,7 @@ const SearchPage = () => {
   });
 
   const list = searchData?.data?.data ?? [];
+  console.log("list", list);
 
   const productsPerPage =
     useBreakpointValue({
@@ -175,11 +176,13 @@ const SearchPage = () => {
                           category={product.item_group}
                           image={product.custom_image_1_link}
                           title={product.item_name}
-                          price={product.prices?.[0]?.price_list_rate}
+                          price={product.prices?.[0]?.discounted_price}
+                          originalPrice={product.prices?.[0]?.price_list_rate}
                           link={product.name}
                           item_code={product.item_code}
                           min_price={product.prices?.[0]?.min_price}
                           max_price={product.prices?.[0]?.max_price}
+                          stock_qty={product.stock_qty}
                         />
                       </Box>
                     ))}
