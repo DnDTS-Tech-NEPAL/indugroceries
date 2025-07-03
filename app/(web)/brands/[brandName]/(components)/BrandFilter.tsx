@@ -17,6 +17,7 @@ import {
 } from "@/components";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
+import { useSkinTypePageQuery } from "@/hooks/api";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -55,6 +56,20 @@ export const BrandFilter = ({
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
   };
+const { data: skinTypeData } = useSkinTypePageQuery();
+const uniqueSkinTypes = Array.from(new Set((skinTypeData || []).map(s => s.name)));
+const { skinTypes, setSkinTypes } = useBrandFilterStore();
+console.log("Selected skinTypes in filter:", skinTypes); // should log your selection
+
+
+const handleSkinTypeToggle = (value: string) => {
+  if (skinTypes.includes(value)) {
+    setSkinTypes(skinTypes.filter((s) => s !== value));
+  } else {
+    setSkinTypes([...skinTypes, value]);
+  }
+};
+
 
   return (
     <GridItem>
@@ -70,6 +85,7 @@ export const BrandFilter = ({
           onClick={() => {
             resetFilters();
             setPriceRange([minPrice, maxPrice]);
+            setSkinTypes([]);
           }}
         >
           Reset
@@ -233,6 +249,31 @@ export const BrandFilter = ({
                 </VStack>
               </AccordionItemContent>
             </AccordionItem>
+
+           {/* Skin Type Filter */}
+            <AccordionItem value="skin-type" p={2}>
+  <AccordionItemTrigger hasAccordionIcon>
+    <Text fontSize="xl" fontWeight="medium">Skin Type</Text>
+  </AccordionItemTrigger>
+  <AccordionItemContent>
+    <VStack align="stretch" gap={2} pt={4}>
+      {uniqueSkinTypes.map((type) => (
+        <Checkbox
+          key={type}
+          color="#7A7A7A"
+          py={2}
+          colorScheme="pink"
+          checked={skinTypes.includes(type)}
+          onChange={() => handleSkinTypeToggle(type)}
+        >
+          {type}
+        </Checkbox>
+      ))}
+    </VStack>
+  </AccordionItemContent>
+            </AccordionItem>
+
+
           </AccordionRoot>
         </VStack>
       </Box>

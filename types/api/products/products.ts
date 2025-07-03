@@ -105,6 +105,7 @@ export type ProductAPIType = {
   custom_best_seller_product: boolean;
   prices: ProductPrice[];
   stock_qty?: number;
+  skin_types?: string[];
 
   // remove this after api update
   original_price: string;
@@ -123,6 +124,7 @@ export type ProductFilterAPIType = {
   item_group: string[];
   bestseller: number;
   pricerange: number;
+  skin_types?: string[];
   in_stock?: number;
   page: number;
   size: number;

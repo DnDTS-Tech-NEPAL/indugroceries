@@ -15,6 +15,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     discount: String(item.max_discount),
     creation : item.creation,
     stock_qty: item.stock_qty,
+    skin_types: item.skin_types,
   
   }));
 };
