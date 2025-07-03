@@ -38,7 +38,7 @@ export default function BrandProductsPage({
 
   const { data } = useFilterProductsQuery({
     brand: [brandName],
-    item_group: category.length ? category : ["All Item Groups"],
+    item_group:category,
     in_stock: inStock,
     bestseller: discount,
     pricerange: priceSortOrder,
