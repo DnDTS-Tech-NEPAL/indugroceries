@@ -310,24 +310,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </Text>
           )}
         </Box>
-
-        <Button
-          height="auto"
-          minH="32px"
-          w={{ base: "50%", sm: "55%", md: "45%" }}
-          bg={"transparent"}
-          color={"#FF6996"}
-          borderRadius="full"
-          border={"0.5px solid #FF6996"}
-          fontSize="14px"
-          fontWeight={"400"}
-          px={3}
-          py={0}
-          lineHeight="1.2"
-          onClick={checkAuth(onAddToCart)}
-        >
-          Add <Cart />
-        </Button>
+        {!min_price && !max_price && (
+          <Button
+            height="auto"
+            minH="32px"
+            w={{ base: "50%", sm: "55%", md: "45%" }}
+            bg="transparent"
+            color="#FF6996"
+            borderRadius="full"
+            border={"0.5px solid #FF6996"}
+            fontSize="14px"
+            fontWeight={"400"}
+            px={3}
+            py={0}
+            lineHeight="1.2"
+            onClick={checkAuth(onAddToCart)}
+          >
+            Add <Cart />
+          </Button>
+        )}
       </Stack>
       {/* Full Screen Modal */}
       {isFullScreen && (
