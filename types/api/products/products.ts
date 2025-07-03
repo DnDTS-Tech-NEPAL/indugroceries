@@ -104,6 +104,7 @@ export type ProductAPIType = {
   custom_new_arrivals: 1;
   custom_best_seller_product: boolean;
   prices: ProductPrice[];
+  stock_qty?: number;
 
   // remove this after api update
   original_price: string;

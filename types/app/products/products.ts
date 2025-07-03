@@ -17,6 +17,7 @@ export type FilterAccordionProps = {
   }>
   isFetching: boolean
   name: string
+  stock_qty?: number
 }
 
 export type ReviewAccordionProps = {

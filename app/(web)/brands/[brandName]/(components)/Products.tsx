@@ -52,7 +52,14 @@ export default function BrandProductsPage({
 
   const filteredProducts = products.filter((product) => {
     const price = product.price || 0;
-    return price >= priceRange[0] && price <= priceRange[1];
+    const stockQty = product.stock_qty ?? 0;
+
+    const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+
+    const matchesAvailability =
+      inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
+
+    return inPriceRange && matchesAvailability;
   });
 
   const orderStatusOptions = createListCollection({
@@ -62,12 +69,20 @@ export default function BrandProductsPage({
       { label: "Newest", value: "newest" },
     ],
   });
-
+  const inStockCount = products.filter(
+    (p) => p.stock_qty && p.stock_qty > 0
+  ).length;
+  const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
   return (
     <Container maxW="7xl" py={8}>
       <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
         {/* Sidebar Filters */}
-        <BrandFilter minPrice={minPrice} maxPrice={maxPrice} />
+        <BrandFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          inStockCount={inStockCount}
+          outOfStockCount={outOfStockCount}
+        />
 
         {/* Main Content */}
         <GridItem>
