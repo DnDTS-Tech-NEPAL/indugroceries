@@ -40,9 +40,8 @@ export default function BrandProductsPage({
     brand: [brandName],
     item_group:category,
     in_stock: inStock,
-    bestseller: discount,
+    bestseller: 0,
     pricerange: priceSortOrder,
-    skin_types: skinTypes.length ? skinTypes : undefined,
     page: 1,
     size: 20000,
   });
@@ -64,12 +63,8 @@ export default function BrandProductsPage({
     }) => {
       const price = product.price || 0;
       const stockQty = product.stock_qty ?? 0;
+     const maxDiscount = parseFloat(product.discount || "0");
 
-      const maxDiscount =
-        product.prices?.reduce((max: number, price: { discount?: number }) => {
-          const currentDiscount = price.discount || 0;
-          return Math.max(max, currentDiscount);
-        }, 0) || 0;
 
       const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
       const matchesAvailability =
@@ -178,3 +173,4 @@ export default function BrandProductsPage({
     </Container>
   );
 }
+

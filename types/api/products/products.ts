@@ -126,6 +126,7 @@ export type ProductFilterAPIType = {
   pricerange: number;
   skin_types?: string[];
   in_stock?: number;
+  discount?: number;
   page: number;
   size: number;
 };

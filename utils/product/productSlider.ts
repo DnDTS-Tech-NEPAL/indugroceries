@@ -12,7 +12,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     description: item.description,
     price: item.prices?.[0]?.price_list_rate || 0,
     originalPrice: item.original_price,
-    discount: String(item.max_discount),
+    discount: String(item.prices?.[0]?.discount || 0),
     creation : item.creation,
     stock_qty: item.stock_qty,
     skin_types: item.skin_types,
