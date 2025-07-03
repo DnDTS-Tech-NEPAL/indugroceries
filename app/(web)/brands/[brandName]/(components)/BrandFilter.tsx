@@ -17,6 +17,8 @@ import {
 } from "@/components";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
+import { useSkinTypePageQuery } from "@/hooks/api";
+import { useEffect } from "react";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -44,6 +46,11 @@ export const BrandFilter = ({
     resetFilters,
   } = useBrandFilterStore();
 
+  // Initialize price range when component mounts or maxPrice changes
+  useEffect(() => {
+    setPriceRange([minPrice, maxPrice]);
+  }, [minPrice, maxPrice, setPriceRange]);
+
   const handleCategoryToggle = (value: string) => {
     if (category.includes(value)) {
       setCategory(category.filter((c) => c !== value));
@@ -54,6 +61,20 @@ export const BrandFilter = ({
 
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
+  };
+
+  const { data: skinTypeData } = useSkinTypePageQuery();
+  const uniqueSkinTypes = Array.from(
+    new Set((skinTypeData || []).map((s) => s.name))
+  );
+  const { skinTypes, setSkinTypes } = useBrandFilterStore();
+
+  const handleSkinTypeToggle = (value: string) => {
+    if (skinTypes.includes(value)) {
+      setSkinTypes(skinTypes.filter((s) => s !== value));
+    } else {
+      setSkinTypes([...skinTypes, value]);
+    }
   };
 
   return (
@@ -68,8 +89,7 @@ export const BrandFilter = ({
           fontWeight={"medium"}
           cursor="pointer"
           onClick={() => {
-            resetFilters();
-            setPriceRange([minPrice, maxPrice]);
+            resetFilters(maxPrice);
           }}
         >
           Reset
@@ -117,7 +137,7 @@ export const BrandFilter = ({
               </AccordionItemTrigger>
               <AccordionItemContent>
                 <VStack align="stretch" gap={2} pt={4}>
-                  {[10, 20, 30].map((val) => (
+                  {[10, 20, 30, 40, 50].map((val) => (
                     <Checkbox
                       key={val}
                       color={"#7A7A7A"}
@@ -145,10 +165,10 @@ export const BrandFilter = ({
                   maxW="md"
                   value={priceRange}
                   step={1}
-                  minStepsBetweenThumbs={Math.min(
-                    10,
-                    Math.floor((maxPrice - minPrice) / 1)
-                  )}
+                  // minStepsBetweenThumbs={Math.min(
+                  //   10,
+                  //   Math.floor((maxPrice - minPrice) / 1)
+                  // )}
                   min={minPrice}
                   max={maxPrice}
                   onValueChange={(details: { value: number[] }) => {
@@ -230,6 +250,31 @@ export const BrandFilter = ({
                       ({outOfStockCount})
                     </Text>
                   </HStack>
+                </VStack>
+              </AccordionItemContent>
+            </AccordionItem>
+
+            {/* Skin Type Filter */}
+            <AccordionItem value="skin-type" p={2}>
+              <AccordionItemTrigger hasAccordionIcon>
+                <Text fontSize="xl" fontWeight="medium">
+                  Skin Type
+                </Text>
+              </AccordionItemTrigger>
+              <AccordionItemContent>
+                <VStack align="stretch" gap={2} pt={4}>
+                  {uniqueSkinTypes.map((type) => (
+                    <Checkbox
+                      key={type}
+                      color="#7A7A7A"
+                      py={2}
+                      colorScheme="pink"
+                      checked={skinTypes.includes(type)}
+                      onChange={() => handleSkinTypeToggle(type)}
+                    >
+                      {type}
+                    </Checkbox>
+                  ))}
                 </VStack>
               </AccordionItemContent>
             </AccordionItem>

@@ -20,15 +20,21 @@ import { ProductCard } from "@/components";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { BrandFilter } from "./BrandFilter";
-
 interface BrandProductsPageProps {
   brandName: string;
+}
+interface FilteredProductType {
+  price?: number;
+  stock_qty?: number;
+  discount?: string;
+  skin_types?: string[];
 }
 
 export default function BrandProductsPage({
   brandName,
 }: BrandProductsPageProps) {
-  const { category, priceRange, discount, inStock } = useBrandFilterStore();
+  const { category, priceRange, discount, inStock, skinTypes } =
+    useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
 
@@ -37,29 +43,38 @@ export default function BrandProductsPage({
 
   const { data } = useFilterProductsQuery({
     brand: [brandName],
-    item_group: category.length ? category : ["All Item Groups"],
+    item_group: category,
     in_stock: inStock,
-    bestseller: discount,
+    bestseller: 0,
     pricerange: priceSortOrder,
     page: 1,
     size: 20000,
   });
-
   const products = data?.products || [];
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = products.filter((product: FilteredProductType) => {
     const price = product.price || 0;
     const stockQty = product.stock_qty ?? 0;
+    const maxDiscount = parseFloat(product.discount || "0");
 
     const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
 
     const matchesAvailability =
       inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
 
-    return inPriceRange && matchesAvailability;
+    const matchesSkinTypes =
+      skinTypes.length === 0 ||
+      (product.skin_types &&
+        product.skin_types.some((st) => skinTypes.includes(st)));
+
+    const matchesDiscount = discount === 0 || maxDiscount >= discount;
+
+    return (
+      inPriceRange && matchesAvailability && matchesSkinTypes && matchesDiscount
+    );
   });
 
   const orderStatusOptions = createListCollection({
@@ -82,6 +97,7 @@ export default function BrandProductsPage({
           maxPrice={maxPrice}
           inStockCount={inStockCount}
           outOfStockCount={outOfStockCount}
+          // skinTypes={skinTypes}
         />
 
         {/* Main Content */}
