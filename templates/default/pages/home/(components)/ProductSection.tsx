@@ -11,6 +11,7 @@ import {
   Spinner,
   SimpleGrid,
   IconButton,
+  useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -37,7 +38,8 @@ export const ProductSection = ({
 
   const [page, setPage] = useState(0);
 
-  const PRODUCTS_PER_PAGE = 8;
+  const PRODUCTS_PER = {base:10, sm: 8, md: 10,lg:10 } ;
+  const PRODUCTS_PER_PAGE = useBreakpointValue(PRODUCTS_PER)?? 10;
 
   const categories = useMemo(() => {
     const unique = Array.from(
@@ -88,7 +90,7 @@ export const ProductSection = ({
 
   return (
     <VStack
-      maxW="6xl"
+      maxW="7xl"
       mx="auto"
       alignItems="stretch"
       px={{ base: "20px", md: "40px" }}
@@ -168,7 +170,7 @@ export const ProductSection = ({
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.4 }}
             >
-              <SimpleGrid columns={{base:1, sm: 2, md: 3,lg:4 }} gap={{ sm:4,base: 4, md: 6 }}>
+              <SimpleGrid columns={{base:1, sm: 2, md: 3,lg:4,xl:5 }} gap={{ sm:4,base: 4, md: 6 }}>
                 {pagedProducts.map((product) => (
                   <ProductCard key={product.title} {...product} />
                 ))}

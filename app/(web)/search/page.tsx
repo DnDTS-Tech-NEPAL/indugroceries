@@ -142,7 +142,7 @@ const SearchPage = () => {
 
   return (
     <Box bg="white" py="32px">
-      <Container maxW="7xl" px={{ base: 4, md: 8, xl: 10 }}>
+      <Container maxW="7xl" px={{ base: 4, md: 6, xl: 10 }}>
         {list.length > 0 ? (
           <>
             <Heading
@@ -164,7 +164,10 @@ const SearchPage = () => {
                   exit={{ opacity: 0, x: -100 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <SimpleGrid columns={{ base: 3, md: 4, xl: 5 }} gap="20px">
+                  <SimpleGrid
+                    columns={{ base: 1, sm: 3, md: 4, lg: 4, xl: 5 }}
+                    gap="20px"
+                  >
                     {pagedProducts.map((product, index) => (
                       <ProductCard
                         id={index}
