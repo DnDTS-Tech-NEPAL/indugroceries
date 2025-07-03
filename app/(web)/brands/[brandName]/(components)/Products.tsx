@@ -28,8 +28,8 @@ interface BrandProductsPageProps {
 export default function BrandProductsPage({
   brandName,
 }: BrandProductsPageProps) {
-  const { category, priceRange, discount, inStock, skinTypes } = useBrandFilterStore();
-
+  const { category, priceRange, discount, inStock, skinTypes } =
+    useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
 
@@ -42,50 +42,51 @@ export default function BrandProductsPage({
     in_stock: inStock,
     bestseller: discount,
     pricerange: priceSortOrder,
-    skin_types: skinTypes.length ? skinTypes : undefined,  
+    skin_types: skinTypes.length ? skinTypes : undefined,
     page: 1,
     size: 20000,
   });
-  console.log("filterproductquery",{
-  brand: [brandName],
-  item_group: category.length ? category : ["All Item Groups"],
-  in_stock: inStock,
-  bestseller: discount,
-  pricerange: priceSortOrder,
-  skin_types: skinTypes,
-});
-
   const products = data?.products || [];
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
 
-  // const filteredProducts = products.filter((product) => {
-  //   const price = product.price || 0;
-  //   const stockQty = product.stock_qty ?? 0;
+  const filteredProducts = products.filter(
+    (product: {
+      price?: number;
+      stock_qty?: number;
+      prices?: Array<{
+        discount?: number;
+        [key: string]: any;
+      }>;
+      skin_types?: string[];
+      [key: string]: any;
+    }) => {
+      const price = product.price || 0;
+      const stockQty = product.stock_qty ?? 0;
 
-  //   const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+      const maxDiscount =
+        product.prices?.reduce((max: number, price: { discount?: number }) => {
+          const currentDiscount = price.discount || 0;
+          return Math.max(max, currentDiscount);
+        }, 0) || 0;
 
-  //   const matchesAvailability =
-  //     inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
+      const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+      const matchesAvailability =
+        inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
+      const matchesSkinTypes =
+        skinTypes.length === 0 ||
+        (product.skin_types &&
+          product.skin_types.some((st: string) => skinTypes.includes(st)));
 
-  //   return inPriceRange && matchesAvailability;
-  // });
-const filteredProducts = products.filter((product) => {
-  const price = product.price || 0;
-  const stockQty = product.stock_qty ?? 0;
-
-  const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
-
-  const matchesAvailability =
-    inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
-
-  // Add skin type filtering
-  const matchesSkinTypes = skinTypes.length === 0 || 
-    (product.skin_types && product.skin_types.some(st => skinTypes.includes(st)));
-
-  return inPriceRange && matchesAvailability && matchesSkinTypes;
-});
+      return (
+        inPriceRange &&
+        matchesAvailability &&
+        matchesSkinTypes &&
+        (discount === 0 || maxDiscount >= discount)
+      );
+    }
+  );
   const orderStatusOptions = createListCollection({
     items: [
       { label: "Price: Low to High", value: "low-high" },
