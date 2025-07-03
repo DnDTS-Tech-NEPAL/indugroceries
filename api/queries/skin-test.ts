@@ -11,6 +11,5 @@ export const getQuizPageData = async (): Promise<QuizPageAPIResponseType> => {
   );
 
   const data = await response.json();
-console.log("this is data",data)
   return data;
 };

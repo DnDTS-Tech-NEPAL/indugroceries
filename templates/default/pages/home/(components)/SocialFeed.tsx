@@ -532,7 +532,6 @@ export const SocialFeed = () => {
         });
 
         const videoProducts = await Promise.all(videoProductsPromises);
-        console.log("videoProducts:", videoProducts);
         setCardDetails(videoProducts);
       } catch (error) {
         console.error("Error in fetchAllProducts:", error);

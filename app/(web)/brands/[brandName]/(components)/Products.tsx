@@ -20,9 +20,14 @@ import { ProductCard } from "@/components";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { BrandFilter } from "./BrandFilter";
-
 interface BrandProductsPageProps {
   brandName: string;
+}
+interface FilteredProductType {
+  price?: number;
+  stock_qty?: number;
+  discount?: string;
+  skin_types?: string[];
 }
 
 export default function BrandProductsPage({
@@ -38,7 +43,7 @@ export default function BrandProductsPage({
 
   const { data } = useFilterProductsQuery({
     brand: [brandName],
-    item_group:category,
+    item_group: category,
     in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,
@@ -50,38 +55,28 @@ export default function BrandProductsPage({
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
 
-  const filteredProducts = products.filter(
-    (product: {
-      price?: number;
-      stock_qty?: number;
-      prices?: Array<{
-        discount?: number;
-        [key: string]: any;
-      }>;
-      skin_types?: string[];
-      [key: string]: any;
-    }) => {
-      const price = product.price || 0;
-      const stockQty = product.stock_qty ?? 0;
-     const maxDiscount = parseFloat(product.discount || "0");
+  const filteredProducts = products.filter((product: FilteredProductType) => {
+    const price = product.price || 0;
+    const stockQty = product.stock_qty ?? 0;
+    const maxDiscount = parseFloat(product.discount || "0");
 
+    const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
 
-      const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
-      const matchesAvailability =
-        inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
-      const matchesSkinTypes =
-        skinTypes.length === 0 ||
-        (product.skin_types &&
-          product.skin_types.some((st: string) => skinTypes.includes(st)));
+    const matchesAvailability =
+      inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
 
-      return (
-        inPriceRange &&
-        matchesAvailability &&
-        matchesSkinTypes &&
-        (discount === 0 || maxDiscount >= discount)
-      );
-    }
-  );
+    const matchesSkinTypes =
+      skinTypes.length === 0 ||
+      (product.skin_types &&
+        product.skin_types.some((st) => skinTypes.includes(st)));
+
+    const matchesDiscount = discount === 0 || maxDiscount >= discount;
+
+    return (
+      inPriceRange && matchesAvailability && matchesSkinTypes && matchesDiscount
+    );
+  });
+
   const orderStatusOptions = createListCollection({
     items: [
       { label: "Price: Low to High", value: "low-high" },
@@ -173,4 +168,3 @@ export default function BrandProductsPage({
     </Container>
   );
 }
-

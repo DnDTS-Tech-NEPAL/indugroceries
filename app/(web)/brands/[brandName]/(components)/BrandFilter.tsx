@@ -62,13 +62,13 @@ export const BrandFilter = ({
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
   };
-  
+
   const { data: skinTypeData } = useSkinTypePageQuery();
   const uniqueSkinTypes = Array.from(
     new Set((skinTypeData || []).map((s) => s.name))
   );
   const { skinTypes, setSkinTypes } = useBrandFilterStore();
-  
+
   const handleSkinTypeToggle = (value: string) => {
     if (skinTypes.includes(value)) {
       setSkinTypes(skinTypes.filter((s) => s !== value));
