@@ -41,6 +41,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   isNew,
   min_price,
   max_price,
+  stock_qty,
 }) => {
   const router = useRouter();
   const { checkAuth } = useAuthCheck();
@@ -94,6 +95,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     <VStack
       align="stretch"
       my={4}
+      border={"1px solid #dbdbdb"}
+      borderRadius={"lg"}
       gap={{ base: 3, md: 5 }}
       w="full"
       position="relative"
@@ -235,7 +238,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </Box>
 
         {/* Rating */}
-        <HStack gap={1}>
+        <HStack gap={1} px={3} pt={2}>
           {Array(5)
             .fill("")
             .map((_, i) => (
@@ -260,7 +263,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           fontWeight="semibold"
           color="gray.800"
           lineHeight="1.2"
-          minH={{ md: "40px" }}
+          // minH={{ md: "40px" }}
+          px={3}
           lineClamp={{ sm: 2, md: 2 }}
         >
           {title}
@@ -282,6 +286,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         direction={{ base: "row", sm: "row" }}
         justify="space-between"
         align="center"
+        px={3}
+        pb={4}
         gap={{ base: 3, sm: 2 }}
       >
         <Box
@@ -291,18 +297,20 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         >
           {!min_price && !max_price ? (
             <>
-              {originalPrice && originalPrice !== price && (
-                <Text
-                  fontSize={originalPriceFontSize}
-                  color="gray.400"
-                  textDecoration="line-through"
-                >
-                  {config?.currency} {originalPrice}
+              <VStack gap={0}>
+                <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+                  {config?.currency} {price}
                 </Text>
-              )}
-              <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
-                {config?.currency} {price}
-              </Text>
+                {originalPrice && originalPrice !== price && (
+                  <Text
+                    fontSize={originalPriceFontSize}
+                    color="gray.400"
+                    textDecoration="line-through"
+                  >
+                    {config?.currency} {originalPrice}
+                  </Text>
+                )}
+              </VStack>
             </>
           ) : (
             <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
