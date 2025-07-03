@@ -32,7 +32,6 @@ const products = [
     image: "/images/tea-tree.jpg",
     link: "/cica-houttuynia-tea-tree",
     stock_qty: 10,
-
   },
   {
     id: 3,
@@ -45,7 +44,6 @@ const products = [
     image: "/images/carrot.jpg",
     link: "/carrot-carotene",
     stock_qty: 10,
-
   },
   {
     id: 4,
@@ -58,7 +56,6 @@ const products = [
     image: "/images/medicube-plus.jpg",
     link: "/medicube-plus",
     stock_qty: 10,
-
   },
 ];
 

@@ -20,6 +20,7 @@ export const RecommendProducts = () => {
       category: "Category 1",
       item_code: "item_code_2",
       link: "link_2",
+      stock_qty: 10,
     },
     {
       title: "Product 2",
@@ -31,6 +32,7 @@ export const RecommendProducts = () => {
       category: "Category 1",
       item_code: "item_code_2",
       link: "link_2",
+      stock_qty: 10,
     },
     {
       title: "Product 3",
@@ -42,6 +44,7 @@ export const RecommendProducts = () => {
       category: "Category 1",
       item_code: "item_code_2",
       link: "link_2",
+      stock_qty: 10,
     },
     {
       title: "Product 4",
@@ -53,6 +56,7 @@ export const RecommendProducts = () => {
       category: "Category 1",
       item_code: "item_code_2",
       link: "link_2",
+      stock_qty: 10,
     },
   ];
 

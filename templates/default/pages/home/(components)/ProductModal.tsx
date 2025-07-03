@@ -536,6 +536,7 @@ const RelatedProducts = ({ itemCode }: { itemCode: string | undefined }) => {
             price={product.prices?.[0].price_list_rate}
             link={product.name}
             item_code={product.item_code}
+            stock_qty={product.stock_qty}
           />
         ))}
       </Grid>
