@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import {
   Box,
   Flex,
@@ -16,20 +16,17 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 
 import { ProductCard, VisibleSection } from "@/components";
-import { ROUTES } from "@/constants";
 import {
   useConfigQuery,
   useProductsLikeQuery,
   useSearchListQuery,
 } from "@/hooks/api";
-import { generateNextPath } from "@/utils";
 
 const MotionBox = motion(Box);
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
-  const router = useRouter();
 
   const { data: config } = useConfigQuery();
   const { data: productsLikeData } = useProductsLikeQuery();
@@ -38,7 +35,6 @@ const SearchPage = () => {
   });
 
   const list = searchData?.data?.data ?? [];
-  console.log("list", list);
 
   const productsPerPage =
     useBreakpointValue({
@@ -59,13 +55,13 @@ const SearchPage = () => {
     setPage(0);
   }, [query, productsPerPage]);
 
-  const handleClick = (productName: string) => {
-    router.push(
-      generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-        productName,
-      })
-    );
-  };
+  // const handleClick = (productName: string) => {
+  //   router.push(
+  //     generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
+  //       productName,
+  //     })
+  //   );
+  // };
 
   const renderPagination = () => {
     if (totalPages <= 1) return null;
@@ -170,6 +166,7 @@ const SearchPage = () => {
                   >
                     {pagedProducts.map((product, index) => (
                       <ProductCard
+                        key={index}
                         id={index}
                         category={product.item_group}
                         image={product.custom_image_1_link}
@@ -236,6 +233,7 @@ const SearchPage = () => {
                 item_code={product.item_code}
                 min_price={product.prices?.[0]?.min_price}
                 max_price={product.prices?.[0]?.max_price}
+                stock_qty={product.stock_qty}
               />
             ))}
           </Grid>

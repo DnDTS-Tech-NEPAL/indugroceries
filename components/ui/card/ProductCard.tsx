@@ -42,6 +42,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   min_price,
   max_price,
   stock_qty,
+  discount,
 }) => {
   const router = useRouter();
   const { checkAuth } = useAuthCheck();
@@ -120,22 +121,36 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       >
         <Box position="relative">
           {/* New Badge */}
-          {isNew && (
+          {isNew || (stock_qty ?? 0) <= 0 || Number(discount ?? 0) > 0 ? (
             <Badge
               position="absolute"
               top="10px"
               left="10px"
-              bg="#FF6996"
-              color="white"
-              px={3}
-              py={1}
-              borderRadius="full"
-              fontSize={{ base: "xs", md: "sm" }}
+              display="flex"
+              color="#FF6996"
               zIndex={2}
+              borderRadius={"2rem"}
+              px="3"
+              py="1"
+              fontSize="14px"
+              textAlign={"center"}
+              minH={0}
+              height={"fit-content"}
+              minW={0}
+              bg={"#F8E1E7"}
+              width="fit-content"
             >
-              New
+              {isNew
+                ? "New"
+                : (stock_qty && stock_qty) <= 0
+                  ? "Out of Stock"
+                  : Number(discount ?? 0) > 0
+                    ? `${discount}% Discount`
+                    : null}
+              {/* */}
             </Badge>
-          )}
+          ) : null}
+
           {/* Action Buttons */}
           <HStack
             className="action-buttons"
@@ -318,7 +333,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </Text>
           )}
         </Box>
-        {!min_price && !max_price && (
+        {!min_price && !max_price && stock_qty > 0 && (
           <Button
             height="auto"
             minH="32px"

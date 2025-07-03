@@ -8,6 +8,7 @@ export type ItemProductLikeApiType = {
   item_name: string;
   item_code: string;
   description: string;
+  stock_qty: number;
   prices: [
     {
       price_list_rate: number;

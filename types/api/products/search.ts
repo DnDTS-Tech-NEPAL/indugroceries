@@ -97,7 +97,7 @@ export type SearchType = {
   custom_best_seller_product: number;
   custom_you_may_like: number;
   prices: Price[];
-  stock_qty?: number;
+  stock_qty: number;
 };
 
 export type Price = {

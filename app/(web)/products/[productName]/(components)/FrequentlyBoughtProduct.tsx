@@ -20,6 +20,7 @@ const products = [
     discount: "10% Discount",
     image: "/images/pore-pad.jpg",
     link: "/medicube-zero-pore-pad",
+    stock_qty: 10,
   },
   {
     id: 2,
@@ -30,6 +31,8 @@ const products = [
     discount: "Sale",
     image: "/images/tea-tree.jpg",
     link: "/cica-houttuynia-tea-tree",
+    stock_qty: 10,
+
   },
   {
     id: 3,
@@ -41,6 +44,8 @@ const products = [
     discount: "10% Discount",
     image: "/images/carrot.jpg",
     link: "/carrot-carotene",
+    stock_qty: 10,
+
   },
   {
     id: 4,
@@ -52,6 +57,8 @@ const products = [
     discount: "10% Discount",
     image: "/images/medicube-plus.jpg",
     link: "/medicube-plus",
+    stock_qty: 10,
+
   },
 ];
 

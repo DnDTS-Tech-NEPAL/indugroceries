@@ -117,6 +117,7 @@ export const ProductsYouMayLike = () => {
               price={productInfo.prices?.[0].discounted_price}
               link={productInfo.name}
               item_code={productInfo.item_code}
+              stock_qty={productInfo.stock_qty}
             />
           ))}
         </Grid>

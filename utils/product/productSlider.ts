@@ -14,7 +14,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     originalPrice: item.prices?.[0]?.price_list_rate,
     min_price: item.prices?.[0]?.min_price,
     max_price: item.prices?.[0]?.max_price,
-    discount: String(item.max_discount),
+    discount: String(item.prices?.[0]?.discount || 0),
     creation : item.creation,
     stock_qty: item.stock_qty,
     

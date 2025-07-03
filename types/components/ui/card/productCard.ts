@@ -15,5 +15,5 @@ export type ProductCardProps = {
   isSale?: boolean;
   min_price?: number;
   max_price?: number;
-  stock_qty?: number;
+  stock_qty: number;
 };
