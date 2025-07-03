@@ -178,6 +178,8 @@ const SearchPage = () => {
                           price={product.prices?.[0]?.price_list_rate}
                           link={product.name}
                           item_code={product.item_code}
+                          min_price={product.prices?.[0]?.min_price}
+                          max_price={product.prices?.[0]?.max_price}
                         />
                       </Box>
                     ))}
@@ -232,6 +234,8 @@ const SearchPage = () => {
                 originalPrice={product.prices?.[0]?.price_list_rate}
                 link={product.name}
                 item_code={product.item_code}
+                min_price={product.prices?.[0]?.min_price}
+                max_price={product.prices?.[0]?.max_price}
               />
             ))}
           </Grid>

@@ -102,6 +102,10 @@ export type SearchType = {
 export type Price = {
   price_list: string;
   price_list_rate: number;
+  min_price?: number;
+  max_price?: number;
+  discounted_price: number;
+  discount: number;
 };
 
 export type SearchAPIResponseType = {
