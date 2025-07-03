@@ -1,9 +1,6 @@
 "use client";
 
-import { ProductCard } from "@/components";
-import { useFilterProductsQuery } from "@/hooks/api";
-import { useBrandFilterStore } from "@/store/products/brandFilterStore";
-
+import { useState } from "react";
 import {
   Box,
   Container,
@@ -18,6 +15,10 @@ import {
   Portal,
   createListCollection,
 } from "@chakra-ui/react";
+
+import { ProductCard } from "@/components";
+import { useFilterProductsQuery } from "@/hooks/api";
+import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { BrandFilter } from "./BrandFilter";
 
 interface BrandProductsPageProps {
@@ -29,30 +30,36 @@ export default function BrandProductsPage({
 }: BrandProductsPageProps) {
   const { category, priceRange, discount, inStock } = useBrandFilterStore();
 
+  const [sortBy, setSortBy] = useState<string>("");
+
+  const priceSortOrder =
+    sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
+
   const { data } = useFilterProductsQuery({
     brand: [brandName],
     item_group: category.length ? category : ["All Item Groups"],
     in_stock: inStock,
     bestseller: discount,
-    pricerange: 0,
+    pricerange: priceSortOrder,
     page: 1,
     size: 20000,
   });
 
   const products = data?.products || [];
-
-  // Extract prices from nested API field, fallback 0
   const allPrices = products.map((p) => p.price || 0);
-
-  // Compute dynamic min and max price for slider
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
 
-  // Filter products frontend by price range selected
   const filteredProducts = products.filter((product) => {
     const price = product.price || 0;
+    const stockQty = product.stock_qty ?? 0;
 
-    return price >= priceRange[0] && price <= priceRange[1];
+    const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+
+    const matchesAvailability =
+      inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
+
+    return inPriceRange && matchesAvailability;
   });
 
   const orderStatusOptions = createListCollection({
@@ -62,12 +69,20 @@ export default function BrandProductsPage({
       { label: "Newest", value: "newest" },
     ],
   });
-
+  const inStockCount = products.filter(
+    (p) => p.stock_qty && p.stock_qty > 0
+  ).length;
+  const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
   return (
     <Container maxW="7xl" py={8}>
       <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
         {/* Sidebar Filters */}
-        <BrandFilter minPrice={minPrice} maxPrice={maxPrice} />
+        <BrandFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          inStockCount={inStockCount}
+          outOfStockCount={outOfStockCount}
+        />
 
         {/* Main Content */}
         <GridItem>
@@ -89,6 +104,7 @@ export default function BrandProductsPage({
                   collection={orderStatusOptions}
                   size="sm"
                   width="200px"
+                  onValueChange={(val) => setSortBy((val.value as string[])[0])}
                 >
                   <Select.HiddenSelect />
                   <Flex>

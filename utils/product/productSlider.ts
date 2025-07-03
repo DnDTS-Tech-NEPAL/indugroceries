@@ -15,5 +15,8 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     min_price: item.prices?.[0]?.min_price,
     max_price: item.prices?.[0]?.max_price,
     discount: String(item.max_discount),
+    creation : item.creation,
+    stock_qty: item.stock_qty,
+  
   }));
 };
