@@ -39,6 +39,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   price,
   originalPrice,
   isNew,
+  min_price,
+  max_price,
 }) => {
   const router = useRouter();
   const { checkAuth } = useAuthCheck();
@@ -287,18 +289,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           display={"flex"}
           flexDirection={{ base: "column", md: "row" }}
         >
-          {originalPrice && originalPrice !== price && (
-            <Text
-              fontSize={originalPriceFontSize}
-              color="gray.400"
-              textDecoration="line-through"
-            >
-              {config?.currency} {originalPrice}
+          {!min_price && !max_price ? (
+            <>
+              {originalPrice && originalPrice !== price && (
+                <Text
+                  fontSize={originalPriceFontSize}
+                  color="gray.400"
+                  textDecoration="line-through"
+                >
+                  {config?.currency} {originalPrice}
+                </Text>
+              )}
+              <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+                {config?.currency} {price}
+              </Text>
+            </>
+          ) : (
+            <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+              {config?.currency} {min_price} - {max_price}
             </Text>
           )}
-          <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
-            {config?.currency} {price}
-          </Text>
         </Box>
 
         <Button

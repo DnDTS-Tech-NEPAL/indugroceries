@@ -3,6 +3,8 @@ export type ProductPrice = {
   price_list_rate: number;
   discount: number;
   discounted_price: number;
+  min_price?: number;
+  max_price?: number;
   
 };
 

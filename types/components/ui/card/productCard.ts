@@ -13,4 +13,6 @@ export type ProductCardProps = {
   id?: string | number;
   isNew?: boolean;
   isSale?: boolean;
+  min_price?: number;
+  max_price?: number;
 };
