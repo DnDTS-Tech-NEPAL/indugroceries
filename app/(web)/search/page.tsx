@@ -142,7 +142,7 @@ const SearchPage = () => {
 
   return (
     <Box bg="white" py="32px">
-      <Container maxW="7xl" px={{ base: 4, md: 12, xl: 20 }}>
+      <Container maxW="7xl" px={{ base: 4, md: 8, xl: 10 }}>
         {list.length > 0 ? (
           <>
             <Heading
@@ -166,25 +166,19 @@ const SearchPage = () => {
                 >
                   <SimpleGrid columns={{ base: 3, md: 4, xl: 5 }} gap="20px">
                     {pagedProducts.map((product, index) => (
-                      <Box
-                        key={index}
-                        onClick={() => handleClick(product.name)}
-                        cursor="pointer"
-                      >
-                        <ProductCard
-                          id={index}
-                          category={product.item_group}
-                          image={product.custom_image_1_link}
-                          title={product.item_name}
-                          price={product.prices?.[0]?.discounted_price}
-                          originalPrice={product.prices?.[0]?.price_list_rate}
-                          link={product.name}
-                          item_code={product.item_code}
-                          min_price={product.prices?.[0]?.min_price}
-                          max_price={product.prices?.[0]?.max_price}
-                          stock_qty={product.stock_qty}
-                        />
-                      </Box>
+                      <ProductCard
+                        id={index}
+                        category={product.item_group}
+                        image={product.custom_image_1_link}
+                        title={product.item_name}
+                        price={product.prices?.[0]?.discounted_price}
+                        originalPrice={product.prices?.[0]?.price_list_rate}
+                        link={product.name}
+                        item_code={product.item_code}
+                        min_price={product.prices?.[0]?.min_price}
+                        max_price={product.prices?.[0]?.max_price}
+                        stock_qty={product.stock_qty}
+                      />
                     ))}
                   </SimpleGrid>
                 </MotionBox>
