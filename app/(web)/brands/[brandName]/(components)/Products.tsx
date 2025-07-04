@@ -109,9 +109,6 @@ export default function BrandProductsPage({
                 <HStack gap={4} align="baseline">
                   <Heading size="lg">All Products</Heading>(
                   {filteredProducts.length} products found)
-                  <Heading size="lg" color="gray.800">
-                    {brandName}
-                  </Heading>
                 </HStack>
               </Box>
               <HStack>
