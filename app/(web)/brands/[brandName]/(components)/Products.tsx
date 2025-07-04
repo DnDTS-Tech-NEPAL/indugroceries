@@ -73,7 +73,11 @@ export default function BrandProductsPage({
     const stockQty = product.stock_qty ?? 0;
     const maxDiscount = parseFloat(product.discount || "0");
 
-    const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+    // const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
+    const inPriceRange =
+      priceRange[0] === 0 && priceRange[1] === 0
+        ? true
+        : price >= priceRange[0] && price <= priceRange[1];
 
     const matchesAvailability =
       inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
@@ -101,6 +105,12 @@ export default function BrandProductsPage({
     (p) => p.stock_qty && p.stock_qty > 0
   ).length;
   const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
+
+  // const { open, onOpen, onClose } = useDisclosure();
+  // useEffect(() => {
+  //   window.addEventListener("resize", onClose);
+  //   return () => window.removeEventListener("resize", onClose);
+  // }, []);
   return (
     <Container maxW="7xl" py={8}>
       <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
@@ -117,45 +127,72 @@ export default function BrandProductsPage({
         <GridItem>
           <VStack gap={6} align="stretch">
             {/* Header */}
-            <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
+            <Flex
+              justify="space-between"
+              w-full
+              align="center"
+              wrap="wrap"
+              gap={4}
+            >
               <Box>
                 <HStack gap={4} align="baseline">
                   <Heading size="lg">All Products</Heading>({total_count}{" "}
                   products found)
                 </HStack>
               </Box>
-              <HStack>
-                <Text fontSize="sm">Sort By :</Text>
-                <Select.Root
-                  collection={orderStatusOptions}
-                  size="sm"
-                  width="200px"
-                  onValueChange={(val) => setSortBy((val.value as string[])[0])}
-                >
-                  <Select.HiddenSelect />
-                  <Flex>
-                    <Select.Control>
-                      <Select.Trigger width={"140px"}>
-                        <Select.ValueText placeholder="Relevance" />
-                      </Select.Trigger>
-                      <Select.IndicatorGroup>
-                        <Select.Indicator />
-                      </Select.IndicatorGroup>
-                    </Select.Control>
-                  </Flex>
-                  <Portal>
-                    <Select.Positioner>
-                      <Select.Content>
-                        {orderStatusOptions.items.map((item) => (
-                          <Select.Item item={item} key={item.value}>
-                            {item.label}
-                            <Select.ItemIndicator />
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Positioner>
-                  </Portal>
-                </Select.Root>
+              <HStack gap={1}>
+                <HStack>
+                  <Text fontSize="sm">Sort By :</Text>
+                  <Select.Root
+                    collection={orderStatusOptions}
+                    size="sm"
+                    width="200px"
+                    onValueChange={(val) =>
+                      setSortBy((val.value as string[])[0])
+                    }
+                  >
+                    <Select.HiddenSelect />
+                    <Flex>
+                      <Select.Control>
+                        <Select.Trigger width={"140px"}>
+                          <Select.ValueText placeholder="Relevance" />
+                        </Select.Trigger>
+                        <Select.IndicatorGroup>
+                          <Select.Indicator />
+                        </Select.IndicatorGroup>
+                      </Select.Control>
+                    </Flex>
+                    <Portal>
+                      <Select.Positioner>
+                        <Select.Content>
+                          {orderStatusOptions.items.map((item) => (
+                            <Select.Item item={item} key={item.value}>
+                              {item.label}
+                              <Select.ItemIndicator />
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select.Positioner>
+                    </Portal>
+                  </Select.Root>
+                </HStack>
+                {/* Sidebar Filters */}
+                {/* <Box
+                onClick={onOpen}
+                bg="primary.50"
+                borderRadius="8px"
+                p="6px"
+                border="1px solid"
+                borderColor="primary.100"
+                cursor="pointer"
+              >
+                <Flex align="center" gap={"2px"}>
+                  <FilterIcon height={"14px"} width={"14px"} />
+                  <Text px={3} fontSize={"12px"} fontWeight={500}>
+                    Filter
+                  </Text>
+                </Flex>
+              </Box> */}
               </HStack>
             </Flex>
 
@@ -163,8 +200,9 @@ export default function BrandProductsPage({
             <Grid
               templateColumns={{
                 base: "1fr",
-                md: "repeat(2, 1fr)",
-                lg: "repeat(3, 1fr)",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+                lg: "repeat(4, 1fr)",
               }}
               gap={6}
             >
@@ -184,6 +222,27 @@ export default function BrandProductsPage({
           onPageChange={handlePageChange}
         />
       )}
+
+      {/* <Drawer
+        // title="Brand Filter"
+        placement="start"
+        open={open}
+        onClose={onClose}
+        hasFooter={false}
+        actionButtonText="Reset"
+        cancelButtonText="Close"
+        hasCloseIcon={false}
+        // onAction={onReset}
+        onEnd={onClose}
+      >
+        <BrandFilter
+          minPrice={minPrice}
+          maxPrice={maxPrice}
+          inStockCount={inStockCount}
+          outOfStockCount={outOfStockCount}
+          // skinTypes={skinTypes}
+        />
+      </Drawer> */}
     </Container>
   );
 }
