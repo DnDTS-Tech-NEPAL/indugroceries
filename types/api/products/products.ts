@@ -121,6 +121,7 @@ export type ProductAPIResponseType = {
 
 export type ProductFilterAPIType = {
   brand: string[];
+  category: string[];
   item_group: string[];
   bestseller: number;
   pricerange: number;

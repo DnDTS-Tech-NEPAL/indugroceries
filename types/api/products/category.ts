@@ -11,5 +11,6 @@ export type CategoryType = {
 };
 
 export type CategoryAPIResponseType = {
+  error?: string;
   Data: CategoryType[];
 };
