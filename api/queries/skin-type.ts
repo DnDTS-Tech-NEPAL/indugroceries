@@ -11,6 +11,5 @@ export const getSkinTypePageData = async (): Promise<SkinTypeAPIResponseType> =>
   );
 
   const data = await response.json();
-console.log("this is data",data)
   return data;
 };

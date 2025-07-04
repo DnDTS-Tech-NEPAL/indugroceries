@@ -2,20 +2,26 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Box, Container, Grid, Input, Text, VStack, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Container,
+  Grid,
+  Input,
+  Text,
+  VStack,
+  Heading,
+} from "@chakra-ui/react";
 import { useState, useMemo } from "react";
 
 import { InputGroup } from "@/components/form/input/InputGroup";
 import { SearchIcon } from "@/assets/svg";
 import { ROUTES } from "@/constants";
-import { toTitleCase } from "@/utils";
+import { generateNextPath, toTitleCase } from "@/utils";
 import { useFeaturedCategoryImages } from "@/hooks/app";
-import { useHomePageQuery } from "@/hooks/api";
-
 export default function AllCategories() {
   const router = useRouter();
   const featureImages = useFeaturedCategoryImages();
- 
+
   const [search, setSearch] = useState("");
   const [activeLetter, setActiveLetter] = useState("A");
 
@@ -34,7 +40,6 @@ export default function AllCategories() {
       px={{ base: 4, md: 6 }}
       py={{ base: 8, md: 12, lg: 16 }}
     >
-
       {/* Filters */}
       <VStack align="stretch" gap={4} mb={8}>
         <InputGroup
@@ -76,9 +81,13 @@ export default function AllCategories() {
                 transform: "translateY(-4px)",
               }}
               cursor="pointer"
-              onClick={() =>
-                router.push(`${ROUTES.APP.PRODUCTS}?category=${item.name}`)
-              }
+              onClick={() => {
+                router.push(
+                  generateNextPath(ROUTES.APP.INDIVIDUAL_CATEGORY, {
+                    categoryName: item.name,
+                  })
+                );
+              }}
               p={4}
               display="flex"
               flexDirection="column"
@@ -118,7 +127,6 @@ export default function AllCategories() {
           No categories found.
         </Text>
       )}
-   
     </Container>
   );
 }
