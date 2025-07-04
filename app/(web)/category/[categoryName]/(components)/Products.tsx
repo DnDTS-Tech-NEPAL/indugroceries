@@ -19,9 +19,10 @@ import {
 import { ProductCard } from "@/components";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
-import { BrandFilter } from "./BrandFilter";
-interface BrandProductsPageProps {
-  brandName: string;
+import { CategoryFilter } from "./CategoryFilter";
+
+interface CategoryProductsPageProps {
+  category: string;
 }
 interface FilteredProductType {
   price?: number;
@@ -30,10 +31,10 @@ interface FilteredProductType {
   skin_types?: string[];
 }
 
-export default function BrandProductsPage({
-  brandName,
-}: BrandProductsPageProps) {
-  const { category, priceRange, discount, inStock, skinTypes } =
+export default function CategoryProductsPage({
+  category,
+}: CategoryProductsPageProps) {
+  const { brand, priceRange, discount, inStock, skinTypes } =
     useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
@@ -42,8 +43,9 @@ export default function BrandProductsPage({
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   const { data } = useFilterProductsQuery({
-    brand: [brandName],
-    item_group: category,
+    category: [category],
+    brand: brand,
+    item_group: [category],
     in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,
@@ -51,6 +53,7 @@ export default function BrandProductsPage({
     size: 20000,
   });
   const products = data?.products || [];
+
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
@@ -92,7 +95,7 @@ export default function BrandProductsPage({
     <Container maxW="7xl" py={8}>
       <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
         {/* Sidebar Filters */}
-        <BrandFilter
+        <CategoryFilter
           minPrice={minPrice}
           maxPrice={maxPrice}
           inStockCount={inStockCount}
@@ -109,9 +112,7 @@ export default function BrandProductsPage({
                 <HStack gap={4} align="baseline">
                   <Heading size="lg">All Products</Heading>(
                   {filteredProducts.length} products found)
-                  <Heading size="lg" color="gray.800">
-                    {brandName}
-                  </Heading>
+                  
                 </HStack>
               </Box>
               <HStack>

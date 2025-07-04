@@ -15,47 +15,48 @@ import {
   AccordionRoot,
   Checkbox,
 } from "@/components";
-import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
 import { useSkinTypePageQuery } from "@/hooks/api";
+import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useEffect } from "react";
 
-interface BrandFilterProps {
+interface CategoryFilterProps {
   minPrice: number;
   maxPrice: number;
   inStockCount: number;
   outOfStockCount: number;
 }
 
-export const BrandFilter = ({
+export const CategoryFilter = ({
   minPrice,
   maxPrice,
   inStockCount,
   outOfStockCount,
-}: BrandFilterProps) => {
+}: CategoryFilterProps) => {
   const filter = useProductsFilter();
   const {
-    category,
+    brand,
     priceRange,
     discount,
     inStock,
-    setCategory,
+    skinTypes,
+    setBrand,
     setPriceRange,
     setDiscount,
     setInStock,
+    setSkinTypes,
     resetFilters,
   } = useBrandFilterStore();
 
-  // Initialize price range when component mounts or maxPrice changes
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
 
-  const handleCategoryToggle = (value: string) => {
-    if (category.includes(value)) {
-      setCategory(category.filter((c) => c !== value));
+  const handleBrandToggle = (value: string) => {
+    if (brand.includes(value)) {
+      setBrand(brand.filter((b) => b !== value));
     } else {
-      setCategory([...category, value]);
+      setBrand([...brand, value]);
     }
   };
 
@@ -67,7 +68,6 @@ export const BrandFilter = ({
   const uniqueSkinTypes = Array.from(
     new Set((skinTypeData || []).map((s) => s.name))
   );
-  const { skinTypes, setSkinTypes } = useBrandFilterStore();
 
   const handleSkinTypeToggle = (value: string) => {
     if (skinTypes.includes(value)) {
@@ -99,23 +99,23 @@ export const BrandFilter = ({
       <Box p={6} shadow={"lg"}>
         <VStack gap={6} align="stretch">
           <AccordionRoot as={VStack} alignItems="stretch">
-            {/* Category Section */}
-            <AccordionItem value="category" border="none">
+            {/* Brand (used as Category here) */}
+            <AccordionItem value="brand" border="none">
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
-                  Category
+                  Brand
                 </Text>
               </AccordionItemTrigger>
               <AccordionItemContent>
                 <VStack align="stretch" gap={2} pt={4}>
-                  {filter[1].items.map((item) => (
+                  {filter[0].items.map((item) => (
                     <Checkbox
                       key={item.value}
-                      color={"#7A7A7A"}
+                      color="#7A7A7A"
                       py={2}
                       colorScheme="pink"
-                      checked={category.includes(item.title)}
-                      onChange={() => handleCategoryToggle(item.title)}
+                      checked={brand.includes(item.title)}
+                      onChange={() => handleBrandToggle(item.title)}
                     >
                       {item.title}
                     </Checkbox>
@@ -124,12 +124,8 @@ export const BrandFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Discount Section */}
-            <AccordionItem
-              value="discount"
-              borderBottom="1px solid #D0D0D0"
-              p={2}
-            >
+            {/* Discount */}
+            <AccordionItem value="discount" borderBottom="1px solid #D0D0D0" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Discount
@@ -140,7 +136,7 @@ export const BrandFilter = ({
                   {[10, 20, 30, 40, 50].map((val) => (
                     <Checkbox
                       key={val}
-                      color={"#7A7A7A"}
+                      color="#7A7A7A"
                       py={2}
                       colorScheme="pink"
                       checked={discount === val}
@@ -153,7 +149,7 @@ export const BrandFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Price Section */}
+            {/* Price */}
             <AccordionItem value="price" borderBottom="1px solid #D0D0D0" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -165,10 +161,6 @@ export const BrandFilter = ({
                   maxW="md"
                   value={priceRange}
                   step={1}
-                  // minStepsBetweenThumbs={Math.min(
-                  //   10,
-                  //   Math.floor((maxPrice - minPrice) / 1)
-                  // )}
                   min={minPrice}
                   max={maxPrice}
                   onValueChange={(details: { value: number[] }) => {
@@ -191,29 +183,19 @@ export const BrandFilter = ({
                     <Text fontSize="sm" mb={1}>
                       From
                     </Text>
-                    <Input
-                      size="sm"
-                      value={`NPR ${priceRange[0]}`}
-                      readOnly
-                      bg="white"
-                    />
+                    <Input size="sm" value={`NPR ${priceRange[0]}`} readOnly bg="white" />
                   </Box>
                   <Box>
                     <Text fontSize="sm" mb={1}>
                       To
                     </Text>
-                    <Input
-                      size="sm"
-                      value={`NPR ${priceRange[1]}`}
-                      readOnly
-                      bg="white"
-                    />
+                    <Input size="sm" value={`NPR ${priceRange[1]}`} readOnly bg="white" />
                   </Box>
                 </HStack>
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Availability Section */}
+            {/* Availability */}
             <AccordionItem value="availability" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -224,7 +206,7 @@ export const BrandFilter = ({
                 <VStack align="stretch" gap={2}>
                   <HStack justify="space-between">
                     <Checkbox
-                      color={"#7A7A7A"}
+                      color="#7A7A7A"
                       py={2}
                       colorScheme="pink"
                       checked={inStock === 1}
@@ -238,7 +220,7 @@ export const BrandFilter = ({
                   </HStack>
                   <HStack justify="space-between">
                     <Checkbox
-                      color={"#7A7A7A"}
+                      color="#7A7A7A"
                       py={2}
                       colorScheme="pink"
                       checked={inStock === 2}
@@ -254,7 +236,7 @@ export const BrandFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Skin Type Filter */}
+            {/* Skin Types */}
             <AccordionItem value="skin-type" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">

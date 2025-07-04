@@ -35,6 +35,7 @@ export const AllProducts = () => {
 
   const { data, isLoading } = useFilterProductsQuery({
     brand,
+    category:[],
     item_group,
     bestseller: +bestseller,
     pricerange: +pricerange,

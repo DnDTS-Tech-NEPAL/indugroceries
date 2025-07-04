@@ -10,7 +10,6 @@ import BrandProductsPage from "./(components)/Products";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
   const brand = await getBrandDetailByName();
-console.log(brand)
   const brandName = decodeURI((await params).brandName);
 
   if (!brand || brand.error) {
