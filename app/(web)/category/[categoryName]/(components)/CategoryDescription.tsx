@@ -1,26 +1,26 @@
 "use client";
 import { Box, Text } from "@chakra-ui/react";
-import { useBrandsListQuery } from "@/hooks/api";
+import {useCategoriesListQuery } from "@/hooks/api";
 import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
 import { useState } from "react";
 import { Collapsible } from "@chakra-ui/react";
 
-interface BrandDescriptionProps {
-  brandName: string;
+interface CategoryDescriptionProps {
+  categoryName: string;
 }
 
-export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
-  const { data: brandData = [] } = useBrandsListQuery();
+export const CategoryDescription = ({ categoryName }: CategoryDescriptionProps) => {
+  const { data: categoryData = [] } = useCategoriesListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const brand = brandData.find(
-    (b) => b.name.toLowerCase() === brandName.toLowerCase()
+  const category = categoryData.find(
+    (b) => b.name.toLowerCase() === categoryName.toLowerCase()
   );
 
-  if (!brand) {
-    return <Text>No brand found with the name &quot;{brandName}&quot;</Text>;
+  if (!category) {
+    return <Text>No category found with the name &quot;{categoryName}&quot;</Text>;
   }
 
   return (
@@ -32,16 +32,16 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
       py={{ base: "4", md: "8", lg: "12" }}
     >
       <Text fontSize={"2xl"} fontWeight={"semibold"}>
-        About {brand.name}
+        About {category.name}
       </Text>
       <Box>
-        {brand.description && (
+        {category.description && (
           <Text fontSize="md" mt={12}>
-            {brand.description}
+            {category.description}
           </Text>
         )}
 
-        {brand.custom_brand_description && (
+        {category.custom_category_description && (
           <Collapsible.Root open={isExpanded}>
             <Collapsible.Trigger asChild>
               <Link
@@ -66,7 +66,7 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
                 borderWidth="1px"
                 borderRadius="md"
                 dangerouslySetInnerHTML={{
-                  __html: brand.custom_brand_description,
+                  __html: category.custom_category_description,
                 }}
               />
             </Collapsible.Content>

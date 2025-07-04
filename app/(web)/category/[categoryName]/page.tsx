@@ -1,20 +1,14 @@
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-import { getBrandDetailByName } from "@/api/queries/brands/[brandName]";
-import { redirect } from "next/navigation";
-import { BrandDetailPageProps } from "@/types";
-import { BrandDescription } from "./(components)";
 import BrandProductsPage from "./(components)/Products";
 import { CategoryCarousel } from "./(components)/CategoryCarousel";
+import { CategoryDescription } from "./(components)";
+import { CategoryDetailPageProps } from "@/types";
 
-const Brands = async ({ params }: BrandDetailPageProps) => {
-  const brand = await getBrandDetailByName();
-  const brandName = decodeURI((await params).brandName);
-
-  if (!brand || brand.error) {
-    return redirect(ROUTES.NOT_FOUND);
-  }
+const Category = async ({ params }: CategoryDetailPageProps) => {
+ 
+  const categoryName = decodeURI((await params).categoryName);
 
   return (
     <>
@@ -25,9 +19,9 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
       <CategoryCarousel />
-      <BrandDescription brandName={brandName} />
-      <BrandProductsPage brandName={brandName} />
+      <CategoryDescription categoryName={categoryName} />
+      <BrandProductsPage brandName={categoryName} />
     </>
   );
 };
-export default Brands;
+export default Category;

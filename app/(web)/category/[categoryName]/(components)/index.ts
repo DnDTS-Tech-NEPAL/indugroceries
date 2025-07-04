@@ -1,4 +1,4 @@
 export * from "./CategoryCarousel";
-export * from "./BrandDescription";
+export * from "./CategoryDescription";
 export * from "./AllProducts";
 export * from "./BrandFilter";
