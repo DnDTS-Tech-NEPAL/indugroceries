@@ -78,7 +78,13 @@ export const BrandFilter = ({
   };
 
   return (
-    <GridItem width={{ base: "100%", md: "290px" }}>
+    <GridItem
+      width={{ base: "100%", md: "290px" }}
+      height={"fit-content"}
+      shadow={"lg"}
+      borderRadius={"1rem"}
+      overflow={"hidden"}
+    >
       <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
         <Text fontSize="xl" fontWeight={"medium"}>
           Filter by
@@ -96,7 +102,7 @@ export const BrandFilter = ({
         </Text>
       </HStack>
 
-      <Box p={6} shadow={"lg"}>
+      <Box p={6}>
         <VStack gap={6} align="stretch">
           <AccordionRoot collapsible as={VStack} alignItems="stretch">
             {/* Category Section */}
