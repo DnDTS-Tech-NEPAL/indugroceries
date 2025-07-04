@@ -78,7 +78,7 @@ export const BrandFilter = ({
   };
 
   return (
-    <GridItem>
+    <GridItem width={{ base: "100%", md: "290px" }}>
       <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
         <Text fontSize="xl" fontWeight={"medium"}>
           Filter by
@@ -98,9 +98,9 @@ export const BrandFilter = ({
 
       <Box p={6} shadow={"lg"}>
         <VStack gap={6} align="stretch">
-          <AccordionRoot as={VStack} alignItems="stretch">
+          <AccordionRoot collapsible as={VStack} alignItems="stretch">
             {/* Category Section */}
-            <AccordionItem value="category" border="none">
+            <AccordionItem value="category" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Category
@@ -125,11 +125,7 @@ export const BrandFilter = ({
             </AccordionItem>
 
             {/* Discount Section */}
-            <AccordionItem
-              value="discount"
-              borderBottom="1px solid #D0D0D0"
-              p={2}
-            >
+            <AccordionItem value="discount" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Discount
@@ -154,7 +150,7 @@ export const BrandFilter = ({
             </AccordionItem>
 
             {/* Price Section */}
-            <AccordionItem value="price" borderBottom="1px solid #D0D0D0" p={2}>
+            <AccordionItem value="price" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Price
@@ -186,14 +182,18 @@ export const BrandFilter = ({
                   </Slider.Control>
                 </Slider.Root>
 
-                <HStack py={3}>
+                <HStack width={"full"} py={3}>
                   <Box>
                     <Text fontSize="sm" mb={1}>
                       From
                     </Text>
                     <Input
                       size="sm"
-                      value={`NPR ${priceRange[0]}`}
+                      borderRadius={"full"}
+                      minH={0}
+                      height={"33px"}
+                      width={"full"}
+                      value={`NPR. ${priceRange[0]}`}
                       readOnly
                       bg="white"
                     />
@@ -203,8 +203,12 @@ export const BrandFilter = ({
                       To
                     </Text>
                     <Input
+                      borderRadius={"full"}
+                      minH={0}
+                      height={"33px"}
+                      width={"full"}
                       size="sm"
-                      value={`NPR ${priceRange[1]}`}
+                      value={`NPR. ${priceRange[1]}`}
                       readOnly
                       bg="white"
                     />
@@ -255,7 +259,7 @@ export const BrandFilter = ({
             </AccordionItem>
 
             {/* Skin Type Filter */}
-            <AccordionItem value="skin-type" p={2}>
+            <AccordionItem value="skin-type" border={"none"} p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Skin Type
