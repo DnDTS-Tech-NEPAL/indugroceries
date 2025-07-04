@@ -1,5 +1,5 @@
 "use client";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { useBrandsListQuery } from "@/hooks/api";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -12,67 +12,82 @@ interface BrandDescriptionProps {
 }
 
 export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
-  const { data: brandData = [] } = useBrandsListQuery();
+  const { data: brandData = [], isLoading } = useBrandsListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const brand = brandData.find(
     (b) => b.name.toLowerCase() === brandName.toLowerCase()
   );
 
+  if (isLoading) {
+    return (
+      <Text textAlign={"center"} fontWeight={"bold"}>
+        <Spinner />
+      </Text>
+    );
+  }
   if (!brand) {
-    return <Text>No brand found with the name &quot;{brandName}&quot;</Text>;
+    return (
+      <Text textAlign={"center"} fontWeight={"bold"}>
+        No brand found with the name &quot;{brandName}&quot;
+      </Text>
+    );
   }
 
   return (
-    <Box
-      width={{ base: "100%", md: "7xl" }}
-      maxWidth="100%"
-      mx="auto"
-      px={{ base: "0", md: "4" }}
-      py={{ base: "4", md: "8", lg: "12" }}
-    >
-      <Text fontSize={"2xl"} fontWeight={"semibold"}>
-        About {brand.name}
-      </Text>
-      <Box>
-        {brand.description && (
-          <Text fontSize="md" mt={12}>
-            {brand.description}
+    <>
+      {brand.description && (
+        <Box
+          width={{ base: "100%", md: "7xl" }}
+          maxWidth="100%"
+          mx="auto"
+          px={{ base: "0", md: "4" }}
+          py={{ base: "4", md: "8", lg: "12" }}
+        >
+          <Text fontSize={"2xl"} fontWeight={"semibold"}>
+            About {brand.name}
           </Text>
-        )}
+          <Box>
+            {brand.description && (
+              <Text fontSize="md" mt={8}>
+                {brand.description}
+              </Text>
+            )}
 
-        {brand.custom_brand_description && (
-          <Collapsible.Root open={isExpanded}>
-            <Collapsible.Trigger asChild>
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsExpanded(!isExpanded);
-                }}
-                style={{
-                  color: "blue",
-                  marginTop: "10px",
-                  textDecoration: "underline",
-                }}
-              >
-                Show more
-              </Link>
-            </Collapsible.Trigger>
-            <Collapsible.Content>
-              <Box
-                mt={4}
-                p={4}
-                borderWidth="1px"
-                borderRadius="md"
-                dangerouslySetInnerHTML={{
-                  __html: brand.custom_brand_description,
-                }}
-              />
-            </Collapsible.Content>
-          </Collapsible.Root>
-        )}
-      </Box>
-    </Box>
+            {brand.custom_brand_description && (
+              <Collapsible.Root open={isExpanded}>
+                <Collapsible.Trigger asChild>
+                  <Link
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsExpanded(!isExpanded);
+                    }}
+                    style={{
+                      color: "blue",
+                      marginTop: "10px",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Show more
+                  </Link>
+                </Collapsible.Trigger>
+                <Collapsible.Content>
+                  <Box
+                    mt={4}
+                    p={4}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    dangerouslySetInnerHTML={{
+                      __html: brand.custom_brand_description,
+                    }}
+                  />
+                </Collapsible.Content>
+              </Collapsible.Root>
+            )}
+          </Box>
+        </Box>
+      )}
+    </>
   );
 };
