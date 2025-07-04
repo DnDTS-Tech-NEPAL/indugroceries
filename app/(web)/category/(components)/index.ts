@@ -1,1 +1,2 @@
-export * from "./AllProducts";
+export * from "./AllCategories";
+export * from "./HeroSection";
