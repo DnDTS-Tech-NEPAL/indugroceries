@@ -24,7 +24,7 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
-      <BrandCarousel />
+      <BrandCarousel brandName={brandName} />
       <BrandDescription brandName={brandName} />
       <BrandProductsPage brandName={brandName} />
     </>
