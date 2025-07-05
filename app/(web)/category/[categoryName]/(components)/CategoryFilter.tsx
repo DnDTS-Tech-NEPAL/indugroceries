@@ -98,7 +98,7 @@ export const CategoryFilter = ({
 
       <Box p={6} shadow={"lg"}>
         <VStack gap={6} align="stretch">
-          <AccordionRoot as={VStack} alignItems="stretch">
+          <AccordionRoot collapsible as={VStack} alignItems="stretch">
             {/* Brand (used as Category here) */}
             <AccordionItem value="brand" border="none">
               <AccordionItemTrigger hasAccordionIcon>
