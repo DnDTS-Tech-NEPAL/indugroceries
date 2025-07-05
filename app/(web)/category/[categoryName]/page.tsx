@@ -23,7 +23,7 @@ const Category = async ({ params }: CategoryDetailPageProps) => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.CATEGORY}
       />
-      <CategoryCarousel />
+      <CategoryCarousel categoryName={categoryName} />
       <CategoryDescription categoryName={categoryName} />
       <CategoryProductsPage category={categoryName}/>
     </>

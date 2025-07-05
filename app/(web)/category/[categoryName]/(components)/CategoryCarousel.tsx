@@ -8,17 +8,24 @@ import { useCategoriesListQuery } from "@/hooks/api";
 import "swiper/css";
 import "swiper/css/pagination";
 
-export const CategoryCarousel = () => {
+export const CategoryCarousel = ({
+  categoryName,
+}: {
+  categoryName: string;
+}) => {
   const { data: categoryImageData = [] } = useCategoriesListQuery();
-  const fallbackImage = "/fallback.jpg";
-
-  const heroImages = categoryImageData.flatMap((category) =>
-    [
-      category.image1,
-      category.image2,
-      category.image3,
-    ].filter(Boolean)
+  const selectedCategory = categoryImageData.find(
+    (category) => category?.name?.toLowerCase() === categoryName?.toLowerCase()
   );
+
+  console.log(selectedCategory);
+  const heroImages = selectedCategory
+    ? [
+        selectedCategory.image1,
+        selectedCategory.image2,
+        selectedCategory.image3,
+      ].filter(Boolean)
+    : [];
 
   return (
     <Box
@@ -53,7 +60,7 @@ export const CategoryCarousel = () => {
               }}
             >
               <Image
-                src={src || fallbackImage}
+                src={src}
                 alt={`Brand Hero ${index + 1}`}
                 fill
                 style={{ objectFit: "cover" }}
