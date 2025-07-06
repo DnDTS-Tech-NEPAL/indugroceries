@@ -171,7 +171,7 @@
 // }
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Container,
@@ -188,10 +188,11 @@ import {
   Collapsible,
 } from "@chakra-ui/react";
 
-import { ProductCard } from "@/components";
+import { Pagination, ProductCard } from "@/components";
 import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { CategoryFilter } from "./CategoryFilter";
+import { PAGE_SIZE } from "@/constants";
 
 interface CategoryProductsPageProps {
   category: string;
@@ -206,7 +207,7 @@ interface FilteredProductType {
 export default function CategoryProductsPage({
   category,
 }: CategoryProductsPageProps) {
-  const { brand, priceRange, discount, inStock, skinTypes } =
+  const { brand, priceRange, discount, inStock, skinTypes, page, setPage } =
     useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
@@ -215,21 +216,32 @@ export default function CategoryProductsPage({
   const priceSortOrder =
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
-  const { data } = useFilterProductsQuery({
+  const { data , isLoading} = useFilterProductsQuery({
     brand: brand,
     item_group: [category],
     in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,
     page: 1,
-    size: 20000,
+    size: PAGE_SIZE,
   });
   const products = data?.products || [];
 
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
+  const total_count = data?.total_count || 0;
+  const totalPages = Math.ceil(total_count / PAGE_SIZE);
+  useEffect(() => {
+    if (totalPages > 0 && page > totalPages) {
+      setPage(1);
+    }
+  }, [totalPages, page]);
 
+  const handlePageChange = (newPage: number) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0 });
+  };
   const filteredProducts = products.filter((product: FilteredProductType) => {
     const price = product.price || 0;
     const stockQty = product.stock_qty ?? 0;
@@ -363,6 +375,14 @@ export default function CategoryProductsPage({
             </VStack>
           </GridItem>
         </Grid>
+         {!isLoading && products.length > 0 && totalPages > 1 && (
+                <Pagination
+                  totalPages={totalPages}
+                  currentPage={page}
+                  pageSize={PAGE_SIZE}
+                  onPageChange={handlePageChange}
+                />
+              )}
       </Collapsible.Root>
     </Container>
   );
