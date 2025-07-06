@@ -8,6 +8,7 @@ interface BrandFilterState {
   discount: number;
   inStock: number;
   skinTypes: string[];
+  item_group?: string[];
   page: number;
   setSkinTypes: (types: string[]) => void;
   setCategory: (category: string[]) => void;

@@ -19,7 +19,8 @@ import {
 import { useProductsFilter } from "@/hooks/app";
 import { useSkinTypePageQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useFilterStore } from "@/store/products/filterStore";
 
 interface CategoryFilterProps {
   minPrice: number;
@@ -54,6 +55,27 @@ export const CategoryFilter = ({
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
+
+  const { item_group, setItemGroup, setPage } = useFilterStore();
+const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
+
+const handleParentClick = (val: string, children: any[] = []) => {
+  if (expandedCategory === val) {
+    setExpandedCategory(null);
+  } else {
+    setExpandedCategory(val);
+  }
+};
+
+const handleSubcategoryClick = (name: string) => {
+  const newValue = item_group.includes(name)
+    ? item_group.filter((g) => g !== name)
+    : [name];
+
+  setItemGroup(newValue);
+  setPage(1);
+};
+
 
   const handleBrandToggle = (value: string) => {
     if (brand.includes(value)) {
@@ -132,6 +154,65 @@ export const CategoryFilter = ({
                 </VStack>
               </AccordionItemContent>
             </AccordionItem>
+<AccordionItem value="categories" border="none">
+  <AccordionItemTrigger hasAccordionIcon>
+    <Text fontSize="xl" fontWeight="medium">Category</Text>
+  </AccordionItemTrigger>
+  <AccordionItemContent>
+    <VStack align="stretch" gap={2} pt={4}>
+      {filter[1]?.items?.map((item) => (
+        <>
+        <Box key={item.value}>
+          {item.children && item.children.length > 0 && (
+          <Checkbox
+            color="#7A7A7A"
+            py={2}
+            colorScheme="pink"
+            checked={item_group.includes(item.value)}
+            onChange={() => handleSubcategoryClick(item.value)}
+          >
+            {item.title}
+          </Checkbox>
+          )}
+
+          {item.children && item.children.length > 0 && (
+            <Text
+              pl={4}
+              pt={1}
+              fontSize="sm"
+              color="blue.500"
+              cursor="pointer"
+              onClick={() => handleParentClick(item.value, item.children)}
+            >
+              {/* {expandedCategory === item.value ? "Hide" : "Show"} subcategories */}
+              {expandedCategory } 
+            </Text>
+          )}
+
+          {/* {expandedCategory === item.value && ( */}
+          {item.children && item.children.length > 0 && (
+            <VStack align="start" pl={6} pt={2}>
+              {item.children?.map((child) => (
+                <Checkbox
+                  key={child.name}
+                  py={1}
+                  color="#7A7A7A"
+                  fontSize="sm"
+                  colorScheme="pink"
+                  checked={item_group.includes(child.name)}
+                  onChange={() => handleSubcategoryClick(child.name)}
+                >
+                  {child.name}
+                </Checkbox>
+              ))}
+            </VStack>
+          )}
+        </Box>
+        </>
+      ))}
+    </VStack>
+  </AccordionItemContent>
+</AccordionItem>
 
             <AccordionItem
               value="discount"
