@@ -60,15 +60,6 @@ export const CategoryFilter = ({
   }, [minPrice, maxPrice, setPriceRange]);
 
   const { item_group, setItemGroup, setPage } = useFilterStore();
-  const [expandedCategory, setExpandedCategory] = useState<string | null>(null);
-
-  // const handleParentClick = (val: string, children: any[] = []) => {
-  //   if (expandedCategory === val) {
-  //     setExpandedCategory(null);
-  //   } else {
-  //     setExpandedCategory(val);
-  //   }
-  // };
 
   const handleSubcategoryClick = (name: string) => {
     const newValue = item_group.includes(name)
@@ -168,20 +159,6 @@ export const CategoryFilter = ({
                       <>
                         {item.value.toLowerCase() === categoryFromURL && (
                           <Box key={item.value}>
-                            {/* {item.children && item.children.length > 0 && (
-            <Text
-              // pl={4}
-              pt={1}
-              fontSize="sm"
-              color="blue.500"
-              cursor="pointer"
-              onClick={() => handleParentClick(item.value, item.children)}
-            >
-              {expandedCategory } 
-            </Text>
-          )} */}
-
-                            {/* {expandedCategory === item.value && ( */}
                             {item.children && item.children.length > 0 && (
                               <VStack align="start" pl={6} pt={2}>
                                 {item.children?.map((child) => (
