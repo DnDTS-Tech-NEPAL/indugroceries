@@ -38,3 +38,7 @@ export type ColorVariantProps = {
 export type BrandDetailPageProps = {
   params: Promise<{ brandName: string }>;
 };
+
+export type CategoryDetailPageProps = {
+  params: Promise<{ categoryName: string }>;
+};

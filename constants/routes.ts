@@ -9,6 +9,7 @@ export const ROUTES = {
     BRANDS: "/brands",
     INDIVIDUAL_PRODUCT: "/products/:productName",
     INDIVIDUAL_BRAND: "/brands/:brandName",
+    INDIVIDUAL_CATEGORY: "/category/:categoryName",
     CONTACT_US: "/contact-us",
     PAYMENT: "/payment",
     CHECKOUT: "/checkout",
