@@ -28,60 +28,59 @@ export const CategoryDescription = ({
   }
 
   return (
-    <>    
-    {category.description && (
-    <Box
-      width={{ base: "100%", md: "7xl" }}
-      maxWidth="100%"
-      mx="auto"
-      px={{ base: "0", md: "4" }}
-      py={{ base: "4", md: "8", lg: "12" }}
-    >
-      <Text fontSize={"2xl"} fontWeight={"semibold"}>
-        About {category.name}
-      </Text>
-      <Box>
-        {category.description && (
-          <Text fontSize="md" mt={12}>
-            {category.description}
+    <>
+      {category.description && (
+        <Box
+          width={{ base: "100%", md: "7xl" }}
+          maxWidth="100%"
+          mx="auto"
+          px={{ base: "0", md: "4" }}
+          py={{ base: "4", md: "8", lg: "12" }}
+        >
+          <Text fontSize={"2xl"} fontWeight={"semibold"}>
+            About {category.name}
           </Text>
-        )}
+          <Box>
+            {category.description && (
+              <Text fontSize="md" mt={12}>
+                {category.description}
+              </Text>
+            )}
 
-        {category.custom_category_description && (
-          <Collapsible.Root open={isExpanded}>
-            <Collapsible.Trigger asChild>
-              <Link
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setIsExpanded(!isExpanded);
-                }}
-                style={{
-                  color: "blue",
-                  marginTop: "10px",
-                  textDecoration: "underline",
-                }}
-              >
-                Show more
-              </Link>
-            </Collapsible.Trigger>
-            <Collapsible.Content>
-              <Box
-                mt={4}
-                p={4}
-                borderWidth="1px"
-                borderRadius="md"
-                dangerouslySetInnerHTML={{
-                  __html: category.custom_category_description,
-                }}
-              />
-            </Collapsible.Content>
-          </Collapsible.Root>
-        )}
-      </Box>
-    </Box>
+            {category.custom_category_description && (
+              <Collapsible.Root open={isExpanded}>
+                <Collapsible.Trigger asChild>
+                  <Link
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setIsExpanded(!isExpanded);
+                    }}
+                    style={{
+                      color: "blue",
+                      marginTop: "10px",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Show more
+                  </Link>
+                </Collapsible.Trigger>
+                <Collapsible.Content>
+                  <Box
+                    mt={4}
+                    p={4}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    dangerouslySetInnerHTML={{
+                      __html: category.custom_category_description,
+                    }}
+                  />
+                </Collapsible.Content>
+              </Collapsible.Root>
+            )}
+          </Box>
+        </Box>
       )}
-      </>
-
+    </>
   );
 };
