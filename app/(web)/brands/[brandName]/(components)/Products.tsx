@@ -44,7 +44,6 @@ export default function BrandProductsPage({
 
   const { data, isLoading } = useFilterProductsQuery({
     brand: [brandName],
-    category: category,
     item_group: category,
     in_stock: inStock,
     bestseller: 0,

@@ -216,7 +216,6 @@ export default function CategoryProductsPage({
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   const { data } = useFilterProductsQuery({
-    category: [category],
     brand: brand,
     item_group: [category],
     in_stock: inStock,
