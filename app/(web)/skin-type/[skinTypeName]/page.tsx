@@ -6,7 +6,6 @@ import { getBrandDetailByName } from "@/api/queries/brands/[brandName]";
 import { redirect } from "next/navigation";
 import { BrandDetailPageProps } from "@/types";
 import { BrandDescription, SkinTypeCarousel } from "./(components)";
-import BrandProductsPage from "./(components)/Products";
 import SkinTypeProductsPage from "./(components)/Products";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
