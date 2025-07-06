@@ -1,7 +1,6 @@
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-import BrandProductsPage from "./(components)/Products";
 import { CategoryCarousel } from "./(components)/CategoryCarousel";
 import { CategoryDescription } from "./(components)";
 import { CategoryDetailPageProps } from "@/types";
