@@ -14,6 +14,7 @@ import {
   Select,
   Portal,
   createListCollection,
+  Collapsible,
 } from "@chakra-ui/react";
 
 import { Pagination, ProductCard } from "@/components";
@@ -38,6 +39,7 @@ export default function BrandProductsPage({
     useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
+  const [showFilter, setShowFilter] = useState(true);
 
   const priceSortOrder =
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
@@ -113,71 +115,98 @@ export default function BrandProductsPage({
   // }, []);
   return (
     <Container maxW="7xl" py={8}>
-      <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}>
-        {/* Sidebar Filters */}
-        <BrandFilter
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          inStockCount={inStockCount}
-          outOfStockCount={outOfStockCount}
-          // skinTypes={skinTypes}
-        />
+      {/* <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}> */}
+      <Collapsible.Root
+        open={showFilter}
+        onOpenChange={(details) => setShowFilter(details.open)}
+      >
+        <Grid
+          templateColumns={{
+            base: "1fr",
+            lg: showFilter ? "300px 1fr" : "1fr",
+          }}
+          gap={8}
+        >
+          {/* Sidebar Filters */}
+          <BrandFilter
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            inStockCount={inStockCount}
+            outOfStockCount={outOfStockCount}
+            isOpen={showFilter}
+            // skinTypes={skinTypes}
+          />
 
-        {/* Main Content */}
-        <GridItem>
-          <VStack gap={6} align="stretch">
-            {/* Header */}
-            <Flex
-              justify="space-between"
-              w-full
-              align="center"
-              wrap="wrap"
-              gap={4}
-            >
-              <Box>
-                <HStack gap={4} align="baseline">
-                  <Heading size="lg">All Products</Heading>({total_count}{" "}
-                  products found)
-                </HStack>
-              </Box>
-              <HStack gap={1}>
-                <HStack>
-                  <Text fontSize="sm">Sort By :</Text>
-                  <Select.Root
-                    collection={orderStatusOptions}
-                    size="sm"
-                    width="200px"
-                    onValueChange={(val) =>
-                      setSortBy((val.value as string[])[0])
-                    }
-                  >
-                    <Select.HiddenSelect />
-                    <Flex>
-                      <Select.Control>
-                        <Select.Trigger width={"140px"}>
-                          <Select.ValueText placeholder="Relevance" />
-                        </Select.Trigger>
-                        <Select.IndicatorGroup>
-                          <Select.Indicator />
-                        </Select.IndicatorGroup>
-                      </Select.Control>
-                    </Flex>
-                    <Portal>
-                      <Select.Positioner>
-                        <Select.Content>
-                          {orderStatusOptions.items.map((item) => (
-                            <Select.Item item={item} key={item.value}>
-                              {item.label}
-                              <Select.ItemIndicator />
-                            </Select.Item>
-                          ))}
-                        </Select.Content>
-                      </Select.Positioner>
-                    </Portal>
-                  </Select.Root>
-                </HStack>
-                {/* Sidebar Filters */}
-                {/* <Box
+          {/* Main Content */}
+          <GridItem>
+            <VStack gap={6} align="stretch">
+              {/* Header */}
+              <Flex
+                justify="space-between"
+                w-full
+                align="center"
+                wrap="wrap"
+                gap={4}
+              >
+                <Box>
+                  <HStack gap={4} align="baseline">
+                    <Heading size="lg">All Products</Heading>({total_count}{" "}
+                    products found)
+                  </HStack>
+                </Box>
+                <HStack gap={1}>
+                  <HStack>
+                    <Text fontSize="sm">Sort By :</Text>
+                    <Select.Root
+                      collection={orderStatusOptions}
+                      size="sm"
+                      width="200px"
+                      onValueChange={(val) =>
+                        setSortBy((val.value as string[])[0])
+                      }
+                    >
+                      <Select.HiddenSelect />
+                      <Flex>
+                        <Select.Control>
+                          <Select.Trigger width={"140px"}>
+                            <Select.ValueText placeholder="Relevance" />
+                          </Select.Trigger>
+                          <Select.IndicatorGroup>
+                            <Select.Indicator />
+                          </Select.IndicatorGroup>
+                        </Select.Control>
+                      </Flex>
+                      <Portal>
+                        <Select.Positioner>
+                          <Select.Content>
+                            {orderStatusOptions.items.map((item) => (
+                              <Select.Item item={item} key={item.value}>
+                                {item.label}
+                                <Select.ItemIndicator />
+                              </Select.Item>
+                            ))}
+                          </Select.Content>
+                        </Select.Positioner>
+                      </Portal>
+                    </Select.Root>
+                    <Box>
+                      <Collapsible.Trigger>
+                        <Text
+                          fontWeight="medium"
+                          cursor="pointer"
+                          color="pink.500"
+                          border="1px solid"
+                          px={4}
+                          py={1}
+                          borderRadius="md"
+                        >
+                          {showFilter ? "Hide Filters" : "Show Filters"}
+                        </Text>
+                      </Collapsible.Trigger>
+                    </Box>
+                  </HStack>
+                  {/* Sidebar Filters */}
+                  {/* <Box
                 onClick={onOpen}
                 bg="primary.50"
                 borderRadius="8px"
@@ -193,37 +222,37 @@ export default function BrandProductsPage({
                   </Text>
                 </Flex>
               </Box> */}
-              </HStack>
-            </Flex>
+                </HStack>
+              </Flex>
 
-            {/* Products Grid */}
-            <Grid
-              templateColumns={{
-                base: "1fr",
-                sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
-                lg: "repeat(4, 1fr)",
-              }}
-              gap={6}
-            >
-              {filteredProducts.map((product) => (
-                <ProductCard key={product.title} {...product} />
-              ))}
-            </Grid>
-          </VStack>
-        </GridItem>
-      </Grid>
+              {/* Products Grid */}
+              <Grid
+                templateColumns={{
+                  base: "1fr",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
+                  lg: `repeat(${showFilter ? 4 : 5}, 1fr)`,
+                }}
+                gap={6}
+              >
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.title} {...product} />
+                ))}
+              </Grid>
+            </VStack>
+          </GridItem>
+        </Grid>
 
-      {!isLoading && products.length > 0 && totalPages > 1 && (
-        <Pagination
-          totalPages={totalPages}
-          currentPage={page}
-          pageSize={PAGE_SIZE}
-          onPageChange={handlePageChange}
-        />
-      )}
+        {!isLoading && products.length > 0 && totalPages > 1 && (
+          <Pagination
+            totalPages={totalPages}
+            currentPage={page}
+            pageSize={PAGE_SIZE}
+            onPageChange={handlePageChange}
+          />
+        )}
 
-      {/* <Drawer
+        {/* <Drawer
         // title="Brand Filter"
         placement="start"
         open={open}
@@ -243,6 +272,7 @@ export default function BrandProductsPage({
           // skinTypes={skinTypes}
         />
       </Drawer> */}
+      </Collapsible.Root>
     </Container>
   );
 }
