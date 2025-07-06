@@ -268,7 +268,6 @@ export default function CategoryProductsPage({
         open={showFilter}
         onOpenChange={(details) => setShowFilter(details.open)}
       >
-      
         <Grid
           templateColumns={{
             base: "1fr",
@@ -294,7 +293,6 @@ export default function CategoryProductsPage({
                   </HStack>
                 </Box>
                 <HStack>
-                
                   <Text fontSize="sm">Sort By :</Text>
                   <Select.Root
                     collection={orderStatusOptions}
@@ -328,23 +326,22 @@ export default function CategoryProductsPage({
                       </Select.Positioner>
                     </Portal>
                   </Select.Root>
-                 
-                  <Box>        
-                      <Collapsible.Trigger>
-            <Text
-              fontWeight="medium"
-              cursor="pointer"
-              color="pink.500"
-              border="1px solid"
-              px={4}
-              py={1}
-              borderRadius="md"
-            >
-              {showFilter ? "Hide Filters" : "Show Filters"}
-            </Text>
-          </Collapsible.Trigger>
-          </Box>
 
+                  <Box>
+                    <Collapsible.Trigger>
+                      <Text
+                        fontWeight="medium"
+                        cursor="pointer"
+                        color="pink.500"
+                        border="1px solid"
+                        px={4}
+                        py={1}
+                        borderRadius="md"
+                      >
+                        {showFilter ? "Hide Filters" : "Show Filters"}
+                      </Text>
+                    </Collapsible.Trigger>
+                  </Box>
                 </HStack>
               </Flex>
 
