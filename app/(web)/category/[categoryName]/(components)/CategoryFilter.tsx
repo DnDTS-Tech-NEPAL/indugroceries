@@ -81,7 +81,14 @@ export const CategoryFilter = ({
   };
 
   return (
-    <Collapsible.Content as={GridItem} hidden={!isOpen}>
+      <GridItem
+      width={{ base: "100%", md: "290px" }}
+      height={"fit-content"}
+      shadow={"lg"}
+      borderRadius={"1rem"}
+      overflow={"hidden"}
+    >
+    <Collapsible.Content hidden={!isOpen}>
       <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
         <Text fontSize="xl" fontWeight={"medium"}>
           Filter by
@@ -276,5 +283,6 @@ export const CategoryFilter = ({
         </VStack>
       </Box>
     </Collapsible.Content>
+    </GridItem>
   );
 };
