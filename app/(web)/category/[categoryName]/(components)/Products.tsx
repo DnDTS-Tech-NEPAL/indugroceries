@@ -112,7 +112,7 @@
 //                 <HStack gap={4} align="baseline">
 //                   <Heading size="lg">All Products</Heading>(
 //                   {filteredProducts.length} products found)
-                  
+
 //                 </HStack>
 //               </Box>
 //               <HStack>
@@ -265,8 +265,10 @@ export default function CategoryProductsPage({
 
   return (
     <Container maxW="7xl" py={8}>
-      <Collapsible.Root open={showFilter} onOpenChange={(details) => setShowFilter(details.open)}
->
+      <Collapsible.Root
+        open={showFilter}
+        onOpenChange={(details) => setShowFilter(details.open)}
+      >
         <Flex justify="flex-end" mb={4}>
           <Collapsible.Trigger>
             <Text
@@ -388,7 +390,6 @@ export default function CategoryProductsPage({
 // import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 // import { CategoryFilter } from "./CategoryFilter";
 // import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-
 
 // interface CategoryProductsPageProps {
 //   category: string;

@@ -17,8 +17,6 @@ export const CategoryCarousel = ({
   const selectedCategory = categoryImageData.find(
     (category) => category?.name?.toLowerCase() === categoryName?.toLowerCase()
   );
-
-  console.log(selectedCategory);
   const heroImages = selectedCategory
     ? [
         selectedCategory.image1,

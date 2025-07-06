@@ -20,7 +20,7 @@ const Category = () => {
         title="Category"
         breadcrumb={BREADCRUMB_CONFIG.CATEGORY}
       />
-      <HeroSection/>
+      <HeroSection />
       <AllCategories />
     </>
   );

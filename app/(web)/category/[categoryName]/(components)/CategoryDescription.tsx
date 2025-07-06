@@ -1,6 +1,6 @@
 "use client";
 import { Box, Text } from "@chakra-ui/react";
-import {useCategoriesListQuery } from "@/hooks/api";
+import { useCategoriesListQuery } from "@/hooks/api";
 import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
@@ -11,7 +11,9 @@ interface CategoryDescriptionProps {
   categoryName: string;
 }
 
-export const CategoryDescription = ({ categoryName }: CategoryDescriptionProps) => {
+export const CategoryDescription = ({
+  categoryName,
+}: CategoryDescriptionProps) => {
   const { data: categoryData = [] } = useCategoriesListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -20,7 +22,9 @@ export const CategoryDescription = ({ categoryName }: CategoryDescriptionProps) 
   );
 
   if (!category) {
-    return <Text>No category found with the name &quot;{categoryName}&quot;</Text>;
+    return (
+      <Text>No category found with the name &quot;{categoryName}&quot;</Text>
+    );
   }
 
   return (

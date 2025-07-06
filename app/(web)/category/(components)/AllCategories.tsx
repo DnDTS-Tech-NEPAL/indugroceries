@@ -2,16 +2,8 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import {
-  Box,
-  Container,
-  Grid,
-  Input,
-  Text,
-  VStack,
-  Heading,
-} from "@chakra-ui/react";
-import { useState, useMemo } from "react";
+import { Box, Container, Grid, Input, Text, VStack } from "@chakra-ui/react";
+import { useState } from "react";
 
 import { InputGroup } from "@/components/form/input/InputGroup";
 import { SearchIcon } from "@/assets/svg";
@@ -23,16 +15,6 @@ export default function AllCategories() {
   const featureImages = useFeaturedCategoryImages();
 
   const [search, setSearch] = useState("");
-  const [activeLetter, setActiveLetter] = useState("A");
-
-  const filteredCategories = useMemo(() => {
-    return featureImages.filter((category) => {
-      const name = category.name.toLowerCase();
-      const matchesSearch = name.includes(search.toLowerCase());
-      const matchesLetter = category.name[0]?.toUpperCase() === activeLetter;
-      return matchesSearch && matchesLetter;
-    });
-  }, [search, activeLetter, featureImages]);
 
   return (
     <Container

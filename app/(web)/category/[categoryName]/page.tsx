@@ -9,9 +9,9 @@ import { getCategoryDetailByName } from "@/api/queries/category/[categoryName]";
 import { redirect } from "next/navigation";
 
 const Category = async ({ params }: CategoryDetailPageProps) => {
-   const category = await getCategoryDetailByName();
+  const category = await getCategoryDetailByName();
   const categoryName = decodeURI((await params).categoryName);
- if (!category || category.error) {
+  if (!category || category.error) {
     return redirect(ROUTES.NOT_FOUND);
   }
   return (
@@ -24,7 +24,7 @@ const Category = async ({ params }: CategoryDetailPageProps) => {
       />
       <CategoryCarousel categoryName={categoryName} />
       <CategoryDescription categoryName={categoryName} />
-      <CategoryProductsPage category={categoryName}/>
+      <CategoryProductsPage category={categoryName} />
     </>
   );
 };

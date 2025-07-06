@@ -126,7 +126,11 @@ export const CategoryFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            <AccordionItem value="discount" borderBottom="1px solid #D0D0D0" p={2}>
+            <AccordionItem
+              value="discount"
+              borderBottom="1px solid #D0D0D0"
+              p={2}
+            >
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
                   Discount
@@ -183,13 +187,23 @@ export const CategoryFilter = ({
                     <Text fontSize="sm" mb={1}>
                       From
                     </Text>
-                    <Input size="sm" value={`NPR ${priceRange[0]}`} readOnly bg="white" />
+                    <Input
+                      size="sm"
+                      value={`NPR ${priceRange[0]}`}
+                      readOnly
+                      bg="white"
+                    />
                   </Box>
                   <Box>
                     <Text fontSize="sm" mb={1}>
                       To
                     </Text>
-                    <Input size="sm" value={`NPR ${priceRange[1]}`} readOnly bg="white" />
+                    <Input
+                      size="sm"
+                      value={`NPR ${priceRange[1]}`}
+                      readOnly
+                      bg="white"
+                    />
                   </Box>
                 </HStack>
               </AccordionItemContent>
