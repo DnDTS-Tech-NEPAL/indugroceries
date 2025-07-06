@@ -10,12 +10,11 @@ import {
   Text,
   SimpleGrid,
   Container,
-  Button,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { ProductCard, VisibleSection } from "@/components";
+import { Pagination, ProductCard, VisibleSection } from "@/components";
 import {
   useConfigQuery,
   useProductsLikeQuery,
@@ -43,7 +42,8 @@ const SearchPage = () => {
       xl: 10,
     }) ?? 8;
 
-  const totalPages = Math.ceil(list.length / productsPerPage);
+  const totalPages = Math.floor(list.length / productsPerPage);
+  console.log(list.length);
   const [page, setPage] = useState(0);
 
   const pagedProducts = list.slice(
@@ -63,78 +63,78 @@ const SearchPage = () => {
   //   );
   // };
 
-  const renderPagination = () => {
-    if (totalPages <= 1) return null;
+  // const renderPagination = () => {
+  //   if (totalPages <= 1) return null;
 
-    const pages: (number | "...")[] = [];
-    const startPage = Math.max(1, page - 2);
-    const endPage = Math.min(totalPages - 2, page + 2);
+  //   const pages: (number | "...")[] = [];
+  //   const startPage = Math.max(1, page - 2);
+  //   const endPage = Math.min(totalPages - 2, page + 2);
 
-    pages.push(0);
-    if (startPage > 1) pages.push("...");
+  //   pages.push(0);
+  //   if (startPage > 1) pages.push("...");
 
-    for (let i = startPage; i <= endPage; i++) {
-      pages.push(i);
-    }
+  //   for (let i = startPage; i <= endPage; i++) {
+  //     pages.push(i);
+  //   }
 
-    if (endPage < totalPages - 2) pages.push("...");
-    if (totalPages > 1) pages.push(totalPages - 1);
+  //   if (endPage < totalPages - 2) pages.push("...");
+  //   if (totalPages > 1) pages.push(totalPages - 1);
 
-    return (
-      <Flex justify="center" align="center" mt={6} gap={4} flexWrap="wrap">
-        <Button
-          size="sm"
-          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-          disabled={page === 0}
-        >
-          Previous
-        </Button>
+  //   return (
+  //     <Flex justify="center" align="center" mt={6} gap={4} flexWrap="wrap">
+  //       <Button
+  //         size="sm"
+  //         onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+  //         disabled={page === 0}
+  //       >
+  //         <ArrowDownIcon style={{ transform: "rotate(90deg)" }} />
+  //       </Button>
 
-        <Flex gap={2} wrap="wrap" justify="center">
-          {pages.map((p, i) =>
-            p === "..." ? (
-              <Box
-                key={`ellipsis-${i}`}
-                px={2}
-                fontWeight="bold"
-                color="gray.500"
-              >
-                ...
-              </Box>
-            ) : (
-              <Box
-                key={p}
-                w={8}
-                h={8}
-                bg={page === p ? "#FF6996" : "gray.300"}
-                color={page === p ? "white" : "gray.700"}
-                borderRadius="full"
-                cursor="pointer"
-                fontWeight="bold"
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                onClick={() => setPage(p)}
-                transition="all 0.2s"
-                _hover={{ bg: "#FF6996", color: "white" }}
-                userSelect="none"
-              >
-                {p + 1}
-              </Box>
-            )
-          )}
-        </Flex>
+  //       <Flex gap={2} wrap="wrap" justify="center">
+  //         {pages.map((p, i) =>
+  //           p === "..." ? (
+  //             <Box
+  //               key={`ellipsis-${i}`}
+  //               px={2}
+  //               fontWeight="bold"
+  //               color="gray.500"
+  //             >
+  //               ...
+  //             </Box>
+  //           ) : (
+  //             <Box
+  //               key={p}
+  //               w={8}
+  //               h={8}
+  //               bg={page === p ? "#FF6996" : "gray.300"}
+  //               color={page === p ? "white" : "gray.700"}
+  //               borderRadius="full"
+  //               cursor="pointer"
+  //               fontWeight="bold"
+  //               display="flex"
+  //               alignItems="center"
+  //               justifyContent="center"
+  //               onClick={() => setPage(p)}
+  //               transition="all 0.2s"
+  //               _hover={{ bg: "#FF6996", color: "white" }}
+  //               userSelect="none"
+  //             >
+  //               {p + 1}
+  //             </Box>
+  //           )
+  //         )}
+  //       </Flex>
 
-        <Button
-          size="sm"
-          onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
-          disabled={page === totalPages - 1}
-        >
-          Next
-        </Button>
-      </Flex>
-    );
-  };
+  //       <Button
+  //         size="sm"
+  //         onClick={() => setPage((prev) => Math.min(prev + 1, totalPages - 1))}
+  //         disabled={page === totalPages - 1}
+  //       >
+  //         <ArrowDownIcon style={{ transform: "rotate(-90deg)" }} />
+  //       </Button>
+  //     </Flex>
+  //   );
+  // };
 
   return (
     <Box bg="white" py="32px">
@@ -184,7 +184,13 @@ const SearchPage = () => {
                 </MotionBox>
               </AnimatePresence>
 
-              {renderPagination()}
+              {/* {renderPagination()} */}
+              <Pagination
+                totalPages={totalPages}
+                currentPage={page}
+                pageSize={productsPerPage}
+                onPageChange={setPage}
+              />
             </Box>
           </>
         ) : (
