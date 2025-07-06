@@ -28,6 +28,8 @@ export const CategoryDescription = ({
   }
 
   return (
+    <>    
+    {category.description && (
     <Box
       width={{ base: "100%", md: "7xl" }}
       maxWidth="100%"
@@ -78,5 +80,8 @@ export const CategoryDescription = ({
         )}
       </Box>
     </Box>
+      )}
+      </>
+
   );
 };

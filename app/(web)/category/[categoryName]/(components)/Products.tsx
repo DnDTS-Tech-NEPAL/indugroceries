@@ -268,22 +268,7 @@ export default function CategoryProductsPage({
         open={showFilter}
         onOpenChange={(details) => setShowFilter(details.open)}
       >
-        <Flex justify="flex-end" mb={4}>
-          <Collapsible.Trigger>
-            <Text
-              fontWeight="medium"
-              cursor="pointer"
-              color="pink.500"
-              border="1px solid"
-              px={4}
-              py={1}
-              borderRadius="md"
-            >
-              {showFilter ? "Hide Filters" : "Show Filters"}
-            </Text>
-          </Collapsible.Trigger>
-        </Flex>
-
+      
         <Grid
           templateColumns={{
             base: "1fr",
@@ -301,7 +286,7 @@ export default function CategoryProductsPage({
 
           <GridItem>
             <VStack gap={6} align="stretch">
-              <Flex justify="space-between" align="center" wrap="wrap" gap={4}>
+              <Flex justify="space-between" align="center" wrap="wrap">
                 <Box>
                   <HStack gap={4} align="baseline">
                     <Heading size="lg">All Products</Heading>(
@@ -309,6 +294,7 @@ export default function CategoryProductsPage({
                   </HStack>
                 </Box>
                 <HStack>
+                
                   <Text fontSize="sm">Sort By :</Text>
                   <Select.Root
                     collection={orderStatusOptions}
@@ -342,6 +328,23 @@ export default function CategoryProductsPage({
                       </Select.Positioner>
                     </Portal>
                   </Select.Root>
+                 
+                  <Box>        
+                      <Collapsible.Trigger>
+            <Text
+              fontWeight="medium"
+              cursor="pointer"
+              color="pink.500"
+              border="1px solid"
+              px={4}
+              py={1}
+              borderRadius="md"
+            >
+              {showFilter ? "Hide Filters" : "Show Filters"}
+            </Text>
+          </Collapsible.Trigger>
+          </Box>
+
                 </HStack>
               </Flex>
 
