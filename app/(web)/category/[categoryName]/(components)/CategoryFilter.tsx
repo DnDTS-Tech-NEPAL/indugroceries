@@ -19,8 +19,7 @@ import {
 import { useProductsFilter } from "@/hooks/app";
 import { useSkinTypePageQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
-import { useEffect, useState } from "react";
-import { useFilterStore } from "@/store/products/filterStore";
+import { useEffect } from "react";
 
 interface CategoryFilterProps {
   minPrice: number;
@@ -43,28 +42,30 @@ export const CategoryFilter = ({
   const categoryFromURL = slug.toLowerCase();
   const {
     brand,
+    item_group,
     priceRange,
     discount,
     inStock,
     skinTypes,
     setBrand,
+    setItemGroup,
     setPriceRange,
     setDiscount,
     setInStock,
     setSkinTypes,
     resetFilters,
+    setPage,
   } = useBrandFilterStore();
 
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
 
-  const { item_group, setItemGroup, setPage } = useFilterStore();
-
   const handleSubcategoryClick = (name: string) => {
-    const newValue = item_group.includes(name)
-      ? item_group.filter((g) => g !== name)
-      : [name];
+    const newValue =
+      item_group && item_group.includes(name)
+        ? item_group.filter((g) => g !== name)
+        : [name];
 
     setItemGroup(newValue);
     setPage(1);
@@ -170,7 +171,10 @@ export const CategoryFilter = ({
                                     color="#7A7A7A"
                                     fontSize="sm"
                                     colorScheme="pink"
-                                    checked={item_group.includes(child.name)}
+                                    checked={
+                                      item_group &&
+                                      item_group.includes(child.name)
+                                    }
                                     onChange={() =>
                                       handleSubcategoryClick(child.name)
                                     }

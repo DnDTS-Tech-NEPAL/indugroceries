@@ -13,6 +13,7 @@ interface BrandFilterState {
   setSkinTypes: (types: string[]) => void;
   setCategory: (category: string[]) => void;
   setBrand: (brand: string[]) => void;
+  setItemGroup: (item_group: string[]) => void;
   setPriceRange: (range: [number, number]) => void;
   setDiscount: (discount: number) => void;
   setInStock: (inStock: number) => void;
@@ -23,22 +24,25 @@ interface BrandFilterState {
 export const useBrandFilterStore = create<BrandFilterState>((set) => ({
   category: [],
   brand: [],
-  priceRange: [0, 0], 
+  priceRange: [0, 0],
   discount: 0,
   inStock: 0,
   skinTypes: [],
   page: 1,
+  item_group: [],
   setSkinTypes: (types) => set({ skinTypes: types }),
   setCategory: (category) => set({ category }),
   setBrand: (brand) => set({ brand }),
   setPriceRange: (priceRange) => set({ priceRange }),
   setDiscount: (discount) => set({ discount }),
   setPage: (page) => set({ page }),
+  setItemGroup: (item_group) => set({ item_group }),
   setInStock: (inStock) => set({ inStock }),
   resetFilters: (maxPrice) =>
     set({
       category: [],
       brand: [],
+      item_group: [],
       priceRange: [0, maxPrice],
       discount: 0,
       inStock: 0,
