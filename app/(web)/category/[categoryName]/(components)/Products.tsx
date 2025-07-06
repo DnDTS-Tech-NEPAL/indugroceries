@@ -280,7 +280,7 @@
 //         open={showFilter}
 //         onOpenChange={(details) => setShowFilter(details.open)}
 //       >
-      
+
 //         <Grid
 //           templateColumns={{
 //             base: "1fr",
@@ -306,7 +306,7 @@
 //                   </HStack>
 //                 </Box>
 //                 <HStack>
-                
+
 //                   <Text fontSize="sm">Sort By :</Text>
 //                   <Select.Root
 //                     collection={orderStatusOptions}
@@ -340,8 +340,8 @@
 //                       </Select.Positioner>
 //                     </Portal>
 //                   </Select.Root>
-                 
-//                   <Box>        
+
+//                   <Box>
 //                       <Collapsible.Trigger>
 //             <Text
 //               fontWeight="medium"
@@ -387,7 +387,6 @@
 //     </Container>
 //   );
 // }
-
 
 "use client";
 
@@ -446,7 +445,8 @@ export default function CategoryProductsPage({
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   // ⬇️ Use selected categories (parent or child)
-  const selectedCategories = item_group && item_group.length > 0 ? item_group : [category];
+  const selectedCategories =
+    item_group && item_group.length > 0 ? item_group : [category];
 
   const { data, isLoading } = useFilterProductsQuery({
     brand,
@@ -523,6 +523,7 @@ export default function CategoryProductsPage({
           gap={8}
         >
           <CategoryFilter
+            slug={category}
             minPrice={minPrice}
             maxPrice={maxPrice}
             inStockCount={inStockCount}
@@ -621,8 +622,6 @@ export default function CategoryProductsPage({
     </Container>
   );
 }
-
-
 
 // "use client";
 
