@@ -9,6 +9,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/autoplay";
+import { generateNextPath } from "@/utils";
+import { ROUTES } from "@/constants";
 
 export const ShopBySkinType = () => {
   const router = useRouter();
@@ -68,9 +70,13 @@ export const ShopBySkinType = () => {
                 position="relative"
                 gap={4}
                 cursor="pointer"
-                onClick={() =>
-                  router.push(`/products?skin_type=${skinType.name}`)
-                }
+                onClick={() => {
+                               router.push(
+                                 generateNextPath(ROUTES.APP.INDIVIDUAL_SKIN_TYPE, {skinTypeName: skinType.name}) 
+
+                               
+                               );
+                             }}
               >
                 <Box
                   width={{
