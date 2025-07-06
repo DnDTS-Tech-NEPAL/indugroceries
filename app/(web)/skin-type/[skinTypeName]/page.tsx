@@ -7,10 +7,11 @@ import { redirect } from "next/navigation";
 import { BrandDetailPageProps } from "@/types";
 import { BrandDescription, SkinTypeCarousel } from "./(components)";
 import BrandProductsPage from "./(components)/Products";
+import SkinTypeProductsPage from "./(components)/Products";
 
 const Brands = async ({ params }: BrandDetailPageProps) => {
   const brand = await getBrandDetailByName();
-  const brandName = decodeURI((await params).brandName);
+  const skinTypeName = decodeURI((await params).brandName);
 
   if (!brand || brand.error) {
     return redirect(ROUTES.NOT_FOUND);
@@ -24,9 +25,9 @@ const Brands = async ({ params }: BrandDetailPageProps) => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
-      <SkinTypeCarousel brandName={brandName} />
-      <BrandDescription brandName={brandName} />
-      <BrandProductsPage brandName={brandName} />
+      <SkinTypeCarousel brandName={skinTypeName} />
+      <BrandDescription brandName={skinTypeName} />
+      <SkinTypeProductsPage skinTypeName={skinTypeName} />
     </>
   );
 };

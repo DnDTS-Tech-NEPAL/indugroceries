@@ -22,8 +22,8 @@ import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { PAGE_SIZE } from "@/constants";
 import { SkinTypeFilter } from "./SkinTypeFilter";
-interface BrandProductsPageProps {
-  brandName: string;
+interface SkinTypeProductsPageProps {
+  skinTypeName: string;
 }
 interface FilteredProductType {
   price?: number;
@@ -32,10 +32,10 @@ interface FilteredProductType {
   skin_types?: string[];
 }
 
-export default function BrandProductsPage({
-  brandName,
-}: BrandProductsPageProps) {
-  const { category, priceRange, discount, inStock, skinTypes, page, setPage } =
+export default function SkinTypeProductsPage({
+  skinTypeName,
+}: SkinTypeProductsPageProps) {
+  const { priceRange, discount, inStock, skinTypes, page, setPage } =
     useBrandFilterStore();
 
   const [sortBy, setSortBy] = useState<string>("");
@@ -45,9 +45,9 @@ export default function BrandProductsPage({
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   const { data, isLoading } = useFilterProductsQuery({
-    brand: [brandName],
-    item_group: category,
-    in_stock: inStock,
+    brand: [],
+    item_group: skinTypes,
+    // in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,
     page,
