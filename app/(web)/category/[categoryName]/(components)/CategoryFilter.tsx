@@ -124,9 +124,10 @@ export const CategoryFilter = ({
         <Box p={6} shadow={"lg"}>
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
-              <AccordionItem value="brand" border="none">
+              {/* Brand Section */}
+              <AccordionItem value="brand">
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">
+                  <Text fontSize="xl" p={2} fontWeight="medium">
                     Brand
                   </Text>
                 </AccordionItemTrigger>
@@ -147,9 +148,10 @@ export const CategoryFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-              <AccordionItem value="categories" border="none">
+              {/* Category Section */}
+              <AccordionItem value="categories">
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">
+                  <Text fontSize="xl" p={2} fontWeight="medium">
                     Category
                   </Text>
                 </AccordionItemTrigger>
@@ -185,7 +187,7 @@ export const CategoryFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
+              {/* Discount Section */}
               <AccordionItem
                 value="discount"
                 borderBottom="1px solid #D0D0D0"
@@ -213,7 +215,7 @@ export const CategoryFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
+              {/* Price Section */}
               <AccordionItem
                 value="price"
                 borderBottom="1px solid #D0D0D0"
@@ -272,7 +274,7 @@ export const CategoryFilter = ({
                   </HStack>
                 </AccordionItemContent>
               </AccordionItem>
-
+              {/* Availability Section */}
               <AccordionItem value="availability" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
@@ -312,8 +314,8 @@ export const CategoryFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
-              <AccordionItem value="skin-type" p={2}>
+              {/* Skin Type Filter */}
+              <AccordionItem value="skin-type" p={2} border={"none"}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Skin Type
