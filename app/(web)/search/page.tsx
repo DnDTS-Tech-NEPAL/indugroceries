@@ -43,7 +43,6 @@ const SearchPage = () => {
     }) ?? 8;
 
   const totalPages = Math.floor(list.length / productsPerPage);
-  console.log(list.length);
   const [page, setPage] = useState(0);
 
   const pagedProducts = list.slice(
