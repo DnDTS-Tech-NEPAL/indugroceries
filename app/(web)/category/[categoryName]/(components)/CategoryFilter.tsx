@@ -7,6 +7,7 @@ import {
   VStack,
   HStack,
   Slider,
+  Collapsible,
 } from "@chakra-ui/react";
 import {
   AccordionItem,
@@ -25,6 +26,7 @@ interface CategoryFilterProps {
   maxPrice: number;
   inStockCount: number;
   outOfStockCount: number;
+  isOpen: boolean;
 }
 
 export const CategoryFilter = ({
@@ -32,6 +34,7 @@ export const CategoryFilter = ({
   maxPrice,
   inStockCount,
   outOfStockCount,
+  isOpen,
 }: CategoryFilterProps) => {
   const filter = useProductsFilter();
   const {
@@ -78,7 +81,7 @@ export const CategoryFilter = ({
   };
 
   return (
-    <GridItem>
+    <Collapsible.Content as={GridItem} hidden={!isOpen}>
       <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
         <Text fontSize="xl" fontWeight={"medium"}>
           Filter by
@@ -99,7 +102,6 @@ export const CategoryFilter = ({
       <Box p={6} shadow={"lg"}>
         <VStack gap={6} align="stretch">
           <AccordionRoot collapsible as={VStack} alignItems="stretch">
-            {/* Brand (used as Category here) */}
             <AccordionItem value="brand" border="none">
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -124,7 +126,6 @@ export const CategoryFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Discount */}
             <AccordionItem value="discount" borderBottom="1px solid #D0D0D0" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -149,7 +150,6 @@ export const CategoryFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Price */}
             <AccordionItem value="price" borderBottom="1px solid #D0D0D0" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -195,7 +195,6 @@ export const CategoryFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Availability */}
             <AccordionItem value="availability" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -236,7 +235,6 @@ export const CategoryFilter = ({
               </AccordionItemContent>
             </AccordionItem>
 
-            {/* Skin Types */}
             <AccordionItem value="skin-type" p={2}>
               <AccordionItemTrigger hasAccordionIcon>
                 <Text fontSize="xl" fontWeight="medium">
@@ -263,6 +261,6 @@ export const CategoryFilter = ({
           </AccordionRoot>
         </VStack>
       </Box>
-    </GridItem>
+    </Collapsible.Content>
   );
 };
