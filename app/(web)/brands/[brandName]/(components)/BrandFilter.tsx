@@ -88,7 +88,7 @@ export const BrandFilter = ({
       borderRadius={"1rem"}
       overflow={"hidden"}
     >
-      <Collapsible.Content as={GridItem} hidden={!isOpen}>
+      <Collapsible.Content hidden={!isOpen}>
         <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
           <Text fontSize="xl" fontWeight={"medium"}>
             Filter by
