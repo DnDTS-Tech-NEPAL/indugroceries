@@ -10,6 +10,7 @@ export const ROUTES = {
     INDIVIDUAL_PRODUCT: "/products/:productName",
     INDIVIDUAL_BRAND: "/brands/:brandName",
     INDIVIDUAL_CATEGORY: "/category/:categoryName",
+    INDIVIDUAL_SKIN_TYPE: "/skin-type/:skinTypeName",
     CONTACT_US: "/contact-us",
     PAYMENT: "/payment",
     CHECKOUT: "/checkout",
