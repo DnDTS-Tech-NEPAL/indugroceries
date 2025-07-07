@@ -38,10 +38,12 @@ export const SkinTypeFilter = ({
 }: BrandFilterProps) => {
   const filter = useProductsFilter();
   const {
+    brand,
     category,
     priceRange,
     discount,
     inStock,
+    setBrand,
     setCategory,
     setPriceRange,
     setDiscount,
@@ -49,7 +51,6 @@ export const SkinTypeFilter = ({
     resetFilters,
   } = useBrandFilterStore();
 
-  // Initialize price range when component mounts or maxPrice changes
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
@@ -62,23 +63,19 @@ export const SkinTypeFilter = ({
     }
   };
 
-  const handleDiscountSelect = (value: number) => {
-    setDiscount(discount === value ? 0 : value);
-  };
-
-  const { data: skinTypeData } = useSkinTypePageQuery();
-  const uniqueSkinTypes = Array.from(
-    new Set((skinTypeData || []).map((s) => s.name))
-  );
-  const { skinTypes, setSkinTypes } = useBrandFilterStore();
-
-  const handleSkinTypeToggle = (value: string) => {
-    if (skinTypes.includes(value)) {
-      setSkinTypes(skinTypes.filter((s) => s !== value));
+    const handleBrandToggle = (value: string) => {
+    if (brand.includes(value)) {
+      setBrand(brand.filter((b) => b !== value));
     } else {
-      setSkinTypes([...skinTypes, value]);
+      setBrand([...brand, value]);
     }
   };
+
+  const handleDiscountSelect = (value: number) => {
+    setDiscount(discount === value ? 0 : value);
+  }
+ 
+
 
   return (
     <GridItem
@@ -133,7 +130,30 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
+              {/* Brand Section */}
+              <AccordionItem value="brand">
+                <AccordionItemTrigger hasAccordionIcon>
+                  <Text fontSize="xl" p={2} fontWeight="medium">
+                    Brand
+                  </Text>
+                </AccordionItemTrigger>
+                <AccordionItemContent>
+                  <VStack align="stretch" gap={2} pt={4}>
+                    {filter[1].items.map((item) => (
+                      <Checkbox
+                        key={item.value}
+                        color="#7A7A7A"
+                        py={2}
+                        colorScheme="pink"
+                        checked={brand.includes(item.title)}
+                        onChange={() => handleBrandToggle(item.title)}
+                      >
+                        {item.title}
+                      </Checkbox>
+                    ))}
+                  </VStack>
+                </AccordionItemContent>
+              </AccordionItem>
               {/* Discount Section */}
               <AccordionItem value="discount" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
@@ -268,30 +288,6 @@ export const SkinTypeFilter = ({
                 </AccordionItemContent>
               </AccordionItem>
 
-              {/* Skin Type Filter */}
-              <AccordionItem value="skin-type" border={"none"} p={2}>
-                <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">
-                    Skin Type
-                  </Text>
-                </AccordionItemTrigger>
-                <AccordionItemContent>
-                  <VStack align="stretch" gap={2} pt={4}>
-                    {uniqueSkinTypes.map((type) => (
-                      <Checkbox
-                        key={type}
-                        color="#7A7A7A"
-                        py={2}
-                        colorScheme="pink"
-                        checked={skinTypes.includes(type)}
-                        onChange={() => handleSkinTypeToggle(type)}
-                      >
-                        {type}
-                      </Checkbox>
-                    ))}
-                  </VStack>
-                </AccordionItemContent>
-              </AccordionItem>
             </AccordionRoot>
           </VStack>
         </Box>

@@ -38,7 +38,7 @@ interface FilteredProductType {
 export default function SkinTypeProductsPage({
   skinTypeName,
 }: SkinTypeProductsPageProps) {
-  const { priceRange, discount, inStock, page, setPage } = useBrandFilterStore();
+  const {brand,category, priceRange, discount, inStock, page, setPage } = useBrandFilterStore();
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
@@ -46,8 +46,8 @@ export default function SkinTypeProductsPage({
     sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
 
   const { data, isLoading } = useFilterProductsQuery({
-    brand: [],
-    item_group: [],
+    brand,
+    item_group: category,
     bestseller: 0,
     pricerange: priceSortOrder,
     page,
