@@ -332,4 +332,3 @@ export const SkinTypeFilter = ({
     </GridItem>
   );
 };
-

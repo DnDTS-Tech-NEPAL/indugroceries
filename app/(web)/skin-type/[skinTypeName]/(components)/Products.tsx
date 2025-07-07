@@ -68,7 +68,7 @@ export default function SkinTypeProductsPage({
   });
 
   const products = data?.products || [];
-  
+
   const normalizedSkinType = skinTypeName
     .toLowerCase()
     .replace(/\s+/g, "")
@@ -185,8 +185,8 @@ export default function SkinTypeProductsPage({
               <Flex justify="space-between" align="center" wrap="wrap">
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">All Products</Heading>
-                    ({filteredProducts.length} products found)
+                    <Heading size="lg">All Products</Heading>(
+                    {filteredProducts.length} products found)
                   </HStack>
                 </Box>
 
@@ -273,5 +273,3 @@ export default function SkinTypeProductsPage({
     </Container>
   );
 }
-
-
