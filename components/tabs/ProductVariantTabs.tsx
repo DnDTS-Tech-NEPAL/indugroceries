@@ -842,10 +842,11 @@ export const ProductVariantTabs = ({
                     >
                       <Box
                         as="button"
-                        px={4}
-                        py={1}
+                        px={2}
+                        py={5}
                         border={isSelected ? "none" : "1px solid gray"}
-                        borderRadius="full"
+                        borderRadius="lg"
+                        width={"fit-content"}
                         bg={
                           isSelected
                             ? "#FF6996"
