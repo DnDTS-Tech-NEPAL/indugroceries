@@ -492,7 +492,7 @@ export default function CategoryProductsPage({
       (product.skin_types &&
         product.skin_types.some((st) => skinTypes.includes(st)));
 
-         const matchesSkinConcernTypes =
+    const matchesSkinConcernTypes =
       skinConcern.length === 0 ||
       (product.skinconcern_types &&
         product.skinconcern_types.some((st) => skinConcern.includes(st)));
@@ -500,7 +500,11 @@ export default function CategoryProductsPage({
     const matchesDiscount = discount === 0 || maxDiscount >= discount;
 
     return (
-      inPriceRange && matchesAvailability && matchesSkinTypes && matchesSkinConcernTypes && matchesDiscount
+      inPriceRange &&
+      matchesAvailability &&
+      matchesSkinTypes &&
+      matchesSkinConcernTypes &&
+      matchesDiscount
     );
   });
 

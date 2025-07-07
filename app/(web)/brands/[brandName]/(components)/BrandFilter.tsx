@@ -83,18 +83,18 @@ export const BrandFilter = ({
     }
   };
 
-    const { data: skinConcernTypeData } = useSkinConcernPageQuery();
-    const uniqueSkinConcernTypes = Array.from(
-      new Set((skinConcernTypeData || []).map((s) => s.name))
-    );
-  
-    const handleSkinConcernTypeToggle = (value: string) => {
-      if (skinConcern.includes(value)) {
-        setSkinConcernTypes(skinConcern.filter((s) => s !== value));
-      } else {
-        setSkinConcernTypes([...skinConcern, value]);
-      }
-    };
+  const { data: skinConcernTypeData } = useSkinConcernPageQuery();
+  const uniqueSkinConcernTypes = Array.from(
+    new Set((skinConcernTypeData || []).map((s) => s.name))
+  );
+
+  const handleSkinConcernTypeToggle = (value: string) => {
+    if (skinConcern.includes(value)) {
+      setSkinConcernTypes(skinConcern.filter((s) => s !== value));
+    } else {
+      setSkinConcernTypes([...skinConcern, value]);
+    }
+  };
 
   return (
     <GridItem
@@ -309,7 +309,7 @@ export const BrandFilter = ({
                 </AccordionItemContent>
               </AccordionItem>
 
-               {/* Skin concern */}
+              {/* Skin concern */}
               <AccordionItem value="skin-concern" p={2} border={"none"}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">

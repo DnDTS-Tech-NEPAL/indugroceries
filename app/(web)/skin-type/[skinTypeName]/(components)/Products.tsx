@@ -39,8 +39,16 @@ interface FilteredProductType {
 export default function SkinTypeProductsPage({
   skinTypeName,
 }: SkinTypeProductsPageProps) {
-  const { brand, category, priceRange, discount, inStock, page, setPage, skinConcern } =
-    useBrandFilterStore();
+  const {
+    brand,
+    category,
+    priceRange,
+    discount,
+    inStock,
+    page,
+    setPage,
+    skinConcern,
+  } = useBrandFilterStore();
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
@@ -68,7 +76,7 @@ export default function SkinTypeProductsPage({
     if (totalPages > 0 && page > totalPages) {
       setPage(1);
     }
-  }, [totalPages, page , setPage]);
+  }, [totalPages, page, setPage]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
@@ -92,7 +100,7 @@ export default function SkinTypeProductsPage({
 
     const matchesAvailability =
       inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
-      const matchesSkinConcernTypes =
+    const matchesSkinConcernTypes =
       skinConcern.length === 0 ||
       (product.skinconcern_types &&
         product.skinconcern_types.some((st) => skinConcern.includes(st)));
