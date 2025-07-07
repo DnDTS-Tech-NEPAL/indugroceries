@@ -149,48 +149,56 @@ export const CategoryFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-              {/* Category Section */}
-              <AccordionItem value="categories">
-                <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" p={2} fontWeight="medium">
-                    Category
-                  </Text>
-                </AccordionItemTrigger>
-                <AccordionItemContent>
-                  <VStack align="stretch" gap={2} pt={4}>
-                    {filter[1]?.items?.map((item) => (
-                      <>
-                        {item.value.toLowerCase() === categoryFromURL && (
-                          <Box key={item.value}>
-                            {item.children && item.children.length > 0 && (
-                              <VStack align="start" pl={6} pt={2}>
-                                {item.children?.map((child) => (
-                                  <Checkbox
-                                    key={child.name}
-                                    py={1}
-                                    color="#7A7A7A"
-                                    fontSize="sm"
-                                    colorScheme="pink"
-                                    checked={
-                                      item_group &&
-                                      item_group.includes(child.name)
-                                    }
-                                    onChange={() =>
-                                      handleSubcategoryClick(child.name)
-                                    }
-                                  >
-                                    {child.name}
-                                  </Checkbox>
-                                ))}
-                              </VStack>
+              {/* Category Section - show only if subcategories exist */}
+              {filter[1]?.items?.some(
+                (item) =>
+                  item.value.toLowerCase() === categoryFromURL &&
+                  item.children &&
+                  item.children.length > 0
+              ) && (
+                <AccordionItem value="categories">
+                  <AccordionItemTrigger hasAccordionIcon>
+                    <Text fontSize="xl" p={2} fontWeight="medium">
+                      Category
+                    </Text>
+                  </AccordionItemTrigger>
+                  <AccordionItemContent>
+                    <VStack align="stretch" gap={2} pt={4}>
+                      {filter[1]?.items?.map((item) => (
+                        <>
+                          {item.value.toLowerCase() === categoryFromURL &&
+                            item.children &&
+                            item.children.length > 0 && (
+                              <Box key={item.value}>
+                                <VStack align="start" pl={6} pt={2}>
+                                  {item.children.map((child) => (
+                                    <Checkbox
+                                      key={child.name}
+                                      py={1}
+                                      color="#7A7A7A"
+                                      fontSize="sm"
+                                      colorScheme="pink"
+                                      checked={
+                                        item_group &&
+                                        item_group.includes(child.name)
+                                      }
+                                      onChange={() =>
+                                        handleSubcategoryClick(child.name)
+                                      }
+                                    >
+                                      {child.name}
+                                    </Checkbox>
+                                  ))}
+                                </VStack>
+                              </Box>
                             )}
-                          </Box>
-                        )}
-                      </>
-                    ))}
-                  </VStack>
-                </AccordionItemContent>
-              </AccordionItem>
+                        </>
+                      ))}
+                    </VStack>
+                  </AccordionItemContent>
+                </AccordionItem>
+              )}
+
               {/* Discount Section */}
               <AccordionItem
                 value="discount"
