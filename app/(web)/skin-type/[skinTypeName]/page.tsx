@@ -3,7 +3,7 @@ import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import { redirect } from "next/navigation";
 import { skinTypeDetailPageProps } from "@/types";
-import { BrandDescription, SkinTypeCarousel } from "./(components)";
+import {SkinTypeCarousel, SkinTypeDescription } from "./(components)";
 import SkinTypeProductsPage from "./(components)/Products";
 import { getSkinDetailByName } from "@/api/queries/skin-type/[skinTypeName]";
 
@@ -24,7 +24,7 @@ const SkinType = async ({ params }: skinTypeDetailPageProps) => {
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
       <SkinTypeCarousel skinTypeName={skinTypeName} />
-      <BrandDescription brandName={skinTypeName} />
+      <SkinTypeDescription skinTypeName={skinTypeName} />
       <SkinTypeProductsPage skinTypeName={skinTypeName} />
     </>
   );
