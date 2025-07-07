@@ -31,6 +31,7 @@ export type ProductVariantType = {
   prices: ProductPrice[];
   stock_qty: number;
   skin_types: string[];
+  skin_concerns: string[];
 
   // custom description,how to use,ingredients
   custom_long_description: string;
@@ -73,6 +74,7 @@ export type IndividualProductAPIType = {
   variants: ProductVariantType[];
   stock_qty: number;
   skin_types: string[];
+  skin_concerns: string[];
 
   error?: string;
 
@@ -119,4 +121,6 @@ export type RecentlyViewedProductAPIType = {
   variants: ProductVariantType[];
   stock_qty: number;
   skin_types: string[];
+  skin_concerns: string[];
+
 };
