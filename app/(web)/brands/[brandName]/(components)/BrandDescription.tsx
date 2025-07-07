@@ -69,15 +69,12 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
                       textDecoration: "underline",
                     }}
                   >
-                    Show more
+                    {isExpanded ? "Show less" : "Show more"}
                   </Link>
                 </Collapsible.Trigger>
                 <Collapsible.Content>
                   <Box
                     mt={4}
-                    p={4}
-                    borderWidth="1px"
-                    borderRadius="md"
                     dangerouslySetInnerHTML={{
                       __html: brand.custom_brand_description,
                     }}
