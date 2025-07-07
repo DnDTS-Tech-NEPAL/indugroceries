@@ -22,10 +22,13 @@ import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { PAGE_SIZE } from "@/constants";
 import { SkinTypeFilter } from "./SkinTypeFilter";
+
 interface SkinTypeProductsPageProps {
   skinTypeName: string;
 }
+
 interface FilteredProductType {
+  title: string;
   price?: number;
   stock_qty?: number;
   discount?: string;
@@ -35,9 +38,7 @@ interface FilteredProductType {
 export default function SkinTypeProductsPage({
   skinTypeName,
 }: SkinTypeProductsPageProps) {
-  const { priceRange, discount, inStock, skinTypes, page, setPage } =
-    useBrandFilterStore();
-
+  const { priceRange, discount, inStock, page, setPage } = useBrandFilterStore();
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
@@ -46,19 +47,21 @@ export default function SkinTypeProductsPage({
 
   const { data, isLoading } = useFilterProductsQuery({
     brand: [],
-    item_group: skinTypes,
-    // in_stock: inStock,
+    item_group: [],
     bestseller: 0,
     pricerange: priceSortOrder,
     page,
     size: PAGE_SIZE,
   });
+
   const products = data?.products || [];
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
+
   const total_count = data?.total_count || 0;
   const totalPages = Math.ceil(total_count / PAGE_SIZE);
+
   useEffect(() => {
     if (totalPages > 0 && page > totalPages) {
       setPage(1);
@@ -70,12 +73,14 @@ export default function SkinTypeProductsPage({
     window.scrollTo({ top: 0 });
   };
 
+  // Normalize the skin type name for matching
+  const normalizedSkinType = skinTypeName.toLowerCase().replace(/\s+/g, "").trim();
+
   const filteredProducts = products.filter((product: FilteredProductType) => {
     const price = product.price || 0;
     const stockQty = product.stock_qty ?? 0;
     const maxDiscount = parseFloat(product.discount || "0");
 
-    // const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
     const inPriceRange =
       priceRange[0] === 0 && priceRange[1] === 0
         ? true
@@ -84,15 +89,20 @@ export default function SkinTypeProductsPage({
     const matchesAvailability =
       inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
 
-    const matchesSkinTypes =
-      skinTypes.length === 0 ||
-      (product.skin_types &&
-        product.skin_types.some((st) => skinTypes.includes(st)));
-
     const matchesDiscount = discount === 0 || maxDiscount >= discount;
 
+    const matchesSkinTypeFromURL =
+      product.skin_types &&
+      product.skin_types.some(
+        (type) =>
+          type.toLowerCase().replace(/\s+/g, "").trim() === normalizedSkinType
+      );
+
     return (
-      inPriceRange && matchesAvailability && matchesSkinTypes && matchesDiscount
+      inPriceRange &&
+      matchesAvailability &&
+      matchesDiscount &&
+      matchesSkinTypeFromURL
     );
   });
 
@@ -103,19 +113,12 @@ export default function SkinTypeProductsPage({
       { label: "Newest", value: "newest" },
     ],
   });
-  const inStockCount = products.filter(
-    (p) => p.stock_qty && p.stock_qty > 0
-  ).length;
+
+  const inStockCount = products.filter((p) => p.stock_qty && p.stock_qty > 0).length;
   const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
 
-  // const { open, onOpen, onClose } = useDisclosure();
-  // useEffect(() => {
-  //   window.addEventListener("resize", onClose);
-  //   return () => window.removeEventListener("resize", onClose);
-  // }, []);
   return (
     <Container maxW="7xl" py={8}>
-      {/* <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}> */}
       <Collapsible.Root
         open={showFilter}
         onOpenChange={(details) => setShowFilter(details.open)}
@@ -134,24 +137,19 @@ export default function SkinTypeProductsPage({
             inStockCount={inStockCount}
             outOfStockCount={outOfStockCount}
             isOpen={showFilter}
-            // skinTypes={skinTypes}
           />
 
           {/* Main Content */}
           <GridItem>
             <VStack gap={6} align="stretch">
               {/* Header */}
-              <Flex
-                justify="space-between"
-                w-full
-                align="center"
-                wrap="wrap"
-                gap={4}
-              >
+              <Flex justify="space-between" w="full" align="center" wrap="wrap" gap={4}>
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">All Products</Heading>({total_count}{" "}
-                    products found)
+                    <Heading size="lg">
+                      Products for "{skinTypeName}" Skin
+                    </Heading>
+                    ({filteredProducts.length} products found)
                   </HStack>
                 </Box>
                 <HStack gap={1}>
@@ -189,6 +187,7 @@ export default function SkinTypeProductsPage({
                         </Select.Positioner>
                       </Portal>
                     </Select.Root>
+
                     <Box>
                       <Collapsible.Trigger>
                         <Text
@@ -205,23 +204,6 @@ export default function SkinTypeProductsPage({
                       </Collapsible.Trigger>
                     </Box>
                   </HStack>
-                  {/* Sidebar Filters */}
-                  {/* <Box
-                onClick={onOpen}
-                bg="primary.50"
-                borderRadius="8px"
-                p="6px"
-                border="1px solid"
-                borderColor="primary.100"
-                cursor="pointer"
-              >
-                <Flex align="center" gap={"2px"}>
-                  <FilterIcon height={"14px"} width={"14px"} />
-                  <Text px={3} fontSize={"12px"} fontWeight={500}>
-                    Filter
-                  </Text>
-                </Flex>
-              </Box> */}
                 </HStack>
               </Flex>
 
@@ -243,7 +225,7 @@ export default function SkinTypeProductsPage({
           </GridItem>
         </Grid>
 
-        {!isLoading && products.length > 0 && totalPages > 1 && (
+        {!isLoading && filteredProducts.length > 0 && totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
             currentPage={page}
@@ -251,27 +233,6 @@ export default function SkinTypeProductsPage({
             onPageChange={handlePageChange}
           />
         )}
-
-        {/* <Drawer
-        // title="Brand Filter"
-        placement="start"
-        open={open}
-        onClose={onClose}
-        hasFooter={false}
-        actionButtonText="Reset"
-        cancelButtonText="Close"
-        hasCloseIcon={false}
-        // onAction={onReset}
-        onEnd={onClose}
-      >
-        <BrandFilter
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          inStockCount={inStockCount}
-          outOfStockCount={outOfStockCount}
-          // skinTypes={skinTypes}
-        />
-      </Drawer> */}
       </Collapsible.Root>
     </Container>
   );
