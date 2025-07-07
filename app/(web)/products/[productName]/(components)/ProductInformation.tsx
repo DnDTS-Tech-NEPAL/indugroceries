@@ -250,6 +250,7 @@ import {
   Heading,
   HStack,
   Icon,
+  Progress,
   Stack,
   Text,
   VStack,
@@ -280,6 +281,7 @@ import { IndividualProductAPIType, ProductVariantType } from "@/types";
 import { Highlights } from "./Highlights";
 import { ROUTES } from "@/constants";
 import ShareButton from "@/components/ui/button/ShareButton";
+import CountdownTimer from "@/components/countdown/CountDownTimer";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -299,6 +301,9 @@ export const ProductInformation = () => {
   const [displayProduct, setDisplayProduct] = useState<
     IndividualProductAPIType | ProductVariantType | null
   >(null);
+
+  const [progressValue, setProgressValue] = useState(60);
+
   // Initialize with base product or selected variant
   useEffect(() => {
     if (productDetail) {
@@ -350,6 +355,18 @@ export const ProductInformation = () => {
     }
 
     return productDetail.prices?.[0]?.discount ?? null;
+  }, [productDetail, activeVariant]);
+  const offerEndsDate = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.custom_discount_valid_upto ?? null;
+    }
+
+    return productDetail.prices?.[0]?.custom_discount_valid_upto ?? null;
   }, [productDetail, activeVariant]);
 
   // const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
@@ -429,52 +446,49 @@ export const ProductInformation = () => {
               {/* <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_group}
               </Text> */}
-              <Text color="system.text.light.light" variant="subtitle2">
+              {/* <Text color="system.text.light.light" variant="subtitle2">
                 {displayProduct?.item_code}
-              </Text>
+              </Text> */}
             </HStack>
 
             <Box>
-              <HStack>
-                <Heading
+              <HStack
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                flexDirection={{ base: "column", md: "row" }}
+              >
+                <Text
                   color="black"
-                  fontSize={{ base: "20px", lg: "24px", xl: "28px" }}
+                  maxW={"70%"}
+                  fontSize={{ base: "16px", lg: "16px", xl: "18px" }}
                 >
                   {displayProduct?.item_name}
-                </Heading>
-                <ShareButton
-                  // title={displayProduct?.item_name}
-                  url={
-                    "https://kbpecom.dndts.net" +
-                    ROUTES.APP.PRODUCTS +
-                    "/" +
-                    displayProduct?.item_code
-                  }
-                />
-              </HStack>
-              {/* Rating */}
-              <Flex align="center" my={4}>
-                <HStack gap={1}>
-                  {!isLoading && (
-                    <StarRating
-                      stars={5}
-                      isCheckBoxRequired={false}
-                      fixedRating={averageRating}
-                      fillColor="#FF6996"
-                    />
-                  )}
-                </HStack>
-                <Text ml={2} color="gray.600" fontSize="sm">
-                  {reviewData?.reviews?.length ?? 0} reviews
                 </Text>
-              </Flex>
+
+                {/* Rating */}
+                <Flex align="center" my={4}>
+                  <HStack gap={1}>
+                    {!isLoading && (
+                      <StarRating
+                        stars={5}
+                        isCheckBoxRequired={false}
+                        fixedRating={averageRating}
+                        fillColor="#FF6996"
+                      />
+                    )}
+                  </HStack>
+                  <Text ml={2} color="gray.600" fontSize="sm">
+                    {reviewData?.reviews?.length ?? 0} reviews
+                  </Text>
+                </Flex>
+              </HStack>
             </Box>
 
             {/* <Text color="system.text.light.light" variant="subtitle2">
               {displayProduct?.description}
             </Text> */}
           </Stack>
-          <HStack gap="0">
+          {/* <HStack gap="0">
             <VisibleSection visibility={config?.rate_visibility}>
               <VStack gap="2" align="start">
                 <Heading
@@ -512,7 +526,57 @@ export const ProductInformation = () => {
                 ) : null}
               </VStack>
             </VisibleSection>
+          </HStack> */}
+
+          <HStack justify="space-between" flexWrap="wrap" align="center">
+            {/* Left Side - Price, Discount, and Timer */}
+            <VStack align="start" gap="1">
+              {/* Discounted Price */}
+              <Heading
+                variant="heading6"
+                fontWeight="500"
+                fontSize={{ base: "lg", md: "32px" }}
+              >
+                {config?.currency} {discountedPrice?.toFixed(2)}
+              </Heading>
+
+              {/* Original Price, Discount, and Timer */}
+              {discountPercent && discountPercent > 0 && (
+                <HStack gap="3" align="center" flexWrap="wrap">
+                  <Text
+                    color="#7A7A7A"
+                    textDecoration="line-through"
+                    fontSize={{ base: "sm", md: "md" }}
+                  >
+                    {config?.currency} {price?.toFixed(2)}
+                  </Text>
+
+                  <Text
+                    color="#FF6996"
+                    fontSize={{ base: "sm", md: "md" }}
+                    fontWeight="500"
+                  >
+                    {discountPercent}% OFF
+                  </Text>
+                  {offerEndsDate && (
+                    <CountdownTimer endDate={offerEndsDate.toString()} />
+                  )}
+                </HStack>
+              )}
+            </VStack>
+
+            {/* Right Side - Deals Claimed */}
+            <Text fontSize="sm" color="gray.500">
+              65% Deals Claimed
+            </Text>
           </HStack>
+
+          {/* Progress Bar */}
+          <Progress.Root size={"sm"} shape={"full"} value={progressValue}>
+            <Progress.Track>
+              <Progress.Range style={{ backgroundColor: "#FF6996" }} />
+            </Progress.Track>
+          </Progress.Root>
         </Stack>
         {/* Variant Selector */}
         {productDetail?.variants && (
@@ -592,6 +656,16 @@ export const ProductInformation = () => {
             >
               <HeartIcon style={{ color: "white" }} />
             </Button>
+
+            <ShareButton
+              // title={displayProduct?.item_name}
+              url={
+                "https://kbpecom.dndts.net" +
+                ROUTES.APP.PRODUCTS +
+                "/" +
+                displayProduct?.item_code
+              }
+            />
           </HStack>
         </VisibleSection>
       </VStack>

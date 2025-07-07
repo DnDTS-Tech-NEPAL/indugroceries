@@ -5,7 +5,7 @@ export type ProductPrice = {
   discounted_price: number;
   min_price?: number;
   max_price?: number;
-  
+  custom_discount_valid_upto?: string;
 };
 
 export type ProductAPIType = {
@@ -112,7 +112,6 @@ export type ProductAPIType = {
 
   // remove this after api update
   original_price: string;
-  
 };
 
 export type ProductAPIResponseType = {
