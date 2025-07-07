@@ -19,6 +19,7 @@ import {
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
 import { useEffect } from "react";
+import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
 interface BrandFilterProps {
   minPrice: number;
   maxPrice: number;
@@ -41,8 +42,10 @@ export const SkinTypeFilter = ({
     priceRange,
     discount,
     inStock,
+    skinConcern,
     setBrand,
     setCategory,
+    setSkinConcernTypes,
     setPriceRange,
     setDiscount,
     setInStock,
@@ -71,6 +74,19 @@ export const SkinTypeFilter = ({
 
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
+  };
+
+  const { data: skinConcernTypeData } = useSkinConcernPageQuery();
+  const uniqueSkinConcernTypes = Array.from(
+    new Set((skinConcernTypeData || []).map((s) => s.name))
+  );
+
+  const handleSkinConcernTypeToggle = (value: string) => {
+    if (skinConcern.includes(value)) {
+      setSkinConcernTypes(skinConcern.filter((s) => s !== value));
+    } else {
+      setSkinConcernTypes([...skinConcern, value]);
+    }
   };
 
   return (
@@ -278,6 +294,30 @@ export const SkinTypeFilter = ({
                         ({outOfStockCount})
                       </Text>
                     </HStack>
+                  </VStack>
+                </AccordionItemContent>
+              </AccordionItem>
+              {/* Skin concern */}
+              <AccordionItem value="skin-type" p={2} border={"none"}>
+                <AccordionItemTrigger hasAccordionIcon>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Skin Concern
+                  </Text>
+                </AccordionItemTrigger>
+                <AccordionItemContent>
+                  <VStack align="stretch" gap={2} pt={4}>
+                    {uniqueSkinConcernTypes.map((type) => (
+                      <Checkbox
+                        key={type}
+                        color="#7A7A7A"
+                        py={2}
+                        colorScheme="pink"
+                        checked={skinConcern.includes(type)}
+                        onChange={() => handleSkinConcernTypeToggle(type)}
+                      >
+                        {type}
+                      </Checkbox>
+                    ))}
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
