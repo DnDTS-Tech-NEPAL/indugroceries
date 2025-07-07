@@ -298,7 +298,7 @@ export const SkinTypeFilter = ({
                 </AccordionItemContent>
               </AccordionItem>
               {/* Skin concern */}
-              <AccordionItem value="skin-type" p={2} border={"none"}>
+              <AccordionItem value="skin-concern" p={2} border={"none"}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Skin Concern
