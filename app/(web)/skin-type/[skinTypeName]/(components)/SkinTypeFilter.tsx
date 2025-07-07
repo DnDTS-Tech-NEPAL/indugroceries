@@ -174,7 +174,6 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
               {/* Price Section */}
               <AccordionItem value="price" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
@@ -242,7 +241,6 @@ export const SkinTypeFilter = ({
                   </HStack>
                 </AccordionItemContent>
               </AccordionItem>
-
               {/* Availability Section */}
               <AccordionItem value="availability" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>

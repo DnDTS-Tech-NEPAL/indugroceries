@@ -67,14 +67,13 @@ export default function SkinTypeProductsPage({
     if (totalPages > 0 && page > totalPages) {
       setPage(1);
     }
-  }, [totalPages, page]);
+  }, [totalPages, page , setPage]);
 
   const handlePageChange = (newPage: number) => {
     setPage(newPage);
     window.scrollTo({ top: 0 });
   };
 
-  // Normalize the skin type name for matching
   const normalizedSkinType = skinTypeName
     .toLowerCase()
     .replace(/\s+/g, "")
@@ -149,73 +148,64 @@ export default function SkinTypeProductsPage({
           <GridItem>
             <VStack gap={6} align="stretch">
               {/* Header */}
-              <Flex
-                justify="space-between"
-                w="full"
-                align="center"
-                wrap="wrap"
-                gap={4}
-              >
+              <Flex justify="space-between" align="center" wrap="wrap">
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">
-                      Products for &quot;{skinTypeName}&quot; Skin
-                    </Heading>
-                    ({filteredProducts.length} products found)
+                    <Heading size="lg">All Products</Heading>(
+                    {filteredProducts.length} products found)
                   </HStack>
                 </Box>
-                <HStack gap={1}>
-                  <HStack>
-                    <Text fontSize="sm">Sort By :</Text>
-                    <Select.Root
-                      collection={orderStatusOptions}
-                      size="sm"
-                      width="200px"
-                      onValueChange={(val) =>
-                        setSortBy((val.value as string[])[0])
-                      }
-                    >
-                      <Select.HiddenSelect />
-                      <Flex>
-                        <Select.Control>
-                          <Select.Trigger width={"140px"}>
-                            <Select.ValueText placeholder="Relevance" />
-                          </Select.Trigger>
-                          <Select.IndicatorGroup>
-                            <Select.Indicator />
-                          </Select.IndicatorGroup>
-                        </Select.Control>
-                      </Flex>
-                      <Portal>
-                        <Select.Positioner>
-                          <Select.Content>
-                            {orderStatusOptions.items.map((item) => (
-                              <Select.Item item={item} key={item.value}>
-                                {item.label}
-                                <Select.ItemIndicator />
-                              </Select.Item>
-                            ))}
-                          </Select.Content>
-                        </Select.Positioner>
-                      </Portal>
-                    </Select.Root>
 
-                    <Box>
-                      <Collapsible.Trigger>
-                        <Text
-                          fontWeight="medium"
-                          cursor="pointer"
-                          color="pink.500"
-                          border="1px solid"
-                          px={4}
-                          py={1}
-                          borderRadius="md"
-                        >
-                          {showFilter ? "Hide Filters" : "Show Filters"}
-                        </Text>
-                      </Collapsible.Trigger>
-                    </Box>
-                  </HStack>
+                <HStack>
+                  <Text fontSize="sm">Sort By :</Text>
+                  <Select.Root
+                    collection={orderStatusOptions}
+                    size="sm"
+                    width="200px"
+                    onValueChange={(val) =>
+                      setSortBy((val.value as string[])[0])
+                    }
+                  >
+                    <Select.HiddenSelect />
+                    <Flex>
+                      <Select.Control>
+                        <Select.Trigger width={"140px"}>
+                          <Select.ValueText placeholder="Relevance" />
+                        </Select.Trigger>
+                        <Select.IndicatorGroup>
+                          <Select.Indicator />
+                        </Select.IndicatorGroup>
+                      </Select.Control>
+                    </Flex>
+                    <Portal>
+                      <Select.Positioner>
+                        <Select.Content>
+                          {orderStatusOptions.items.map((item) => (
+                            <Select.Item item={item} key={item.value}>
+                              {item.label}
+                              <Select.ItemIndicator />
+                            </Select.Item>
+                          ))}
+                        </Select.Content>
+                      </Select.Positioner>
+                    </Portal>
+                  </Select.Root>
+
+                  <Box>
+                    <Collapsible.Trigger>
+                      <Text
+                        fontWeight="medium"
+                        cursor="pointer"
+                        color="pink.500"
+                        border="1px solid"
+                        px={4}
+                        py={1}
+                        borderRadius="md"
+                      >
+                        {showFilter ? "Hide Filters" : "Show Filters"}
+                      </Text>
+                    </Collapsible.Trigger>
+                  </Box>
                 </HStack>
               </Flex>
 
@@ -236,8 +226,7 @@ export default function SkinTypeProductsPage({
             </VStack>
           </GridItem>
         </Grid>
-
-        {!isLoading && filteredProducts.length > 0 && totalPages > 1 && (
+        {!isLoading && products.length > 0 && totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
             currentPage={page}
