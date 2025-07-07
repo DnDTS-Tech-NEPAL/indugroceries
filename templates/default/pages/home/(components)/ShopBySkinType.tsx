@@ -98,7 +98,7 @@ export const ShopBySkinType = () => {
                   position="relative"
                 >
                   <Image
-                    src={skinType.image || "/placeholder.svg"}
+                    src={skinType.skin_type_image_link || "/placeholder.svg"}
                     alt={skinType.name}
                     fill
                     style={{
@@ -184,9 +184,13 @@ export const ShopBySkinType = () => {
                   position="relative"
                   gap={4}
                   cursor="pointer"
-                  onClick={() =>
-                    router.push(`/products?skin_type=${skinType.name}`)
-                  }
+                 onClick={() => {
+                               router.push(
+                                 generateNextPath(ROUTES.APP.INDIVIDUAL_SKIN_TYPE, {skinTypeName: skinType.name}) 
+
+                               
+                               );
+                             }}
                 >
                   <Box
                     width={{
@@ -208,7 +212,7 @@ export const ShopBySkinType = () => {
                     position="relative"
                   >
                     <Image
-                      src={skinType.image || "/placeholder.svg"}
+                      src={skinType.skin_type_image_link || "/placeholder.svg"}
                       alt={skinType.name}
                       fill
                       style={{

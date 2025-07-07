@@ -13,7 +13,6 @@ export * from "./termsAndCondition";
 export * from "./user";
 export * from "./featureCategory";
 export * from "./featureBrands";
-export * from "./saaf";
 export * from "./qualityCompliance";
 export * from "./navMenu";
 export * from "./skin-test";

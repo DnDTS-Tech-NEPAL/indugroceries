@@ -1,18 +1,17 @@
 import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
-
-import { getBrandDetailByName } from "@/api/queries/brands/[brandName]";
 import { redirect } from "next/navigation";
 import { skinTypeDetailPageProps } from "@/types";
-import { BrandDescription, SkinTypeCarousel } from "./(components)";
+import { SkinTypeCarousel, SkinTypeDescription } from "./(components)";
 import SkinTypeProductsPage from "./(components)/Products";
+import { getSkinDetailByName } from "@/api/queries/skin-type/[skinTypeName]";
 
-const Brands = async ({ params }: skinTypeDetailPageProps) => {
-  const brand = await getBrandDetailByName();
+const SkinType = async ({ params }: skinTypeDetailPageProps) => {
+  const skinType = await getSkinDetailByName();
   const skinTypeName = decodeURI((await params).skinTypeName);
 
-  if (!brand || brand.error) {
+  if (!skinType || skinType.error) {
     return redirect(ROUTES.NOT_FOUND);
   }
 
@@ -24,10 +23,11 @@ const Brands = async ({ params }: skinTypeDetailPageProps) => {
         title="All Brands"
         breadcrumb={BREADCRUMB_CONFIG.BRANDS}
       />
-      <SkinTypeCarousel brandName={skinTypeName} />
-      <BrandDescription brandName={skinTypeName} />
+      <SkinTypeCarousel skinTypeName={skinTypeName} />
+      <SkinTypeDescription skinTypeName={skinTypeName} />
       <SkinTypeProductsPage skinTypeName={skinTypeName} />
     </>
   );
 };
-export default Brands;
+
+export default SkinType;

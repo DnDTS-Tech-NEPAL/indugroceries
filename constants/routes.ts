@@ -7,6 +7,7 @@ export const ROUTES = {
     FAVORITE: "/favorite",
     PRODUCTS: "/products",
     BRANDS: "/brands",
+    SKINTYPE: "/skin-type",
     INDIVIDUAL_PRODUCT: "/products/:productName",
     INDIVIDUAL_BRAND: "/brands/:brandName",
     INDIVIDUAL_CATEGORY: "/category/:categoryName",

@@ -8,7 +8,6 @@ export * from "./ShopBySkinType";
 export * from "./InStoreVisit";
 export * from "./SummerSale";
 export * from "./ProductShowcase";
-export * from "./SaafSection";
 export * from "./PartnerWithUs";
 export * from "./ContactSection";
 export * from "./GlobalReach";

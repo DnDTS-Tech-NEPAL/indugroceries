@@ -8,9 +8,11 @@ interface BrandFilterState {
   discount: number;
   inStock: number;
   skinTypes: string[];
+  skinConcern: string[];
   item_group?: string[];
   page: number;
   setSkinTypes: (types: string[]) => void;
+  setSkinConcernTypes: (types: string[]) => void;
   setCategory: (category: string[]) => void;
   setBrand: (brand: string[]) => void;
   setItemGroup: (item_group: string[]) => void;
@@ -28,9 +30,11 @@ export const useBrandFilterStore = create<BrandFilterState>((set) => ({
   discount: 0,
   inStock: 0,
   skinTypes: [],
+  skinConcern: [],
   page: 1,
   item_group: [],
   setSkinTypes: (types) => set({ skinTypes: types }),
+  setSkinConcernTypes: (types) => set({ skinConcern: types }),
   setCategory: (category) => set({ category }),
   setBrand: (brand) => set({ brand }),
   setPriceRange: (priceRange) => set({ priceRange }),
@@ -47,6 +51,7 @@ export const useBrandFilterStore = create<BrandFilterState>((set) => ({
       discount: 0,
       inStock: 0,
       skinTypes: [],
+      skinConcern: [],
       page: 1,
     }),
 }));

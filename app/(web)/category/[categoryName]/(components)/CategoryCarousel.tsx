@@ -59,7 +59,7 @@ export const CategoryCarousel = ({
             >
               <Image
                 src={src}
-                alt={`Brand Hero ${index + 1}`}
+                alt={`Category Hero ${index + 1}`}
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="100vw"

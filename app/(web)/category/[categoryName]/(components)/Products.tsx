@@ -422,6 +422,7 @@ interface FilteredProductType {
   stock_qty?: number;
   discount?: string;
   skin_types?: string[];
+  skinconcern_types?: string[];
 }
 
 export default function CategoryProductsPage({
@@ -433,6 +434,7 @@ export default function CategoryProductsPage({
     discount,
     inStock,
     skinTypes,
+    skinConcern,
     page,
     setPage,
     item_group,
@@ -489,10 +491,16 @@ export default function CategoryProductsPage({
       skinTypes.length === 0 ||
       (product.skin_types &&
         product.skin_types.some((st) => skinTypes.includes(st)));
+
+         const matchesSkinConcernTypes =
+      skinConcern.length === 0 ||
+      (product.skinconcern_types &&
+        product.skinconcern_types.some((st) => skinConcern.includes(st)));
+
     const matchesDiscount = discount === 0 || maxDiscount >= discount;
 
     return (
-      inPriceRange && matchesAvailability && matchesSkinTypes && matchesDiscount
+      inPriceRange && matchesAvailability && matchesSkinTypes && matchesSkinConcernTypes && matchesDiscount
     );
   });
 

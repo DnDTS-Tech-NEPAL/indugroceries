@@ -47,6 +47,11 @@ export const BREADCRUMB_CONFIG = {
   ],
   PRODUCT_DETAIL: [
     { label: "Home", href: ROUTES.APP.HOMEPAGE },
+    { label: "All Products", href: ROUTES.APP.SKINTYPE },
+    { label: "Detail", href: ROUTES.DEFAULT },
+  ],
+   SKINTYPE_DETAIL: [
+    { label: "Home", href: ROUTES.APP.HOMEPAGE },
     { label: "All Products", href: ROUTES.APP.PRODUCTS },
     { label: "Detail", href: ROUTES.DEFAULT },
   ],
