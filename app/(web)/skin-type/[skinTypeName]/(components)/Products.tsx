@@ -38,7 +38,8 @@ interface FilteredProductType {
 export default function SkinTypeProductsPage({
   skinTypeName,
 }: SkinTypeProductsPageProps) {
-  const {brand,category, priceRange, discount, inStock, page, setPage } = useBrandFilterStore();
+  const { brand, category, priceRange, discount, inStock, page, setPage } =
+    useBrandFilterStore();
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
@@ -74,7 +75,10 @@ export default function SkinTypeProductsPage({
   };
 
   // Normalize the skin type name for matching
-  const normalizedSkinType = skinTypeName.toLowerCase().replace(/\s+/g, "").trim();
+  const normalizedSkinType = skinTypeName
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .trim();
 
   const filteredProducts = products.filter((product: FilteredProductType) => {
     const price = product.price || 0;
@@ -114,7 +118,9 @@ export default function SkinTypeProductsPage({
     ],
   });
 
-  const inStockCount = products.filter((p) => p.stock_qty && p.stock_qty > 0).length;
+  const inStockCount = products.filter(
+    (p) => p.stock_qty && p.stock_qty > 0
+  ).length;
   const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
 
   return (
@@ -143,11 +149,17 @@ export default function SkinTypeProductsPage({
           <GridItem>
             <VStack gap={6} align="stretch">
               {/* Header */}
-              <Flex justify="space-between" w="full" align="center" wrap="wrap" gap={4}>
+              <Flex
+                justify="space-between"
+                w="full"
+                align="center"
+                wrap="wrap"
+                gap={4}
+              >
                 <Box>
                   <HStack gap={4} align="baseline">
                     <Heading size="lg">
-                      Products for "{skinTypeName}" Skin
+                      Products for &quot;{skinTypeName}&quot; Skin
                     </Heading>
                     ({filteredProducts.length} products found)
                   </HStack>

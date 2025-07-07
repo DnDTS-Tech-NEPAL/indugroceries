@@ -18,9 +18,7 @@ import {
 } from "@/components";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
-import { useSkinTypePageQuery } from "@/hooks/api";
 import { useEffect } from "react";
-
 interface BrandFilterProps {
   minPrice: number;
   maxPrice: number;
@@ -63,7 +61,7 @@ export const SkinTypeFilter = ({
     }
   };
 
-    const handleBrandToggle = (value: string) => {
+  const handleBrandToggle = (value: string) => {
     if (brand.includes(value)) {
       setBrand(brand.filter((b) => b !== value));
     } else {
@@ -73,9 +71,7 @@ export const SkinTypeFilter = ({
 
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
-  }
- 
-
+  };
 
   return (
     <GridItem
@@ -287,7 +283,6 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-
             </AccordionRoot>
           </VStack>
         </Box>

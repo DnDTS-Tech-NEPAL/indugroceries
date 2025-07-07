@@ -9,7 +9,9 @@ interface SkinTypeDescriptionProps {
   skinTypeName: string;
 }
 
-export const SkinTypeDescription = ({ skinTypeName }: SkinTypeDescriptionProps) => {
+export const SkinTypeDescription = ({
+  skinTypeName,
+}: SkinTypeDescriptionProps) => {
   const { data: skinTypeData = [], isLoading } = useSkinTypePageQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 

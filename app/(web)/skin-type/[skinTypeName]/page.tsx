@@ -3,7 +3,7 @@ import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import { redirect } from "next/navigation";
 import { skinTypeDetailPageProps } from "@/types";
-import {SkinTypeCarousel, SkinTypeDescription } from "./(components)";
+import { SkinTypeCarousel, SkinTypeDescription } from "./(components)";
 import SkinTypeProductsPage from "./(components)/Products";
 import { getSkinDetailByName } from "@/api/queries/skin-type/[skinTypeName]";
 
