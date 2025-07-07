@@ -42,3 +42,7 @@ export type BrandDetailPageProps = {
 export type CategoryDetailPageProps = {
   params: Promise<{ categoryName: string }>;
 };
+
+export type skinTypeDetailPageProps = {
+  params: Promise<{ skinTypeName: string }>;
+};

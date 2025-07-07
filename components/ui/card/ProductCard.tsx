@@ -13,6 +13,7 @@ import {
   Badge,
   useBreakpointValue,
   Stack,
+  Flex,
 } from "@chakra-ui/react";
 import { FaStar, FaHeart } from "react-icons/fa";
 import { useState } from "react";
@@ -108,251 +109,247 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         },
       }}
     >
-      <Box
-        cursor="pointer"
-        onClick={() => {
-          router.push(
-            generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-              productName: link,
-            })
-          );
-          addRecentlyViewedProduct(link);
-        }}
-      >
-        <Box position="relative">
-          {/* New Badge */}
-          {isNew || (stock_qty ?? 0) <= 0 || Number(discount ?? 0) > 0 ? (
-            <Badge
-              position="absolute"
-              top="10px"
-              left="10px"
-              display="flex"
-              color="#FF6996"
-              zIndex={2}
-              borderRadius={"2rem"}
-              px="3"
-              py="1"
-              fontSize="14px"
-              textAlign={"center"}
-              minH={0}
-              height={"fit-content"}
-              minW={0}
-              bg={"#F8E1E7"}
-              width="fit-content"
-            >
-              {isNew
-                ? "New"
-                : (stock_qty && stock_qty) <= 0
-                  ? "Out of Stock"
-                  : Number(discount ?? 0) > 0
-                    ? `${discount}% Discount`
-                    : null}
-              {/* */}
-            </Badge>
-          ) : null}
-
-          {/* Action Buttons */}
-          <HStack
-            className="action-buttons"
-            opacity={0}
+      <Box position="relative">
+        {/* New Badge */}
+        {isNew || (stock_qty ?? 0) <= 0 || Number(discount ?? 0) > 0 ? (
+          <Badge
             position="absolute"
-            top="50%"
-            right="30%"
-            transform="translate(-50%, -50%)"
-            gap={"0"}
-            borderRadius={"md"}
-            display={{ base: "none", sm: "flex" }}
-            zIndex={2}
-            alignItems={"end"}
-            transition="all 0.2s ease"
-          >
-            <Box onMouseEnter={(e) => e.stopPropagation()}>
-              <Tooltip
-                showArrow
-                content="Add to wishlist"
-                positioning={{ placement: "top" }}
-                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-              >
-                <Button
-                  height="auto"
-                  minH="30px"
-                  bg="white"
-                  overflow="hidden"
-                  color="#FF6996"
-                  border="2px solid #FF6996"
-                  borderTopLeftRadius="sm"
-                  borderBottomLeftRadius="sm"
-                  fontSize="14px"
-                  fontWeight={"400"}
-                  px={3}
-                  py={0}
-                  lineHeight="17px"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    checkAuth(onAddToWishlist)();
-                  }}
-                >
-                  {isWishlist ? (
-                    <FaHeart size={iconSize} />
-                  ) : (
-                    <HeartIcon color="#FF6996" />
-                  )}
-                </Button>
-              </Tooltip>
-            </Box>
-
-            <Box onMouseEnter={(e) => e.stopPropagation()}>
-              <Tooltip
-                showArrow
-                content="Quick View"
-                positioning={{ placement: "top" }}
-                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-              >
-                <Button
-                  height="auto"
-                  minH="30px"
-                  bg="white"
-                  overflow="hidden"
-                  color="#FF6996"
-                  border="2px solid #FF6996"
-                  borderTopRightRadius="sm"
-                  borderBottomRightRadius="sm"
-                  fontSize="14px"
-                  fontWeight={"400"}
-                  px={3}
-                  py={0}
-                  lineHeight="1.2"
-                  onClick={handleFullScreen}
-                >
-                  <EyeIcon size={iconSize} />
-                </Button>
-              </Tooltip>
-            </Box>
-          </HStack>
-          {/* Product Image */}
-          <Box
-            position="relative"
-            width="100%"
-            height={imageHeight}
-            borderRadius="lg"
-            overflow="hidden"
-          >
-            <Image
-              src={image || config?.company_details_url}
-              alt={title || "Product Image"}
-              fill
-              style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
-              onMouseEnter={(e) =>
-                (e.currentTarget.style.transform = "scale(1.05)")
-              }
-              onMouseLeave={(e) =>
-                (e.currentTarget.style.transform = "scale(1)")
-              }
-            />
-          </Box>
-        </Box>
-
-        {/* Rating */}
-        <HStack gap={1} px={3} pt={2}>
-          {Array(5)
-            .fill("")
-            .map((_, i) => (
-              <Icon
-                key={i}
-                as={FaStar}
-                color={
-                  i < Math.ceil(reviewData?.average_rating ?? 0)
-                    ? "#FF6996"
-                    : "gray.300"
-                }
-                boxSize={starIconSize}
-              />
-            ))}
-          <Text fontSize={fontSize} color="gray.600" ml={3}>
-            {reviewData?.reviews?.length ?? 0} reviews
-          </Text>
-        </HStack>
-
-        {/* Title */}
-        <Text
-          fontWeight="semibold"
-          color="gray.800"
-          lineHeight="1.2"
-          // minH={{ md: "40px" }}
-          px={3}
-          lineClamp={{ sm: 2, md: 2 }}
-        >
-          {title}
-        </Text>
-      </Box>
-
-      {/* Description */}
-      {/* <Box color="gray.500" fontSize={descriptionSize} lineHeight="short">
-        {parse(description)}
-        {name}
-        color="gray.800"
-      lineClamp="1"
-      >
-        {title}
-      </Text>
-
-      {/* Price and Add to Cart */}
-      <Stack
-        direction={{ base: "row", sm: "row" }}
-        justify="space-between"
-        align="center"
-        px={3}
-        pb={4}
-        gap={{ base: 3, sm: 2 }}
-      >
-        <Box
-          gap={2}
-          display={"flex"}
-          flexDirection={{ base: "column", md: "row" }}
-        >
-          {!min_price && !max_price ? (
-            <>
-              <VStack gap={0}>
-                <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
-                  {config?.currency} {price}
-                </Text>
-                {originalPrice && originalPrice !== price && (
-                  <Text
-                    fontSize={originalPriceFontSize}
-                    color="gray.400"
-                    textDecoration="line-through"
-                  >
-                    {config?.currency} {originalPrice}
-                  </Text>
-                )}
-              </VStack>
-            </>
-          ) : (
-            <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
-              {config?.currency} {min_price} - {max_price}
-            </Text>
-          )}
-        </Box>
-        {!min_price && !max_price && stock_qty > 0 && (
-          <Button
-            height="auto"
-            minH="32px"
-            w={{ base: "50%", sm: "55%", md: "45%" }}
-            bg="transparent"
+            top="10px"
+            left="10px"
+            display="flex"
             color="#FF6996"
-            borderRadius="full"
-            border={"0.5px solid #FF6996"}
+            zIndex={2}
+            borderRadius={"2rem"}
+            px="3"
+            py="1"
             fontSize="14px"
-            fontWeight={"400"}
-            px={3}
-            py={0}
-            lineHeight="1.2"
-            onClick={checkAuth(onAddToCart)}
+            textAlign={"center"}
+            minH={0}
+            height={"fit-content"}
+            minW={0}
+            bg={"#F8E1E7"}
+            width="fit-content"
           >
-            Add <Cart />
-          </Button>
-        )}
-      </Stack>
+            {isNew
+              ? "New"
+              : (stock_qty && stock_qty) <= 0
+                ? "Out of Stock"
+                : Number(discount ?? 0) > 0
+                  ? `${discount}% Discount`
+                  : null}
+            {/* */}
+          </Badge>
+        ) : null}
+
+        {/* Action Buttons */}
+        <HStack
+          className="action-buttons"
+          opacity={0}
+          position="absolute"
+          top="50%"
+          right="30%"
+          transform="translate(-50%, -50%)"
+          gap={"0"}
+          borderRadius={"md"}
+          display={{ base: "none", sm: "flex" }}
+          zIndex={2}
+          alignItems={"end"}
+          transition="all 0.2s ease"
+        >
+          <Box onMouseEnter={(e) => e.stopPropagation()}>
+            <Tooltip
+              showArrow
+              content="Add to wishlist"
+              positioning={{ placement: "top" }}
+              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+            >
+              <Button
+                height="auto"
+                minH="30px"
+                bg="white"
+                overflow="hidden"
+                color="#FF6996"
+                border="2px solid #FF6996"
+                borderTopLeftRadius="sm"
+                borderBottomLeftRadius="sm"
+                fontSize="14px"
+                fontWeight={"400"}
+                px={3}
+                py={0}
+                lineHeight="17px"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  checkAuth(onAddToWishlist)();
+                }}
+              >
+                {isWishlist ? (
+                  <FaHeart size={iconSize} />
+                ) : (
+                  <HeartIcon color="#FF6996" />
+                )}
+              </Button>
+            </Tooltip>
+          </Box>
+
+          <Box onMouseEnter={(e) => e.stopPropagation()}>
+            <Tooltip
+              showArrow
+              content="Quick View"
+              positioning={{ placement: "top" }}
+              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+            >
+              <Button
+                height="auto"
+                minH="30px"
+                bg="white"
+                overflow="hidden"
+                color="#FF6996"
+                border="2px solid #FF6996"
+                borderTopRightRadius="sm"
+                borderBottomRightRadius="sm"
+                fontSize="14px"
+                fontWeight={"400"}
+                px={3}
+                py={0}
+                lineHeight="1.2"
+                onClick={handleFullScreen}
+              >
+                <EyeIcon size={iconSize} />
+              </Button>
+            </Tooltip>
+          </Box>
+        </HStack>
+        {/* Product Image */}
+        <Box
+          position="relative"
+          width="100%"
+          height={imageHeight}
+          borderRadius="lg"
+          overflow="hidden"
+        >
+          <Image
+            src={image || config?.company_details_url}
+            alt={title || "Product Image"}
+            fill
+            style={{ objectFit: "cover", transition: "transform 0.3s ease" }}
+            onMouseEnter={(e) =>
+              (e.currentTarget.style.transform = "scale(1.05)")
+            }
+            onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+          />
+        </Box>
+      </Box>
+      <Flex
+        justifyContent={"space-between"}
+        flexDirection={"column"}
+        gap={2}
+        height="100%"
+      >
+        <Box>
+          {/* Rating */}
+          <HStack gap={1} px={3} pt={2}>
+            {Array(5)
+              .fill("")
+              .map((_, i) => (
+                <Icon
+                  key={i}
+                  as={FaStar}
+                  color={
+                    i < Math.ceil(reviewData?.average_rating ?? 0)
+                      ? "#FF6996"
+                      : "gray.300"
+                  }
+                  boxSize={starIconSize}
+                />
+              ))}
+            <Text fontSize={fontSize} color="gray.600" ml={3}>
+              {reviewData?.reviews?.length ?? 0} reviews
+            </Text>
+          </HStack>
+
+          {/* Title */}
+          <Text
+            cursor="pointer"
+            _hover={{ color: "#FF6996" }}
+            onClick={() => {
+              router.push(
+                generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
+                  productName: link,
+                })
+              );
+              addRecentlyViewedProduct(link);
+            }}
+            fontWeight="semibold"
+            color="gray.800"
+            lineHeight="1.2"
+            px={3}
+            // lineClamp={{ sm: 2, md: 2 }}
+          >
+            {title}
+          </Text>
+        </Box>
+        {/* Price and Add to Cart */}
+        <Stack
+          direction={{ base: "row", sm: "row" }}
+          justify="space-between"
+          align="center"
+          px={3}
+          pb={4}
+          gap={{ base: 3, sm: 2 }}
+        >
+          <Box
+            gap={2}
+            display={"flex"}
+            flexDirection={{ base: "column", md: "row" }}
+          >
+            {!min_price && !max_price ? (
+              <>
+                <VStack gap={0}>
+                  <Text
+                    fontSize={priceFontSize}
+                    color="#FF6996"
+                    lineHeight="1.2"
+                  >
+                    {config?.currency} {price}
+                  </Text>
+                  {originalPrice && originalPrice !== price && (
+                    <Text
+                      fontSize={originalPriceFontSize}
+                      color="gray.400"
+                      textDecoration="line-through"
+                    >
+                      {config?.currency} {originalPrice}
+                    </Text>
+                  )}
+                </VStack>
+              </>
+            ) : (
+              <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+                {config?.currency} {min_price} - {max_price}
+              </Text>
+            )}
+          </Box>
+          {!min_price && !max_price && stock_qty > 0 && (
+            <Button
+              height="auto"
+              minH="32px"
+              w={{ base: "50%", sm: "55%", md: "45%" }}
+              bg="transparent"
+              color="#FF6996"
+              borderRadius="full"
+              border={"0.5px solid #FF6996"}
+              fontSize="14px"
+              fontWeight={"400"}
+              px={3}
+              py={0}
+              lineHeight="1.2"
+              onClick={checkAuth(onAddToCart)}
+            >
+              Add <Cart />
+            </Button>
+          )}
+        </Stack>
+      </Flex>
       {/* Full Screen Modal */}
       {isFullScreen && (
         <Box
