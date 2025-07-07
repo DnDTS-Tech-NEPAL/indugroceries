@@ -87,11 +87,7 @@ export type ConfigType = {
   // footer section
   footer_logo_url: string;
   quick_links: QuickLinkType[];
-  // Saaf section
-  advertisement_image_link: string;
-  advertisement_title: string;
-  advertisement_description: string;
-  advertisement_button_link: string;
+ 
   //global reach section
   banner_3_title: string;
   banner_3_description: string;

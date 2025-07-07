@@ -15,7 +15,6 @@ export const API_ROUTES = {
     MENU_NAV: "megamenu",
     CONFIG: "websiteconfig",
     FAQ: "faq",
-    SAAF: "singlebrand",
     SKIN_TEST: "quizpage",
     SKIN_TYPE: "skintype",
     QUALITY: "quality",
