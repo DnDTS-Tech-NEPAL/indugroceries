@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Box,
   GridItem,
@@ -20,6 +21,7 @@ import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
 import { useEffect } from "react";
 import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
+
 interface BrandFilterProps {
   minPrice: number;
   maxPrice: number;
@@ -57,23 +59,31 @@ export const SkinTypeFilter = ({
   }, [minPrice, maxPrice, setPriceRange]);
 
   const handleCategoryToggle = (value: string) => {
-    if (category.includes(value)) {
-      setCategory(category.filter((c) => c !== value));
-    } else {
-      setCategory([...category, value]);
-    }
+    setCategory(
+      category.includes(value)
+        ? category.filter((c) => c !== value)
+        : [...category, value]
+    );
   };
 
   const handleBrandToggle = (value: string) => {
-    if (brand.includes(value)) {
-      setBrand(brand.filter((b) => b !== value));
-    } else {
-      setBrand([...brand, value]);
-    }
+    setBrand(
+      brand.includes(value)
+        ? brand.filter((b) => b !== value)
+        : [...brand, value]
+    );
   };
 
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
+  };
+
+  const handleSkinConcernTypeToggle = (value: string) => {
+    setSkinConcernTypes(
+      skinConcern.includes(value)
+        ? skinConcern.filter((s) => s !== value)
+        : [...skinConcern, value]
+    );
   };
 
   const { data: skinConcernTypeData } = useSkinConcernPageQuery();
@@ -81,31 +91,26 @@ export const SkinTypeFilter = ({
     new Set((skinConcernTypeData || []).map((s) => s.name))
   );
 
-  const handleSkinConcernTypeToggle = (value: string) => {
-    if (skinConcern.includes(value)) {
-      setSkinConcernTypes(skinConcern.filter((s) => s !== value));
-    } else {
-      setSkinConcernTypes([...skinConcern, value]);
-    }
-  };
+  const brandItems = filter[0]?.items || [];
+  const categoryItems = filter[1]?.items || [];
 
   return (
     <GridItem
       width={{ base: "100%", md: "290px" }}
-      height={"fit-content"}
-      shadow={"lg"}
-      borderRadius={"1rem"}
-      overflow={"hidden"}
+      height="fit-content"
+      shadow="lg"
+      borderRadius="1rem"
+      overflow="hidden"
     >
       <Collapsible.Content hidden={!isOpen}>
-        <HStack bg={"#D0D0D080"} justify="space-between" py={4} px={4}>
-          <Text fontSize="xl" fontWeight={"medium"}>
+        <HStack bg="#D0D0D080" justify="space-between" py={4} px={4}>
+          <Text fontSize="xl" fontWeight="medium">
             Filter by
           </Text>
           <Text
             color="gray.600"
             fontSize="xl"
-            fontWeight={"medium"}
+            fontWeight="medium"
             cursor="pointer"
             onClick={() => {
               resetFilters(maxPrice);
@@ -127,10 +132,10 @@ export const SkinTypeFilter = ({
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
-                    {filter[1].items.map((item) => (
+                    {categoryItems.map((item) => (
                       <Checkbox
                         key={item.value}
-                        color={"#7A7A7A"}
+                        color="#7A7A7A"
                         py={2}
                         colorScheme="pink"
                         checked={category.includes(item.title)}
@@ -142,6 +147,7 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
+
               {/* Brand Section */}
               <AccordionItem value="brand">
                 <AccordionItemTrigger hasAccordionIcon>
@@ -151,7 +157,7 @@ export const SkinTypeFilter = ({
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
-                    {filter[1].items.map((item) => (
+                    {brandItems.map((item) => (
                       <Checkbox
                         key={item.value}
                         color="#7A7A7A"
@@ -166,6 +172,7 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
+
               {/* Discount Section */}
               <AccordionItem value="discount" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
@@ -178,7 +185,7 @@ export const SkinTypeFilter = ({
                     {[10, 20, 30, 40, 50].map((val) => (
                       <Checkbox
                         key={val}
-                        color={"#7A7A7A"}
+                        color="#7A7A7A"
                         py={2}
                         colorScheme="pink"
                         checked={discount === val}
@@ -190,6 +197,7 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
+
               {/* Price Section */}
               <AccordionItem value="price" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
@@ -202,10 +210,6 @@ export const SkinTypeFilter = ({
                     maxW="md"
                     value={priceRange}
                     step={1}
-                    // minStepsBetweenThumbs={Math.min(
-                    //   10,
-                    //   Math.floor((maxPrice - minPrice) / 1)
-                    // )}
                     min={minPrice}
                     max={maxPrice}
                     onValueChange={(details: { value: number[] }) => {
@@ -223,17 +227,16 @@ export const SkinTypeFilter = ({
                     </Slider.Control>
                   </Slider.Root>
 
-                  <HStack width={"full"} py={3}>
+                  <HStack width="full" py={3}>
                     <Box>
                       <Text fontSize="sm" mb={1}>
                         From
                       </Text>
                       <Input
                         size="sm"
-                        borderRadius={"full"}
-                        minH={0}
-                        height={"33px"}
-                        width={"full"}
+                        borderRadius="full"
+                        height="33px"
+                        width="full"
                         value={`NPR. ${priceRange[0]}`}
                         readOnly
                         bg="white"
@@ -244,11 +247,10 @@ export const SkinTypeFilter = ({
                         To
                       </Text>
                       <Input
-                        borderRadius={"full"}
-                        minH={0}
-                        height={"33px"}
-                        width={"full"}
                         size="sm"
+                        borderRadius="full"
+                        height="33px"
+                        width="full"
                         value={`NPR. ${priceRange[1]}`}
                         readOnly
                         bg="white"
@@ -257,6 +259,7 @@ export const SkinTypeFilter = ({
                   </HStack>
                 </AccordionItemContent>
               </AccordionItem>
+
               {/* Availability Section */}
               <AccordionItem value="availability" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
@@ -268,7 +271,7 @@ export const SkinTypeFilter = ({
                   <VStack align="stretch" gap={2}>
                     <HStack justify="space-between">
                       <Checkbox
-                        color={"#7A7A7A"}
+                        color="#7A7A7A"
                         py={2}
                         colorScheme="pink"
                         checked={inStock === 1}
@@ -282,7 +285,7 @@ export const SkinTypeFilter = ({
                     </HStack>
                     <HStack justify="space-between">
                       <Checkbox
-                        color={"#7A7A7A"}
+                        color="#7A7A7A"
                         py={2}
                         colorScheme="pink"
                         checked={inStock === 2}
@@ -297,8 +300,9 @@ export const SkinTypeFilter = ({
                   </VStack>
                 </AccordionItemContent>
               </AccordionItem>
-              {/* Skin concern */}
-              <AccordionItem value="skin-concern" p={2} border={"none"}>
+
+              {/* Skin Concern Section */}
+              <AccordionItem value="skin-concern" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Skin Concern
@@ -328,3 +332,4 @@ export const SkinTypeFilter = ({
     </GridItem>
   );
 };
+

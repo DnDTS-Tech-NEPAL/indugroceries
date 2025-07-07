@@ -5,6 +5,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
 
   return products.map((item) => ({
     category: item.item_group,
+    brand: item.brand,
     image: item.custom_image_1_link,
     item_code: item.item_code,
     title: item.item_name,
@@ -18,6 +19,7 @@ export const convertProductsData = (products: ProductAPIType[]) => {
     creation : item.creation,
     stock_qty: item.stock_qty,
     skin_types: item.skin_types,
+    skin_concerns: item.skin_concerns,
   
   }));
 };

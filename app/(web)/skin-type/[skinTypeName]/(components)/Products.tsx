@@ -32,8 +32,10 @@ interface FilteredProductType {
   price?: number;
   stock_qty?: number;
   discount?: string;
+  brand_name?: string;
+  item_group?: string;
   skin_types?: string[];
-  skinconcern_types?: string[];
+  skin_concerns?: string[];
 }
 
 export default function SkinTypeProductsPage({
@@ -49,6 +51,7 @@ export default function SkinTypeProductsPage({
     setPage,
     skinConcern,
   } = useBrandFilterStore();
+
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
@@ -65,12 +68,69 @@ export default function SkinTypeProductsPage({
   });
 
   const products = data?.products || [];
-  const allPrices = products.map((p) => p.price || 0);
+  
+  const normalizedSkinType = skinTypeName
+    .toLowerCase()
+    .replace(/\s+/g, "")
+    .trim();
+
+  //  Filter products by skin type from URL
+  const skinFilteredProducts = products.filter((product: FilteredProductType) =>
+    product.skin_types?.some(
+      (type) =>
+        type.toLowerCase().replace(/\s+/g, "").trim() === normalizedSkinType
+    )
+  );
+
+  // Apply additional filters
+  const filteredProducts = skinFilteredProducts.filter((product) => {
+    const price = product.price || 0;
+    const stockQty = product.stock_qty ?? 0;
+    const maxDiscount = parseFloat(product.discount || "0");
+
+    const inPriceRange =
+      priceRange[0] === 0 && priceRange[1] === 0
+        ? true
+        : price >= priceRange[0] && price <= priceRange[1];
+
+    const matchesAvailability =
+      inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
+
+    const matchesSkinConcernTypes =
+      skinConcern.length === 0 ||
+      (product.skin_concerns &&
+        product.skin_concerns.some((sc) => skinConcern.includes(sc)));
+
+    const matchesDiscount = discount === 0 || maxDiscount >= discount;
+
+    const matchesBrand =
+      brand.length === 0 || brand.includes(product.brand || "");
+
+    const matchesCategory =
+      category.length === 0 || category.includes(product.category || "");
+
+    return (
+      inPriceRange &&
+      matchesAvailability &&
+      matchesSkinConcernTypes &&
+      matchesDiscount &&
+      matchesBrand &&
+      matchesCategory
+    );
+  });
+
+  const allPrices = skinFilteredProducts.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
 
-  const total_count = data?.total_count || 0;
-  const totalPages = Math.ceil(total_count / PAGE_SIZE);
+  const inStockCount = skinFilteredProducts.filter(
+    (p) => p.stock_qty && p.stock_qty > 0
+  ).length;
+  const outOfStockCount = skinFilteredProducts.filter(
+    (p) => p.stock_qty === 0
+  ).length;
+
+  const totalPages = Math.ceil(filteredProducts.length / PAGE_SIZE);
 
   useEffect(() => {
     if (totalPages > 0 && page > totalPages) {
@@ -83,45 +143,10 @@ export default function SkinTypeProductsPage({
     window.scrollTo({ top: 0 });
   };
 
-  const normalizedSkinType = skinTypeName
-    .toLowerCase()
-    .replace(/\s+/g, "")
-    .trim();
-
-  const filteredProducts = products.filter((product: FilteredProductType) => {
-    const price = product.price || 0;
-    const stockQty = product.stock_qty ?? 0;
-    const maxDiscount = parseFloat(product.discount || "0");
-
-    const inPriceRange =
-      priceRange[0] === 0 && priceRange[1] === 0
-        ? true
-        : price >= priceRange[0] && price <= priceRange[1];
-
-    const matchesAvailability =
-      inStock === 0 ? true : inStock === 1 ? stockQty > 0 : stockQty <= 0;
-    const matchesSkinConcernTypes =
-      skinConcern.length === 0 ||
-      (product.skinconcern_types &&
-        product.skinconcern_types.some((st) => skinConcern.includes(st)));
-
-    const matchesDiscount = discount === 0 || maxDiscount >= discount;
-
-    const matchesSkinTypeFromURL =
-      product.skin_types &&
-      product.skin_types.some(
-        (type) =>
-          type.toLowerCase().replace(/\s+/g, "").trim() === normalizedSkinType
-      );
-
-    return (
-      inPriceRange &&
-      matchesAvailability &&
-      matchesSkinConcernTypes &&
-      matchesDiscount &&
-      matchesSkinTypeFromURL
-    );
-  });
+  const paginatedProducts = filteredProducts.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE
+  );
 
   const orderStatusOptions = createListCollection({
     items: [
@@ -130,11 +155,6 @@ export default function SkinTypeProductsPage({
       { label: "Newest", value: "newest" },
     ],
   });
-
-  const inStockCount = products.filter(
-    (p) => p.stock_qty && p.stock_qty > 0
-  ).length;
-  const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
 
   return (
     <Container maxW="7xl" py={8}>
@@ -165,8 +185,8 @@ export default function SkinTypeProductsPage({
               <Flex justify="space-between" align="center" wrap="wrap">
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">All Products</Heading>(
-                    {filteredProducts.length} products found)
+                    <Heading size="lg">All Products</Heading>
+                    ({filteredProducts.length} products found)
                   </HStack>
                 </Box>
 
@@ -233,14 +253,15 @@ export default function SkinTypeProductsPage({
                 }}
                 gap={6}
               >
-                {filteredProducts.map((product) => (
+                {paginatedProducts.map((product) => (
                   <ProductCard key={product.title} {...product} />
                 ))}
               </Grid>
             </VStack>
           </GridItem>
         </Grid>
-        {!isLoading && products.length > 0 && totalPages > 1 && (
+
+        {!isLoading && filteredProducts.length > 0 && totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
             currentPage={page}
@@ -252,3 +273,5 @@ export default function SkinTypeProductsPage({
     </Container>
   );
 }
+
+
