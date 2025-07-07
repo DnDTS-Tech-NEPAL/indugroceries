@@ -108,17 +108,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         },
       }}
     >
-      <Box
-        cursor="pointer"
-        onClick={() => {
-          router.push(
-            generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
-              productName: link,
-            })
-          );
-          addRecentlyViewedProduct(link);
-        }}
-      >
+      <Box>
         <Box position="relative">
           {/* New Badge */}
           {isNew || (stock_qty ?? 0) <= 0 || Number(discount ?? 0) > 0 ? (
@@ -275,6 +265,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
         {/* Title */}
         <Text
+          cursor="pointer"
+          _hover={{ color: "#FF6996" }}
+          onClick={() => {
+            router.push(
+              generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
+                productName: link,
+              })
+            );
+            addRecentlyViewedProduct(link);
+          }}
           fontWeight="semibold"
           color="gray.800"
           lineHeight="1.2"
