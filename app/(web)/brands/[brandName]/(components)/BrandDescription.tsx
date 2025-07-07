@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
 import { useState } from "react";
-import { Collapsible } from "@chakra-ui/react";
 
 interface BrandDescriptionProps {
   brandName: string;
@@ -26,6 +25,7 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
       </Text>
     );
   }
+
   if (!brand) {
     return (
       <Text textAlign={"center"} fontWeight={"bold"}>
@@ -47,43 +47,50 @@ export const BrandDescription = ({ brandName }: BrandDescriptionProps) => {
           <Text fontSize={"2xl"} fontWeight={"semibold"}>
             About {brand.name}
           </Text>
-          <Box>
-            {brand.description && (
-              <Text fontSize="md" mt={8}>
-                {brand.description}
-              </Text>
-            )}
 
-            {brand.custom_brand_description && (
-              <Collapsible.Root open={isExpanded}>
-                <Collapsible.Trigger asChild>
-                  <Link
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsExpanded(!isExpanded);
-                    }}
-                    style={{
-                      color: "blue",
-                      marginTop: "10px",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Show more
-                  </Link>
-                </Collapsible.Trigger>
-                <Collapsible.Content>
-                  <Box
-                    mt={4}
-                    p={4}
-                    borderWidth="1px"
-                    borderRadius="md"
-                    dangerouslySetInnerHTML={{
-                      __html: brand.custom_brand_description,
-                    }}
-                  />
-                </Collapsible.Content>
-              </Collapsible.Root>
+          <Box>
+            <Text fontSize="md" mt={8}>
+              {brand.description}{" "}
+              {brand.custom_brand_description && !isExpanded && (
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(true);
+                  }}
+                  style={{
+                    color: "blue",
+                    marginLeft: "8px",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Show more
+                </Link>
+              )}
+            </Text>
+
+            {isExpanded && brand.custom_brand_description && (
+              <Box mt={4}>
+                <Box
+                  dangerouslySetInnerHTML={{
+                    __html: brand.custom_brand_description,
+                  }}
+                />
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(false);
+                  }}
+                  style={{
+                    color: "blue",
+                    display: "inline-block",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Show less
+                </Link>
+              </Box>
             )}
           </Box>
         </Box>

@@ -1,11 +1,8 @@
 "use client";
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Spinner, Text } from "@chakra-ui/react";
 import { useCategoriesListQuery } from "@/hooks/api";
-import "swiper/css";
-import "swiper/css/pagination";
 import Link from "next/link";
 import { useState } from "react";
-import { Collapsible } from "@chakra-ui/react";
 
 interface CategoryDescriptionProps {
   categoryName: string;
@@ -14,16 +11,26 @@ interface CategoryDescriptionProps {
 export const CategoryDescription = ({
   categoryName,
 }: CategoryDescriptionProps) => {
-  const { data: categoryData = [] } = useCategoriesListQuery();
+  const { data: categoryData = [], isLoading } = useCategoriesListQuery();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const category = categoryData.find(
     (b) => b.name.toLowerCase() === categoryName.toLowerCase()
   );
 
+  if (isLoading) {
+    return (
+      <Text textAlign={"center"} fontWeight={"bold"}>
+        <Spinner />
+      </Text>
+    );
+  }
+
   if (!category) {
     return (
-      <Text>No category found with the name &quot;{categoryName}&quot;</Text>
+      <Text textAlign={"center"} fontWeight={"bold"}>
+        No category found with the name &quot;{categoryName}&quot;
+      </Text>
     );
   }
 
@@ -40,43 +47,52 @@ export const CategoryDescription = ({
           <Text fontSize={"2xl"} fontWeight={"semibold"}>
             About {category.name}
           </Text>
-          <Box>
-            {category.description && (
-              <Text fontSize="md" mt={12}>
-                {category.description}
-              </Text>
-            )}
 
-            {category.custom_category_description && (
-              <Collapsible.Root open={isExpanded}>
-                <Collapsible.Trigger asChild>
-                  <Link
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsExpanded(!isExpanded);
-                    }}
-                    style={{
-                      color: "blue",
-                      marginTop: "10px",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Show more
-                  </Link>
-                </Collapsible.Trigger>
-                <Collapsible.Content>
-                  <Box
-                    mt={4}
-                    p={4}
-                    borderWidth="1px"
-                    borderRadius="md"
-                    dangerouslySetInnerHTML={{
-                      __html: category.custom_category_description,
-                    }}
-                  />
-                </Collapsible.Content>
-              </Collapsible.Root>
+          <Box>
+            <Text fontSize="md" mt={8} textAlign={"justify"}>
+              {category.description}{" "}
+              {category.custom_category_description && !isExpanded && (
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(true);
+                  }}
+                  style={{
+                    color: "blue",
+                    marginLeft: "8px",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Show more
+                </Link>
+              )}
+            </Text>
+
+            {isExpanded && category.custom_category_description && (
+              <Box mt={4}>
+                <Box
+                  fontSize={"md"}
+                  dangerouslySetInnerHTML={{
+                    __html: category.custom_category_description,
+                  }}
+                />
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(false);
+                  }}
+                  style={{
+                    color: "blue",
+                    display: "inline-block",
+                    textDecoration: "underline",
+                    marginTop: "10px",
+                  }}
+                >
+                  Show less
+                </Link>
+              </Box>
             )}
           </Box>
         </Box>
