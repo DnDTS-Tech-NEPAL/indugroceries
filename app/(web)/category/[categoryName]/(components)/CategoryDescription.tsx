@@ -49,7 +49,7 @@ export const CategoryDescription = ({
           </Text>
 
           <Box>
-            <Text fontSize="md" mt={8}>
+            <Text fontSize="md" mt={8} textAlign={"justify"}>
               {category.description}{" "}
               {category.custom_category_description && !isExpanded && (
                 <Link
@@ -72,6 +72,7 @@ export const CategoryDescription = ({
             {isExpanded && category.custom_category_description && (
               <Box mt={4}>
                 <Box
+                  fontSize={"md"}
                   dangerouslySetInnerHTML={{
                     __html: category.custom_category_description,
                   }}
