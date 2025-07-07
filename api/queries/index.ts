@@ -10,5 +10,6 @@ export * from "./user";
 export * from "./qualityCompliance";
 export * from "./skin-test";
 export * from "./skin-type";
+export * from "./skin-concern";
 export * from "./callForinfluencer";
 export * from "./shipping-delivery";
