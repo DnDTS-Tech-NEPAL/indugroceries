@@ -5,8 +5,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import Link from "next/link";
 import { useState } from "react";
-import { Collapsible } from "@chakra-ui/react";
-
 interface SkinTypeDescriptionProps {
   skinTypeName: string;
 }
@@ -48,42 +46,50 @@ export const SkinTypeDescription = ({ skinTypeName }: SkinTypeDescriptionProps) 
             About {skinType.name}
           </Text>
           <Box>
-            {skinType.short_description && (
-              <Text fontSize="md" mt={8}>
-                {skinType.short_description}
-              </Text>
-            )}
+            <Text fontSize="md" mt={8} textAlign={"justify"}>
+              {skinType.short_description}{" "}
+              {skinType.long_description && !isExpanded && (
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(true);
+                  }}
+                  style={{
+                    color: "blue",
+                    marginLeft: "8px",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Show more
+                </Link>
+              )}
+            </Text>
 
-            {skinType.long_description && (
-              <Collapsible.Root open={isExpanded}>
-                <Collapsible.Trigger asChild>
-                  <Link
-                    href="#"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsExpanded(!isExpanded);
-                    }}
-                    style={{
-                      color: "blue",
-                      marginTop: "10px",
-                      textDecoration: "underline",
-                    }}
-                  >
-                    Show more
-                  </Link>
-                </Collapsible.Trigger>
-                <Collapsible.Content>
-                  <Box
-                    mt={4}
-                    p={4}
-                    borderWidth="1px"
-                    borderRadius="md"
-                    dangerouslySetInnerHTML={{
-                      __html: skinType.long_description,
-                    }}
-                  />
-                </Collapsible.Content>
-              </Collapsible.Root>
+            {isExpanded && skinType.long_description && (
+              <Box mt={4}>
+                <Box
+                  fontSize={"md"}
+                  dangerouslySetInnerHTML={{
+                    __html: skinType.long_description,
+                  }}
+                />
+                <Link
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsExpanded(false);
+                  }}
+                  style={{
+                    color: "blue",
+                    display: "inline-block",
+                    textDecoration: "underline",
+                    marginTop: "10px",
+                  }}
+                >
+                  Show less
+                </Link>
+              </Box>
             )}
           </Box>
         </Box>
