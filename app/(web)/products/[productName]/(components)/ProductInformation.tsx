@@ -250,7 +250,9 @@ import {
   Heading,
   HStack,
   Icon,
+  Link,
   Progress,
+  Span,
   Stack,
   Text,
   VStack,
@@ -291,6 +293,7 @@ export const ProductInformation = () => {
   const { data: config } = useConfigQuery();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
+  const loyalty_points = 126;
   // const item_code = productDetail?.has_variants
   //   ? activeVariant
   //   : productDetail?.item_code;
@@ -614,15 +617,24 @@ export const ProductInformation = () => {
         )}
 
         <Box
-          p={4}
           borderRadius={"md"}
-          color={"#2E2E2E"}
-          bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
+          color={"#B1B1B2"}
+          // bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
         >
-          <Flex align="center" gap={3}>
-            <Icon as={LoyaltyPoints} boxSize={6} color={"#2E2E2E"} />
-            <Text>Buy this product and collect 100 points.</Text>
-          </Flex>
+          {/* <Flex align="center" gap={3}> */}
+          {/* <Icon as={LoyaltyPoints} boxSize={6} color={"#2E2E2E"} /> */}
+          <Text>
+            Earn {loyalty_points}KBP Points with this purchase.{" "}
+            <Link
+              href="#"
+              color={"#B1B1B2"}
+              textDecoration={"underline"}
+              focusRing={"none"}
+            >
+              [View KBP Rewards Policy]
+            </Link>{" "}
+          </Text>
+          {/* </Flex> */}
         </Box>
 
         <VisibleSection visibility={config?.cart_visibility}>
