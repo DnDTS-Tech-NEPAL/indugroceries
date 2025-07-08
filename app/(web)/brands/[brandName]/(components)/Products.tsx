@@ -168,8 +168,8 @@ export default function BrandProductsPage({
               >
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">All Products</Heading>({filteredProducts.length}{" "}
-                    products found)
+                    <Heading size="lg">All Products</Heading>(
+                    {filteredProducts.length} products found)
                   </HStack>
                 </Box>
                 <HStack gap={1}>
