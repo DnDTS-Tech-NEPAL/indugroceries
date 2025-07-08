@@ -21,6 +21,7 @@ import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useProductsFilter } from "@/hooks/app";
 import { useEffect } from "react";
 import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
+import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -40,11 +41,13 @@ export const SkinTypeFilter = ({
   const filter = useProductsFilter();
   const {
     brand,
-    category,
+    item_group,
     priceRange,
     discount,
     inStock,
     skinConcern,
+    setItemGroup,
+    setPage,
     setBrand,
     setCategory,
     setSkinConcernTypes,
@@ -58,12 +61,15 @@ export const SkinTypeFilter = ({
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
 
-  const handleCategoryToggle = (value: string) => {
-    setCategory(
-      category.includes(value)
-        ? category.filter((c) => c !== value)
-        : [...category, value]
-    );
+
+    const handleSubcategoryClick = (name: string) => {
+    const newValue =
+      item_group && item_group.includes(name)
+        ? item_group.filter((g) => g !== name)
+        : [name];
+
+    setItemGroup(newValue);
+    setPage(1);
   };
 
   const handleBrandToggle = (value: string) => {
@@ -124,7 +130,7 @@ export const SkinTypeFilter = ({
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Category Section */}
-              <AccordionItem value="category" p={2}>
+              {/* <AccordionItem value="category" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Category
@@ -146,8 +152,40 @@ export const SkinTypeFilter = ({
                     ))}
                   </VStack>
                 </AccordionItemContent>
-              </AccordionItem>
+              </AccordionItem> */}
+ <AccordionItem value="category" p={2}>
+                <AccordionItemTrigger hasAccordionIcon>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Category
+                  </Text>
+                </AccordionItemTrigger>
+                <AccordionItemContent>
+                    {filter[1]?.items?.map((item) => (
+                      <Box key={item.value}>
+                        <Checkbox
+                          color="#7A7A7A"
+                          py={2}
+                          colorScheme="pink"
+                          checked={item_group?.includes(item.title) ?? false}
+                          onChange={() => handleSubcategoryClick(item.title)}
+                        >
+                          {item.title}
+                        </Checkbox>
 
+                        {item.children && item.children.length > 0 && (
+                          <Box pl={4}>
+                            <RecursiveCategoryList
+                              items={item.children}
+                              selected={item_group ?? []}
+                              onToggle={handleSubcategoryClick}
+                            />
+                          </Box>
+                        )}
+                      </Box>
+                    ))}
+                
+                </AccordionItemContent>
+              </AccordionItem>
               {/* Brand Section */}
               <AccordionItem value="brand">
                 <AccordionItemTrigger hasAccordionIcon>
