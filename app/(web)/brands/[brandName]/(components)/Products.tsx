@@ -30,7 +30,7 @@ interface FilteredProductType {
   stock_qty?: number;
   discount?: string;
   skin_types?: string[];
-  skinconcern_types?: string[];
+  skin_concerns?: string[];
 }
 
 export default function BrandProductsPage({
@@ -100,8 +100,8 @@ export default function BrandProductsPage({
 
     const matchesSkinConcernTypes =
       skinConcern.length === 0 ||
-      (product.skinconcern_types &&
-        product.skinconcern_types.some((st) => skinConcern.includes(st)));
+      (product.skin_concerns &&
+        product.skin_concerns.some((st) => skinConcern.includes(st)));
 
     const matchesDiscount = discount === 0 || maxDiscount >= discount;
 
@@ -168,7 +168,7 @@ export default function BrandProductsPage({
               >
                 <Box>
                   <HStack gap={4} align="baseline">
-                    <Heading size="lg">All Products</Heading>({total_count}{" "}
+                    <Heading size="lg">All Products</Heading>({filteredProducts.length}{" "}
                     products found)
                   </HStack>
                 </Box>

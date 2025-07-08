@@ -422,7 +422,7 @@ interface FilteredProductType {
   stock_qty?: number;
   discount?: string;
   skin_types?: string[];
-  skinconcern_types?: string[];
+  skin_concerns?: string[];
 }
 
 export default function CategoryProductsPage({
@@ -494,8 +494,8 @@ export default function CategoryProductsPage({
 
     const matchesSkinConcernTypes =
       skinConcern.length === 0 ||
-      (product.skinconcern_types &&
-        product.skinconcern_types.some((st) => skinConcern.includes(st)));
+      (product.skin_concerns &&
+        product.skin_concerns.some((st) => skinConcern.includes(st)));
 
     const matchesDiscount = discount === 0 || maxDiscount >= discount;
 
