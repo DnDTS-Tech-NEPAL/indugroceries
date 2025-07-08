@@ -15,6 +15,8 @@ type UserData = {
   custom_address: string;
   user: string;
   custom_date_of_birth: string;
+  total_points: number;
+  custom_membership_program: string;
 };
 
 type ReviewType = {
