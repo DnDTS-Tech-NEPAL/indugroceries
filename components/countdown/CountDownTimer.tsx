@@ -66,7 +66,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
   if (!hasStarted) return null;
 
   if (timeLeft.total <= 0) {
-    return <Text color="red.500">Deal Expired</Text>;
+    return null;
   }
 
   return (
