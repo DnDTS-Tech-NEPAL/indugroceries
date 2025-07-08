@@ -187,6 +187,7 @@ const ShippingInformation = () => {
 
               {/* new address section */}
               {deliveryData && (
+                <>
                 <HStack
                   mt={4}
                   gap={4}
@@ -286,6 +287,12 @@ const ShippingInformation = () => {
                     </select>
                   </Box>
                 </HStack>
+                <Input
+                placeholder="Add Street Address Line"
+                textAlign="center"
+                h={20}
+              />
+                </>
               )}
             </VStack>
           </AccordionItemContent>
