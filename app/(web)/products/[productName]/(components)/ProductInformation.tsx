@@ -442,7 +442,7 @@ export const ProductInformation = () => {
     offerEndsDate && offerStartDate && new Date(offerEndsDate) > new Date();
 
   return (
-    <Flex flex={1} flexDirection="column" width="100%">
+    <Flex flex={1} flexDirection="column" width="100%" overflow={"hidden"}>
       <VStack alignItems="stretch" gap={{ base: "20px", lg: "28px" }}>
         {/* Product Information */}
         <Stack gap={{ base: "12px", lg: "24px" }} width="100%">

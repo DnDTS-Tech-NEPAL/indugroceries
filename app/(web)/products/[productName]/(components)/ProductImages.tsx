@@ -29,7 +29,8 @@ export const ProductImages = () => {
       flex={1}
       flexDirection="column"
       alignContent={"left"}
-      width={{ lg: "50%", xl: "100%" }}
+      width={"100%"}
+      overflow={"hidden"}
     >
       <ProductImageDisplay
         selectedImage={selectedImage || config.company_details_url}

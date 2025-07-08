@@ -51,6 +51,7 @@ export const ProductDetailContainer = ({
         py={{ base: "24px", lg: "32px", "2xl": "56px" }}
       >
         <Flex
+          width={"100%"}
           flexDirection={{ base: "column", md: "row" }}
           gap={{ md: "6px", lg: "8px", xl: "12px" }}
           alignItems="stretch"
