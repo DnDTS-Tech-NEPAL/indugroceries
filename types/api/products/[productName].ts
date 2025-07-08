@@ -46,6 +46,7 @@ export type PriceType = {
   discount: number;
   discounted_price: number;
   custom_discount_valid_upto?: string;
+  custom_discount_start_from?: string;
 };
 
 export type IndividualProductAPIType = {

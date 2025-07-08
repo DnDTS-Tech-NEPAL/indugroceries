@@ -6,6 +6,7 @@ export type ProductPrice = {
   min_price?: number;
   max_price?: number;
   custom_discount_valid_upto?: string;
+  custom_discount_start_from?: string;
 };
 
 export type ProductAPIType = {
