@@ -92,21 +92,14 @@ export const ProductsYouMayLike = () => {
           gridTemplateColumns={{
             base: "repeat(2, 1fr)",
             md: "repeat(3, 1fr)",
-            lg: "repeat(4, 1fr)",
+            lg:
+              (itemProductLike?.length ?? 0) > 4
+                ? "repeat(5, 1fr)"
+                : "repeat(4, 1fr)",
           }}
           gap="20px"
         >
           {itemProductLike?.map((productInfo, index) => (
-            // <FavoriteProductCard
-            //   key={index}
-            //   id={index}
-            //   category={productInfo.item_name}
-            //   image={productInfo.custom_image_1_link}
-            //   title={productInfo.item_name}
-            //   price={productInfo.prices?.[0].price_list_rate}
-            //   link={productInfo.name}
-            //   item_code={productInfo.item_code}
-            // />
             <ProductCard
               key={index}
               id={index}

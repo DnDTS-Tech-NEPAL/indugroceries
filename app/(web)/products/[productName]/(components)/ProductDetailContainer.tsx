@@ -15,10 +15,7 @@ import {
   BenefitsSection,
   SocialFeed,
 } from "@/templates/default/pages/home/(components)";
-import { TabsDescription } from "./TabsDescription";
-import FrequentlyBoughtProduct from "./FrequentlyBoughtProduct";
 import RecentlyViewed from "./RecentlyViewed ";
-import ProductReview from "./ProductReview";
 
 export const ProductDetailContainer = ({
   product,
@@ -59,14 +56,8 @@ export const ProductDetailContainer = ({
           alignItems="stretch"
         >
           <ProductImages />
-
           <ProductInformation />
         </Flex>
-
-        <TabsDescription productName={productName} />
-        <FrequentlyBoughtProduct />
-        <ProductReview item_code={product?.item_code ?? ""} />
-        {/* <ProductReviews item_code={product?.item_code ?? ""} /> */}
         <ProductsYouMayLike />
         <RecentlyViewed />
         <SocialFeed />
