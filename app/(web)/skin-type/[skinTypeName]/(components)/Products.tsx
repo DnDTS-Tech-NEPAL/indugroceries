@@ -36,6 +36,8 @@ interface FilteredProductType {
   item_group?: string;
   skin_types?: string[];
   skin_concerns?: string[];
+  brand?: string;
+  category?: string;
 }
 
 export default function SkinTypeProductsPage({
@@ -62,7 +64,7 @@ export default function SkinTypeProductsPage({
     brand,
     item_group: category,
     bestseller: 0,
-    pricerange: priceSortOrder,
+    pricerange: 0,
     page,
     size: PAGE_SIZE,
   });
@@ -74,7 +76,6 @@ export default function SkinTypeProductsPage({
     .replace(/\s+/g, "")
     .trim();
 
-  //  Filter products by skin type from URL
   const skinFilteredProducts = products.filter((product: FilteredProductType) =>
     product.skin_types?.some(
       (type) =>
@@ -82,7 +83,6 @@ export default function SkinTypeProductsPage({
     )
   );
 
-  // Apply additional filters
   const filteredProducts = skinFilteredProducts.filter((product) => {
     const price = product.price || 0;
     const stockQty = product.stock_qty ?? 0;
@@ -119,6 +119,16 @@ export default function SkinTypeProductsPage({
     );
   });
 
+  // 🔀 Sort filtered products by price
+  const sortedFilteredProducts = [...filteredProducts].sort((a, b) => {
+    const priceA = a.price ?? 0;
+    const priceB = b.price ?? 0;
+
+    if (sortBy === "low-high") return priceA - priceB;
+    if (sortBy === "high-low") return priceB - priceA;
+    return 0;
+  });
+
   const allPrices = skinFilteredProducts.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
@@ -130,7 +140,7 @@ export default function SkinTypeProductsPage({
     (p) => p.stock_qty === 0
   ).length;
 
-  const totalPages = Math.ceil(filteredProducts.length / PAGE_SIZE);
+  const totalPages = Math.ceil(sortedFilteredProducts.length / PAGE_SIZE);
 
   useEffect(() => {
     if (totalPages > 0 && page > totalPages) {
@@ -143,7 +153,7 @@ export default function SkinTypeProductsPage({
     window.scrollTo({ top: 0 });
   };
 
-  const paginatedProducts = filteredProducts.slice(
+  const paginatedProducts = sortedFilteredProducts.slice(
     (page - 1) * PAGE_SIZE,
     page * PAGE_SIZE
   );
@@ -186,7 +196,7 @@ export default function SkinTypeProductsPage({
                 <Box>
                   <HStack gap={4} align="baseline">
                     <Heading size="lg">All Products</Heading>(
-                    {filteredProducts.length} products found)
+                    {sortedFilteredProducts.length} products found)
                   </HStack>
                 </Box>
 
@@ -261,7 +271,7 @@ export default function SkinTypeProductsPage({
           </GridItem>
         </Grid>
 
-        {!isLoading && filteredProducts.length > 0 && totalPages > 1 && (
+        {!isLoading && sortedFilteredProducts.length > 0 && totalPages > 1 && (
           <Pagination
             totalPages={totalPages}
             currentPage={page}
