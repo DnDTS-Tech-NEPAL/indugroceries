@@ -76,8 +76,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
       fontWeight="500"
       ml={4}
     >
-      {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s
-      left
+      {timeLeft.days}d {timeLeft.hours}:{timeLeft.minutes}:{timeLeft.seconds}
     </Text>
   );
 };
