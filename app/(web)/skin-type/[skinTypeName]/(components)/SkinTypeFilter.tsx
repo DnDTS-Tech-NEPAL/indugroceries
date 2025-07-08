@@ -49,7 +49,6 @@ export const SkinTypeFilter = ({
     setItemGroup,
     setPage,
     setBrand,
-    setCategory,
     setSkinConcernTypes,
     setPriceRange,
     setDiscount,
@@ -61,8 +60,7 @@ export const SkinTypeFilter = ({
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
 
-
-    const handleSubcategoryClick = (name: string) => {
+  const handleSubcategoryClick = (name: string) => {
     const newValue =
       item_group && item_group.includes(name)
         ? item_group.filter((g) => g !== name)
@@ -98,8 +96,6 @@ export const SkinTypeFilter = ({
   );
 
   const brandItems = filter[0]?.items || [];
-  const categoryItems = filter[1]?.items || [];
-
   return (
     <GridItem
       width={{ base: "100%", md: "290px" }}
@@ -130,60 +126,37 @@ export const SkinTypeFilter = ({
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Category Section */}
-              {/* <AccordionItem value="category" p={2}>
+
+              <AccordionItem value="category" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Category
                   </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
-                  <VStack align="stretch" gap={2} pt={4}>
-                    {categoryItems.map((item) => (
+                  {filter[1]?.items?.map((item) => (
+                    <Box key={item.value}>
                       <Checkbox
-                        key={item.value}
                         color="#7A7A7A"
                         py={2}
                         colorScheme="pink"
-                        checked={category.includes(item.title)}
-                        onChange={() => handleCategoryToggle(item.title)}
+                        checked={item_group?.includes(item.title) ?? false}
+                        onChange={() => handleSubcategoryClick(item.title)}
                       >
                         {item.title}
                       </Checkbox>
-                    ))}
-                  </VStack>
-                </AccordionItemContent>
-              </AccordionItem> */}
- <AccordionItem value="category" p={2}>
-                <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">
-                    Category
-                  </Text>
-                </AccordionItemTrigger>
-                <AccordionItemContent>
-                    {filter[1]?.items?.map((item) => (
-                      <Box key={item.value}>
-                        <Checkbox
-                          color="#7A7A7A"
-                          py={2}
-                          colorScheme="pink"
-                          checked={item_group?.includes(item.title) ?? false}
-                          onChange={() => handleSubcategoryClick(item.title)}
-                        >
-                          {item.title}
-                        </Checkbox>
 
-                        {item.children && item.children.length > 0 && (
-                          <Box pl={4}>
-                            <RecursiveCategoryList
-                              items={item.children}
-                              selected={item_group ?? []}
-                              onToggle={handleSubcategoryClick}
-                            />
-                          </Box>
-                        )}
-                      </Box>
-                    ))}
-                
+                      {item.children && item.children.length > 0 && (
+                        <Box pl={4}>
+                          <RecursiveCategoryList
+                            items={item.children}
+                            selected={item_group ?? []}
+                            onToggle={handleSubcategoryClick}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  ))}
                 </AccordionItemContent>
               </AccordionItem>
               {/* Brand Section */}

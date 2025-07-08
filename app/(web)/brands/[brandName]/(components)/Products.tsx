@@ -56,7 +56,7 @@ export default function BrandProductsPage({
 
   const { data, isLoading } = useFilterProductsQuery({
     brand: [brandName],
-      item_group: item_group ?? [],
+    item_group: item_group ?? [],
     in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,

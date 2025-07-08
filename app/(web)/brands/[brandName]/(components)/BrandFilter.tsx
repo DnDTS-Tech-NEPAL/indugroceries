@@ -137,30 +137,29 @@ export const BrandFilter = ({
                   </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
-                    {filter[1]?.items?.map((item) => (
-                      <Box key={item.value}>
-                        <Checkbox
-                          color="#7A7A7A"
-                          py={2}
-                          colorScheme="pink"
-                          checked={item_group?.includes(item.title) ?? false}
-                          onChange={() => handleSubcategoryClick(item.title)}
-                        >
-                          {item.title}
-                        </Checkbox>
+                  {filter[1]?.items?.map((item) => (
+                    <Box key={item.value}>
+                      <Checkbox
+                        color="#7A7A7A"
+                        py={2}
+                        colorScheme="pink"
+                        checked={item_group?.includes(item.title) ?? false}
+                        onChange={() => handleSubcategoryClick(item.title)}
+                      >
+                        {item.title}
+                      </Checkbox>
 
-                        {item.children && item.children.length > 0 && (
-                          <Box pl={4}>
-                            <RecursiveCategoryList
-                              items={item.children}
-                              selected={item_group ?? []}
-                              onToggle={handleSubcategoryClick}
-                            />
-                          </Box>
-                        )}
-                      </Box>
-                    ))}
-                
+                      {item.children && item.children.length > 0 && (
+                        <Box pl={4}>
+                          <RecursiveCategoryList
+                            items={item.children}
+                            selected={item_group ?? []}
+                            onToggle={handleSubcategoryClick}
+                          />
+                        </Box>
+                      )}
+                    </Box>
+                  ))}
                 </AccordionItemContent>
               </AccordionItem>
 
