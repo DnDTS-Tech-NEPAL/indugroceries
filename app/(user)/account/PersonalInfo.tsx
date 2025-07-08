@@ -12,7 +12,6 @@ import {
   Flex,
   Separator,
   Text,
-  Badge,
   HStack,
   Icon,
 } from "@chakra-ui/react";
@@ -20,8 +19,6 @@ import { FormProvider } from "@/components";
 import { setPasswordSchema } from "@/schema";
 import { SetPasswordType } from "@/types";
 import { useResetPasswordMutation } from "@/hooks/api";
-import { FaGift } from "react-icons/fa";
-import { BadgeAlert } from "lucide-react";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const defaultValues: SetPasswordType = {
@@ -55,22 +52,23 @@ export default function PersonalInfo() {
 
   return (
     <Box rounded="lg" border="1px">
-   <Flex justifyContent="space-between" alignItems="center" mb={8}>
-  <Text fontSize="2xl" fontWeight="medium">
-    Personal
-  </Text>
+      <Flex justifyContent="space-between" alignItems="center" mb={8}>
+        <Text fontSize="2xl" fontWeight="medium">
+          Personal
+        </Text>
 
-  <HStack gap={1}>
-    <Icon color="pink.500" boxSize={7} ><RiVerifiedBadgeFill />
-</Icon>
-    <Text fontWeight="medium" color="gray.700">
-      Loyalty Points:
-    </Text>
-    <Text fontWeight="bold" color="pink.500">
-     {profileData?.data[0]?.total_points}
-    </Text>
-  </HStack>
-</Flex>
+        <HStack gap={1}>
+          <Icon color="pink.500" boxSize={7}>
+            <RiVerifiedBadgeFill />
+          </Icon>
+          <Text fontWeight="medium" color="gray.700">
+            Loyalty Points:
+          </Text>
+          <Text fontWeight="bold" color="pink.500">
+            {profileData?.data[0]?.total_points}
+          </Text>
+        </HStack>
+      </Flex>
       <VStack gap={8} align="stretch">
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           <GridItem>
