@@ -25,7 +25,7 @@ export const ProductImageDisplay: React.FC<ProductImageDisplayProps> = ({
     <Flex
       justify="center"
       align="center"
-      py={{ base: 6, md: 10 }}
+      pb={{ base: 6, md: 10 }}
       px={{ base: 4, md: 8 }}
     >
       <Box
