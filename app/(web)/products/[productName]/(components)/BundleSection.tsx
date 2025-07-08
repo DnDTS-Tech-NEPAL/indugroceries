@@ -78,7 +78,7 @@ const BundleSection = () => {
               <Image
                 src={p.image}
                 alt={p.name}
-                boxSize="150px"
+                boxSize="170px"
                 objectFit="contain"
               />
             </Box>
