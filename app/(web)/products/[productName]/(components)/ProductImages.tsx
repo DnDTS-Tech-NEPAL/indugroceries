@@ -9,6 +9,7 @@ import { IndividualProductAPIType } from "@/types";
 
 import { ProductImageDisplay } from "./ProductImageDisplay";
 import ProductImageThumbnail from "./ProductImageThumbnail";
+import BundleSection from "./BundleSection";
 
 export const ProductImages = () => {
   const params = useParams();
@@ -27,6 +28,7 @@ export const ProductImages = () => {
       gap="24px"
       flex={1}
       flexDirection="column"
+      alignContent={"left"}
       width={{ lg: "50%", xl: "100%" }}
     >
       <ProductImageDisplay
@@ -40,6 +42,8 @@ export const ProductImages = () => {
         setSelectedImage={setSelectedImage}
         productName={productName}
       />
+        <BundleSection />
+
     </Flex>
   );
 };
