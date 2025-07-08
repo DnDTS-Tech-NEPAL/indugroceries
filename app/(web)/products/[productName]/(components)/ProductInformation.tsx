@@ -302,7 +302,7 @@ export const ProductInformation = () => {
     IndividualProductAPIType | ProductVariantType | null
   >(null);
 
-  const [progressValue, setProgressValue] = useState(60);
+  const [progressValue, setProgressValue] = useState(0);
 
   // Initialize with base product or selected variant
   useEffect(() => {
@@ -367,6 +367,19 @@ export const ProductInformation = () => {
     }
 
     return productDetail.prices?.[0]?.custom_discount_valid_upto ?? null;
+  }, [productDetail, activeVariant]);
+
+  const offerStartDate = useMemo(() => {
+    if (!productDetail) return null;
+
+    if (productDetail.has_variants) {
+      const selectedVariant = productDetail.variants?.find(
+        (variant) => variant.item_code === activeVariant
+      );
+      return selectedVariant?.prices?.[0]?.custom_discount_start_from ?? null;
+    }
+
+    return productDetail.prices?.[0]?.custom_discount_start_from ?? null;
   }, [productDetail, activeVariant]);
 
   // const minimumQuantity = displayProduct?.custom_minimum_order_quantity || 1;
@@ -558,8 +571,14 @@ export const ProductInformation = () => {
                   >
                     {discountPercent}% OFF
                   </Text>
-                  {offerEndsDate && (
-                    <CountdownTimer endDate={offerEndsDate.toString()} />
+                  {offerEndsDate && offerStartDate && (
+                    <CountdownTimer
+                      startDate={offerStartDate}
+                      endDate={offerEndsDate}
+                      onProgressUpdate={(progress) =>
+                        setProgressValue(progress)
+                      }
+                    />
                   )}
                 </HStack>
               )}
