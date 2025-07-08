@@ -433,6 +433,8 @@ export const ProductInformation = () => {
     productDetail?.item_code as string
   );
   const averageRating = reviewData?.average_rating ?? 0;
+  const showProgressBar =
+    offerEndsDate && offerStartDate && new Date(offerEndsDate) > new Date();
 
   return (
     <Flex flex={1} flexDirection="column" width="100%">
@@ -472,7 +474,7 @@ export const ProductInformation = () => {
               >
                 <Text
                   color="black"
-                  maxW={"70%"}
+                  maxW={{ base: "100%", md: "65%" }}
                   fontSize={{ base: "16px", lg: "16px", xl: "18px" }}
                 >
                   {displayProduct?.item_name}
@@ -554,7 +556,7 @@ export const ProductInformation = () => {
               </Heading>
 
               {/* Original Price, Discount, and Timer */}
-              {discountPercent && discountPercent > 0 && (
+              {discountPercent && discountPercent > 0 ? (
                 <HStack gap="3" align="center" flexWrap="wrap">
                   <Text
                     color="#7A7A7A"
@@ -581,7 +583,7 @@ export const ProductInformation = () => {
                     />
                   )}
                 </HStack>
-              )}
+              ) : null}
             </VStack>
 
             {/* Right Side - Deals Claimed */}
@@ -591,11 +593,13 @@ export const ProductInformation = () => {
           </HStack>
 
           {/* Progress Bar */}
-          <Progress.Root size={"sm"} shape={"full"} value={progressValue}>
-            <Progress.Track>
-              <Progress.Range style={{ backgroundColor: "#FF6996" }} />
-            </Progress.Track>
-          </Progress.Root>
+          {showProgressBar && (
+            <Progress.Root size={"sm"} shape={"full"} value={progressValue}>
+              <Progress.Track>
+                <Progress.Range style={{ backgroundColor: "#FF6996" }} />
+              </Progress.Track>
+            </Progress.Root>
+          )}
         </Stack>
         {/* Variant Selector */}
         {productDetail?.variants && (
