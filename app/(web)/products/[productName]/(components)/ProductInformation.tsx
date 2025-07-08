@@ -283,6 +283,7 @@ import { ROUTES } from "@/constants";
 import ShareButton from "@/components/ui/button/ShareButton";
 import CountdownTimer from "@/components/countdown/CountDownTimer";
 import ProductReview from "./ProductReview";
+import { TabsDescription } from "./TabsDescription";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -693,7 +694,8 @@ export const ProductInformation = () => {
           </HStack>
         </VisibleSection>
       </VStack>
-      <Highlights />
+      {/* <Highlights /> */}
+      <TabsDescription productName={productName} />
       <ProductReview item_code={productDetail?.item_code ?? ""} />
 
       {/* <ProductDescription /> */}

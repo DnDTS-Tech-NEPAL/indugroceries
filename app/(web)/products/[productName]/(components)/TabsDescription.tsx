@@ -164,6 +164,7 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       justifyContent="center"
       alignItems="center"
       width="100%"
+      py={{ base: 4, md: 6 }}
     >
       <Tabs
         tabs={tabs}

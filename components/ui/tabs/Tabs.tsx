@@ -201,6 +201,7 @@ export const Tabs = ({
       <ChakraTabs.Root
         defaultValue={defaultTab}
         orientation={orientation}
+        variant={"plain"}
         size={size}
         className={className}
         style={{
@@ -209,18 +210,25 @@ export const Tabs = ({
           ...style,
         }}
       >
-        <Box display="flex" justifyContent="center" width="100%">
-          <ChakraTabs.List>
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          width="100%"
+          borderBottom={"0.1px solid #B1B1B2"}
+        >
+          <ChakraTabs.List borderWidth={"0px"} justifyContent={"space-between"}>
             {tabs.map((tab) => (
               <ChakraTabs.Trigger
                 key={tab.value}
                 value={tab.value}
+                mb={2}
                 style={{
                   fontSize: "20px",
                   borderRadius: "20px",
                   fontWeight: "500",
                   width: "fit-content",
                 }}
+                _selected={{ color: "#FF6996" }}
               >
                 {tab.icon && <Box as={tab.icon} mr={2} />}
                 {tab.label}
