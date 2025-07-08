@@ -57,9 +57,6 @@ export default function SkinTypeProductsPage({
   const [sortBy, setSortBy] = useState<string>("");
   const [showFilter, setShowFilter] = useState(true);
 
-  const priceSortOrder =
-    sortBy === "low-high" ? 1 : sortBy === "high-low" ? 2 : 0;
-
   const { data, isLoading } = useFilterProductsQuery({
     brand,
     item_group: category,
