@@ -22,6 +22,7 @@ import { useFilterProductsQuery } from "@/hooks/api";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { BrandFilter } from "./BrandFilter";
 import { PAGE_SIZE } from "@/constants";
+
 interface BrandProductsPageProps {
   brandName: string;
 }
@@ -37,7 +38,7 @@ export default function BrandProductsPage({
   brandName,
 }: BrandProductsPageProps) {
   const {
-    category,
+    item_group,
     priceRange,
     discount,
     inStock,
@@ -55,19 +56,21 @@ export default function BrandProductsPage({
 
   const { data, isLoading } = useFilterProductsQuery({
     brand: [brandName],
-    item_group: category,
+      item_group: item_group ?? [],
     in_stock: inStock,
     bestseller: 0,
     pricerange: priceSortOrder,
     page,
     size: PAGE_SIZE,
   });
+
   const products = data?.products || [];
   const allPrices = products.map((p) => p.price || 0);
   const minPrice = allPrices.length > 0 ? Math.min(...allPrices) : 0;
   const maxPrice = allPrices.length > 0 ? Math.max(...allPrices) : 2500;
   const total_count = data?.total_count || 0;
   const totalPages = Math.ceil(total_count / PAGE_SIZE);
+
   useEffect(() => {
     if (totalPages > 0 && page > totalPages) {
       setPage(1);
@@ -84,7 +87,6 @@ export default function BrandProductsPage({
     const stockQty = product.stock_qty ?? 0;
     const maxDiscount = parseFloat(product.discount || "0");
 
-    // const inPriceRange = price >= priceRange[0] && price <= priceRange[1];
     const inPriceRange =
       priceRange[0] === 0 && priceRange[1] === 0
         ? true
@@ -121,19 +123,14 @@ export default function BrandProductsPage({
       { label: "Newest", value: "newest" },
     ],
   });
+
   const inStockCount = products.filter(
     (p) => p.stock_qty && p.stock_qty > 0
   ).length;
   const outOfStockCount = products.filter((p) => p.stock_qty === 0).length;
 
-  // const { open, onOpen, onClose } = useDisclosure();
-  // useEffect(() => {
-  //   window.addEventListener("resize", onClose);
-  //   return () => window.removeEventListener("resize", onClose);
-  // }, []);
   return (
     <Container maxW="7xl" py={8}>
-      {/* <Grid templateColumns={{ base: "1fr", lg: "300px 1fr" }} gap={8}> */}
       <Collapsible.Root
         open={showFilter}
         onOpenChange={(details) => setShowFilter(details.open)}
@@ -152,7 +149,6 @@ export default function BrandProductsPage({
             inStockCount={inStockCount}
             outOfStockCount={outOfStockCount}
             isOpen={showFilter}
-            // skinTypes={skinTypes}
           />
 
           {/* Main Content */}
@@ -172,6 +168,7 @@ export default function BrandProductsPage({
                     {filteredProducts.length} products found)
                   </HStack>
                 </Box>
+
                 <HStack gap={1}>
                   <HStack>
                     <Text fontSize="sm">Sort By :</Text>
@@ -207,6 +204,7 @@ export default function BrandProductsPage({
                         </Select.Positioner>
                       </Portal>
                     </Select.Root>
+
                     <Box>
                       <Collapsible.Trigger>
                         <Text
@@ -223,23 +221,6 @@ export default function BrandProductsPage({
                       </Collapsible.Trigger>
                     </Box>
                   </HStack>
-                  {/* Sidebar Filters */}
-                  {/* <Box
-                onClick={onOpen}
-                bg="primary.50"
-                borderRadius="8px"
-                p="6px"
-                border="1px solid"
-                borderColor="primary.100"
-                cursor="pointer"
-              >
-                <Flex align="center" gap={"2px"}>
-                  <FilterIcon height={"14px"} width={"14px"} />
-                  <Text px={3} fontSize={"12px"} fontWeight={500}>
-                    Filter
-                  </Text>
-                </Flex>
-              </Box> */}
                 </HStack>
               </Flex>
 
@@ -269,27 +250,6 @@ export default function BrandProductsPage({
             onPageChange={handlePageChange}
           />
         )}
-
-        {/* <Drawer
-        // title="Brand Filter"
-        placement="start"
-        open={open}
-        onClose={onClose}
-        hasFooter={false}
-        actionButtonText="Reset"
-        cancelButtonText="Close"
-        hasCloseIcon={false}
-        // onAction={onReset}
-        onEnd={onClose}
-      >
-        <BrandFilter
-          minPrice={minPrice}
-          maxPrice={maxPrice}
-          inStockCount={inStockCount}
-          outOfStockCount={outOfStockCount}
-          // skinTypes={skinTypes}
-        />
-      </Drawer> */}
       </Collapsible.Root>
     </Container>
   );
