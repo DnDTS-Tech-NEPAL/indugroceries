@@ -131,7 +131,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             borderRadius={"2rem"}
             variant={"outline"}
             color={"#B1B1B2"}
-            px={{base:10,sm:3,md:4}}
+            px={{ base: 10, sm: 3, md: 4 }}
             onClick={() => {
               setDialogType("write");
               setOtpOpen(true);

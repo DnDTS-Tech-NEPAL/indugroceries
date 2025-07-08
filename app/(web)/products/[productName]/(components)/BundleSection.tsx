@@ -44,20 +44,20 @@ const products = [
 
 const BundleSection = () => {
   const { data: config } = useConfigQuery();
-  const isMobile = useBreakpointValue({ base: true, md: false });
+  // const isMobile = useBreakpointValue({ base: true, md: false });
   const total = products.reduce((sum, p) => sum + p.discountedPrice, 0);
   // Responsive values
   const fontSize = useBreakpointValue({ base: "xs", md: "sm", lg: "md" });
   const priceFontSize = useBreakpointValue({ base: "md", md: "lg" });
   const originalPriceFontSize = useBreakpointValue({ base: "xs", md: "sm" });
-  const iconSize = useBreakpointValue({ base: 14, md: 16 });
+  // const iconSize = useBreakpointValue({ base: 14, md: 16 });
   const starIconSize = useBreakpointValue({ base: 2, md: 3 });
-  const imageHeight = useBreakpointValue({
-    base: "320px",
-    sm: "260px",
-    md: "280px",
-    lg: "308px",
-  });
+  // const imageHeight = useBreakpointValue({
+  //   base: "320px",
+  //   sm: "260px",
+  //   md: "280px",
+  //   lg: "308px",
+  // });
 
   return (
     <Box p={4}>

@@ -43,8 +43,7 @@ export const ProductImages = () => {
         setSelectedImage={setSelectedImage}
         productName={productName}
       />
-        <BundleSection />
-
+      <BundleSection />
     </Flex>
   );
 };

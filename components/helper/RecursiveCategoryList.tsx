@@ -1,7 +1,7 @@
 // components/RecursiveCategoryList.tsx
 "use client";
 
-import { Box,  VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { Checkbox } from "../form";
 
 interface CategoryItem {

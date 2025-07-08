@@ -10,7 +10,13 @@ const ProductImageThumbnail: React.FC<ProductImageThumbnailProps> = ({
   productName,
 }) => {
   return (
-    <Flex justifyContent={"center"} align={"center"} gap="8px" flexDirection="row" flexWrap="wrap">
+    <Flex
+      justifyContent={"center"}
+      align={"center"}
+      gap="8px"
+      flexDirection="row"
+      flexWrap="wrap"
+    >
       {productImages.map((productImageUrl, index) => (
         <ProductImageCard
           key={index}

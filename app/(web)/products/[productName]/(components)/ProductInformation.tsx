@@ -249,16 +249,14 @@ import {
   Flex,
   Heading,
   HStack,
-  Icon,
   Link,
   Progress,
-  Span,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
 
-import { HeartIcon, LoyaltyPoints } from "@/assets/svg";
+import { HeartIcon } from "@/assets/svg";
 import {
   Button,
   ProductVariantTabs,
@@ -280,7 +278,6 @@ import {
 import { VisibleSection } from "@/components/ui/visibleSection";
 import { useVariantStore } from "@/store";
 import { IndividualProductAPIType, ProductVariantType } from "@/types";
-import { Highlights } from "./Highlights";
 import { ROUTES } from "@/constants";
 import ShareButton from "@/components/ui/button/ShareButton";
 import CountdownTimer from "@/components/countdown/CountDownTimer";
