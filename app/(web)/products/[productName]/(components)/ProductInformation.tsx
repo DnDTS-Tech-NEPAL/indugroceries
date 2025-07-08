@@ -282,6 +282,7 @@ import { Highlights } from "./Highlights";
 import { ROUTES } from "@/constants";
 import ShareButton from "@/components/ui/button/ShareButton";
 import CountdownTimer from "@/components/countdown/CountDownTimer";
+import ProductReview from "./ProductReview";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -693,6 +694,7 @@ export const ProductInformation = () => {
         </VisibleSection>
       </VStack>
       <Highlights />
+      <ProductReview item_code={productDetail?.item_code ?? ""} />
 
       {/* <ProductDescription /> */}
       {/* <ProductReviews item_code={productDetail?.item_code ?? ""} /> */}

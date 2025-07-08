@@ -16,9 +16,9 @@ import {
   SocialFeed,
 } from "@/templates/default/pages/home/(components)";
 import { TabsDescription } from "./TabsDescription";
-import ProductReview from "./ProductReview";
 import FrequentlyBoughtProduct from "./FrequentlyBoughtProduct";
 import RecentlyViewed from "./RecentlyViewed ";
+import ProductReview from "./ProductReview";
 
 export const ProductDetailContainer = ({
   product,
@@ -55,7 +55,7 @@ export const ProductDetailContainer = ({
       >
         <Flex
           flexDirection={{ base: "column", md: "row" }}
-          gap={{ md: "20px", lg: "40px", xl: "60px" }}
+          gap={{ md: "6px", lg: "8px", xl: "12px" }}
           alignItems="stretch"
         >
           <ProductImages />
