@@ -37,12 +37,12 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       px={{ base: 4, md: 0 }}
       py={{ base: 6, md: 10 }}
     >
-      <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="lg" boxShadow="sm">
+      <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="1.35rem" boxShadow="sm">
         <Flex
           direction={{ base: "column", md: "row" }}
           justifyContent={"space-between"}
           // align={{ base: "center", md: "start" }}
-          gap={{ base: 6, md: 10 }}
+          gap={{ base: 6, md: 20 }}
           flexWrap="wrap"
         >
           {/* Average Rating Circle */}
