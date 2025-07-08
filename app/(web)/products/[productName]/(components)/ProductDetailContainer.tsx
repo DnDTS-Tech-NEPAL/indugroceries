@@ -58,13 +58,7 @@ export const ProductDetailContainer = ({
           gap={{ md: "20px", lg: "40px", xl: "60px" }}
           alignItems="stretch"
         >
-          <Flex
-            flexDirection={{ base: "row", md: "column" }}
-            gap={{ md: "20px", lg: "40px", xl: "60px" }}
-            alignItems="stretch"
-          >
-            <ProductImages />
-          </Flex>
+          <ProductImages />
 
           <ProductInformation />
         </Flex>
