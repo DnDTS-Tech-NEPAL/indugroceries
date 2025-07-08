@@ -1,4 +1,3 @@
-import { EyeIcon } from "@/assets/svg";
 import {
   AccordionItem,
   AccordionItemContent,
@@ -11,8 +10,16 @@ import {
 } from "@/components";
 import { useReviewDataQuery, useReviewMutation } from "@/hooks/api";
 import { useAuthCheck } from "@/hooks/app";
-import { Box, Flex, Text, Stack, HStack, Button } from "@chakra-ui/react";
-import { Progress } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Stack,
+  HStack,
+  AbsoluteCenter,
+  Button,
+} from "@chakra-ui/react";
+import { ProgressCircle, Progress } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { FilePenLine, StarIcon } from "lucide-react";
 import { useState } from "react";
@@ -34,9 +41,18 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       maxW="7xl"
       mx="auto"
       w="100%"
-      px={{ base: 4, md: 0 }}
+      px={{ base: 4, md: 6 }}
       py={{ base: 6, md: 10 }}
     >
+      <Text
+        fontSize={{ base: "md", md: "lg", lg: "xl" }}
+        fontWeight="bold"
+        mb={{ base: 4, md: 6 }}
+        textAlign={{ base: "center", md: "left" }}
+      >
+        Product Reviews
+      </Text>
+
       <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="lg" boxShadow="sm">
         <Flex
           direction={{ base: "column", md: "row" }}
@@ -46,32 +62,54 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
           flexWrap="wrap"
         >
           {/* Average Rating Circle */}
-          <Flex
-            direction={"column"}
-            align="center"
-            justify="center"
-            justifyContent={"space-around"}
-          >
-            <Text
-              fontSize={{ base: "md", md: "lg", lg: "xl" }}
-              textAlign={{ base: "center", md: "left" }}
+          <Flex direction={"column"} justifyContent={"space-between"}>
+            <Flex
+              direction={"row"}
+              align="center"
+              justify="center"
+              gap={4}
+              flexShrink={0}
             >
-              Product Reviews
-            </Text>
-            <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold">
-              {averageRating?.toFixed(1)}
-            </Text>
-            {/* <Box textAlign={{ base: "center", sm: "left" }}> */}
-            <StarRating
-              stars={5}
-              isCheckBoxRequired={false}
-              fixedRating={averageRating}
-              fillColor={"#FF6996"}
-            />
-            <Text fontSize="sm" color="gray.600" textDecoration={"underline"}>
-              {reviewData?.reviews?.length} Reviews
-            </Text>
-            {/* </Box> */}
+              <ProgressCircle.Root
+                value={((averageRating || 0) / 5) * 100}
+                // value={averageRating}
+                size="xl"
+              >
+                <ProgressCircle.Circle css={{ "--thickness": "4px" }}>
+                  <ProgressCircle.Track />
+                  <ProgressCircle.Range stroke="orange" rotate={"90deg"} />
+                </ProgressCircle.Circle>
+                <AbsoluteCenter>
+                  <Text fontSize={{ base: "md", md: "lg" }} fontWeight="bold">
+                    {averageRating?.toFixed(1)}
+                  </Text>
+                </AbsoluteCenter>
+              </ProgressCircle.Root>
+
+              <Box textAlign={{ base: "center", sm: "left" }}>
+                <Flex
+                  mt={2}
+                  justify={{ base: "center", sm: "flex-start" }}
+                  align="center"
+                >
+                  <StarRating
+                    stars={5}
+                    isCheckBoxRequired={false}
+                    fixedRating={averageRating}
+                    fillColor={"#FFAB00"}
+                  />
+                </Flex>
+                <Text fontSize="sm" color="gray.600">
+                  from {reviewData?.reviews?.length} reviews
+                </Text>
+              </Box>
+            </Flex>
+            {/* Bottom: Write a review */}
+            <Box mt={4} textAlign={{ base: "center", md: "left" }}>
+              <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
+                <FilePenLine /> Write a review
+              </Button>
+            </Box>
           </Flex>
 
           {/* Ratings Breakdown */}
@@ -89,8 +127,8 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                       <StarIcon
                         color="orange"
                         style={{
-                          fill: "#FF6996",
-                          stroke: "#FF6996",
+                          fill: "orange",
+                          stroke: "orange",
                           width: "20px",
                           height: "20px",
                         }}
@@ -103,7 +141,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                       borderRadius="full"
                       height="8px"
                     >
-                      <Progress.Range bg="#FF6996" borderRadius="full" />
+                      <Progress.Range bg="#313332" borderRadius="full" />
                     </Progress.Track>
                     <Text fontSize="sm" minW="50px" textAlign="right">
                       {review.count}
@@ -114,23 +152,8 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             })}
           </Stack>
         </Flex>
-        {/* Bottom: Write a review */}
-        <Flex
-          mt={4}
-          justifyContent={"center"}
-          gap={4}
-          textAlign={{ base: "center", md: "center" }}
-          py={2}
-        >
-          <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
-            <FilePenLine /> Write a review
-          </Button>
-          <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
-            <EyeIcon /> View all reviews
-          </Button>
-        </Flex>
       </Box>
-      {/* <ReviewList item_code={item_code} /> */}
+      <ReviewList item_code={item_code} />
     </Box>
   );
 };
