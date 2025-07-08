@@ -1,9 +1,6 @@
 import { EyeIcon } from "@/assets/svg";
 import {
-  AccordionItem,
-  AccordionItemContent,
-  AccordionItemTrigger,
-  AccordionRoot,
+  Dialog,
   FormProvider,
   StarRating,
   Textarea,
@@ -20,6 +17,8 @@ import { useForm } from "react-hook-form";
 import { FaStar, FaUserCircle } from "react-icons/fa";
 
 const ProductReview = ({ item_code }: { item_code: string }) => {
+  const [isOtpOpen, setOtpOpen] = useState(false);
+  const [dialogType, setDialogType] = useState<"write" | "view" | null>(null);
   const { data: reviewData } = useReviewDataQuery(item_code);
   const averageRating = reviewData?.average_rating;
   const reviews = reviewData?.reviews;
@@ -37,7 +36,12 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       px={{ base: 4, md: 0 }}
       py={{ base: 6, md: 10 }}
     >
-      <Box p={{ base: 4, md: 6 }} bg="gray.50" borderRadius="1.35rem" boxShadow="sm">
+      <Box
+        p={{ base: 4, md: 6 }}
+        bg="gray.50"
+        borderRadius="1.35rem"
+        boxShadow="sm"
+      >
         <Flex
           direction={{ base: "column", md: "row" }}
           justifyContent={"space-between"}
@@ -61,7 +65,6 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             <Text fontSize={{ base: "2xl", md: "3xl" }} fontWeight="bold">
               {averageRating?.toFixed(1)}
             </Text>
-            {/* <Box textAlign={{ base: "center", sm: "left" }}> */}
             <StarRating
               stars={5}
               isCheckBoxRequired={false}
@@ -118,26 +121,64 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
         <Flex
           mt={4}
           justifyContent={"center"}
+          flexDirection={{ base: "column", lg: "row" }}
           gap={4}
           textAlign={{ base: "center", md: "center" }}
           py={2}
         >
-          <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
-            <FilePenLine /> Write a review
+          <Button
+            borderColor={"#B1B1B2"}
+            borderRadius={"2rem"}
+            variant={"outline"}
+            color={"#B1B1B2"}
+            px={{base:10,sm:3,md:4}}
+            onClick={() => {
+              setDialogType("write");
+              setOtpOpen(true);
+            }}
+          >
+            <FilePenLine />
+            Write a review
           </Button>
-          <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
-            <EyeIcon /> View all reviews
+          <Button
+            borderColor={"#B1B1B2"}
+            borderRadius={"2rem"}
+            variant={"outline"}
+            color={"#B1B1B2"}
+            px={10}
+            onClick={() => {
+              setDialogType("view");
+              setOtpOpen(true);
+            }}
+          >
+            <EyeIcon />
+            View all reviews
           </Button>
         </Flex>
       </Box>
-      {/* <ReviewList item_code={item_code} /> */}
+      <ReviewList
+        item_code={item_code}
+        open={isOtpOpen}
+        onClose={() => setOtpOpen(false)}
+        type={dialogType}
+      />
     </Box>
   );
 };
 
 export default ProductReview;
 
-const ReviewList = ({ item_code }: { item_code: string }) => {
+const ReviewList = ({
+  item_code,
+  open,
+  onClose,
+  type,
+}: {
+  item_code: string;
+  open: boolean;
+  onClose: () => void;
+  type: "write" | "view" | null;
+}) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
   const { checkAuth } = useAuthCheck();
@@ -179,21 +220,25 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
   };
   return (
     <>
-      <Box maxW="7xl" mx="auto" mt={4}>
-        {/* <AccordionRoot collapsible defaultValue={["review-list"]}> */}
-        <AccordionRoot collapsible defaultValue={[]}>
-          <AccordionItem value="review-list" border="none">
-            <AccordionItemTrigger hasAccordionIcon>
-              <Text fontSize="xl" fontWeight="bold">
+      <Dialog
+        open={open}
+        onClose={onClose}
+        hasCloseTrigger
+        contentMinWidth={{
+          lg: "1000px",
+          xl: "1200px",
+        }}
+      >
+        <Box maxW="7xl" mx="auto" mt={4}>
+          {type === "view" && (
+            <>
+              <Text fontSize="xl" fontWeight="bold" p={4}>
                 Review Lists
               </Text>
-            </AccordionItemTrigger>
-
-            <AccordionItemContent>
               <Box
                 maxH="500px"
                 overflowY="auto"
-                pr={2}
+                p={4}
                 mb={6}
                 css={{
                   "&::-webkit-scrollbar": {
@@ -256,45 +301,47 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                   </Box>
                 ) : null}
               </Box>
-            </AccordionItemContent>
-          </AccordionItem>
-        </AccordionRoot>
+            </>
+          )}
 
-        <FormProvider methods={methods} onSubmit={submitHandler}>
-          <Stack gap="12px" mt={6}>
-            <Textarea name="name" placeholder="Write your review" />
-            <HStack gap="20px" justifyContent={"flex-end"}>
-              <Text variant="subtitle1" color="primary.400">
-                Give Rating:
-              </Text>
-              <StarRating
-                stars={5}
-                fillColor={"#FFAB00"}
-                isCheckBoxRequired={false}
-                value={rating}
-                onChange={setRating}
-              />
-              <Tooltip
-                content="Kindly rate the product to leave a comment."
-                showArrow={true}
-                disabled={rating !== 0}
-                positioning={{ placement: "top" }}
-                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-              >
-                <Button
-                  type="submit"
-                  bg={"#FF6996"}
-                  color={"white"}
-                  borderRadius={"2rem"}
-                  disabled={rating === 0}
-                >
-                  Comment
-                </Button>
-              </Tooltip>
-            </HStack>
-          </Stack>
-        </FormProvider>
-      </Box>
+          {type === "write" && (
+            <FormProvider methods={methods} onSubmit={submitHandler}>
+              <Stack gap="12px" mt={6} p={10}>
+                <Textarea name="name" placeholder="Write your review" />
+                <HStack gap="20px" justifyContent={"flex-end"}>
+                  <Text variant="subtitle1" color="primary.400">
+                    Give Rating:
+                  </Text>
+                  <StarRating
+                    stars={5}
+                    fillColor={"#FFAB00"}
+                    isCheckBoxRequired={false}
+                    value={rating}
+                    onChange={setRating}
+                  />
+                  <Tooltip
+                    content="Kindly rate the product to leave a comment."
+                    showArrow={true}
+                    disabled={rating !== 0}
+                    positioning={{ placement: "top" }}
+                    contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                  >
+                    <Button
+                      type="submit"
+                      bg={"#FF6996"}
+                      color={"white"}
+                      borderRadius={"2rem"}
+                      disabled={rating === 0}
+                    >
+                      Comment
+                    </Button>
+                  </Tooltip>
+                </HStack>
+              </Stack>
+            </FormProvider>
+          )}
+        </Box>
+      </Dialog>
     </>
   );
 };
