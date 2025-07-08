@@ -13,23 +13,27 @@ import {
   Text,
   Spinner,
   Flex,
+  HStack,
+  Icon,
 } from "@chakra-ui/react";
 
 import { Checkbox, FormProvider } from "@/components";
 import ShippingInformation from "./ShippingInformation";
-import DeliveryMethod from "./DeliveryMethod";
+// import DeliveryMethod from "./DeliveryMethod";
 import PaymentInformation from "./PaymentInformation";
 import SelectedProduct from "./SelectedProduct";
-import { FaTags } from "react-icons/fa";
-import { useAddPromo, useCartQuery } from "@/hooks/api";
+import { FaCrown, FaTags } from "react-icons/fa";
+import { useAddPromo, useCartQuery, useUserProfileQuery } from "@/hooks/api";
 import { useSummary } from "@/hooks/app";
 import { usePromoFormStore, usePromoStore } from "@/store";
 import { PromoFormData } from "@/types";
 import { useForm } from "react-hook-form";
 import { InputGroup } from "@/components/form/input/InputGroup";
+import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const CheckoutSection = () => {
-  const [deliveryMethod, setDeliveryMethod] = useState("free");
+  // const [deliveryMethod, setDeliveryMethod] = useState("free");
+  const { data: profileData } = useUserProfileQuery();
   const { data: selectedProducts = [], isLoading } = useCartQuery();
   const methods = useForm<PromoFormData>();
   const { summaryItems, total } = useSummary();
@@ -106,10 +110,10 @@ const CheckoutSection = () => {
         <GridItem>
           <VStack gap={8} align="stretch">
             <ShippingInformation />
-            <DeliveryMethod
+            {/* <DeliveryMethod
               deliveryMethod={deliveryMethod}
               setDeliveryMethod={setDeliveryMethod}
-            />
+            /> */}
             <PaymentInformation />
             {/* <RememberMeSection /> */}
 
@@ -212,6 +216,67 @@ const CheckoutSection = () => {
                   </Text>
                 </HStack>
               </VStack> */}
+              <VStack align="start" gap={4} mt={6}>
+                {/* Membership Program */}
+                <HStack gap={1}>
+                  <Icon color="yellow.500" boxSize={6}>
+                    <FaCrown />
+                  </Icon>
+                  <Text fontWeight="medium" color="gray.700">
+                    Membership Program :
+                  </Text>
+                  <Text fontWeight="bold" color="yellow.600">
+                    {profileData?.data[0]?.custom_membership_program ||
+                      "Standard"}
+                  </Text>
+                </HStack>
+
+                {/* Loyalty Points */}
+                <HStack gap={1}>
+                  <Icon color="pink.500" boxSize={7}>
+                    <RiVerifiedBadgeFill />
+                  </Icon>
+                  <Text fontWeight="medium" color="gray.700">
+                    Loyalty Points:
+                  </Text>
+                  <Text fontWeight="bold" color="pink.500">
+                    {profileData?.data[0]?.total_points}
+                  </Text>
+                </HStack>
+
+                {/* Redeem Points Form */}
+                <Box
+                  w="full"
+                  p={4}
+                  border="1px solid"
+                  borderColor="gray.200"
+                  borderRadius="md"
+                  bg="gray.50"
+                >
+                  <Text fontWeight="medium" mb={2}>
+                    Redeem Loyalty Points
+                  </Text>
+                  <HStack>
+                    <Input
+                      placeholder="Enter points to redeem"
+                      size="sm"
+                      borderRadius="md"
+                      bg="white"
+                      w="200px"
+                    />
+                  </HStack>
+                  <Button 
+                    mt={3}
+                    bgColor={"#FF6996"}
+                    colorScheme="pink"
+                    px={5}
+                    borderRadius={"md"}
+                    type="submit"
+                  >
+                    Apply Points
+                  </Button>
+                </Box>
+              </VStack>
               <VStack align="stretch" gap={4} mt={{ base: "24px", lg: "32px" }}>
                 {summaryItems.map(({ label, value }, index) => (
                   <Flex justify="space-between" key={index} width="full">
