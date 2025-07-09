@@ -610,7 +610,8 @@ export const ProductInformation = () => {
             </Text>
           </Stack> */}
 
-            <HStack gap="20px" width="80%">
+              <HStack alignItems={{base:"flex-start",md:"center"}} flexDirection={{ base:"column",md:"row"}} gap="50px" width="100%">
+            <HStack gap="20px" width={{ base: "100%", md: "60%" }}>
               <QuantityInput
                 value={quantity}
                 onChange={handleQuantityChange}
@@ -630,7 +631,7 @@ export const ProductInformation = () => {
                     rounded="3xl"
                     bg="#FF6996"
                     cursor={"not-allowed"}
-                    flex={1}
+                    flex={2}
                     onClick={checkAuth(onAddToCart)}
                     loading={isCartPending}
                   >
@@ -660,7 +661,12 @@ export const ProductInformation = () => {
                 <HeartIcon style={{ color: "white" }} />
               </Button>
 
+            </HStack>
               <ShareButton
+              style={{
+                width: "fit-content",
+                flex: 1,
+              }}
                 // title={displayProduct?.item_name}
                 url={
                   "https://kbpecom.dndts.net" +
@@ -669,7 +675,8 @@ export const ProductInformation = () => {
                   displayProduct?.item_code
                 }
               />
-            </HStack>
+
+              </HStack>
           </VisibleSection>
         </Stack>
         {/* Variant Selector */}
