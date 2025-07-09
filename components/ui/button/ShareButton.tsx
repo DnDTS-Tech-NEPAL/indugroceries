@@ -17,6 +17,8 @@ import { ShareIcon } from "@/assets/svg";
 import React, { useState, useRef, useEffect, CSSProperties } from "react";
 import { FaCopy, FaWhatsapp } from "react-icons/fa";
 import { toaster } from "../toaster";
+import { HStack, Text, VStack } from "@chakra-ui/react";
+import { Link2 } from "lucide-react";
 
 interface ShareButtonProps {
   title?: string;
@@ -72,22 +74,26 @@ const ShareButton: React.FC<ShareButtonProps> = ({
       style={{ position: "relative", display: "flex", ...style }}
       className={className}
     >
-      <button
+      <VStack gap={0} alignItems="left">
+        <HStack gap={0} alignItems="center" color={"#B1B1B2"}>
+          {/* <button
         onClick={() => setOpen(!open)}
         style={{
-          padding: "10px 16px",
+          // padding: "10px 16px",
 
           color: "white",
           border: "none",
           borderRadius: "6px",
           cursor: "pointer",
         }}
-      >
-        <ShareIcon />
-      </button>
+      > */}
+          <ShareIcon />
+          {/* </button> */}
+          <Text>Share this product</Text>
+        </HStack>
 
-      {open && (
-        <div
+        {/* {open && ( */}
+        {/* <div
           style={{
             display: "flex",
             justifyContent: "space-between",
@@ -103,7 +109,8 @@ const ShareButton: React.FC<ShareButtonProps> = ({
             zIndex: 1000,
             width: "fit-content",
           }}
-        >
+        > */}
+        <HStack gap={0} p={0} alignItems="center">
           <a
             href={`https://wa.me/?text=${encodedUrl}`}
             target="_blank"
@@ -133,22 +140,28 @@ const ShareButton: React.FC<ShareButtonProps> = ({
             style={{
               ...menuLinkStyle,
               border: "none",
-              background: "none",
-              width: "100%",
+              background: "#ff6996",
+              borderRadius: "2rem",
               textAlign: "left",
+              marginLeft: "2px",
+              rotate: "-51deg",
+              backgroundColor: "FF6996",
             }}
           >
-            <FaCopy size={20} color={"gray"} />
+            <Link2 size={15} color={"gray"} />
           </button>
-        </div>
-      )}
+        </HStack>
+        {/* </div> */}
+        {/* )} */}
+      </VStack>
     </div>
   );
 };
 
 const menuLinkStyle: React.CSSProperties = {
   display: "block",
-  padding: "6px 12px",
+  padding: "2px",
+  margin: "2px",
   color: "#333",
   textDecoration: "none",
   cursor: "pointer",
