@@ -558,9 +558,9 @@ export const CategoryFilter = ({
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Brand */}
-              <AccordionItem value="brand">
+              <AccordionItem value="brand" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" p={2} fontWeight="medium">
+                  <Text fontSize="xl" fontWeight="medium">
                     Brand
                   </Text>
                 </AccordionItemTrigger>
@@ -586,9 +586,9 @@ export const CategoryFilter = ({
               {selectedCategoryWithChildren &&
                 Array.isArray(selectedCategoryWithChildren.children) &&
                 selectedCategoryWithChildren.children.length > 0 && (
-                  <AccordionItem value="categories">
+                  <AccordionItem value="categories" p={2}>
                     <AccordionItemTrigger hasAccordionIcon>
-                      <Text fontSize="xl" p={2} fontWeight="medium">
+                      <Text fontSize="xl" fontWeight="medium">
                         Sub Category
                       </Text>
                     </AccordionItemTrigger>
