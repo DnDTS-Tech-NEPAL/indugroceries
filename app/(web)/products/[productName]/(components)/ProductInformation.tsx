@@ -589,9 +589,9 @@ export const ProductInformation = () => {
             </VStack>
 
             {/* Right Side - Deals Claimed */}
-            <Text fontSize="sm" color="gray.500">
+            {/* <Text fontSize="sm" color="gray.500">
               65% Deals Claimed
-            </Text>
+            </Text> */}
           </HStack>
 
           {/* Progress Bar */}
@@ -602,6 +602,75 @@ export const ProductInformation = () => {
               </Progress.Track>
             </Progress.Root>
           )}
+
+          <VisibleSection visibility={config?.cart_visibility}>
+            {/* <Stack gap="12px">
+            <Text variant="subtitle1" color="system.text.normal.light">
+              Quantity
+            </Text>
+          </Stack> */}
+
+            <HStack gap="20px" width="80%">
+              <QuantityInput
+                value={quantity}
+                onChange={handleQuantityChange}
+                minimum={minimumQuantity}
+                maximum={maximumQuantity}
+                incrementStep={incrementStep}
+              />
+              {displayProduct && displayProduct?.stock_qty <= 0 ? (
+                <Tooltip
+                  content="This product is currently out of stock."
+                  showArrow={true}
+                  disabled={displayProduct?.stock_qty !== (0 || 0.0)}
+                  positioning={{ placement: "top" }}
+                  contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                >
+                  <Button
+                    rounded="3xl"
+                    bg="#FF6996"
+                    cursor={"not-allowed"}
+                    flex={1}
+                    onClick={checkAuth(onAddToCart)}
+                    loading={isCartPending}
+                  >
+                    Add to Cart
+                  </Button>
+                </Tooltip>
+              ) : (
+                <Button
+                  rounded="3xl"
+                  bg="#FF6996"
+                  cursor={"pointer"}
+                  flex={1}
+                  onClick={checkAuth(onAddToCart)}
+                  loading={isCartPending}
+                >
+                  Add to Cart
+                </Button>
+              )}
+              <Button
+                borderRadius="full"
+                h="10px"
+                w="10px"
+                bg="#FF6996"
+                onClick={checkAuth(onAddToWishlist)}
+                loading={isWishlistPending}
+              >
+                <HeartIcon style={{ color: "white" }} />
+              </Button>
+
+              <ShareButton
+                // title={displayProduct?.item_name}
+                url={
+                  "https://kbpecom.dndts.net" +
+                  ROUTES.APP.PRODUCTS +
+                  "/" +
+                  displayProduct?.item_code
+                }
+              />
+            </HStack>
+          </VisibleSection>
         </Stack>
         {/* Variant Selector */}
         {productDetail?.variants && (
@@ -633,75 +702,6 @@ export const ProductInformation = () => {
           </Text>
           {/* </Flex> */}
         </Box>
-
-        <VisibleSection visibility={config?.cart_visibility}>
-          {/* <Stack gap="12px">
-            <Text variant="subtitle1" color="system.text.normal.light">
-              Quantity
-            </Text>
-          </Stack> */}
-
-          <HStack gap="20px" width="80%">
-            <QuantityInput
-              value={quantity}
-              onChange={handleQuantityChange}
-              minimum={minimumQuantity}
-              maximum={maximumQuantity}
-              incrementStep={incrementStep}
-            />
-            {displayProduct && displayProduct?.stock_qty <= 0 ? (
-              <Tooltip
-                content="This product is currently out of stock."
-                showArrow={true}
-                disabled={displayProduct?.stock_qty !== (0 || 0.0)}
-                positioning={{ placement: "top" }}
-                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-              >
-                <Button
-                  rounded="3xl"
-                  bg="#FF6996"
-                  cursor={"not-allowed"}
-                  flex={1}
-                  onClick={checkAuth(onAddToCart)}
-                  loading={isCartPending}
-                >
-                  Add to Cart
-                </Button>
-              </Tooltip>
-            ) : (
-              <Button
-                rounded="3xl"
-                bg="#FF6996"
-                cursor={"pointer"}
-                flex={1}
-                onClick={checkAuth(onAddToCart)}
-                loading={isCartPending}
-              >
-                Add to Cart
-              </Button>
-            )}
-            <Button
-              borderRadius="full"
-              h="10px"
-              w="10px"
-              bg="#FF6996"
-              onClick={checkAuth(onAddToWishlist)}
-              loading={isWishlistPending}
-            >
-              <HeartIcon style={{ color: "white" }} />
-            </Button>
-
-            <ShareButton
-              // title={displayProduct?.item_name}
-              url={
-                "https://kbpecom.dndts.net" +
-                ROUTES.APP.PRODUCTS +
-                "/" +
-                displayProduct?.item_code
-              }
-            />
-          </HStack>
-        </VisibleSection>
       </VStack>
       {/* <Highlights /> */}
       <TabsDescription productName={productName} />
