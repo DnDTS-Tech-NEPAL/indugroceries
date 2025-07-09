@@ -45,6 +45,7 @@ export default function SkinTypeProductsPage({
 }: SkinTypeProductsPageProps) {
   const {
     brand,
+    item_group,
     category,
     priceRange,
     discount,
@@ -59,7 +60,7 @@ export default function SkinTypeProductsPage({
 
   const { data, isLoading } = useFilterProductsQuery({
     brand,
-    item_group: category,
+    item_group: item_group ?? [],
     bestseller: 0,
     pricerange: 0,
     page,

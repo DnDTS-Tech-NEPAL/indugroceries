@@ -175,7 +175,7 @@ export const CategoryFilter = ({
                 <AccordionItem value="categories">
                   <AccordionItemTrigger hasAccordionIcon>
                     <Text fontSize="xl" p={2} fontWeight="medium">
-                      Category
+                      Sub Category
                     </Text>
                   </AccordionItemTrigger>
                   <AccordionItemContent>

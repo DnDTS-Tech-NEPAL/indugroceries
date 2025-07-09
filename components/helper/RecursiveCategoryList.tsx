@@ -1,4 +1,3 @@
-// components/RecursiveCategoryList.tsx
 "use client";
 
 import { Box, VStack } from "@chakra-ui/react";
