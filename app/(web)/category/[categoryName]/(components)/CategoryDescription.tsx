@@ -110,6 +110,18 @@ interface CategoryDescriptionProps {
   categoryName: string;
 }
 
+type RawCategory = {
+  name: string;
+  description?: string;
+  custom_category_description?: string;
+  children?: RawCategory[];
+  is_group?: 0 | 1;
+  parent_item_group?: string;
+  image1?: string;
+  image2?: string;
+  image3?: string;
+};
+
 type ParsedCategory = {
   name: string;
   description?: string;
@@ -122,7 +134,7 @@ type ParsedCategory = {
   image3?: string;
 };
 
-const mapToParsedCategories = (categories: any[]): ParsedCategory[] =>
+const mapToParsedCategories = (categories: RawCategory[]): ParsedCategory[] =>
   categories.map((category) => ({
     ...category,
     is_group: Boolean(category.is_group),
