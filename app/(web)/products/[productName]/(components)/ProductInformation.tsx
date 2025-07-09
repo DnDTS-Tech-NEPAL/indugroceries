@@ -448,7 +448,7 @@ export const ProductInformation = () => {
               {displayProduct && displayProduct?.stock_qty <= 0 && (
                 <Text
                   display={"inline-block"}
-                  color="red.500"
+                  color="#FF6996"
                   variant="subtitle1"
                   borderRadius={"2rem"}
                   px="3"
