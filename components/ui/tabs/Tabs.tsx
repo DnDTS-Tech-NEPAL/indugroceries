@@ -216,18 +216,23 @@ export const Tabs = ({
           width="100%"
           borderBottom={"0.1px solid #B1B1B2"}
         >
-          <ChakraTabs.List borderWidth={"0px"} justifyContent={"space-between"}>
+          <ChakraTabs.List
+            borderWidth={"0px"}
+            gap={{ md: 9 }}
+            justifyContent={"space-between"}
+          >
             {tabs.map((tab) => (
               <ChakraTabs.Trigger
                 key={tab.value}
                 value={tab.value}
                 mb={2}
                 style={{
-                  fontSize: "20px",
+                  fontSize: "16px",
                   borderRadius: "20px",
                   fontWeight: "500",
                   width: "fit-content",
                 }}
+                color={"#B1B1B2"}
                 _selected={{ color: "#FF6996" }}
               >
                 {tab.icon && <Box as={tab.icon} mr={2} />}

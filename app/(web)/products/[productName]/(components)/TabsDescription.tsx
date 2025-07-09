@@ -139,24 +139,41 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
     });
   }
 
-  // Skin types tab - show variant skin types if available, otherwise parent
+  // About Brand tab - show variant instructions if available, otherwise parent
   if (
-    (displayProduct?.skin_types && displayProduct?.skin_types.length > 0) ||
-    (productDetail?.skin_types && productDetail?.skin_types.length > 0)
+    displayProduct?.custom_how_to_use?.trim() ||
+    productDetail?.custom_how_to_use?.trim()
   ) {
-    const variantSkinTypes = displayProduct?.skin_types || [];
-    const parentSkinTypes = productDetail?.skin_types || [];
-
     tabs.push({
-      value: "skin-types",
-      label: "For Skin Types",
-      content: variantSkinTypes.length > 0 ? variantSkinTypes : parentSkinTypes,
+      value: "About Brand",
+      label: "About Brand",
+      content:
+        displayProduct?.custom_how_to_use || productDetail?.custom_how_to_use,
       isFromVariant:
-        variantSkinTypes.length > 0 &&
-        JSON.stringify(variantSkinTypes) !== JSON.stringify(parentSkinTypes),
-      parentContent: parentSkinTypes,
+        !!displayProduct?.custom_how_to_use?.trim() &&
+        displayProduct?.custom_how_to_use !== productDetail?.custom_how_to_use,
+      parentContent: productDetail?.custom_how_to_use,
     });
   }
+
+  // Skin types tab - show variant skin types if available, otherwise parent
+  // if (
+  //   (displayProduct?.skin_types && displayProduct?.skin_types.length > 0) ||
+  //   (productDetail?.skin_types && productDetail?.skin_types.length > 0)
+  // ) {
+  //   const variantSkinTypes = displayProduct?.skin_types || [];
+  //   const parentSkinTypes = productDetail?.skin_types || [];
+
+  //   tabs.push({
+  //     value: "skin-types",
+  //     label: "For Skin Types",
+  //     content: variantSkinTypes.length > 0 ? variantSkinTypes : parentSkinTypes,
+  //     isFromVariant:
+  //       variantSkinTypes.length > 0 &&
+  //       JSON.stringify(variantSkinTypes) !== JSON.stringify(parentSkinTypes),
+  //     parentContent: parentSkinTypes,
+  //   });
+  // }
 
   return (
     <Box
