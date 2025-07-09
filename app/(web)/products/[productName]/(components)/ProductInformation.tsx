@@ -610,63 +610,67 @@ export const ProductInformation = () => {
             </Text>
           </Stack> */}
 
-              <HStack alignItems={{base:"flex-start",md:"center"}} flexDirection={{ base:"column",md:"row"}} gap="50px" width="100%">
-            <HStack gap="20px" width={{ base: "100%", md: "60%" }}>
-              <QuantityInput
-                value={quantity}
-                onChange={handleQuantityChange}
-                minimum={minimumQuantity}
-                maximum={maximumQuantity}
-                incrementStep={incrementStep}
-              />
-              {displayProduct && displayProduct?.stock_qty <= 0 ? (
-                <Tooltip
-                  content="This product is currently out of stock."
-                  showArrow={true}
-                  disabled={displayProduct?.stock_qty !== (0 || 0.0)}
-                  positioning={{ placement: "top" }}
-                  contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
-                >
+            <HStack
+              alignItems={{ base: "flex-start", md: "center" }}
+              flexDirection={{ base: "column", md: "row" }}
+              gap="50px"
+              width="100%"
+            >
+              <HStack gap="20px" width={{ base: "100%", md: "60%" }}>
+                <QuantityInput
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  minimum={minimumQuantity}
+                  maximum={maximumQuantity}
+                  incrementStep={incrementStep}
+                />
+                {displayProduct && displayProduct?.stock_qty <= 0 ? (
+                  <Tooltip
+                    content="This product is currently out of stock."
+                    showArrow={true}
+                    disabled={displayProduct?.stock_qty !== (0 || 0.0)}
+                    positioning={{ placement: "top" }}
+                    contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                  >
+                    <Button
+                      rounded="3xl"
+                      bg="#FF6996"
+                      cursor={"not-allowed"}
+                      flex={2}
+                      onClick={checkAuth(onAddToCart)}
+                      loading={isCartPending}
+                    >
+                      Add to Cart
+                    </Button>
+                  </Tooltip>
+                ) : (
                   <Button
                     rounded="3xl"
                     bg="#FF6996"
-                    cursor={"not-allowed"}
-                    flex={2}
+                    cursor={"pointer"}
+                    flex={1}
                     onClick={checkAuth(onAddToCart)}
                     loading={isCartPending}
                   >
                     Add to Cart
                   </Button>
-                </Tooltip>
-              ) : (
+                )}
                 <Button
-                  rounded="3xl"
+                  borderRadius="full"
+                  h="10px"
+                  w="10px"
                   bg="#FF6996"
-                  cursor={"pointer"}
-                  flex={1}
-                  onClick={checkAuth(onAddToCart)}
-                  loading={isCartPending}
+                  onClick={checkAuth(onAddToWishlist)}
+                  loading={isWishlistPending}
                 >
-                  Add to Cart
+                  <HeartIcon style={{ color: "white" }} />
                 </Button>
-              )}
-              <Button
-                borderRadius="full"
-                h="10px"
-                w="10px"
-                bg="#FF6996"
-                onClick={checkAuth(onAddToWishlist)}
-                loading={isWishlistPending}
-              >
-                <HeartIcon style={{ color: "white" }} />
-              </Button>
-
-            </HStack>
+              </HStack>
               <ShareButton
-              style={{
-                width: "fit-content",
-                flex: 1,
-              }}
+                style={{
+                  width: "fit-content",
+                  flex: 1,
+                }}
                 // title={displayProduct?.item_name}
                 url={
                   "https://kbpecom.dndts.net" +
@@ -675,8 +679,7 @@ export const ProductInformation = () => {
                   displayProduct?.item_code
                 }
               />
-
-              </HStack>
+            </HStack>
           </VisibleSection>
         </Stack>
         {/* Variant Selector */}
