@@ -39,6 +39,7 @@ export type ProductVariantType = {
   custom_how_to_use: string;
   custom_recommendation: string;
   custom_avoid_by: string;
+  about_brand: string;
 };
 
 export type PriceType = {
@@ -90,6 +91,7 @@ export type IndividualProductAPIType = {
   custom_how_to_use: string;
   custom_recommendation: string;
   custom_avoid_by: string;
+  about_brand: string;
 };
 
 export type IndividualProductAPIResponseType = {
@@ -124,5 +126,4 @@ export type RecentlyViewedProductAPIType = {
   stock_qty: number;
   skin_types: string[];
   skin_concerns: string[];
-
 };

@@ -141,18 +141,17 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
 
   // About Brand tab - show variant instructions if available, otherwise parent
   if (
-    displayProduct?.custom_how_to_use?.trim() ||
-    productDetail?.custom_how_to_use?.trim()
+    displayProduct?.about_brand?.trim() ||
+    productDetail?.about_brand?.trim()
   ) {
     tabs.push({
       value: "About Brand",
       label: "About Brand",
-      content:
-        displayProduct?.custom_how_to_use || productDetail?.custom_how_to_use,
+      content: displayProduct?.about_brand || productDetail?.about_brand,
       isFromVariant:
-        !!displayProduct?.custom_how_to_use?.trim() &&
-        displayProduct?.custom_how_to_use !== productDetail?.custom_how_to_use,
-      parentContent: productDetail?.custom_how_to_use,
+        !!displayProduct?.about_brand?.trim() &&
+        displayProduct?.about_brand !== productDetail?.about_brand,
+      parentContent: productDetail?.about_brand,
     });
   }
 
