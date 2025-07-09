@@ -122,12 +122,10 @@ type ParsedCategory = {
   image3?: string;
 };
 
-const mapToParsedCategories = (
-  categories: any[] 
-): ParsedCategory[] =>
+const mapToParsedCategories = (categories: any[]): ParsedCategory[] =>
   categories.map((category) => ({
     ...category,
-    is_group: Boolean(category.is_group), 
+    is_group: Boolean(category.is_group),
     children: mapToParsedCategories(category.children || []),
   }));
 

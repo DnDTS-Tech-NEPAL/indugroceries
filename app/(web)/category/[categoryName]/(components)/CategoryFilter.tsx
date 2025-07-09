@@ -464,7 +464,6 @@ export const CategoryFilter = ({
     setPage,
   } = useBrandFilterStore();
 
- 
   useEffect(() => {
     setPriceRange([minPrice, maxPrice]);
   }, [minPrice, maxPrice, setPriceRange]);
@@ -517,17 +516,17 @@ export const CategoryFilter = ({
     }
   };
 
- const normalizedCategoryItems: CategoryItem[] =
-  (filter[1]?.items || []).map((item) => ({
-    name: item.title || item.value, 
-    children: item.children || [],
-  }));
+  const normalizedCategoryItems: CategoryItem[] = (filter[1]?.items || []).map(
+    (item) => ({
+      name: item.title || item.value,
+      children: item.children || [],
+    })
+  );
 
-const selectedCategoryWithChildren = findCategoryBySlug(
-  normalizedCategoryItems,
-  categoryFromURL
-);
-
+  const selectedCategoryWithChildren = findCategoryBySlug(
+    normalizedCategoryItems,
+    categoryFromURL
+  );
 
   return (
     <GridItem
@@ -584,30 +583,35 @@ const selectedCategoryWithChildren = findCategoryBySlug(
               </AccordionItem>
 
               {/* Subcategory */}
-             {selectedCategoryWithChildren &&
-  Array.isArray(selectedCategoryWithChildren.children) &&
-  selectedCategoryWithChildren.children.length > 0 && (
-    <AccordionItem value="categories">
-      <AccordionItemTrigger hasAccordionIcon>
-        <Text fontSize="xl" p={2} fontWeight="medium">
-          Sub Category
-        </Text>
-      </AccordionItemTrigger>
-      <AccordionItemContent>
-        <RecursiveCategoryList
-          items={selectedCategoryWithChildren.children}
-          selected={item_group || []}
-          onToggle={handleSubcategoryClick}
-        />
-      </AccordionItemContent>
-    </AccordionItem>
-)}
-
+              {selectedCategoryWithChildren &&
+                Array.isArray(selectedCategoryWithChildren.children) &&
+                selectedCategoryWithChildren.children.length > 0 && (
+                  <AccordionItem value="categories">
+                    <AccordionItemTrigger hasAccordionIcon>
+                      <Text fontSize="xl" p={2} fontWeight="medium">
+                        Sub Category
+                      </Text>
+                    </AccordionItemTrigger>
+                    <AccordionItemContent>
+                      <RecursiveCategoryList
+                        items={selectedCategoryWithChildren.children}
+                        selected={item_group || []}
+                        onToggle={handleSubcategoryClick}
+                      />
+                    </AccordionItemContent>
+                  </AccordionItem>
+                )}
 
               {/* Discount */}
-              <AccordionItem value="discount" borderBottom="1px solid #D0D0D0" p={2}>
+              <AccordionItem
+                value="discount"
+                borderBottom="1px solid #D0D0D0"
+                p={2}
+              >
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">Discount</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Discount
+                  </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
@@ -628,9 +632,15 @@ const selectedCategoryWithChildren = findCategoryBySlug(
               </AccordionItem>
 
               {/* Price */}
-              <AccordionItem value="price" borderBottom="1px solid #D0D0D0" p={2}>
+              <AccordionItem
+                value="price"
+                borderBottom="1px solid #D0D0D0"
+                p={2}
+              >
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">Price</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Price
+                  </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <Slider.Root
@@ -656,7 +666,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
 
                   <HStack py={3}>
                     <Box>
-                      <Text fontSize="sm" mb={1}>From</Text>
+                      <Text fontSize="sm" mb={1}>
+                        From
+                      </Text>
                       <Input
                         size="sm"
                         value={`NPR ${priceRange[0]}`}
@@ -665,7 +677,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
                       />
                     </Box>
                     <Box>
-                      <Text fontSize="sm" mb={1}>To</Text>
+                      <Text fontSize="sm" mb={1}>
+                        To
+                      </Text>
                       <Input
                         size="sm"
                         value={`NPR ${priceRange[1]}`}
@@ -680,7 +694,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
               {/* Availability */}
               <AccordionItem value="availability" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">Availability</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Availability
+                  </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2}>
@@ -694,7 +710,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
                       >
                         In Stock
                       </Checkbox>
-                      <Text fontSize="sm" color="gray.600">({inStockCount})</Text>
+                      <Text fontSize="sm" color="gray.600">
+                        ({inStockCount})
+                      </Text>
                     </HStack>
                     <HStack justify="space-between">
                       <Checkbox
@@ -706,7 +724,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
                       >
                         Out of Stock
                       </Checkbox>
-                      <Text fontSize="sm" color="gray.600">({outOfStockCount})</Text>
+                      <Text fontSize="sm" color="gray.600">
+                        ({outOfStockCount})
+                      </Text>
                     </HStack>
                   </VStack>
                 </AccordionItemContent>
@@ -715,7 +735,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
               {/* Skin Type */}
               <AccordionItem value="skin-type" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">Skin Type</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Skin Type
+                  </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>
@@ -738,7 +760,9 @@ const selectedCategoryWithChildren = findCategoryBySlug(
               {/* Skin Concern */}
               <AccordionItem value="skin-concern" p={2} border={"none"}>
                 <AccordionItemTrigger hasAccordionIcon>
-                  <Text fontSize="xl" fontWeight="medium">Skin Concern</Text>
+                  <Text fontSize="xl" fontWeight="medium">
+                    Skin Concern
+                  </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
                   <VStack align="stretch" gap={2} pt={4}>

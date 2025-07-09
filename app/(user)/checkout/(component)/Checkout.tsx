@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   Container,
   Grid,
@@ -265,7 +265,7 @@ const CheckoutSection = () => {
                       w="200px"
                     />
                   </HStack>
-                  <Button 
+                  <Button
                     mt={3}
                     bgColor={"#FF6996"}
                     colorScheme="pink"

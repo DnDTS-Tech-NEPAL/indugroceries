@@ -188,110 +188,112 @@ const ShippingInformation = () => {
               {/* new address section */}
               {deliveryData && (
                 <>
-                <HStack
-                  mt={4}
-                  gap={4}
-                  align="flex-start"
-                  w={"full"}
-                  flexWrap="wrap"
-                >
-                  {/* District Dropdown */}
-                  <Box flex="1">
-                    <label htmlFor="district">District*</label>
-                    <select
-                      id="district"
-                      onChange={(e) => {
-                        methods.setValue(
-                          "deliveryLocation.district",
-                          e.target.value
-                        );
-                        methods.setValue("deliveryLocation.place", "");
-                        setDeliveryLocation(e.target.value);
-                      }}
-                      style={{
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc",
-                        marginTop: "4px",
-                        cursor: "pointer",
-                      }}
-                      value={methods.watch("deliveryLocation.district") || ""}
-                    >
-                      <option value="" disabled>
-                        Select District
-                      </option>
-                      {Array.isArray(deliveryData) &&
-                        [
-                          ...new Set(deliveryData.map((item) => item.district)),
-                        ].map((district, index) => (
-                          <option key={`district-${index}`} value={district}>
-                            {district}
-                          </option>
-                        ))}
-                    </select>
-                  </Box>
+                  <HStack
+                    mt={4}
+                    gap={4}
+                    align="flex-start"
+                    w={"full"}
+                    flexWrap="wrap"
+                  >
+                    {/* District Dropdown */}
+                    <Box flex="1">
+                      <label htmlFor="district">District*</label>
+                      <select
+                        id="district"
+                        onChange={(e) => {
+                          methods.setValue(
+                            "deliveryLocation.district",
+                            e.target.value
+                          );
+                          methods.setValue("deliveryLocation.place", "");
+                          setDeliveryLocation(e.target.value);
+                        }}
+                        style={{
+                          width: "100%",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          border: "1px solid #ccc",
+                          marginTop: "4px",
+                          cursor: "pointer",
+                        }}
+                        value={methods.watch("deliveryLocation.district") || ""}
+                      >
+                        <option value="" disabled>
+                          Select District
+                        </option>
+                        {Array.isArray(deliveryData) &&
+                          [
+                            ...new Set(
+                              deliveryData.map((item) => item.district)
+                            ),
+                          ].map((district, index) => (
+                            <option key={`district-${index}`} value={district}>
+                              {district}
+                            </option>
+                          ))}
+                      </select>
+                    </Box>
 
-                  {/* Place Dropdown */}
-                  <Box flex="1">
-                    <label htmlFor="place">Place*</label>
-                    <select
-                      id="place"
-                      {...methods.register("deliveryLocation.place")}
-                      onChange={(e) => {
-                        const selectedPlace = e.target.value;
+                    {/* Place Dropdown */}
+                    <Box flex="1">
+                      <label htmlFor="place">Place*</label>
+                      <select
+                        id="place"
+                        {...methods.register("deliveryLocation.place")}
+                        onChange={(e) => {
+                          const selectedPlace = e.target.value;
 
-                        methods.setValue(
-                          "deliveryLocation.place",
-                          selectedPlace
-                        );
+                          methods.setValue(
+                            "deliveryLocation.place",
+                            selectedPlace
+                          );
 
-                        // Apply promo immediately when a place is selected
-                        applyPromo(
-                          {
-                            coupon: "",
-                            delivery_place: selectedPlace,
-                            loyalty_points: 0,
-                          },
-                          {
-                            onSuccess: (response) => {
-                              setDeliveryLocation(selectedPlace);
-                              setPromoData(response.data.data);
+                          // Apply promo immediately when a place is selected
+                          applyPromo(
+                            {
+                              coupon: "",
+                              delivery_place: selectedPlace,
+                              loyalty_points: 0,
                             },
-                          }
-                        );
-                      }}
-                      style={{
-                        width: "100%",
-                        padding: "10px",
-                        borderRadius: "8px",
-                        border: "1px solid #ccc",
-                        marginTop: "4px",
-                        cursor: "pointer",
-                      }}
-                    >
-                      <option value="" disabled>
-                        Select Place
-                      </option>
-                      {deliveryData
-                        .filter(
-                          (item) =>
-                            item.district ===
-                            methods.watch("deliveryLocation.district")
-                        )
-                        .map((item, index) => (
-                          <option key={`place-${index}`} value={item.place}>
-                            {item.place}
-                          </option>
-                        ))}
-                    </select>
-                  </Box>
-                </HStack>
-                <Input
-                placeholder="Add Street Address Line"
-                textAlign="center"
-                h={20}
-              />
+                            {
+                              onSuccess: (response) => {
+                                setDeliveryLocation(selectedPlace);
+                                setPromoData(response.data.data);
+                              },
+                            }
+                          );
+                        }}
+                        style={{
+                          width: "100%",
+                          padding: "10px",
+                          borderRadius: "8px",
+                          border: "1px solid #ccc",
+                          marginTop: "4px",
+                          cursor: "pointer",
+                        }}
+                      >
+                        <option value="" disabled>
+                          Select Place
+                        </option>
+                        {deliveryData
+                          .filter(
+                            (item) =>
+                              item.district ===
+                              methods.watch("deliveryLocation.district")
+                          )
+                          .map((item, index) => (
+                            <option key={`place-${index}`} value={item.place}>
+                              {item.place}
+                            </option>
+                          ))}
+                      </select>
+                    </Box>
+                  </HStack>
+                  <Input
+                    placeholder="Add Street Address Line"
+                    textAlign="center"
+                    h={20}
+                  />
                 </>
               )}
             </VStack>
