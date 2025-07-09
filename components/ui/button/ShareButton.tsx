@@ -14,7 +14,7 @@
 // };
 "use client";
 import { ShareIcon } from "@/assets/svg";
-import React, { useState, useRef, useEffect, CSSProperties } from "react";
+import React, { useRef, CSSProperties } from "react";
 import { FaWhatsapp } from "react-icons/fa";
 import { toaster } from "../toaster";
 import { HStack, Text, VStack } from "@chakra-ui/react";
