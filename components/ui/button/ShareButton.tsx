@@ -15,7 +15,7 @@
 "use client";
 import { ShareIcon } from "@/assets/svg";
 import React, { useState, useRef, useEffect, CSSProperties } from "react";
-import { FaCopy, FaWhatsapp } from "react-icons/fa";
+import { FaWhatsapp } from "react-icons/fa";
 import { toaster } from "../toaster";
 import { HStack, Text, VStack } from "@chakra-ui/react";
 import { Link2 } from "lucide-react";
@@ -33,7 +33,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
   className = "",
   style = {},
 }) => {
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
 
   const encodedUrl = encodeURIComponent(url);
@@ -47,7 +47,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
         duration: 3000,
         type: "success",
       });
-      setOpen(false);
+      // setOpen(false);
     } catch {
       toaster.create({
         title: "Failed to copy the link.",
@@ -57,16 +57,16 @@ const ShareButton: React.FC<ShareButtonProps> = ({
     }
   };
 
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
-        setOpen(false);
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+  //       setOpen(false);
+  //     }
+  //   };
 
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => document.removeEventListener("mousedown", handleClickOutside);
+  // }, []);
 
   return (
     <div
