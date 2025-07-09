@@ -8,7 +8,15 @@ import {
 } from "@/components";
 import { useReviewDataQuery, useReviewMutation } from "@/hooks/api";
 import { useAuthCheck } from "@/hooks/app";
-import { Box, Flex, Text, Stack, HStack, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Text,
+  Stack,
+  HStack,
+  Button,
+  Heading,
+} from "@chakra-ui/react";
 import { Progress } from "@chakra-ui/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { FilePenLine, StarIcon } from "lucide-react";
@@ -306,7 +314,10 @@ const ReviewList = ({
 
           {type === "write" && (
             <FormProvider methods={methods} onSubmit={submitHandler}>
-              <Stack gap="12px" mt={6} p={10}>
+              <Heading as="h4" size="md" textAlign={"center"} pt={6}>
+                Review & Rating
+              </Heading>
+              <Stack gap="12px" p={10}>
                 <Textarea name="name" placeholder="Write your review" />
                 <HStack gap="20px" justifyContent={"flex-end"}>
                   <Text variant="subtitle1" color="primary.400">
