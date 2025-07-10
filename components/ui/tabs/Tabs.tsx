@@ -129,12 +129,22 @@ import { Tabs as ChakraTabs, Box, VStack } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import React, { ReactNode } from "react";
 import { Button } from "../button";
+export interface TabContentStructured {
+  sections?: {
+    heading: string;
+    text: string;
+  }[];
+  table?: {
+    label: string;
+    value: string | string[];
+  }[];
+}
 
 type TabItem = {
   value: string;
   label: string;
   icon?: IconType;
-  content: string | ReactNode | string[];
+  content: string | ReactNode | string[] | TabContentStructured;
   shortContent?: string;
   isFromVariant?: boolean;
   parentContent?: string | string[];
@@ -162,29 +172,96 @@ export const Tabs = ({
   const defaultTab = defaultValue || tabs[0]?.value;
   const [showFullContent, setShowFullContent] = React.useState(false);
 
-  const renderContent = (content: string | ReactNode | string[]) => {
+  // const renderContent = (content: string | ReactNode | string[]) => {
+  //   if (Array.isArray(content)) {
+  //     return (
+  //       <Box mt={4}>
+  //         <Box fontWeight="600" mb={2}>
+  //           Suitable Skin Types:
+  //         </Box>
+
+  //         {content.map((type, index) => (
+  //           <Button
+  //             key={index}
+  //             borderRadius={"full"}
+  //             mx={2}
+  //             border={"1px solid #CBD5E0"}
+  //             minH={0}
+  //             minW={0}
+  //             width={"fit-content"}
+  //             bg={"white"}
+  //             color={"#2E2E2E"}
+  //           >
+  //             {type}
+  //           </Button>
+  //         ))}
+  //       </Box>
+  //     );
+  //   }
+
+  //   if (typeof content === "string") {
+  //     return <Box dangerouslySetInnerHTML={{ __html: content }} />;
+  //   }
+
+  //   return content;
+  // };
+
+  const renderContent = (content: string | ReactNode | string[] | any) => {
     if (Array.isArray(content)) {
       return (
         <Box mt={4}>
           <Box fontWeight="600" mb={2}>
             Suitable Skin Types:
           </Box>
-
           {content.map((type, index) => (
             <Button
               key={index}
-              borderRadius={"full"}
+              borderRadius="full"
               mx={2}
-              border={"1px solid #CBD5E0"}
+              border="1px solid #CBD5E0"
               minH={0}
               minW={0}
-              width={"fit-content"}
-              bg={"white"}
-              color={"#2E2E2E"}
+              width="fit-content"
+              bg="white"
+              color="#2E2E2E"
             >
               {type}
             </Button>
           ))}
+        </Box>
+      );
+    }
+
+    if (typeof content === "object" && content.sections && content.table) {
+      return (
+        <Box>
+          {content.sections.map((sec: any, idx: number) => (
+            <Box key={idx} mb={4}>
+              <Box as="h3" fontWeight="600" mb={2}>
+                {sec.heading}
+              </Box>
+              <Box>{sec.text}</Box>
+            </Box>
+          ))}
+
+          <Box as="table" width="100%" fontSize="15px" mt={4}>
+            <tbody>
+              {content.table.map((row: any, idx: number) => (
+                <tr key={idx}>
+                  <td
+                    style={{
+                      fontWeight: 500,
+                      color: "#FF6996",
+                      paddingRight: "8px",
+                    }}
+                  >
+                    {row.label}:
+                  </td>
+                  <td>{row.value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Box>
         </Box>
       );
     }
