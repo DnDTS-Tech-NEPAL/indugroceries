@@ -283,6 +283,7 @@ import ShareButton from "@/components/ui/button/ShareButton";
 import CountdownTimer from "@/components/countdown/CountDownTimer";
 import ProductReview from "./ProductReview";
 import { TabsDescription } from "./TabsDescription";
+import { ShippingOptions } from "./ShippingOption";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -691,29 +692,9 @@ export const ProductInformation = () => {
             />
           </Stack>
         )}
-
-        <Box
-          borderRadius={"md"}
-          color={"#B1B1B2"}
-          // bg="linear-gradient(to right, #FFC1D4, #FFECF2)"
-        >
-          {/* <Flex align="center" gap={3}> */}
-          {/* <Icon as={LoyaltyPoints} boxSize={6} color={"#2E2E2E"} /> */}
-          <Text>
-            Earn {loyalty_points}KBP Points with this purchase.{" "}
-            <Link
-              href="#"
-              color={"#B1B1B2"}
-              textDecoration={"underline"}
-              focusRing={"none"}
-            >
-              [View KBP Rewards Policy]
-            </Link>{" "}
-          </Text>
-          {/* </Flex> */}
-        </Box>
       </VStack>
       {/* <Highlights /> */}
+      <ShippingOptions />
       <TabsDescription productName={productName} />
       <ProductReview item_code={productDetail?.item_code ?? ""} />
 
