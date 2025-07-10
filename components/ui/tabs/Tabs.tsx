@@ -125,7 +125,7 @@
 //   );
 // };
 
-import { Tabs as ChakraTabs, Box, VStack } from "@chakra-ui/react";
+import { Tabs as ChakraTabs, Box, VStack, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import React, { ReactNode } from "react";
 import { Button } from "../button";
@@ -233,6 +233,17 @@ export const Tabs = ({
     }
 
     if (typeof content === "object" && content.sections && content.table) {
+      const rowsPerColumn = 4;
+      const tableData = content.table.filter(Boolean);
+
+      const columnCount = Math.ceil(tableData.length / rowsPerColumn);
+      const columns = Array.from({ length: columnCount }, (_, colIndex) =>
+        tableData.slice(
+          colIndex * rowsPerColumn,
+          (colIndex + 1) * rowsPerColumn
+        )
+      );
+
       return (
         <Box>
           {content.sections.map((sec: any, idx: number) => (
@@ -246,22 +257,45 @@ export const Tabs = ({
 
           <Box as="table" width="100%" fontSize="15px" mt={4}>
             <tbody>
-              {content.table.map((row: any, idx: number) => (
-                <tr key={idx}>
-                  <td
-                    style={{
-                      fontWeight: 500,
-                      color: "#FF6996",
-                      paddingRight: "8px",
-                    }}
-                  >
-                    {row.label}:
-                  </td>
-                  <td>{row.value}</td>
+              {Array.from({ length: rowsPerColumn }).map((_, rowIdx) => (
+                <tr key={rowIdx}>
+                  {columns.map((column, colIdx) => {
+                    const item = column[rowIdx];
+                    return item ? (
+                      <React.Fragment key={`${colIdx}-${rowIdx}`}>
+                        <td
+                          style={{
+                            fontWeight: 500,
+                            color: "#FF6996",
+                            paddingRight: "8px",
+                          }}
+                        >
+                          {item.label}:
+                        </td>
+                        <td style={{ paddingRight: "8px" }}>{item.value}</td>
+                      </React.Fragment>
+                    ) : (
+                      // If no item exists in this slot, render empty cells
+                      <React.Fragment key={`${colIdx}-${rowIdx}`}>
+                        <td></td>
+                        <td></td>
+                      </React.Fragment>
+                    );
+                  })}
                 </tr>
               ))}
             </tbody>
           </Box>
+
+          <Text
+            py={4}
+            fontSize="sm"
+            textAlign={"center"}
+            textDecoration={"underline"}
+            color="gray.500"
+          >
+            View More Description
+          </Text>
         </Box>
       );
     }
