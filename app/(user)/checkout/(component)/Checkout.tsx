@@ -17,7 +17,7 @@ import {
   Separator,
 } from "@chakra-ui/react";
 
-import { Checkbox, FormProvider } from "@/components";
+import { Checkbox, FormProvider, toaster } from "@/components";
 import ShippingInformation from "./ShippingInformation";
 import PaymentInformation from "./PaymentInformation";
 import SelectedProduct from "./SelectedProduct";
@@ -38,7 +38,6 @@ const CheckoutSection = () => {
   const { summaryItems, total } = useSummary();
   const { mutate: applyPromo } = useAddPromo();
   const { setPromoData, promoData } = usePromoStore();
-
   const {
     resetFlag,
     clearResetFlag,
@@ -124,12 +123,12 @@ const CheckoutSection = () => {
         <GridItem>
           <VStack gap={8} align="stretch">
             <ShippingInformation />
-             {/* <DeliveryMethod
+            {/* <DeliveryMethod
               deliveryMethod={deliveryMethod}
               setDeliveryMethod={setDeliveryMethod}
             /> */}
             <PaymentInformation />
-          {/* <RememberMeSection /> */}
+            {/* <RememberMeSection /> */}
             <Box borderTop="1px solid #D0D0D0" pt={10} spaceY={4}>
               <Text fontSize="sm" color="gray.600" mb={4}>
                 Please review order details and shipping address prior to
@@ -157,179 +156,197 @@ const CheckoutSection = () => {
 
         {/* Right Side - Summary */}
         <GridItem>
-  <Box border="1px" borderColor="gray.200" borderRadius="lg" p={6} bg="white">
-    <FormProvider  methods={methods} onSubmit={onSubmit}>
-      <VStack align="stretch" gap={6}>
-        {isLoading ? (
-          <Grid placeItems="center" height="300px">
-            <Spinner />
-          </Grid>
-        ) : (
-          <SelectedProduct products={selectedProducts} />
-        )}
+          <Box
+            border="1px"
+            borderColor="gray.200"
+            borderRadius="lg"
+            p={6}
+            bg="white"
+          >
+            <FormProvider methods={methods} onSubmit={onSubmit}>
+              <VStack align="stretch" gap={6}>
+                {isLoading ? (
+                  <Grid placeItems="center" height="300px">
+                    <Spinner />
+                  </Grid>
+                ) : (
+                  <SelectedProduct products={selectedProducts} />
+                )}
 
-        {/* Membership Program & Loyalty Points Display */}
-        <VStack align="start" gap={4}>
-          <HStack gap={1}>
-            <Icon color="yellow.500" boxSize={6}>
-              <FaCrown />
-            </Icon>
-            <Text fontWeight="medium" color="gray.700">
-              Membership Program :
-            </Text>
-            <Text fontWeight="bold" color="yellow.600">
-              {profileData?.data?.[0]?.custom_membership_program || "Standard"}
-            </Text>
-          </HStack>
+                {/* Membership Program & Loyalty Points Display */}
+                <VStack align="start" gap={4}>
+                  <HStack gap={1}>
+                    <Icon color="yellow.500" boxSize={6}>
+                      <FaCrown />
+                    </Icon>
+                    <Text fontWeight="medium" color="gray.700">
+                      Membership Program :
+                    </Text>
+                    <Text fontWeight="bold" color="yellow.600">
+                      {profileData?.data?.[0]?.custom_membership_program ||
+                        "Standard"}
+                    </Text>
+                  </HStack>
 
-          <HStack gap={1}>
-            <Icon color="pink.500" boxSize={7}>
-              <RiVerifiedBadgeFill />
-            </Icon>
-            <Text fontWeight="medium" color="gray.700">
-              Loyalty Points:
-            </Text>
-            <Text fontWeight="bold" color="pink.500">
-              {totalPoints}
-            </Text>
-          </HStack>
-        </VStack>
+                  <HStack gap={1}>
+                    <Icon color="pink.500" boxSize={7}>
+                      <RiVerifiedBadgeFill />
+                    </Icon>
+                    <Text fontWeight="medium" color="gray.700">
+                      Loyalty Points:
+                    </Text>
+                    <Text fontWeight="bold" color="pink.500">
+                      {totalPoints}
+                    </Text>
+                  </HStack>
+                </VStack>
 
-        {/* Discount Code */}
-        <InputGroup
-          startElement={<FaTags color="#D0D0D0" size={20} />}
-          endElement={
-            <Button
-              size="xs"
-              bg={"transparent"}
-              position={"absolute"}
-              right={"1rem"}
-              color={"black"}
-              me="-2"
-              zIndex={5}
-              onClick={methods.handleSubmit((data) => {
-                const promo = data.promoCode?.trim() || "";
-                setPromoCode(promo);
+                {/* Discount Code */}
+                <InputGroup
+                  startElement={<FaTags color="#D0D0D0" size={20} />}
+                  endElement={
+                    <Button
+                      size="xs"
+                      bg={"transparent"}
+                      position={"absolute"}
+                      right={"1rem"}
+                      color={"black"}
+                      me="-2"
+                      zIndex={5}
+                      onClick={methods.handleSubmit((data) => {
+                        const promo = data.promoCode?.trim() || "";
+                        const loyaltyPoints = data.LoyaltyPoints || 0;
+                        setPromoCode(promo);
 
-                applyPromo(
-                  {
-                    coupon: promo,
-                    delivery_place: deliveryLocation,
-                    loyalty_points: 0,
-                  },
-                  {
-                    onSuccess: (response) => {
-                      setPromoData(response.data.data);
-                    },
+                        applyPromo(
+                          {
+                            coupon: promo,
+                            delivery_place: deliveryLocation,
+                            loyalty_points: loyaltyPoints,
+                          },
+                          {
+                            onSuccess: (response) => {
+                              setPromoData(response.data.data);
+                            },
+                          }
+                        );
+                      })}
+                    >
+                      Apply
+                    </Button>
                   }
-                );
-              })}
-            >
-              Apply
-            </Button>
-          }
-        >
-          <Input
-            {...methods.register("promoCode")}
-            placeholder="Discount Code"
-            fontSize="sm"
-            _placeholder={{ color: "gray.400" }}
-            p={3}
-          />
-        </InputGroup>
+                >
+                  <Input
+                    {...methods.register("promoCode")}
+                    placeholder="Discount Code"
+                    fontSize="sm"
+                    _placeholder={{ color: "gray.400" }}
+                    p={3}
+                  />
+                </InputGroup>
 
-        {/* Loyalty Points Section */}
-        <Box
-          w="full"
-          p={4}
-          border="1px solid"
-          borderColor="gray.200"
-          borderRadius="md"
-          bg="gray.50"
-        >
-          <Text fontWeight="medium" mb={2}>
-            Redeem Loyalty Points
-          </Text>
-          <HStack>
-            <Input
-              {...methods.register("LoyaltyPoints", {
-                valueAsNumber: true,
-                min: 0,
-                max: totalPoints,
-              })}
-              type="number"
-              placeholder="Enter points to redeem"
-              size="sm"
-              borderRadius="md"
-              bg="white"
-              w="200px"
-            />
-            <Button
-              mt={0}
-              bgColor={"#FF6996"}
-              colorScheme="pink"
-              px={5}
-              borderRadius={"md"}
-              onClick={methods.handleSubmit((data) => {
-                const loyaltyPoints = data.LoyaltyPoints || 0;
+                {/* Loyalty Points Section */}
+                <Box
+                  w="full"
+                  p={4}
+                  border="1px solid"
+                  borderColor="gray.200"
+                  borderRadius="md"
+                  bg="gray.50"
+                >
+                  <Text fontWeight="medium" mb={2}>
+                    Redeem Loyalty Points
+                  </Text>
+                  <HStack>
+                    <Input
+                      {...methods.register("LoyaltyPoints", {
+                        valueAsNumber: true,
+                      })}
+                      type="number"
+                      placeholder="Enter points to redeem"
+                      size="sm"
+                      borderRadius="md"
+                      bg="white"
+                      w="200px"
+                    />
+                    <Button
+                      mt={0}
+                      bgColor={"#FF6996"}
+                      colorScheme="pink"
+                      px={5}
+                      borderRadius={"md"}
+                      onClick={methods.handleSubmit((data) => {
+                        const loyaltyPoints = data.LoyaltyPoints || 0;
+                        if (loyaltyPoints > totalPoints) {
+                          toaster.create({
+                            title: "You don't have that many loyalty points.",
+                            duration: 3000,
+                            type: "error",
+                          });
+                          return;
+                        }
 
-                applyPromo(
-                  {
-                    coupon: "",
-                    delivery_place: deliveryLocation,
-                    loyalty_points: loyaltyPoints,
-                  },
-                  {
-                    onSuccess: (response) => {
-                      setPromoData(response.data.data);
-                    },
-                  }
-                );
-              })}
-            >
-              Apply Points
-            </Button>
-          </HStack>
-        </Box>
+                        const promo = data.promoCode?.trim() || "";
 
-        {/* Summary Section */}
-        <VStack align="stretch" gap={4} mt={{ base: "24px", lg: "32px" }}>
-          {summaryItems.map(({ label, value }, index) => (
-            <Flex justify="space-between" key={index} width="full">
-              <Text fontWeight={500} fontSize={"14px"}>
-                {label}
-              </Text>
-              <Text fontWeight={400} color={"primary.400"}>
-                {value}
-              </Text>
-            </Flex>
-          ))}
+                        applyPromo(
+                          {
+                            coupon: promo,
+                            delivery_place: deliveryLocation,
+                            loyalty_points: loyaltyPoints,
+                          },
+                          {
+                            onSuccess: (response) => {
+                              setPromoData(response.data.data);
+                            },
+                          }
+                        );
+                      })}
+                    >
+                      Apply Points
+                    </Button>
+                  </HStack>
+                </Box>
 
-          <Separator my={2} />
+                {/* Summary Section */}
+                <VStack
+                  align="stretch"
+                  gap={4}
+                  mt={{ base: "24px", lg: "32px" }}
+                >
+                  {summaryItems.map(({ label, value }, index) => (
+                    <Flex justify="space-between" key={index} width="full">
+                      <Text fontWeight={500} fontSize={"14px"}>
+                        {label}
+                      </Text>
+                      <Text fontWeight={400} color={"primary.400"}>
+                        {value}
+                      </Text>
+                    </Flex>
+                  ))}
 
-          <Flex justify="space-between" width="full">
-            <Text fontWeight={500}>Total</Text>
-            <Text fontWeight={400} color="primary.400">
-              {total}
-            </Text>
-          </Flex>
-        </VStack>
+                  <Separator my={2} />
 
-        <Separator />
-        <Input
-          placeholder="Add Special Note in your order"
-          textAlign="center"
-          h={20}
-        />
-      </VStack>
-    </FormProvider>
-  </Box>
-</GridItem>
+                  <Flex justify="space-between" width="full">
+                    <Text fontWeight={500}>Total</Text>
+                    <Text fontWeight={400} color="primary.400">
+                      {total}
+                    </Text>
+                  </Flex>
+                </VStack>
 
+                <Separator />
+                <Input
+                  placeholder="Add Special Note in your order"
+                  textAlign="center"
+                  h={20}
+                />
+              </VStack>
+            </FormProvider>
+          </Box>
+        </GridItem>
       </Grid>
     </Container>
   );
 };
 
 export default CheckoutSection;
-
