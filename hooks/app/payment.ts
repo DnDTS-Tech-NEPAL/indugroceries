@@ -62,7 +62,7 @@ export const useSummary = () => {
     { label: "Sub Total", value: `${config.currency} ${subTotal}` },
     { label: "Shipping", value: `${config.currency} ${ShippingValue}` },
     { label: "Discount Code", value: `${config.currency} ${Discount}` },
-    { label: "Membership Points", value: `${config.currency} ${loyalty}` },
+    { label: "Points Discount", value: `${config.currency} ${loyalty}` },
 
     // { label: "Estimated Tax", value: `${config.currency} ${EstimatedTax}` },
     // { label: "Sub Total + Tax", value: `${config.currency} ${TotalAfterTax}` },
