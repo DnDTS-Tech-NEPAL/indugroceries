@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Box,
-  VStack,
-  HStack,
-  Text,
-  IconButton,
-  Collapsible,
-} from "@chakra-ui/react";
+import { Box, VStack, HStack, IconButton, Collapsible } from "@chakra-ui/react";
 import { Checkbox } from "../form";
 import { LuChevronDown } from "react-icons/lu";
 import Link from "next/link";

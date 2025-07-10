@@ -31,7 +31,6 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
       <InStoreVisit />
       <SocialFeed />
       <BenefitsSection />
-      <ProductSection type="bestSellers" showCategories={false} />
     </>
   );
 };
