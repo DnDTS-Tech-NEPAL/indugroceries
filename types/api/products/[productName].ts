@@ -33,6 +33,17 @@ export type ProductVariantType = {
   skin_types: string[];
   skin_concerns: string[];
 
+  // custom description
+  age:string[];
+  core_ingredients: string;
+  custom_benefits: string;
+  custom_vegan: string;
+  custom_cruelty_free: string;
+  custom_fragrance: string;
+  custom_manufactured_in: string;
+  product_texture: string[];
+  custom_dermatologist_tested: string;
+
   // custom description,how to use,ingredients
   custom_long_description: string;
   custom_ingredients: string;
@@ -92,6 +103,17 @@ export type IndividualProductAPIType = {
   custom_recommendation: string;
   custom_avoid_by: string;
   about_brand: string;
+
+  // custom description
+  age:string[];
+  core_ingredients: string;
+  custom_benefits: string;
+  product_texture: string[];
+   custom_vegan: string;
+  custom_cruelty_free: string;
+  custom_fragrance: string;
+  custom_manufactured_in: string;
+  custom_dermatologist_tested: string;
 };
 
 export type IndividualProductAPIResponseType = {
