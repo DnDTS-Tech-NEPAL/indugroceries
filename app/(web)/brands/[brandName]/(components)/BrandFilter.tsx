@@ -8,6 +8,7 @@ import {
   HStack,
   Slider,
   Collapsible,
+  IconButton,
 } from "@chakra-ui/react";
 import {
   AccordionItem,
@@ -22,6 +23,8 @@ import { useSkinTypePageQuery } from "@/hooks/api";
 import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
 import { useEffect } from "react";
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
+import { LuChevronDown } from "react-icons/lu";
+import Link from "next/link";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -136,30 +139,78 @@ export const BrandFilter = ({
                     Category
                   </Text>
                 </AccordionItemTrigger>
-                <AccordionItemContent>
-                  {filter[1]?.items?.map((item) => (
-                    <Box key={item.value}>
-                      <Checkbox
-                        color="#7A7A7A"
-                        py={2}
-                        colorScheme="pink"
-                        checked={item_group?.includes(item.title) ?? false}
-                        onChange={() => handleSubcategoryClick(item.title)}
-                      >
-                        {item.title}
-                      </Checkbox>
 
-                      {item.children && item.children.length > 0 && (
-                        <Box pl={4}>
-                          <RecursiveCategoryList
-                            items={item.children}
-                            selected={item_group ?? []}
-                            onToggle={handleSubcategoryClick}
-                          />
+                <AccordionItemContent>
+                  <VStack align="start" gap={2} w="full">
+                    {filter[1]?.items?.map((item) => {
+                      const hasChildren =
+                        Array.isArray(item.children) &&
+                        item.children.length > 0;
+
+                      return hasChildren ? (
+                        <Collapsible.Root
+                          key={item.value}
+                          style={{ width: "100%" }}
+                        >
+                          <HStack justify="space-between" w="full">
+                            <Checkbox
+                              py={2}
+                              color="#7A7A7A"
+                              fontSize="sm"
+                              colorScheme="pink"
+                              checked={
+                                item_group?.includes(item.title) ?? false
+                              }
+                              onChange={() =>
+                                handleSubcategoryClick(item.title)
+                              }
+                            >
+                              <Link
+                                href={`/category/${encodeURIComponent(item.title)}`}
+                              >
+                                {item.title}
+                              </Link>
+                            </Checkbox>
+
+                            <Collapsible.Trigger asChild>
+                              <IconButton
+                                size="sm"
+                                mt={1}
+                                variant="plain"
+                                aria-label="Toggle Subcategories"
+                                _expanded={{ transform: "rotate(180deg)" }}
+                              >
+                                <LuChevronDown />
+                              </IconButton>
+                            </Collapsible.Trigger>
+                          </HStack>
+
+                          <Collapsible.Content>
+                            <Box pl={4} pt={1}>
+                              <RecursiveCategoryList
+                                items={item.children!}
+                                selected={item_group ?? []}
+                                onToggle={handleSubcategoryClick}
+                              />
+                            </Box>
+                          </Collapsible.Content>
+                        </Collapsible.Root>
+                      ) : (
+                        <Box key={item.value} w="full">
+                          <Checkbox
+                            py={2}
+                            color="#7A7A7A"
+                            fontSize="sm"
+                            colorScheme="pink"
+                            checked={item_group?.includes(item.title) ?? false}
+                            onChange={() => handleSubcategoryClick(item.title)}
+                          >
+                            {item.title}
+                          </Checkbox>
                         </Box>
-                      )}
-                    </Box>
-                  ))}
+                      );
+                    })}
+                  </VStack>
                 </AccordionItemContent>
               </AccordionItem>
 
