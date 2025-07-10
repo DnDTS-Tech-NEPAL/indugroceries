@@ -18,12 +18,7 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
   const tabs = [];
 
   // Description tab - structured format
-  if (
-    displayProduct?.custom_benefits ||
-    displayProduct?.core_ingredients ||
-    productDetail?.custom_benefits ||
-    productDetail?.core_ingredients
-  ) {
+  if (displayProduct || productDetail) {
     const variantContent =
       displayProduct?.custom_benefits || displayProduct?.core_ingredients;
     const parentContent =
@@ -36,10 +31,9 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
         sections: [
           {
             heading: "Benefits",
-            text:
-              displayProduct?.custom_benefits ||
-              productDetail?.custom_benefits ||
-              "",
+            text: displayProduct?.custom_benefits
+              ? displayProduct?.custom_benefits
+              : productDetail?.custom_benefits?.trim() || "",
           },
           {
             heading: "Core Ingredients",
@@ -52,47 +46,38 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
         table: [
           {
             label: "Skin type",
-            value:
-              displayProduct?.skin_types || productDetail?.skin_types || "-",
+            value: Array.isArray(displayProduct?.skin_types)
+              ? displayProduct.skin_types.join(", ")
+              : "-",
           },
           {
             label: "Age",
-            value: displayProduct?.age || productDetail?.age || "-",
+            value: Array.isArray(displayProduct?.age)
+              ? displayProduct.age.join(", ")
+              : "-",
           },
           {
             label: "Product Texture",
-            value:
-              displayProduct?.product_texture ||
-              productDetail?.product_texture ||
-              "-",
+            value: Array.isArray(displayProduct?.product_texture)
+              ? displayProduct.product_texture.join(", ")
+              : "-",
           },
           {
             label: "Dermatologist Tested",
             value:
-              displayProduct?.custom_dermatologist_tested ||
-              productDetail?.custom_dermatologist_tested ||
-              "-",
+              displayProduct?.custom_dermatologist_tested === 1 ? "Yes" : "No",
           },
           {
             label: "Vegan",
-            value:
-              displayProduct?.custom_vegan ||
-              productDetail?.custom_vegan ||
-              "-",
+            value: displayProduct?.custom_vegan === 1 ? "Yes" : "No",
           },
           {
             label: "Cruelty Free",
-            value:
-              displayProduct?.custom_cruelty_free ||
-              productDetail?.custom_cruelty_free ||
-              "-",
+            value: displayProduct?.custom_cruelty_free === 1 ? "Yes" : "No",
           },
           {
             label: "Fragance",
-            value:
-              displayProduct?.custom_fragnance ||
-              productDetail?.custom_fragnance ||
-              "-",
+            value: displayProduct?.custom_fragnance === 1 ? "Yes" : "No",
           },
           {
             label: "Manufactured in",
