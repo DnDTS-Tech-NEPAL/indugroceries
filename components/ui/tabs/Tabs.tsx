@@ -129,6 +129,7 @@ import { Tabs as ChakraTabs, Box, VStack, Text } from "@chakra-ui/react";
 import { IconType } from "react-icons";
 import React, { ReactNode, useState } from "react";
 import { Button } from "../button";
+import { Dialog } from "../dialog";
 
 export interface TabContentStructured {
   sections?: {
@@ -139,6 +140,7 @@ export interface TabContentStructured {
     label: string;
     value: string | string[];
   }[];
+  custom_long_description?: ReactNode;
 }
 
 type TabItem = {
@@ -169,6 +171,10 @@ export const Tabs = ({
   style = {},
 }: TabsProps) => {
   const defaultTab = defaultValue || tabs[0]?.value;
+  const [open, setOpen] = useState(false);
+
+  const onOpen = () => setOpen(true);
+  const onClose = () => setOpen(false);
   const [showFullContent, setShowFullContent] = useState(false);
 
   // const renderContent = (content: string | ReactNode | string[]) => {
@@ -288,15 +294,37 @@ export const Tabs = ({
               ))}
             </tbody>
           </Box>
-          <Text
-            py={4}
-            fontSize="sm"
-            textAlign="center"
-            textDecoration="underline"
-            color="gray.500"
+          {structured.custom_long_description &&
+            structured.custom_long_description !== "null" && (
+              <Text
+                py={4}
+                fontSize="sm"
+                textAlign="center"
+                textDecoration="underline"
+                color="gray.500"
+                cursor="pointer"
+                onClick={onOpen}
+              >
+                View More Description
+              </Text>
+            )}
+          <Dialog
+            open={open}
+            onClose={onClose}
+            hasCloseTrigger
+            contentMinWidth={{
+              lg: "1000px",
+              xl: "1200px",
+            }}
           >
-            View More Description
-          </Text>
+            <Box
+              p={6}
+              fontSize="sm"
+              dangerouslySetInnerHTML={{
+                __html: structured.custom_long_description || "",
+              }}
+            />
+          </Dialog>
         </Box>
       );
     }
@@ -312,7 +340,6 @@ export const Tabs = ({
     <Box
       display="flex"
       flexDirection="column"
-      alignItems="center"
       width="100%"
       className={className}
       style={style}

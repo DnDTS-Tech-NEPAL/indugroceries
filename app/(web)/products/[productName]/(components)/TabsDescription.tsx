@@ -117,6 +117,9 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
               "-",
           },
         ],
+        custom_long_description: displayProduct?.custom_long_description
+          ? displayProduct?.custom_long_description
+          : productDetail?.custom_long_description,
       },
       isFromVariant: !!variantContent && variantContent !== parentContent,
       parentContent: parentContent,
