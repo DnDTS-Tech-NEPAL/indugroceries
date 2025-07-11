@@ -26,11 +26,22 @@ const MotionBox = motion(Box);
 const SearchPage = () => {
   const searchParams = useSearchParams();
   const query = searchParams.get("q") || "";
+  const [debouncedQuery, setDebouncedQuery] = useState(query);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 2000);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [query]);
 
   const { data: config } = useConfigQuery();
   const { data: productsLikeData } = useProductsLikeQuery();
-  const { data: searchData } = useSearchListQuery(query, {
-    enabled: !!query,
+  const { data: searchData } = useSearchListQuery(debouncedQuery, {
+    enabled: !!debouncedQuery,
   });
 
   const list = searchData?.data?.data ?? [];
