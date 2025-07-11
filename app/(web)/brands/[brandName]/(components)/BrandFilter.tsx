@@ -61,7 +61,9 @@ export const BrandFilter = ({
   } = useBrandFilterStore();
 
   useEffect(() => {
-    setPriceRange([minPrice, maxPrice]);
+    if (minPrice < maxPrice) {
+      setPriceRange([minPrice, maxPrice]);
+    }
   }, [minPrice, maxPrice, setPriceRange]);
 
   const handleSubcategoryClick = (name: string) => {
@@ -103,6 +105,19 @@ export const BrandFilter = ({
     }
   };
 
+  // clamp value between min and max
+  const clamp = (num: number, min: number, max: number) =>
+    Math.min(Math.max(num, min), max);
+
+  // priceRange to ensure valid slider input
+  const sanitizedPriceRange =
+    Array.isArray(priceRange) && priceRange.length === 2
+      ? [
+          clamp(priceRange[0], minPrice, maxPrice),
+          clamp(priceRange[1], minPrice, maxPrice),
+        ]
+      : [minPrice, maxPrice];
+
   return (
     <GridItem
       width={{ base: "100%", md: "290px" }}
@@ -132,7 +147,7 @@ export const BrandFilter = ({
         <Box p={6}>
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
-              {/* ✅ Combined Category Section */}
+              {/* Category  */}
               <AccordionItem value="category" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
@@ -247,26 +262,30 @@ export const BrandFilter = ({
                   </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
-                  <Slider.Root
-                    maxW="md"
-                    value={priceRange}
-                    step={1}
-                    min={minPrice}
-                    max={maxPrice}
-                    onValueChange={(details: { value: number[] }) => {
-                      const value = Array.isArray(details?.value)
-                        ? details.value
-                        : [minPrice, maxPrice];
-                      setPriceRange([value[0], value[1]]);
-                    }}
-                  >
-                    <Slider.Control>
-                      <Slider.Track>
-                        <Slider.Range />
-                      </Slider.Track>
-                      <Slider.Thumbs />
-                    </Slider.Control>
-                  </Slider.Root>
+                  {minPrice < maxPrice ? (
+                    <Slider.Root
+                      maxW="md"
+                      value={sanitizedPriceRange}
+                      step={1}
+                      min={minPrice}
+                      max={maxPrice}
+                      onValueChange={(details: { value: number[] }) => {
+                        const value = Array.isArray(details?.value)
+                          ? details.value
+                          : [minPrice, maxPrice];
+                        setPriceRange([value[0], value[1]]);
+                      }}
+                    >
+                      <Slider.Control>
+                        <Slider.Track>
+                          <Slider.Range />
+                        </Slider.Track>
+                        <Slider.Thumbs />
+                      </Slider.Control>
+                    </Slider.Root>
+                  ) : (
+                    <Text color="gray.500">Price filter not available</Text>
+                  )}
 
                   <HStack width={"full"} py={3}>
                     <Box>
@@ -279,7 +298,7 @@ export const BrandFilter = ({
                         minH={0}
                         height={"33px"}
                         width={"full"}
-                        value={`NPR. ${priceRange[0]}`}
+                        value={`NPR. ${sanitizedPriceRange[0]}`}
                         readOnly
                         bg="white"
                       />
@@ -294,7 +313,7 @@ export const BrandFilter = ({
                         height={"33px"}
                         width={"full"}
                         size="sm"
-                        value={`NPR. ${priceRange[1]}`}
+                        value={`NPR. ${sanitizedPriceRange[1]}`}
                         readOnly
                         bg="white"
                       />
@@ -400,3 +419,4 @@ export const BrandFilter = ({
     </GridItem>
   );
 };
+
