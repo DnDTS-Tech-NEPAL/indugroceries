@@ -1,8 +1,6 @@
 // components/DeliveryNote.tsx
 
 "use client";
-
-import { Box, Input, Text } from "@chakra-ui/react";
 import { FormProvider, useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 

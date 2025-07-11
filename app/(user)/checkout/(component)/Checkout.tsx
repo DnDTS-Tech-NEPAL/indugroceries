@@ -343,7 +343,10 @@ const CheckoutSection = () => {
                   textAlign="center"
                   h={20}
                 /> */}
-                <DeliveryNote deliveryNote={deliveryNote} setDeliveryNote={setDeliveryNote} />
+                <DeliveryNote
+                  deliveryNote={deliveryNote}
+                  setDeliveryNote={setDeliveryNote}
+                />
               </VStack>
             </FormProvider>
           </Box>
