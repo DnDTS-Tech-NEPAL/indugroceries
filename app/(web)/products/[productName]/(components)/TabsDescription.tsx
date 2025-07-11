@@ -69,21 +69,28 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
         table: [
           {
             label: "Skin type",
-            value: Array.isArray(displayProduct?.skin_types)
-              ? displayProduct.skin_types.join(", ")
-              : "-",
+            value:
+              Array.isArray(displayProduct?.skin_types) &&
+              displayProduct.skin_types.length > 0
+                ? displayProduct.skin_types.join(", ")
+                : "-",
           },
+
           {
             label: "Age",
-            value: Array.isArray(displayProduct?.age)
-              ? displayProduct.age.join(", ")
-              : "-",
+            value:
+              Array.isArray(displayProduct?.age) &&
+              displayProduct.age.length > 0
+                ? displayProduct.age.join(", ")
+                : "-",
           },
           {
             label: "Product Texture",
-            value: Array.isArray(displayProduct?.product_texture)
-              ? displayProduct.product_texture.join(", ")
-              : "-",
+            value:
+              Array.isArray(displayProduct?.product_texture) &&
+              displayProduct.product_texture.length > 0
+                ? displayProduct.product_texture.join(", ")
+                : "-",
           },
           {
             label: "Dermatologist Tested",
