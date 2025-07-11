@@ -41,7 +41,7 @@ export const DeliveryNote = ({
                 />  */}
       <FormControl
         inputType="textarea"
-        placeholder="Add any specific delivery or order instructions"
+        placeholder="Add Special Note in your order"
         name="note"
       />
     </FormProvider>
