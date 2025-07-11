@@ -5,4 +5,5 @@ export type OrderPostType = {
     rate: number;
   }[];
   selectedPaymentMethod?: string;
+  delivery_note?: string;
 };

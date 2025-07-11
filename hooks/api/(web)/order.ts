@@ -15,6 +15,7 @@ export const useOrderMutation = (selectedPaymentMethod: string) => {
       orderPost({
         items: data.items,
         selectedPaymentMethod,
+        delivery_note: data.delivery_note,
       }),
     onSuccess: (response) => {
       toaster.create({

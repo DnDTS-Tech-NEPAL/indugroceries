@@ -12,6 +12,7 @@ import { PaymentMethod, Summary } from "./(components)";
 const Payment = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("Cash On Delivery");
+  const [deliveryNote, setDeliveryNote] = useState<string>("");
 
   // const handlePaymentMethodChange = (details: { value: string }) => {
   //   setSelectedPaymentMethod(details.value);
@@ -46,8 +47,10 @@ const Payment = () => {
         <PaymentMethod
           selectedPaymentMethod={selectedPaymentMethod}
           handlePaymentMethodChange={handlePaymentMethodChange}
+          setDeliveryNote={setDeliveryNote}
+
         />
-        <Summary selectedPaymentMethod={selectedPaymentMethod} />
+        <Summary selectedPaymentMethod={selectedPaymentMethod} delivery_note={deliveryNote}/>
       </Flex>
     </>
   );
