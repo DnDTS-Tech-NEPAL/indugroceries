@@ -5,3 +5,4 @@ export * from "./RelatedProducts";
 export * from "./RememberMeSection";
 export * from "./Checkout";
 export * from "./SelectedProduct";
+export * from "./DeliveryNote";

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -29,8 +29,11 @@ import { usePromoFormStore, usePromoStore } from "@/store";
 import { PromoFormData } from "@/types";
 import { useForm } from "react-hook-form";
 import { InputGroup } from "@/components/form/input/InputGroup";
+import { DeliveryNote } from "./DeliveryNote";
 
 const CheckoutSection = () => {
+  const [deliveryNote, setDeliveryNote] = useState<string>("");
+
   const { data: profileData } = useUserProfileQuery();
   const totalPoints = profileData?.data?.[0]?.total_points || 0;
 
@@ -335,11 +338,12 @@ const CheckoutSection = () => {
                 </VStack>
 
                 <Separator />
-                <Input
+                {/* <Input
                   placeholder="Add Special Note in your order"
                   textAlign="center"
                   h={20}
-                />
+                /> */}
+                <DeliveryNote deliveryNote={deliveryNote} setDeliveryNote={setDeliveryNote} />
               </VStack>
             </FormProvider>
           </Box>
