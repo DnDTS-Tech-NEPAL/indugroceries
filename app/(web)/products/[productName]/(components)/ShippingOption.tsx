@@ -25,7 +25,9 @@ const FeatureCard = ({ icon, title, linkText, linkHref }: FeatureCardProps) => (
         {icon}
       </Box>
       <Box>
-        <Text fontWeight="medium" fontSize={"16px"}>{title}</Text>
+        <Text fontWeight="medium" fontSize={"16px"}>
+          {title}
+        </Text>
         {linkText && linkHref && (
           <Link fontSize="12px" color="gray.500" href={linkHref}>
             {linkText}

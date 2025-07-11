@@ -249,7 +249,6 @@ import {
   Flex,
   Heading,
   HStack,
-  Link,
   Progress,
   Stack,
   Text,
@@ -291,7 +290,7 @@ export const ProductInformation = () => {
   const { data: config } = useConfigQuery();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
-  const loyalty_points = 126;
+  // const loyalty_points = 126;
   // const item_code = productDetail?.has_variants
   //   ? activeVariant
   //   : productDetail?.item_code;
