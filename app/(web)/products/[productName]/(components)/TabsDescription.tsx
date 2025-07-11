@@ -24,6 +24,26 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
     const parentContent =
       productDetail?.custom_benefits || productDetail?.core_ingredients;
 
+    const getCleanText = (
+      variantValue: unknown,
+      parentValue: unknown,
+      fallback: string
+    ): string => {
+      const parse = (val: unknown): string | null => {
+        if (typeof val === "string" && val.trim() && val.trim() !== "null") {
+          return val.trim();
+        }
+        if (Array.isArray(val) && val.length > 0) {
+          return val
+            .filter((item) => typeof item === "string" && item.trim() !== "")
+            .join(", ");
+        }
+        return null;
+      };
+
+      return parse(variantValue) || parse(parentValue) || fallback;
+    };
+
     tabs.push({
       value: "description",
       label: "Description",
@@ -31,16 +51,19 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
         sections: [
           {
             heading: "Benefits",
-            text: displayProduct?.custom_benefits
-              ? displayProduct?.custom_benefits
-              : productDetail?.custom_benefits?.trim() || "",
+            text: getCleanText(
+              displayProduct?.custom_benefits,
+              productDetail?.custom_benefits,
+              "No Benefits Found"
+            ),
           },
           {
             heading: "Core Ingredients",
-            text:
-              displayProduct?.core_ingredients ||
-              productDetail?.core_ingredients ||
-              "",
+            text: getCleanText(
+              displayProduct?.core_ingredients,
+              productDetail?.core_ingredients,
+              "No Core Ingredients Found"
+            ),
           },
         ],
         table: [
