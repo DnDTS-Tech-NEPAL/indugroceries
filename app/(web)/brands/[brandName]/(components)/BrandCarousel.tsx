@@ -11,7 +11,6 @@ import "swiper/css/pagination";
 export const BrandCarousel = ({ brandName }: { brandName: string }) => {
   const { data: brandImageData = [] } = useBrandsListQuery();
 
-  // Find the brand that matches the brandName
   const selectedBrand = brandImageData.find(
     (brand) => brand.name?.toLowerCase() === brandName.toLowerCase()
   );
@@ -21,12 +20,12 @@ export const BrandCarousel = ({ brandName }: { brandName: string }) => {
         selectedBrand.custom_hero_image_1_link,
         selectedBrand.custom_hero_image_2_link,
         selectedBrand.custom_hero_image_3_link,
-      ].filter(Boolean)
+      ].filter((img) => !!img && img.trim() !== "")
     : [];
 
   return (
     <>
-      {heroImages.length > 0 ? (
+      {heroImages.length > 0 && (
         <Box
           width={{ base: "100%", md: "7xl" }}
           maxWidth="100%"
@@ -43,35 +42,25 @@ export const BrandCarousel = ({ brandName }: { brandName: string }) => {
             spaceBetween={16}
             slidesPerView={1}
           >
-            {heroImages.map((src, index) => (
-              <SwiperSlide key={index}>
-                <Box
-                  borderRadius={{ base: "none", md: "xl" }}
-                  overflow="hidden"
-                  position="relative"
-                  width="100%"
-                  height={{
-                    base: "150px",
-                    sm: "200px",
-                    md: "300px",
-                    lg: "400px",
-                    xl: "450px",
-                  }}
-                >
-                  <Image
-                    src={src}
-                    alt={`${brandName} - Hero Image ${index + 1}`}
-                    fill
-                    style={{ objectFit: "cover" }}
-                    sizes="100vw"
-                    priority={index === 0}
-                  />
-                </Box>
-              </SwiperSlide>
-            ))}
+            {heroImages.map((src, index) =>
+              src ? (
+                <SwiperSlide key={index}>
+                  <Box position="relative" height="300px">
+                    <Image
+                      src={src}
+                      alt={`Hero ${index + 1}`}
+                      fill
+                      style={{ objectFit: "cover" }}
+                      sizes="100vw"
+                      priority={index === 0}
+                    />
+                  </Box>
+                </SwiperSlide>
+              ) : null
+            )}
           </SwiperCore>
         </Box>
-      ) : null}
+      )}
     </>
   );
 };
