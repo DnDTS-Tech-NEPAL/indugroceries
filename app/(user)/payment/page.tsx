@@ -48,9 +48,11 @@ const Payment = () => {
           selectedPaymentMethod={selectedPaymentMethod}
           handlePaymentMethodChange={handlePaymentMethodChange}
           setDeliveryNote={setDeliveryNote}
-
         />
-        <Summary selectedPaymentMethod={selectedPaymentMethod} delivery_note={deliveryNote}/>
+        <Summary
+          selectedPaymentMethod={selectedPaymentMethod}
+          delivery_note={deliveryNote}
+        />
       </Flex>
     </>
   );
