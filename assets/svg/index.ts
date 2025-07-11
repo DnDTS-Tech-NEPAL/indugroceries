@@ -61,7 +61,6 @@ export { default as reliability } from "./reliability.svg";
 export { default as cultural } from "./cultural-expertise.svg";
 export { default as leaf } from "./leaf.svg";
 
-
 export { default as Esewa } from "./esewa.svg";
 export { default as Khalti } from "./khalti.svg";
 export { default as ImePay } from "./imepay.svg";
@@ -72,4 +71,7 @@ export { default as AccountPersonal } from "./personal-account.svg";
 export { default as AccountOrders } from "./orders-account.svg";
 export { default as AccountReturns } from "./returns-account.svg";
 export { default as AccountReviews } from "./reviews-account.svg";
-export {default as AccountLogout} from "./logout.svg";
+export { default as AccountLogout } from "./logout.svg";
+
+export { default as Truck } from "./express-shipping.svg";
+export { default as ShoppingBag } from "./shopping-bag.svg";

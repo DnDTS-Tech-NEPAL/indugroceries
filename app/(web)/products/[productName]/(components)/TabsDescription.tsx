@@ -1,62 +1,3 @@
-// import { Tabs } from "@/components";
-// import { useProductDetailByNameQuery } from "@/hooks/api";
-// import { Box } from "@chakra-ui/react";
-
-// export const TabsDescription = ({ productName }: { productName: string }) => {
-//   const { data: productDetail } = useProductDetailByNameQuery(productName);
-
-//   const tabs = [];
-//   if (
-//     productDetail?.custom_specifications ||
-//     productDetail?.custom_short_description
-//   ) {
-//     tabs.push({
-//       value: "description",
-//       label: "Description",
-//       shortContent: productDetail.custom_specifications,
-//       content:
-//         productDetail.custom_long_description ||
-//         productDetail.custom_specifications,
-//     });
-//   }
-
-//   if (productDetail?.custom_ingredients?.trim()) {
-//     tabs.push({
-//       value: "ingredients",
-//       label: "Ingredients",
-//       content: productDetail.custom_ingredients,
-//     });
-//   }
-
-//   if (productDetail?.custom_how_to_use?.trim()) {
-//     tabs.push({
-//       value: "how-to-use",
-//       label: "How to use",
-//       content: productDetail.custom_how_to_use,
-//     });
-//   }
-//   // && productDetail?.skin_types?.length >= 0
-//   if (productDetail ) {
-//     tabs.push({
-//       value: "skin-types",
-//       label: "For Skin Types",
-//       // content: productDetail.skin_types.join(", "),
-//       content: productDetail.skin_types,
-
-//     });
-//   }
-//   return (
-//     <Box
-//       display="flex"
-//       justifyContent="center"
-//       alignItems="center"
-//       width="100%"
-//     >
-//       <Tabs tabs={tabs} size="sm" />
-//     </Box>
-//   );
-// };
-
 import { Tabs } from "@/components";
 import { useProductDetailByNameQuery } from "@/hooks/api";
 import { Box } from "@chakra-ui/react";
@@ -66,44 +7,114 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
 
-  // Get the currently selected variant
   const selectedVariant = productDetail?.variants?.find(
     (v) => v.item_code === activeVariant
   );
 
-  // Determine which product to display (variant or parent)
   const displayProduct = productDetail?.has_variants
     ? selectedVariant || productDetail
     : productDetail;
 
   const tabs = [];
 
-  // Description tab - show variant description if available, otherwise parent
-  if (
-    displayProduct?.custom_specifications ||
-    displayProduct?.custom_long_description ||
-    productDetail?.custom_specifications ||
-    productDetail?.custom_short_description
-  ) {
+  // Description tab - structured format
+  if (displayProduct || productDetail) {
     const variantContent =
-      displayProduct?.custom_long_description ||
-      displayProduct?.custom_specifications;
+      displayProduct?.custom_benefits || displayProduct?.core_ingredients;
     const parentContent =
-      productDetail?.custom_long_description ||
-      productDetail?.custom_specifications;
+      productDetail?.custom_benefits || productDetail?.core_ingredients;
+
+    const getCleanText = (
+      variantValue: unknown,
+      parentValue: unknown,
+      fallback: string
+    ): string => {
+      const parse = (val: unknown): string | null => {
+        if (typeof val === "string" && val.trim() && val.trim() !== "null") {
+          return val.trim();
+        }
+        if (Array.isArray(val) && val.length > 0) {
+          return val
+            .filter((item) => typeof item === "string" && item.trim() !== "")
+            .join(", ");
+        }
+        return null;
+      };
+
+      return parse(variantValue) || parse(parentValue) || fallback;
+    };
 
     tabs.push({
       value: "description",
       label: "Description",
-      shortContent:
-        displayProduct?.custom_specifications ||
-        productDetail?.custom_specifications,
-      content: variantContent || parentContent,
+      content: {
+        sections: [
+          {
+            heading: "Benefits",
+            text: getCleanText(
+              displayProduct?.custom_benefits,
+              productDetail?.custom_benefits,
+              "No Benefits Found"
+            ),
+          },
+          {
+            heading: "Core Ingredients",
+            text: getCleanText(
+              displayProduct?.core_ingredients,
+              productDetail?.core_ingredients,
+              "No Core Ingredients Found"
+            ),
+          },
+        ],
+        table: [
+          {
+            label: "Skin type",
+            value: Array.isArray(displayProduct?.skin_types)
+              ? displayProduct.skin_types.join(", ")
+              : "-",
+          },
+          {
+            label: "Age",
+            value: Array.isArray(displayProduct?.age)
+              ? displayProduct.age.join(", ")
+              : "-",
+          },
+          {
+            label: "Product Texture",
+            value: Array.isArray(displayProduct?.product_texture)
+              ? displayProduct.product_texture.join(", ")
+              : "-",
+          },
+          {
+            label: "Dermatologist Tested",
+            value:
+              displayProduct?.custom_dermatologist_tested === 1 ? "Yes" : "No",
+          },
+          {
+            label: "Vegan",
+            value: displayProduct?.custom_vegan === 1 ? "Yes" : "No",
+          },
+          {
+            label: "Cruelty Free",
+            value: displayProduct?.custom_cruelty_free === 1 ? "Yes" : "No",
+          },
+          {
+            label: "Fragance",
+            value: displayProduct?.custom_fragnance === 1 ? "Yes" : "No",
+          },
+          {
+            label: "Manufactured in",
+            value:
+              displayProduct?.custom_manufactured_in ||
+              productDetail?.custom_manufactured_in ||
+              "-",
+          },
+        ],
+      },
       isFromVariant: !!variantContent && variantContent !== parentContent,
       parentContent: parentContent,
     });
   }
-
   // Ingredients tab - show variant ingredients if available, otherwise parent
   if (
     displayProduct?.custom_ingredients?.trim() ||
@@ -121,7 +132,6 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       parentContent: productDetail?.custom_ingredients,
     });
   }
-
   // How to use tab - show variant instructions if available, otherwise parent
   if (
     displayProduct?.custom_how_to_use?.trim() ||
@@ -138,14 +148,13 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       parentContent: productDetail?.custom_how_to_use,
     });
   }
-
-  // About Brand tab - show variant instructions if available, otherwise parent
+  // About brand tab - show variant brand info if available, otherwise parent
   if (
     displayProduct?.about_brand?.trim() ||
     productDetail?.about_brand?.trim()
   ) {
     tabs.push({
-      value: "About Brand",
+      value: "about-brand",
       label: "About Brand",
       content: displayProduct?.about_brand || productDetail?.about_brand,
       isFromVariant:
@@ -155,25 +164,6 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
     });
   }
 
-  // Skin types tab - show variant skin types if available, otherwise parent
-  // if (
-  //   (displayProduct?.skin_types && displayProduct?.skin_types.length > 0) ||
-  //   (productDetail?.skin_types && productDetail?.skin_types.length > 0)
-  // ) {
-  //   const variantSkinTypes = displayProduct?.skin_types || [];
-  //   const parentSkinTypes = productDetail?.skin_types || [];
-
-  //   tabs.push({
-  //     value: "skin-types",
-  //     label: "For Skin Types",
-  //     content: variantSkinTypes.length > 0 ? variantSkinTypes : parentSkinTypes,
-  //     isFromVariant:
-  //       variantSkinTypes.length > 0 &&
-  //       JSON.stringify(variantSkinTypes) !== JSON.stringify(parentSkinTypes),
-  //     parentContent: parentSkinTypes,
-  //   });
-  // }
-
   return (
     <Box
       display="flex"
@@ -182,11 +172,7 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       width="100%"
       py={{ base: 4, md: 6 }}
     >
-      <Tabs
-        tabs={tabs}
-        size="sm"
-        // showParentInfo={productDetail?.has_variants === 1}
-      />
+      <Tabs tabs={tabs} size="sm" />
     </Box>
   );
 };
