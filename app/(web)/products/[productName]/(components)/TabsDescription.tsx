@@ -180,7 +180,9 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       justifyContent="center"
       alignItems="center"
       width="100%"
-      py={{ base: 4, md: 6 }}
+      // py={{ base: 4, md: 2 }}
+      mb={{ base: 1, md: 3 }}
+      borderBottom={{ base: 0, md: "0.1rem solid #B1B1B2" }}
     >
       <Tabs tabs={tabs} size="sm" />
     </Box>
