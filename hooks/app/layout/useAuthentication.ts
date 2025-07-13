@@ -2,16 +2,23 @@
 
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
+import { getOrCreateGuestId } from "@/utils/guest"; // if needed
 
 export const useAuthentication = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  // only proceed to restricted route if user is authenticated
   const authenticate = (restrictedRoute: string, callback: VoidFunction) => {
     const userData = queryClient.getQueryData(["user-profile"]);
 
-    if (!userData) return callback();
+    // If no logged-in user, check for guestId
+    if (!userData) {
+      const guestId = getOrCreateGuestId();
+      console.log("guestId", guestId);
+      if (!guestId) return callback(); // truly unauthenticated
+    }
+
+    // Either logged-in or guest: allow
     router.push(restrictedRoute);
   };
 
