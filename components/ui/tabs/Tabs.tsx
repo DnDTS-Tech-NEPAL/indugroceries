@@ -138,7 +138,7 @@ export interface TabContentStructured {
   }[];
   table?: {
     label: string;
-    value: string | string[];
+    value: string | string[] | ReactNode;
   }[];
   custom_long_description?: ReactNode;
 }

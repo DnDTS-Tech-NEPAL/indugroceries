@@ -1,9 +1,11 @@
 import { Tabs } from "@/components";
 import { useProductDetailByNameQuery } from "@/hooks/api";
-import { Box } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import { useVariantStore } from "@/store";
+import { useRouter } from "next/navigation";
 
 export const TabsDescription = ({ productName }: { productName: string }) => {
+  const router = useRouter();
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
 
@@ -71,9 +73,27 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
             label: "Skin type",
             value:
               Array.isArray(displayProduct?.skin_types) &&
-              displayProduct.skin_types.length > 0
-                ? displayProduct.skin_types.join(", ")
-                : "-",
+              displayProduct.skin_types.length > 0 ? (
+                <Box display="flex" gap={2} flexWrap="wrap">
+                  {displayProduct.skin_types.map(
+                    (type: string, index: number) => (
+                      <Text
+                        key={index}
+                        as="button"
+                        _hover={{ textDecoration: "underline" }}
+                        cursor="pointer"
+                        onClick={() =>
+                          router.push(`/skin-type/${encodeURIComponent(type)}`)
+                        }
+                      >
+                        {type}
+                      </Text>
+                    )
+                  )}
+                </Box>
+              ) : (
+                "-"
+              ),
           },
 
           {
