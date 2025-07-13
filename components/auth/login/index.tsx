@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Box, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
@@ -22,6 +22,9 @@ import { LoginDialogProps } from "@/types";
 
 import { AuthWrapper } from "../wrapper";
 import { CloseCircleIcon } from "@/assets/svg";
+import Image from "next/image";
+import Link from "next/link";
+import { LoginLogo } from "@/assets/image";
 
 const defaultValues = {
   email: "",
@@ -99,10 +102,12 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
               xl: "80px",
             }}
           >
-            <Header
-              title="Login Screen"
-              description="Please provide the given credentials to login."
-            />
+            <Flex align="center" gap={8} mb={2}>
+              <Image src={LoginLogo} alt="Logo" width={200} height={200} />
+              <Text fontSize="2xl" fontWeight="medium">
+                Welcome Back To Korean Beauty Point
+              </Text>
+            </Flex>
 
             <FormProvider methods={methods} onSubmit={onSubmit}>
               <VStack alignItems="stretch" gap="16px" marginTop="20px">
@@ -118,7 +123,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
 
                   <IconButton
                     variant={"plain"}
-                    color="system.text.light.light"
+                    color="#7A7A7A"
                     as={"button"}
                     type="button"
                     _hover={{ cursor: "pointer" }}
