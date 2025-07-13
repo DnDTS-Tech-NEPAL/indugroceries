@@ -1,9 +1,9 @@
 import { useForm } from "react-hook-form";
-import { Box, HStack, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormProvider, TextFieldInput } from "@/components";
-import { Button, Header } from "@/components/ui";
+import { FormProvider, PasswordInput, TextFieldInput } from "@/components";
+import { Button } from "@/components/ui";
 import { useRegisterMutation } from "@/hooks/api";
 import { registerUserSchema } from "@/schema";
 import {
@@ -12,7 +12,18 @@ import {
   useVerifyEmailStore,
 } from "@/store";
 import { RegisterFormProps, RegisterFormType } from "@/types";
-import { CloseCircleIcon } from "@/assets/svg";
+import {
+  Apple,
+  CallIcon,
+  CloseCircleIcon,
+  Google,
+  Mail,
+  Password,
+} from "@/assets/svg";
+import { User } from "lucide-react";
+import Link from "next/link";
+import Image from "next/image";
+import { LoginLogo } from "@/assets/image";
 
 const defaultValues: RegisterFormType = {
   fullName: "",
@@ -58,7 +69,7 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
       justifyContent="center"
       gap="20px"
       height={"full"}
-      mt={"60px"}
+      py={12}
       px={{
         base: "45px",
         xl: "80px",
@@ -74,14 +85,17 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
       >
         <CloseCircleIcon color="red" />
       </Box>
-      <Header
-        title="Register Screen"
-        description="Please provide the given credentials to begin transactions."
-      />
-
+      {/* Logo and Title */}
+      <Flex align="center" gap={8} mb={3}>
+        <Image src={LoginLogo} alt="Logo" width={200} height={200} />
+        <Text fontSize="2xl" fontWeight="medium">
+          Welcome Back To Korean Beauty Point
+        </Text>
+      </Flex>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <VStack alignItems="stretch" gap="16px" marginTop="20px">
           <TextFieldInput
+            startElement={<User />}
             name="fullName"
             label="Full Name"
             placeholder="Enter Full Name"
@@ -89,20 +103,23 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
 
           <HStack gap="16px">
             <TextFieldInput
+              startElement={<Mail />}
               name="email"
-              label="Email"
-              placeholder="Enter Email"
+              label="Email Address"
+              placeholder="Enter your Email Address"
             />
             <TextFieldInput
+              startElement={<CallIcon />}
               name="contact"
               label="Contact Number"
               placeholder="Enter Contact Number"
             />
           </HStack>
-          <TextFieldInput
-            name="address"
-            label="Address"
-            placeholder="Enter Address"
+          <PasswordInput
+            startElement={<Password />}
+            name="password"
+            label="Password"
+            placeholder="Enter your Password"
           />
 
           <Button
@@ -111,38 +128,73 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
             type="submit"
             loading={isPending}
           >
-            Submit
+            Create Account
           </Button>
+
+          <Text fontSize="md" color="gray.500">
+            By continuing with Google account, Apple or Email you agree to KBP
+            <Link href={""}>
+              {" "}
+              <Text as="span" color="pink.500" fontWeight="medium">
+                &nbsp; Term services &nbsp;
+              </Text>{" "}
+            </Link>
+            and
+            <Link href={""}>
+              {" "}
+              <Text as="span" color="pink.500" fontWeight="medium">
+                &nbsp; Privacy Policy &nbsp;
+              </Text>
+            </Link>
+          </Text>
+
+          <HStack w="full" align="center" gap={4}>
+            <Box flex="1" h="1px" bg="gray.300" />
+            <Text fontSize="md" color="gray.500" whiteSpace="nowrap">
+              or continue with
+            </Text>
+            <Box flex="1" h="1px" bg="gray.300" />
+          </HStack>
+
+          {/* Social Login Buttons */}
+          <HStack gap={16} justify="center">
+            <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
+              <Google
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  marginRight: "8px",
+                }}
+              />
+              Google
+            </Button>
+            <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
+              <Apple
+                style={{
+                  width: "20px",
+                  height: "20px",
+                  marginRight: "8px",
+                }}
+              />
+              Apple
+            </Button>
+          </HStack>
+
+          <Text fontSize="md" textAlign="center">
+            Already have an account?
+            <Text
+              as="span"
+              color="pink.500"
+              fontWeight="medium"
+              cursor="pointer"
+              onClick={handleRegister}
+              _hover={{ textDecoration: "underline" }}
+            >
+              &nbsp; Sign In &nbsp;
+            </Text>
+          </Text>
         </VStack>
       </FormProvider>
-
-      <HStack
-        gap="16px"
-        direction={{
-          base: "column",
-          lg: "row",
-        }}
-      ></HStack>
-
-      <Text
-        variant="subtitle2"
-        bottom="32px"
-        left="0"
-        width="full"
-        color="system.text.light.light"
-        textAlign="center"
-      >
-        Already have an account?{" "}
-        <Text
-          as="span"
-          variant="paragraphSmall"
-          color="system.neutral.info.light"
-          cursor="pointer"
-          onClick={handleRegister}
-        >
-          Sign In
-        </Text>
-      </Text>
     </VStack>
   );
 };

@@ -14,10 +14,6 @@ export const AuthWrapper = ({ children, imageSrc }: AuthWrapperProps) => {
       gap="0"
       minHeight={{ base: "650px", lg: "600px", xl: "600px" }}
     >
-      <VStack alignItems="stretch" flex={2} bg="white">
-        {children}
-      </VStack>
-
       {imageSrc && (
         <VStack
           position="relative"
@@ -35,6 +31,9 @@ export const AuthWrapper = ({ children, imageSrc }: AuthWrapperProps) => {
           />
         </VStack>
       )}
+      <VStack alignItems="stretch" flex={2} bg="white">
+        {children}
+      </VStack>
     </HStack>
   );
 };
