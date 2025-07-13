@@ -23,7 +23,7 @@ const RecentlyViewed = () => {
     base: 1,
     sm: 2,
     md: 4,
-    lg: 4,
+    lg: 5,
   });
 
   useEffect(() => {
