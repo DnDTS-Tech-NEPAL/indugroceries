@@ -442,7 +442,7 @@ export const ProductInformation = () => {
     <Flex flex={1} flexDirection="column" width="100%" overflow={"hidden"}>
       <VStack alignItems="stretch" gap={{ base: "20px", lg: "28px" }}>
         {/* Product Information */}
-        <Stack gap={{ base: "12px", lg: "24px" }} width="100%">
+        <Stack gap={{ base: "12px", lg: "20px" }} width="100%">
           <Stack gap="12px">
             <HStack justifyContent="space-between">
               {displayProduct && displayProduct?.stock_qty <= 0 && (
@@ -470,6 +470,7 @@ export const ProductInformation = () => {
 
             <Box>
               <HStack
+                gap={0}
                 justifyContent={"space-between"}
                 alignItems={"center"}
                 flexDirection={{ base: "column", md: "row" }}
@@ -545,7 +546,12 @@ export const ProductInformation = () => {
             </VisibleSection>
           </HStack> */}
 
-          <HStack justify="space-between" flexWrap="wrap" align="center">
+          <HStack
+            gap={0}
+            justify="space-between"
+            flexWrap="wrap"
+            align="center"
+          >
             {/* Left Side - Price, Discount, and Timer */}
             <VStack align="start" gap="1">
               {/* Discounted Price */}

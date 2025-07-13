@@ -138,7 +138,7 @@ export interface TabContentStructured {
   }[];
   table?: {
     label: string;
-    value: string | string[];
+    value: string | string[] | ReactNode;
   }[];
   custom_long_description?: ReactNode;
 }
@@ -354,7 +354,7 @@ export const Tabs = ({
           display="flex"
           justifyContent="space-between"
           width="100%"
-          borderBottom="0.1px solid #B1B1B2"
+          borderBottom="0.1px solid #a1a1a157"
         >
           <ChakraTabs.List
             borderWidth="0"

@@ -23,7 +23,7 @@ const RecentlyViewed = () => {
     base: 1,
     sm: 2,
     md: 4,
-    lg: 4,
+    lg: 5,
   });
 
   useEffect(() => {
@@ -79,16 +79,20 @@ const RecentlyViewed = () => {
               item_code={product.item_code}
               image={product.custom_image_1_link}
               title={product.item_name}
-              price={
-                Array.isArray(product?.prices) && product.prices.length > 0
-                  ? product.prices[0].discounted_price
-                  : 0
-              }
-              originalPrice={
-                Array.isArray(product?.prices) && product.prices.length > 0
-                  ? product.prices[0].price_list_rate
-                  : 0
-              }
+              // price={
+              //   Array.isArray(product?.prices) && product.prices.length > 0
+              //     ? product.prices[0].discounted_price
+              //     : 0
+              // }
+              // originalPrice={
+              //   Array.isArray(product?.prices) && product.prices.length > 0
+              //     ? product.prices[0].price_list_rate
+              //     : 0
+              // }
+              price={product.prices?.[0]?.discounted_price}
+              originalPrice={product.prices?.[0]?.price_list_rate}
+              min_price={product.prices?.[0]?.min_price}
+              max_price={product.prices?.[0]?.max_price}
               link={product.item_code}
               id={index}
               category={product.item_name}

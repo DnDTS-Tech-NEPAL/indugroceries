@@ -46,7 +46,7 @@ export const ProductDetailContainer = ({
         flexDirection="column"
         maxWidth="1280px"
         mx="auto"
-        gap={{ md: "20px", lg: "40px", xl: "60px" }}
+        gap={{ md: "10px", lg: "20px", xl: "30px" }}
         alignItems="stretch"
         py={{ base: "24px", lg: "32px", "2xl": "56px" }}
       >

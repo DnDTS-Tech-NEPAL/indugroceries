@@ -42,7 +42,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
       mx="auto"
       w="100%"
       px={{ base: 4, md: 0 }}
-      py={{ base: 6, md: 10 }}
+      py={{ base: 4, md: 1 }}
     >
       <Box
         p={{ base: 4, md: 6 }}
