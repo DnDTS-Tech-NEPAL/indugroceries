@@ -105,7 +105,7 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
             <TextFieldInput
               startElement={<Mail />}
               name="email"
-              label="Email Address"
+              label="Email"
               placeholder="Enter your Email Address"
             />
             <TextFieldInput
