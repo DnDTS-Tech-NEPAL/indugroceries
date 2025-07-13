@@ -1,3 +1,4 @@
+import { Mail } from 'lucide-react';
 import exp from "constants";
 
 export { default as InstagramIcon } from "./instagram.svg";
@@ -39,6 +40,10 @@ export { default as CloseCircleIcon } from "./close-circle.svg";
 export { default as EyeIcon } from "./eye.svg";
 export { default as EyeOpenIcon } from "./eye-open.svg";
 export { default as EyeCloseIcon } from "./eye-close.svg";
+export { default as Mail } from "./mail.svg";
+export { default as Password } from "./password.svg";
+export { default as Google } from "./google.svg";
+export { default as Apple } from "./apple.svg";
 
 export { default as AddIcon } from "./add.svg";
 export { default as SubtractIcon } from "./subtract.svg";
