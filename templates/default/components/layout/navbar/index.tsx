@@ -387,42 +387,8 @@ export const Navbar = () => {
 
         {/* Icons + Auth */}
         <HStack gap="12px">
-          {/* Auth Section */}
-          {!isLoading && userProfileData && !isError ? (
-            // ✅ Show profile icon if logged in
-            <Profile
-              cursor={"pointer"}
-              height={22}
-              width={22}
-              onClick={() => router.push(ROUTES.USER.PROFILE)}
-            />
-          ) : (
-            // ✅ Show Login/Register buttons if not logged in
-            <>
-              <Button
-                bg="gray.200"
-                color="black"
-                borderRadius="full"
-                px="20px"
-                onClick={() => updateSignInOpen(true)}
-              >
-                <Login />
-                Login
-              </Button>
-              <Button
-                bg="#FF6996"
-                color="white"
-                borderRadius="full"
-                px="20px"
-                onClick={() => updateSignUpOpen(true)}
-              >
-                <Register />
-                Register
-              </Button>
-            </>
-          )}
 
-          {/* Wishlist */}
+             {/* Wishlist */}
           <VisibleSection visibility={config?.wishlist_visibility}>
             <Box position="relative" cursor="pointer">
               <Flex
@@ -487,6 +453,42 @@ export const Navbar = () => {
               </Flex>
             </Box>
           </VisibleSection>
+          {/* Auth Section */}
+          {!isLoading && userProfileData && !isError ? (
+            // ✅ Show profile icon if logged in
+            <Profile
+              cursor={"pointer"}
+              height={22}
+              width={22}
+              onClick={() => router.push(ROUTES.USER.PROFILE)}
+            />
+          ) : (
+            // ✅ Show Login/Register buttons if not logged in
+            <>
+              <Button
+                bg="gray.200"
+                color="black"
+                borderRadius="full"
+                px="20px"
+                onClick={() => updateSignInOpen(true)}
+              >
+                <Login />
+                Login
+              </Button>
+              <Button
+                bg="#FF6996"
+                color="white"
+                borderRadius="full"
+                px="20px"
+                onClick={() => updateSignUpOpen(true)}
+              >
+                <Register />
+                Register
+              </Button>
+            </>
+          )}
+
+       
         </HStack>
       </Flex>
 
