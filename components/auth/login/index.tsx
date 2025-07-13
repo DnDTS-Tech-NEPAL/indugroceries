@@ -10,7 +10,6 @@ import {
   Checkbox,
   Dialog,
   FormProvider,
-  Header,
   OtpDialog,
   PasswordInput,
   TextFieldInput,
@@ -20,12 +19,11 @@ import { LoginFormType, loginSchema } from "@/schema";
 import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
 import { LoginDialogProps } from "@/types";
 
-import { AuthWrapper } from "../wrapper";
-import { CloseCircleIcon } from "@/assets/svg";
+import { Apple, CloseCircleIcon, Google, Mail, Password } from "@/assets/svg";
+import { LoginLogo } from "@/assets/image";
 import Image from "next/image";
 import Link from "next/link";
-import { LoginLogo } from "@/assets/image";
-
+import { AuthWrapper } from "../wrapper";
 const defaultValues = {
   email: "",
   password: "",
@@ -38,6 +36,10 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   });
 
   const { mutate: handleLogin, isPending } = useLoginMutation();
+  const { updateSignInOpen } = useLayoutDialogStore();
+  const { updateSignUpOpen } = useRegisterDialogStore();
+
+  const [isOtpOpen, setOtpOpen] = useState(false);
 
   const onSubmit = (data: LoginFormType) => {
     handleLogin(data, {
@@ -45,22 +47,17 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         methods.reset();
         onClose();
       },
-      onError: () => {},
     });
   };
-
-  const { updateSignInOpen } = useLayoutDialogStore();
-  const { updateSignUpOpen } = useRegisterDialogStore();
 
   const handleSignin = () => {
     updateSignUpOpen(true);
     updateSignInOpen(false);
   };
+
   const handleClose = () => {
     updateSignInOpen(false);
   };
-
-  const [isOtpOpen, setOtpOpen] = useState(false);
 
   const handleForgotPassword = () => {
     onClose();
@@ -75,10 +72,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
       <Dialog
         open={open}
         onClose={onClose}
-        contentMinWidth={{
-          lg: "1000px",
-          xl: "1200px",
-        }}
+        contentMinWidth={{ lg: "1000px", xl: "1200px" }}
       >
         <Box
           position="absolute"
@@ -90,80 +84,171 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         >
           <CloseCircleIcon color="red" />
         </Box>
-        <AuthWrapper imageSrc={LoginImage}>
-          <VStack
-            position="relative"
-            alignItems="stretch"
-            justifyContent="center"
-            gap="20px"
-            height="full"
-            px={{
-              base: "32px",
-              xl: "80px",
-            }}
-          >
-            <Flex align="center" gap={8} mb={2}>
-              <Image src={LoginLogo} alt="Logo" width={200} height={200} />
-              <Text fontSize="2xl" fontWeight="medium">
-                Welcome Back To Korean Beauty Point
-              </Text>
-            </Flex>
+        <AuthWrapper>
+          <Flex direction={{ base: "column", lg: "row" }} height="full">
+            {/* Left - Image */}
 
-            <FormProvider methods={methods} onSubmit={onSubmit}>
-              <VStack alignItems="stretch" gap="16px" marginTop="20px">
-                <TextFieldInput
-                  name="email"
-                  label="Email"
-                  placeholder="Enter Email"
-                />
-                <PasswordInput name="password" label="Password" />
-
-                <HStack justifyContent="space-between">
-                  <Checkbox>Remember me</Checkbox>
-
-                  <IconButton
-                    variant={"plain"}
-                    color="#7A7A7A"
-                    as={"button"}
-                    type="button"
-                    _hover={{ cursor: "pointer" }}
-                    onClick={handleForgotPassword}
-                  >
-                    Forgot password?
-                  </IconButton>
-                </HStack>
-
-                <Button
-                  bg={"#FF6996"}
-                  type="submit"
-                  marginTop="8px"
-                  loading={isPending}
-                >
-                  Submit
-                </Button>
-              </VStack>
-            </FormProvider>
-
-            <Text
-              variant="subtitle2"
-              bottom="32px"
-              left="0"
-              width="full"
-              color="system.text.light.light"
-              textAlign="center"
+            <Box
+              w={{ base: "100%", lg: "50%" }}
+              h="auto"
+              p={0}
+              m={0}
+              display="flex"
+              alignItems="stretch"
             >
-              Don’t have an account?{" "}
-              <Text
-                as="span"
-                variant="paragraphSmall"
-                color="system.neutral.info.light"
-                cursor="pointer"
-                onClick={handleSignin}
-              >
-                Sign up
-              </Text>
-            </Text>
-          </VStack>
+              {LoginImage && (
+                <Image
+                  src={LoginImage}
+                  alt="Login Visual"
+                  width={0}
+                  height={0}
+                  sizes="100vw"
+                  style={{
+                    height: "100%",
+                    width: "auto",
+                    objectFit: "cover",
+                  }}
+                />
+              )}
+            </Box>
+
+            {/* Right - Login Form */}
+            <Box
+              w={{ base: "100%", lg: "50%" }}
+              py={10}
+              px={{ base: 6, md: 12, xl: 20 }}
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <VStack w="full" align="stretch" gap={6}>
+                {/* Logo and Title */}
+                <Flex align="center" gap={8} mb={6}>
+                  <Image src={LoginLogo} alt="Logo" width={200} height={200} />
+                  <Text fontSize="2xl" fontWeight="medium">
+                    Welcome Back To Korean Beauty Point
+                  </Text>
+                </Flex>
+
+                <FormProvider methods={methods} onSubmit={onSubmit}>
+                  <VStack gap={8} align="stretch">
+                    <TextFieldInput
+                      startElement={<Mail />}
+                      name="email"
+                      label="Email Address"
+                      placeholder="Enter your Email Address"
+                    />
+                    <PasswordInput
+                      startElement={<Password />}
+                      name="password"
+                      label="Password"
+                      placeholder="Enter your Password"
+                    />
+
+                    <HStack justifyContent="space-between">
+                      <Checkbox>Remember me</Checkbox>
+
+                      <IconButton
+                        variant={"plain"}
+                        color="#7A7A7A"
+                        as={"button"}
+                        type="button"
+                        _hover={{ cursor: "pointer" }}
+                        onClick={handleForgotPassword}
+                      >
+                        Forgot password?
+                      </IconButton>
+                    </HStack>
+
+                    <Button
+                      bg="#FF6996"
+                      color="white"
+                      type="submit"
+                      loading={isPending}
+                    >
+                      Log In
+                    </Button>
+
+                    <Text fontSize="md" color="gray.500">
+                      By continuing with Google account, Apple or Email you
+                      agree to KBP
+                      <Link href={""}>
+                        {" "}
+                        <Text as="span" color="pink.500" fontWeight="medium">
+                          &nbsp; Term services &nbsp;
+                        </Text>{" "}
+                      </Link>
+                      and
+                      <Link href={""}>
+                        {" "}
+                        <Text as="span" color="pink.500" fontWeight="medium">
+                          &nbsp; Privacy Policy &nbsp;
+                        </Text>
+                      </Link>
+                    </Text>
+
+                    <HStack w="full" align="center" gap={4}>
+                      <Box flex="1" h="1px" bg="gray.300" />
+                      <Text fontSize="md" color="gray.500" whiteSpace="nowrap">
+                        or continue with
+                      </Text>
+                      <Box flex="1" h="1px" bg="gray.300" />
+                    </HStack>
+
+                    {/* Social Login Buttons */}
+                    <HStack gap={16} justify="center">
+                      <Button
+                        bg={"#D0D0D0"}
+                        borderRadius={"md"}
+                        variant="plain"
+                        flex={1}
+                      >
+                        <Google
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginRight: "8px",
+                          }}
+                        />
+                        Google
+                      </Button>
+
+                      <Button
+                        bg={"#D0D0D0"}
+                        borderRadius={"md"}
+                        variant="plain"
+                        flex={1}
+                      >
+                        <Apple
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            marginRight: "8px",
+                          }}
+                        />
+                        Apple
+                      </Button>
+                    </HStack>
+
+                    <Text fontSize="md" textAlign="center">
+                      Don&apos;t have an account?
+                      <Text
+                        as="span"
+                        color="pink.500"
+                        fontWeight="medium"
+                        cursor="pointer"
+                        onClick={handleSignin}
+                        _hover={{ textDecoration: "underline" }}
+                      >
+                        &nbsp; Sign up &nbsp;
+                      </Text>
+                      create account?
+                    </Text>
+                  </VStack>
+                </FormProvider>
+              </VStack>
+            </Box>
+          </Flex>
         </AuthWrapper>
       </Dialog>
 
