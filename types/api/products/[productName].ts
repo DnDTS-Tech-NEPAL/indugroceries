@@ -59,6 +59,8 @@ export type PriceType = {
   discounted_price: number;
   custom_discount_valid_upto?: string;
   custom_discount_start_from?: string;
+  min_price?: number;
+  max_price?: number;
 };
 
 export type IndividualProductAPIType = {
