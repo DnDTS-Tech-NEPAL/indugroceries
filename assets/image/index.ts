@@ -11,6 +11,7 @@ export { default as SkinTestHeroImage } from "./skin-test-heroimg.png";
 export { default as SkinTestBgImage } from "./skin-test-bg.png";
 export { default as Recommend1 } from "./recommend-1.jpg";
 export { default as Recommend2 } from "./recommend-2.jpg";
+export { default as LoginLogo } from "./login-logo.png";
 
 
 
