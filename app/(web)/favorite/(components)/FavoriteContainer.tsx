@@ -11,9 +11,7 @@ import { getOrCreateGuestId } from "@/utils/guest";
 
 export const FavoriteContainer = () => {
   const guid = getOrCreateGuestId();
-  console.log("guid", guid);
   const { data: WishlistData = [], isLoading } = useWishlistQuery(guid);
-  console.log("WishlistData", WishlistData);
 
   return (
     <Box
