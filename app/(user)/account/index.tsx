@@ -135,7 +135,10 @@ export default function AccountDashboard() {
     router.push(ROUTES.APP.HOMEPAGE);
     //Clear cart and wishlist count
     queryClient.resetQueries({ queryKey: ["cart-count"] });
-    queryClient.resetQueries({ queryKey: ["wishlist-count"],guid:localStorage.getItem("guest_id")});
+    queryClient.resetQueries({
+      queryKey: ["wishlist-count"],
+      guid: localStorage.getItem("guest_id"),
+    });
     queryClient.resetQueries({ queryKey: ["payment-method"] });
   };
 

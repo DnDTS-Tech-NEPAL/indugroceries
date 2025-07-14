@@ -14,7 +14,7 @@ import {
   PasswordInput,
   TextFieldInput,
 } from "@/components";
-import { useLoginMutation,useConfigQuery} from "@/hooks/api";
+import { useLoginMutation, useConfigQuery } from "@/hooks/api";
 import { LoginFormType, loginSchema } from "@/schema";
 import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
 import { LoginDialogProps } from "@/types";
