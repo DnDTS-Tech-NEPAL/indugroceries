@@ -28,7 +28,7 @@ import { LoginLogo } from "@/assets/image";
 const defaultValues: RegisterFormType = {
   fullName: "",
   email: "",
-  address: "",
+  address: "hello",
   contact: "",
 };
 
@@ -92,6 +92,8 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           Welcome Back To Korean Beauty Point
         </Text> */}
       </Flex>
+        <VStack alignItems="stretch" gap="16px" marginTop="20px">
+
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <VStack alignItems="stretch" gap="16px" marginTop="20px">
           <TextFieldInput
@@ -115,12 +117,12 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
               placeholder="Enter Contact Number"
             />
           </HStack>
-          <PasswordInput
+          {/* <PasswordInput
             startElement={<Password />}
             name="password"
             label="Password"
             placeholder="Enter your Password"
-          />
+          /> */}
 
           <Button
             marginTop="8px"
@@ -130,6 +132,8 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           >
             Create Account
           </Button>
+          </VStack>
+          </FormProvider>
 
           <Text fontSize="md" color="gray.500">
             By continuing with Google account, Apple or Email you agree to KBP
@@ -194,7 +198,6 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
             </Text>
           </Text>
         </VStack>
-      </FormProvider>
     </VStack>
   );
 };
