@@ -1,2 +1,2 @@
 export * from "./AppliedFilters";
-export * from "./SelectedFilters"
+export * from "./SelectedFilters";

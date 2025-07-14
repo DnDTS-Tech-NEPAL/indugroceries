@@ -127,7 +127,7 @@ export const SkinTypeFilter = ({
         </HStack>
 
         <Box p={6}>
-          <SelectedFilters/>
+          <SelectedFilters />
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Category Section */}

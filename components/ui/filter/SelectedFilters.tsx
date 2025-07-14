@@ -1,6 +1,6 @@
 "use client";
 
-import { Flex, Text, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 import { TagNew } from "../tag";
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 
