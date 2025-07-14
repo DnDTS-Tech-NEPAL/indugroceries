@@ -5,9 +5,11 @@ import { Box, Grid, HStack, Stack, Text, Spinner } from "@chakra-ui/react";
 
 import { useCartQuery, useConfigQuery } from "@/hooks/api";
 import { EmptyStateImage } from "@/assets/image";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 export const MyCart = () => {
-  const { data: cartData, isLoading } = useCartQuery();
+  const guid = getOrCreateGuestId();
+  const { data: cartData, isLoading } = useCartQuery(guid);
 
   const { data: config } = useConfigQuery();
 

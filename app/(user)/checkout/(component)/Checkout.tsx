@@ -30,14 +30,16 @@ import { PromoFormData } from "@/types";
 import { useForm } from "react-hook-form";
 import { InputGroup } from "@/components/form/input/InputGroup";
 import { DeliveryNote } from "./DeliveryNote";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 const CheckoutSection = () => {
   const [deliveryNote, setDeliveryNote] = useState<string>("");
+  const guid = getOrCreateGuestId();
 
   const { data: profileData } = useUserProfileQuery();
   const totalPoints = profileData?.data?.[0]?.total_points || 0;
 
-  const { data: selectedProducts = [], isLoading } = useCartQuery();
+  const { data: selectedProducts = [], isLoading } = useCartQuery(guid);
   const { summaryItems, total } = useSummary();
   const { mutate: applyPromo } = useAddPromo();
   const { setPromoData, promoData } = usePromoStore();
