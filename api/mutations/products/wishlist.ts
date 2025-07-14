@@ -14,6 +14,9 @@ export const removefromwishlist = (data: RemoveFromWishlistPayloadType) => {
   return httpClient.post(API_ROUTES.APP.PRODUCTS.WISHLIST.REMOVE, data);
 };
 
-export const getWishlistData = () => {
-  return httpClient.get<WishlistApiType>(API_ROUTES.APP.PRODUCTS.WISHLIST.GET);
+export const getWishlistData = (guid: string) => {
+  return httpClient.post<WishlistApiType>(
+    API_ROUTES.APP.PRODUCTS.WISHLIST.GET,
+    { guid }
+  );
 };

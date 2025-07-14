@@ -24,6 +24,7 @@ export type WishlistApiType = {
 export type WishlistPayloadType = {
   item_code?: string;
   quantity: number;
+  guid?: string | null;
 };
 
 export type RemoveFromWishlistPayloadType = {

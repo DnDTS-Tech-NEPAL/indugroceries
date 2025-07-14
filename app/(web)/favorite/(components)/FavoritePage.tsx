@@ -25,9 +25,11 @@ import {
 } from "@/hooks/app";
 import { WishlistFormType } from "@/types";
 import { BsCart3 } from "react-icons/bs";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 export const FavouritePage = () => {
-  const { data: wishlistData = [] } = useWishlistQuery();
+  const guid = getOrCreateGuestId();
+  const { data: wishlistData = [] } = useWishlistQuery(guid);
 
   const [selectedItems, setSelectedItems] = React.useState<Set<string>>(
     new Set()

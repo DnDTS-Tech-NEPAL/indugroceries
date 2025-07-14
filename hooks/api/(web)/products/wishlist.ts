@@ -22,13 +22,24 @@ export const useRemoveWishlistMutation = () => {
   });
 };
 
-export const useWishlistQuery = () => {
+// export const useWishlistQuery = () => {
+//   return useQuery({
+//     queryKey: ["wishlist"],
+//     queryFn: getWishlistData,
+//     select: (response) => {
+//       const wishlist = response?.data.data;
+//       return formatWishlistData(wishlist);
+//     },
+//   });
+// };
+export const useWishlistQuery = (guid: string) => {
   return useQuery({
-    queryKey: ["wishlist"],
-    queryFn: getWishlistData,
+    queryKey: ["wishlist", guid],
+    queryFn: () => getWishlistData(guid),
     select: (response) => {
       const wishlist = response?.data.data;
       return formatWishlistData(wishlist);
     },
+    enabled: !!guid,
   });
 };

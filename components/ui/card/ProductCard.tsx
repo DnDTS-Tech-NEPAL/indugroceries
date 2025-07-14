@@ -49,6 +49,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const { checkAuth } = useAuthCheck();
   const [isWishlist, setIsWishlist] = useState(false);
   const { data: config } = useConfigQuery();
+  const guestId = localStorage.getItem("guest_id");
   const { data: reviewData } = useReviewDataQuery(item_code);
   const { handleAddToWishlist } = useProductDetailWishlist();
   const { handleAddToCart } = useProductDetailCartMutation();
@@ -58,6 +59,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     const payload = {
       item_code: item_code,
       quantity: 1,
+      guid: guestId,
     };
     setIsWishlist(true);
     handleAddToWishlist(payload);
@@ -67,6 +69,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
       item_code: item_code,
       item_price: price,
       quantity: 1,
+      guid: guestId,
     };
     handleAddToCart(payload);
   };

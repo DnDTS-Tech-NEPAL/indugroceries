@@ -7,9 +7,13 @@ import { EmptyState } from "@/components";
 import { useWishlistQuery } from "@/hooks/api";
 
 import { FavouritePage } from "./FavoritePage";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 export const FavoriteContainer = () => {
-  const { data: WishlistData = [], isLoading } = useWishlistQuery();
+  const guid = getOrCreateGuestId();
+  console.log("guid", guid);
+  const { data: WishlistData = [], isLoading } = useWishlistQuery(guid);
+  console.log("WishlistData", WishlistData);
 
   return (
     <Box
