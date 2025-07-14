@@ -10,8 +10,10 @@ export const useRemoveFromCart = ({
   items,
   selectedItems,
   setSelectedItems,
+  guid,
 }: {
   items: ProductDetail[];
+  guid: string;
   selectedItems: Set<string>;
   setSelectedItems: React.Dispatch<React.SetStateAction<Set<string>>>;
 }) => {
@@ -24,11 +26,12 @@ export const useRemoveFromCart = ({
         item_code: [...selectedItems]
           .map((item) => items.find((it) => it.id === item))
           .map((item) => item?.title || ""),
+        guid,
       },
 
       {
         onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ["cart"] });
+          queryClient.invalidateQueries({ queryKey: ["cart"], guid });
           setSelectedItems(new Set());
           queryClient.invalidateQueries({ queryKey: ["cart-count"] });
         },

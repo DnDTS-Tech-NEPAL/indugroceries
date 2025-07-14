@@ -32,6 +32,7 @@ import {
 import { useRemoveFromCart } from "@/hooks/app";
 import { useItemStore, usePromoFormStore, usePromoStore } from "@/store";
 import { ProductDetail } from "@/types";
+import { getOrCreateGuestId } from "@/utils/guest";
 interface CartSummaryProps {
   onQuantityChange: (newQuantity: boolean) => void;
 }
@@ -40,7 +41,8 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
   const router = useRouter();
 
   const { data: config } = useConfigQuery();
-  const { data: cartData } = useCartQuery();
+  const guid = getOrCreateGuestId();
+  const { data: cartData } = useCartQuery(guid);
 
   const { items: originalItems, setItems } = useItemStore();
   const { resetPromoForm } = usePromoFormStore();
@@ -57,6 +59,7 @@ export const CartSummary = ({ onQuantityChange }: CartSummaryProps) => {
 
   const { handleRemoveFromCart, isPending: isRemovingFromCart } =
     useRemoveFromCart({
+      guid,
       items: originalItems,
       selectedItems,
       setSelectedItems,

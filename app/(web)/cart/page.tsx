@@ -11,9 +11,11 @@ import { CartSummary } from "./(components)";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { BsArrowRight } from "react-icons/bs";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 const Cart = () => {
-  const { data: cartData = [], isLoading } = useCartQuery();
+  const guid = getOrCreateGuestId();
+  const { data: cartData = [], isLoading } = useCartQuery(guid);
   const router = useRouter();
   const [quantityChanged, setQuantityChanged] = useState(false);
 

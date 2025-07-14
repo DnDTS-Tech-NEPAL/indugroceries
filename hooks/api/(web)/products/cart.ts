@@ -10,10 +10,10 @@ export const useCartMutation = () => {
   });
 };
 
-export const useCartQuery = () => {
+export const useCartQuery = (guid: string) => {
   return useQuery({
-    queryKey: ["cart"],
-    queryFn: getCartData,
+    queryKey: ["cart", guid],
+    queryFn: () => getCartData(guid),
     select: (response) => {
       const cart = response?.data?.data;
       return formatCartData(cart);

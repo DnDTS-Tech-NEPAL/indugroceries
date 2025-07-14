@@ -52,6 +52,8 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
         updateWishlistCart(guid);
         queryClient.invalidateQueries({ queryKey: ["wishlist-count", guid] });
         queryClient.invalidateQueries({ queryKey: ["wishlist", guid] });
+        queryClient.invalidateQueries({ queryKey: ["cart-count", guid] });
+        queryClient.invalidateQueries({ queryKey: ["cart", guid] });
         onClose();
       },
     });

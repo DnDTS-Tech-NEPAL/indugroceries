@@ -337,7 +337,6 @@ export const Navbar = () => {
   const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
 
   const wishlistTotalCount = wishlistCount?.count ?? "";
-  console.log("wishlistTotalCount", wishlistTotalCount);
   const cartTotalCount = cartCount?.count ?? "";
   const [searchInput, setSearchInput] = useState("");
 

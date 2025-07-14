@@ -20,6 +20,7 @@ export type CartAPIResponseType = {
 
 export type RemoveFromCartPayloadType = {
   item_code: string[];
+  guid?: string;
 };
 
 export type FormattedCartItemType = {
