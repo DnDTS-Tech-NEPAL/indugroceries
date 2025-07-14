@@ -64,7 +64,7 @@ export const SelectedFilters = () => {
 
   return (
     <VStack align="start" w={64} gap={2} mb={4}>
-      <Text fontWeight="bold">Filter Applied</Text>
+      {/* <Text fontWeight="bold">Filter Applied</Text> */}
       <Flex wrap="wrap" gap={2}>
         {brand.map((b) => (
           <TagNew
