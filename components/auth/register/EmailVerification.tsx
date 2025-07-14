@@ -1,4 +1,4 @@
-import { Flex, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
@@ -61,19 +61,12 @@ export const EmailVerification = ({
         as="button"
         onClick={() => setActiveStep(1)}
         align="center"
-        bg={"grey.100"}
-        w={"142px"}
-        h={"40px"}
+        color={"#FF6996"}
         p={"8px"}
         cursor={"pointer"}
       >
         <ArrowLeftIcon />
-        <Text
-          ml={2}
-          color={"primary.400"}
-          variant={"subtitle2"}
-          fontWeight={400}
-        >
+        <Text ml={2} textDecoration={"underline"} fontWeight={400}>
           Back to register
         </Text>
       </Flex>
@@ -95,13 +88,14 @@ export const EmailVerification = ({
           <Flex justifyContent={"space-between"}>
             <Flex gap={1}>
               <Text>sent to</Text>
-              <Text color={"primary.400"} fontWeight={590}>
-                {verifyEmail}
-              </Text>
+              <Text color={"#FF6996"}>{verifyEmail}</Text>
             </Flex>
-            <Flex cursor={"pointer"}>
-              <EyeIcon />
-              <Text color={"primary.700"} fontWeight={510}>
+            <Flex gap={2} cursor={"pointer"}>
+              <Box margin={"auto"}>
+                {" "}
+                <EyeIcon color="#FF6996" />
+              </Box>
+              <Text color={"#FF6996"} fontSize={"xl"}>
                 Show
               </Text>
             </Flex>
@@ -114,14 +108,20 @@ export const EmailVerification = ({
               onClick={() => {
                 handleResentOtp();
               }}
-              fontWeight={590}
-              color={"primary.400"}
+              textDecor={"underline"}
+              color={"#FF6996"}
               cursor={"pointer"}
             >
               Resend it
             </Text>
           </Flex>
-          <Button marginTop="8px" type="submit" loading={isPending}>
+
+          <Button
+            bg={"#FF6996"}
+            marginTop="8px"
+            type="submit"
+            loading={isPending}
+          >
             Submit
           </Button>
         </VStack>
