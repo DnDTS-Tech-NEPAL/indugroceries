@@ -14,7 +14,7 @@ import {
   PasswordInput,
   TextFieldInput,
 } from "@/components";
-import { useLoginMutation, useConfigQuery } from "@/hooks/api";
+import { useLoginMutation,useConfigQuery} from "@/hooks/api";
 import { LoginFormType, loginSchema } from "@/schema";
 import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
 import { LoginDialogProps } from "@/types";
@@ -26,12 +26,14 @@ import Link from "next/link";
 import { AuthWrapper } from "../wrapper";
 import { updateWishlistCart } from "@/api";
 import { getOrCreateGuestId } from "@/utils/guest";
+import { useQueryClient } from "@tanstack/react-query";
 const defaultValues = {
   email: "",
   password: "",
 };
 
 export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
+  const queryClient = useQueryClient();
   const methods = useForm<LoginFormType>({
     resolver: zodResolver(loginSchema),
     defaultValues,
@@ -48,6 +50,8 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
       onSuccess: () => {
         methods.reset();
         updateWishlistCart(guid);
+        queryClient.invalidateQueries({ queryKey: ["wishlist-count", guid] });
+        queryClient.invalidateQueries({ queryKey: ["wishlist", guid] });
         onClose();
       },
     });
