@@ -1,6 +1,6 @@
 export type RegisterFormType = {
   fullName: string;
   email: string;
-  address: string;
+  // address: string;
   contact: string;
 };

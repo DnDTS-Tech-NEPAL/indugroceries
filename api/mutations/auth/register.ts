@@ -10,7 +10,7 @@ export const register = (data: RegisterFormType) => {
   return httpClientNext.post(NEXT_API_ROUTES.AUTH.REGISTER, {
     email: data.email,
     full_name: data.fullName,
-    address: data.address,
+    // address: data.address,
     contact: data.contact,
   });
 };

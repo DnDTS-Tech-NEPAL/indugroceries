@@ -15,10 +15,10 @@ export const registerUserSchema = z.object({
     .min(1, { message: "Email is required." })
     .email({ message: "Invalid Email Address." }),
 
-  address: z
-    .string()
-    .trim()
-    .min(1, { message: "Address is required." }),
+  // address: z
+  //   .string()
+  //   .trim()
+  //   .min(1, { message: "Address is required." }),
 
   contact: z
     .string()

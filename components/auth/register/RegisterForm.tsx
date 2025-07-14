@@ -28,7 +28,7 @@ import { LoginLogo } from "@/assets/image";
 const defaultValues: RegisterFormType = {
   fullName: "",
   email: "",
-  address: "hello",
+  // address: "hello",
   contact: "",
 };
 
