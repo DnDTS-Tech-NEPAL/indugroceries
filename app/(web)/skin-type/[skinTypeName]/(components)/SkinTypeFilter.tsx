@@ -25,6 +25,7 @@ import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
 import Link from "next/link";
 import { LuChevronDown } from "react-icons/lu";
+import { SelectedFilters } from "@/components/ui/filter";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -126,6 +127,7 @@ export const SkinTypeFilter = ({
         </HStack>
 
         <Box p={6}>
+          <SelectedFilters/>
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Category Section */}

@@ -403,6 +403,7 @@ import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useEffect } from "react";
 import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
+import { SelectedFilters } from "@/components/ui/filter";
 
 interface CategoryItem {
   name: string;
@@ -555,6 +556,7 @@ export const CategoryFilter = ({
         </HStack>
 
         <Box p={6} shadow={"lg"}>
+          <SelectedFilters />
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Brand */}

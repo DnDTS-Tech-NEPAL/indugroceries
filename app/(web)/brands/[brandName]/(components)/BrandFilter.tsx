@@ -25,6 +25,7 @@ import { useEffect } from "react";
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
 import { LuChevronDown } from "react-icons/lu";
 import Link from "next/link";
+import { SelectedFilters } from "@/components/ui/filter";
 
 interface BrandFilterProps {
   minPrice: number;
@@ -145,6 +146,7 @@ export const BrandFilter = ({
         </HStack>
 
         <Box p={6}>
+          <SelectedFilters/>
           <VStack gap={6} align="stretch">
             <AccordionRoot collapsible as={VStack} alignItems="stretch">
               {/* Category  */}
