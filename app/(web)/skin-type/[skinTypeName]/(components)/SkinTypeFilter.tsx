@@ -219,7 +219,24 @@ export const SkinTypeFilter = ({
                   </Text>
                 </AccordionItemTrigger>
                 <AccordionItemContent>
-                  <VStack align="stretch" gap={2} pt={4}>
+                  <VStack
+                    align="stretch"
+                    gap={2}
+                    pt={4}
+                    maxH={"500px"}
+                    overflow={"auto"}
+                    css={{
+                      "&::-webkit-scrollbar": {
+                        width: "0px",
+                        height: "0px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        background: "transparent",
+                      },
+                      scrollbarWidth: "none",
+                      msOverflowStyle: "none",
+                    }}
+                  >
                     {brandItems.map((item) => (
                       <Checkbox
                         key={item.value}
