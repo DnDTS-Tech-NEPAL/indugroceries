@@ -22,6 +22,7 @@ export const useRemoveFromWishlist = ({
         item_code: [...selectedItems]
           .map((item) => wishlistData.find((it) => it.id === item))
           .map((item) => item?.title || ""),
+        guid: localStorage.getItem("guest_id"),
       },
       {
         onSuccess: () => {

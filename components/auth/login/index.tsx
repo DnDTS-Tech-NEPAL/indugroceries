@@ -24,6 +24,8 @@ import { LoginLogo } from "@/assets/image";
 import Image from "next/image";
 import Link from "next/link";
 import { AuthWrapper } from "../wrapper";
+import { updateWishlistCart } from "@/api";
+import { getOrCreateGuestId } from "@/utils/guest";
 const defaultValues = {
   email: "",
   password: "",
@@ -38,13 +40,14 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
   const { mutate: handleLogin, isPending } = useLoginMutation();
   const { updateSignInOpen } = useLayoutDialogStore();
   const { updateSignUpOpen } = useRegisterDialogStore();
-
+  const guid = getOrCreateGuestId();
   const [isOtpOpen, setOtpOpen] = useState(false);
 
   const onSubmit = (data: LoginFormType) => {
     handleLogin(data, {
       onSuccess: () => {
         methods.reset();
+        updateWishlistCart(guid);
         onClose();
       },
     });

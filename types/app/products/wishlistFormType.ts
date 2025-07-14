@@ -29,4 +29,5 @@ export type WishlistPayloadType = {
 
 export type RemoveFromWishlistPayloadType = {
   item_code: string[];
+  guid?: string | null;
 };
