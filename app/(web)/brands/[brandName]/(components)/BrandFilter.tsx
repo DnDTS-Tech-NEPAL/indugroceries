@@ -24,7 +24,7 @@ import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
 import { useEffect } from "react";
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
 import { LuChevronDown } from "react-icons/lu";
-import Link from "next/link";
+// import Link from "next/link";
 import { SelectedFilters } from "@/components/ui/filter";
 
 interface BrandFilterProps {
@@ -182,11 +182,11 @@ export const BrandFilter = ({
                                 handleSubcategoryClick(item.title)
                               }
                             >
-                              <Link
+                              {/* <Link
                                 href={`/category/${encodeURIComponent(item.title)}`}
-                              >
-                                {item.title}
-                              </Link>
+                              > */}
+                              {item.title}
+                              {/* </Link> */}
                             </Checkbox>
 
                             <Collapsible.Trigger asChild>

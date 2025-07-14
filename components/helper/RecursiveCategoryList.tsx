@@ -3,7 +3,7 @@
 import { Box, VStack, HStack, IconButton, Collapsible } from "@chakra-ui/react";
 import { Checkbox } from "../form";
 import { LuChevronDown } from "react-icons/lu";
-import Link from "next/link";
+// import Link from "next/link";
 
 interface CategoryItem {
   name: string;
@@ -39,9 +39,9 @@ const RecursiveCategoryList = ({
                     checked={selected.includes(item.name)}
                     onChange={() => onToggle(item.name)}
                   >
-                    <Link href={`/category/${encodeURIComponent(item.name)}`}>
-                      {item.name}
-                    </Link>
+                    {/* <Link href={`/category/${encodeURIComponent(item.name)}`}> */}
+                    {item.name}
+                    {/* </Link> */}
                   </Checkbox>
 
                   <Collapsible.Trigger asChild>
