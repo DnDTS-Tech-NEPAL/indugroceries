@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Box, Flex, HStack, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { FormProvider, PasswordInput, TextFieldInput } from "@/components";
+import { FormProvider, TextFieldInput } from "@/components";
 import { Button } from "@/components/ui";
 import { useRegisterMutation } from "@/hooks/api";
 import { registerUserSchema } from "@/schema";
@@ -18,7 +18,7 @@ import {
   CloseCircleIcon,
   Google,
   Mail,
-  Password,
+  // Password,
 } from "@/assets/svg";
 import { User } from "lucide-react";
 import Link from "next/link";
@@ -92,112 +92,111 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           Welcome Back To Korean Beauty Point
         </Text> */}
       </Flex>
-        <VStack alignItems="stretch" gap="16px" marginTop="20px">
-
-      <FormProvider methods={methods} onSubmit={onSubmit}>
-        <VStack alignItems="stretch" gap="16px" marginTop="20px">
-          <TextFieldInput
-            startElement={<User />}
-            name="fullName"
-            label="Full Name"
-            placeholder="Enter Full Name"
-          />
-
-          <HStack gap="16px">
+      <VStack alignItems="stretch" gap="16px" marginTop="20px">
+        <FormProvider methods={methods} onSubmit={onSubmit}>
+          <VStack alignItems="stretch" gap="16px" marginTop="20px">
             <TextFieldInput
-              startElement={<Mail />}
-              name="email"
-              label="Email"
-              placeholder="Enter your Email Address"
+              startElement={<User />}
+              name="fullName"
+              label="Full Name"
+              placeholder="Enter Full Name"
             />
-            <TextFieldInput
-              startElement={<CallIcon />}
-              name="contact"
-              label="Contact Number"
-              placeholder="Enter Contact Number"
-            />
-          </HStack>
-          {/* <PasswordInput
+
+            <HStack gap="16px">
+              <TextFieldInput
+                startElement={<Mail />}
+                name="email"
+                label="Email"
+                placeholder="Enter your Email Address"
+              />
+              <TextFieldInput
+                startElement={<CallIcon />}
+                name="contact"
+                label="Contact Number"
+                placeholder="Enter Contact Number"
+              />
+            </HStack>
+            {/* <PasswordInput
             startElement={<Password />}
             name="password"
             label="Password"
             placeholder="Enter your Password"
           /> */}
 
-          <Button
-            marginTop="8px"
-            bg={"#FF6996"}
-            type="submit"
-            loading={isPending}
-          >
-            Create Account
-          </Button>
-          </VStack>
-          </FormProvider>
-
-          <Text fontSize="md" color="gray.500">
-            By continuing with Google account, Apple or Email you agree to KBP
-            <Link href={""}>
-              {" "}
-              <Text as="span" color="pink.500" fontWeight="medium">
-                &nbsp; Term services &nbsp;
-              </Text>{" "}
-            </Link>
-            and
-            <Link href={""}>
-              {" "}
-              <Text as="span" color="pink.500" fontWeight="medium">
-                &nbsp; Privacy Policy &nbsp;
-              </Text>
-            </Link>
-          </Text>
-
-          <HStack w="full" align="center" gap={4}>
-            <Box flex="1" h="1px" bg="gray.300" />
-            <Text fontSize="md" color="gray.500" whiteSpace="nowrap">
-              or continue with
-            </Text>
-            <Box flex="1" h="1px" bg="gray.300" />
-          </HStack>
-
-          {/* Social Login Buttons */}
-          <HStack gap={16} justify="center">
-            <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
-              <Google
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "8px",
-                }}
-              />
-              Google
-            </Button>
-            <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
-              <Apple
-                style={{
-                  width: "20px",
-                  height: "20px",
-                  marginRight: "8px",
-                }}
-              />
-              Apple
-            </Button>
-          </HStack>
-
-          <Text fontSize="md" textAlign="center">
-            Already have an account?
-            <Text
-              as="span"
-              color="pink.500"
-              fontWeight="medium"
-              cursor="pointer"
-              onClick={handleRegister}
-              _hover={{ textDecoration: "underline" }}
+            <Button
+              marginTop="8px"
+              bg={"#FF6996"}
+              type="submit"
+              loading={isPending}
             >
-              &nbsp; Sign In &nbsp;
+              Create Account
+            </Button>
+          </VStack>
+        </FormProvider>
+
+        <Text fontSize="md" color="gray.500">
+          By continuing with Google account, Apple or Email you agree to KBP
+          <Link href={""}>
+            {" "}
+            <Text as="span" color="pink.500" fontWeight="medium">
+              &nbsp; Term services &nbsp;
+            </Text>{" "}
+          </Link>
+          and
+          <Link href={""}>
+            {" "}
+            <Text as="span" color="pink.500" fontWeight="medium">
+              &nbsp; Privacy Policy &nbsp;
             </Text>
+          </Link>
+        </Text>
+
+        <HStack w="full" align="center" gap={4}>
+          <Box flex="1" h="1px" bg="gray.300" />
+          <Text fontSize="md" color="gray.500" whiteSpace="nowrap">
+            or continue with
           </Text>
-        </VStack>
+          <Box flex="1" h="1px" bg="gray.300" />
+        </HStack>
+
+        {/* Social Login Buttons */}
+        <HStack gap={16} justify="center">
+          <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
+            <Google
+              style={{
+                width: "20px",
+                height: "20px",
+                marginRight: "8px",
+              }}
+            />
+            Google
+          </Button>
+          <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
+            <Apple
+              style={{
+                width: "20px",
+                height: "20px",
+                marginRight: "8px",
+              }}
+            />
+            Apple
+          </Button>
+        </HStack>
+
+        <Text fontSize="md" textAlign="center">
+          Already have an account?
+          <Text
+            as="span"
+            color="pink.500"
+            fontWeight="medium"
+            cursor="pointer"
+            onClick={handleRegister}
+            _hover={{ textDecoration: "underline" }}
+          >
+            &nbsp; Sign In &nbsp;
+          </Text>
+        </Text>
+      </VStack>
     </VStack>
   );
 };
