@@ -86,11 +86,11 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
         <CloseCircleIcon color="red" />
       </Box>
       {/* Logo and Title */}
-      <Flex align="center" gap={8} mb={3}>
+      <Flex justifyContent={"center"} align="center" gap={8} mb={3}>
         <Image src={LoginLogo} alt="Logo" width={200} height={200} />
-        <Text fontSize="2xl" fontWeight="medium">
+        {/* <Text fontSize="2xl" fontWeight="medium">
           Welcome Back To Korean Beauty Point
-        </Text>
+        </Text> */}
       </Flex>
       <FormProvider methods={methods} onSubmit={onSubmit}>
         <VStack alignItems="stretch" gap="16px" marginTop="20px">

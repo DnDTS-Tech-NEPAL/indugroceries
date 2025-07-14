@@ -123,11 +123,11 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
             >
               <VStack w="full" align="stretch" gap={6}>
                 {/* Logo and Title */}
-                <Flex align="center" gap={8} mb={6}>
+                <Flex justifyContent={"center"} align="center" gap={8} mb={6}>
                   <Image src={LoginLogo} alt="Logo" width={200} height={200} />
-                  <Text fontSize="2xl" fontWeight="medium">
+                  {/* <Text fontSize="2xl" fontWeight="medium">
                     Welcome Back To Korean Beauty Point
-                  </Text>
+                  </Text> */}
                 </Flex>
 
                 <FormProvider methods={methods} onSubmit={onSubmit}>
