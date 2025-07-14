@@ -2,6 +2,7 @@ export const API_ROUTES = {
   AUTH: {
     LOGIN: "frappe.val.api.login",
     REGISTER: "signup",
+    GUEST_CARTWISHLIST: "updatecartandwislist",
     SET_PASSWORD: "resetpassword",
     RESEND_OTP: "resendotp",
     FORGOT_PASSWORD: {

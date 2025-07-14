@@ -5,9 +5,11 @@ import { Box, Grid, HStack, Spinner, Stack, Text } from "@chakra-ui/react";
 
 import { EmptyStateImage } from "@/assets/image";
 import { useConfigQuery, useWishlistQuery } from "@/hooks/api";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 export const MyWishlist = () => {
-  const { data: wishlistData, isLoading } = useWishlistQuery();
+  const guid = getOrCreateGuestId();
+  const { data: wishlistData, isLoading } = useWishlistQuery(guid);
   const { data: config } = useConfigQuery();
 
   return (

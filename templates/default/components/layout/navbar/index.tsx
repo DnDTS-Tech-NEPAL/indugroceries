@@ -309,11 +309,14 @@ import { VisibleSection } from "@/components/ui/visibleSection";
 import { Login, Profile, Register } from "@/assets/svg";
 import { useNavMenuQuery } from "@/hooks/api/navMenu";
 import { NavItem } from "./NavItem";
+import { getOrCreateGuestId } from "@/utils/guest";
 
 export const Navbar = () => {
   const router = useRouter();
   const { data: config } = useConfigQuery();
   const { data: NavbarData } = useNavMenuQuery();
+  const guid = getOrCreateGuestId();
+
   const pathname = usePathname();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -329,8 +332,8 @@ export const Navbar = () => {
   const { signInOpen, updateSignInOpen } = useLayoutDialogStore();
   const { signUpOpen, updateSignUpOpen } = useRegisterDialogStore();
 
-  const { data: wishlistCount } = useWishlistCountQuery();
-  const { data: cartCount } = useCartCountQuery();
+  const { data: wishlistCount } = useWishlistCountQuery(guid);
+  const { data: cartCount } = useCartCountQuery(guid);
   const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
 
   const wishlistTotalCount = wishlistCount?.count ?? "";
@@ -387,8 +390,7 @@ export const Navbar = () => {
 
         {/* Icons + Auth */}
         <HStack gap="12px">
-
-             {/* Wishlist */}
+          {/* Wishlist */}
           <VisibleSection visibility={config?.wishlist_visibility}>
             <Box position="relative" cursor="pointer">
               <Flex
@@ -487,8 +489,6 @@ export const Navbar = () => {
               </Button>
             </>
           )}
-
-       
         </HStack>
       </Flex>
 
