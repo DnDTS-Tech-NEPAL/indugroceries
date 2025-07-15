@@ -1,163 +1,180 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Autoplay } from "swiper/modules";
+import { useRouter } from "next/navigation";
 import {
   Box,
-  Heading,
-  Text,
   Flex,
-  VStack,
+  Heading,
+  IconButton,
+  Text,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useConfigQuery, useHomePageQuery } from "@/hooks/api";
 import { useFeaturedCategoryImages } from "@/hooks/app";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { ROUTES } from "@/constants";
-import { useRouter } from "next/navigation";
-import { VisibleSection } from "@/components/ui/visibleSection";
 import { toTitleCase } from "@/utils";
-import type { Swiper as SwiperClass } from "swiper";
+
+import Slider from "react-slick";
+
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+// Custom Arrow Components
+const NextArrow = ({ onClick }: { onClick: () => void }) => (
+  <IconButton
+    aria-label="Next"
+    onClick={onClick}
+    position="absolute"
+    right="-3rem"
+    bottom="16%"
+    transform="translateY(-50%)"
+    zIndex={2}
+    bg="white"
+    _hover={{ bg: "whitesmoke" }}
+    borderRadius="full"
+  >
+    <ChevronRight color="#191919" />
+  </IconButton>
+);
+
+const PrevArrow = ({ onClick }: { onClick: () => void }) => (
+  <IconButton
+    aria-label="Prev"
+    onClick={onClick}
+    position="absolute"
+    left="-3rem"
+    bottom="16%"
+    transform="translateY(-50%)"
+    zIndex={2}
+    bg="white"
+    _hover={{ bg: "whitesmoke" }}
+    borderRadius="full"
+  >
+    <ChevronLeft color="#191919" />
+  </IconButton>
+);
 
 export const FeaturedCategory = () => {
+  const slidesToShow = useBreakpointValue({
+    base: 1,
+    sm: 1,
+    md: 3,
+    lg: 4,
+    xl: 4,
+  });
+
+  const settings = {
+    // dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: slidesToShow || 1,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    nextArrow: <NextArrow onClick={() => {}} />,
+    prevArrow: <PrevArrow onClick={() => {}} />,
+    // appendDots: (dots: ReactNode) => (
+    //   <Box mt={8}>
+    //     <ul style={{ position: "absolute", bottom: "-8%", left: "2%" }}>
+    //       {dots}
+    //     </ul>
+    //   </Box>
+    // ),
+    // dotsClass: "slick-dots slick-thumb",
+  };
   const router = useRouter();
   const featureImages = useFeaturedCategoryImages();
   const { data: featuredCategoryData } = useHomePageQuery();
   const { data: config } = useConfigQuery();
 
-  const [swiperInstance, setSwiperInstance] = useState<SwiperClass | null>(
-    null
-  );
-  const autoplayDelay = useBreakpointValue({ base: 5000, md: 3000 });
+  const cardWidth = useBreakpointValue({ base: "45%", md: "30%", lg: "100%" });
 
-  const shouldForceScroll = featureImages.length > 2;
-
-  const handleSwiper = (swiper: SwiperClass) => {
-    setSwiperInstance(swiper);
-  };
+  if (!config?.featured_visibility) return null;
 
   return (
-    <VisibleSection visibility={config?.featured_visibility}>
-      <Flex
-        direction={{ base: "column", lg: "row" }}
-        align="center"
-        justify="space-between"
-        maxW="6xl"
-        mx="auto"
-        px={{ base: 4, md: 8 }}
-        py={{ base: 10, md: 16 }}
-        gap={{ base: 8, md: 10, lg: 12 }}
-      >
-        {/* LEFT: Heading and Description */}
-        <Box
-          flex={{ lg: 1 }}
-          maxW={{ base: "100%", lg: "40%" }}
-          alignSelf="flex-start"
+    <Box maxW="6xl" mx="auto" px={{ base: 4, md: 8 }} py={{ base: 10, md: 16 }}>
+      {/* Heading and Description */}
+      <Box mb={8} maxW="100%">
+        <Heading
+          fontSize={{ base: "20px", md: "28px", lg: "40px" }}
+          fontWeight="bold"
+          lineHeight="short"
+          mb={2}
+          whiteSpace="pre-line"
         >
-          <Heading
-            fontSize={{ base: "20px", md: "28px", lg: "47px" }}
-            fontWeight="bold"
-            lineHeight="short"
-            mb={2}
-            whiteSpace={"pre-line"}
-          >
-            {featuredCategoryData.featured_category_title}
-          </Heading>
-          <Text fontSize="md" color="gray.600" mb={2}>
-            {featuredCategoryData.fearued_subtitle}
-          </Text>
-          <Text fontSize="sm" color="gray.500" maxW="lg">
-            {featuredCategoryData.featured_category_description}
-          </Text>
-        </Box>
+          {featuredCategoryData?.featured_category_title}
+        </Heading>
+        <Text fontSize="md" color="gray.600" mb={2}>
+          {featuredCategoryData?.fearued_subtitle}
+        </Text>
+        <Text fontSize="sm" color="gray.500" maxW="lg">
+          {featuredCategoryData?.featured_category_description}
+        </Text>
+      </Box>
 
-        {/* RIGHT: Swiper Slider */}
-        <Box flex={{ lg: 2 }} w="full" maxW={{ base: "100%", lg: "65%" }}>
-          <Swiper
-            breakpoints={{
-              320: { slidesPerView: 2 },
-              640: { slidesPerView: 3 },
-              1024: { slidesPerView: 4 },
-              1280: { slidesPerView: 6 },
-            }}
-            onSwiper={handleSwiper}
-            modules={[Autoplay]}
-            autoplay={{
-              delay: autoplayDelay,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            loop={shouldForceScroll}
-            grabCursor
-          >
-            {featureImages.map((item, index) => (
-              <SwiperSlide key={index}>
-                <Flex
-                  direction="column"
-                  align="center"
-                  justify="center"
-                  cursor="pointer"
-                  p={2}
-                  onClick={() =>
-                    router.push(`${ROUTES.APP.PRODUCTS}?category=${item.name}`)
-                  }
+      {/* Featured Categories as Cards */}
+      {/* <Flex flexWrap="wrap" gap={6} justify="flex-start"> */}
+      <Slider {...settings} width="100%">
+        {featureImages.map((item) => (
+          <Box key={item.name} px={4}>
+            <Box
+              w={cardWidth}
+              h="130px"
+              minW="140px"
+              bg="white"
+              borderRadius="xl"
+              boxShadow="md"
+              p={4}
+              transition="all 0.2s"
+              cursor="pointer"
+              _hover={{
+                boxShadow: "lg",
+                transform: "translateY(-4px)",
+              }}
+              onClick={() =>
+                router.push(`${ROUTES.APP.PRODUCTS}?category=${item.name}`)
+              }
+            >
+              <Flex direction="column" align="center" h="120px">
+                <Box
+                  w="full"
+                  h="80px"
+                  overflow="hidden"
+                  mb={3}
+                  position="relative"
+                  _hover={{
+                    "& img": {
+                      filter:
+                        "brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)",
+                    },
+                  }}
                 >
-                  <Box
-                    w="80px"
-                    h="80px"
-                    borderRadius="full"
-                    overflow="hidden"
-                    mb={2}
-                    bg="gray.100"
-                    position="relative"
-                    border="2px solid transparent"
-                    transition="all 0.3s ease"
-                    _hover={{
-                      bg: "#FF6996",
-                      "& img": {
-                        filter:
-                          "brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)",
-                      },
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    style={{
+                      objectFit: "contain",
+                      transition: "filter 0.3s ease",
                     }}
-                  >
-                    <Box
-                      position="absolute"
-                      top="50%"
-                      left="55%"
-                      transform="translate(-50%, -50%)"
-                      w="60%"
-                      h="60%"
-                    >
-                      <Image
-                        src={item.image}
-                        alt={item.name}
-                        fill
-                        style={{
-                          objectFit: "contain",
-                          transition: "filter 0.3s ease",
-                        }}
-                      />
-                    </Box>
-                  </Box>
-
-                  <style jsx>{`
-                    .image:hover {
-                      filter: brightness(0) saturate(100%) invert(35%)
-                        sepia(78%) saturate(446%) hue-rotate(296deg)
-                        brightness(90%) contrast(90%);
-                    }
-                  `}</style>
-
-                  <Text fontSize="sm" fontWeight="medium" textAlign="center">
-                    {toTitleCase(item.name)}
-                  </Text>
-                </Flex>
-              </SwiperSlide>
-            ))}
-          </Swiper>
-        </Box>
-      </Flex>
-    </VisibleSection>
+                  />
+                </Box>
+                <Text
+                  fontSize="sm"
+                  fontWeight="semibold"
+                  textAlign="center"
+                  color="gray.700"
+                >
+                  {toTitleCase(item.name)}
+                </Text>
+              </Flex>
+            </Box>
+          </Box>
+        ))}
+      </Slider>
+      {/* </Flex> */}
+    </Box>
   );
 };

@@ -39,8 +39,12 @@ export const Footer = () => {
     <Box bg="#191919" px={{ base: 4, md: 8, lg: 12 }} pt={10}>
       <Box color="#D0D0D0" maxW="4xl" mx="auto">
         <Grid
-          templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", lg: "2fr repeat(3, 1fr)" }}
-          gap={{ base: 8, md: 10, lg: 12  }}
+          templateColumns={{
+            base: "1fr",
+            md: "repeat(2, 1fr)",
+            lg: "2fr repeat(3, 1fr)",
+          }}
+          gap={{ base: 8, md: 10, lg: 12 }}
         >
           <VStack align="start" gap={2} color="white">
             {config?.footer_logo_url && (
@@ -53,15 +57,18 @@ export const Footer = () => {
                 />
               </Box>
             )}
-          
-              <Text fontSize="sm">Phone No: {config?.contact_number || ""}</Text>
-            <Text fontSize="sm">Email: {config?.company_contact_email || ""}</Text>
+
+            <Text fontSize="sm">Phone No: {config?.contact_number || ""}</Text>
+            <Text fontSize="sm">
+              Email: {config?.company_contact_email || ""}
+            </Text>
             <Text fontSize="sm">Location: {config?.location || ""}</Text>
-           
           </VStack>
 
           <VStack align="start" gap={2} color="#FF6996">
-            <Text fontWeight="bold" fontSize="lg">Quick Links</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              Quick Links
+            </Text>
             {links.map(({ route, label }) => (
               <Link key={label} href={route} passHref legacyBehavior>
                 <ChakraLink
@@ -77,7 +84,9 @@ export const Footer = () => {
           </VStack>
 
           <VStack align="start" gap={2} color="#FF6996">
-            <Text fontWeight="bold" fontSize="lg">Customer Care</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              Customer Care
+            </Text>
             {customerCare.map(({ route, label }) => (
               <Link key={route} href={route} passHref legacyBehavior>
                 <ChakraLink
@@ -93,7 +102,9 @@ export const Footer = () => {
           </VStack>
 
           <VStack align="start" gap={2} color="#FF6996">
-            <Text fontWeight="bold" fontSize="lg">Category</Text>
+            <Text fontWeight="bold" fontSize="lg">
+              Category
+            </Text>
             {featuredData?.map(({ name }, index) => (
               <Text
                 key={index}
@@ -119,13 +130,20 @@ export const Footer = () => {
           gap={4}
         >
           <Text fontSize="sm">
-            &copy; {new Date().getFullYear()} Korean Beauty Point. All rights reserved.
+            &copy; {new Date().getFullYear()} Korean Beauty Point. All rights
+            reserved.
           </Text>
 
           <HStack gap={4} align="center">
             <Text fontSize="sm">Follow Us On:</Text>
             {socialLinks.map(({ name, href, icon }) => (
-              <Link key={name} href={href} target="_blank" passHref legacyBehavior>
+              <Link
+                key={name}
+                href={href}
+                target="_blank"
+                passHref
+                legacyBehavior
+              >
                 <ChakraLink
                   aria-label={name}
                   color="white"
@@ -142,4 +160,3 @@ export const Footer = () => {
     </Box>
   );
 };
-

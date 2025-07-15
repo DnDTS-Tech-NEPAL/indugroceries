@@ -1,3 +1,4 @@
+import { Topbar } from "./../../templates/default/components/layout/topbar/index";
 export type ConfigType = {
   name: string;
   owner: string;
@@ -83,11 +84,12 @@ export type ConfigType = {
   top_nav_bar_label: string;
   top_navbar_content: string;
   top_nav_bar_redirect_link: string;
+  top_navbar_city: string;
 
   // footer section
   footer_logo_url: string;
   quick_links: QuickLinkType[];
- 
+
   //global reach section
   banner_3_title: string;
   banner_3_description: string;

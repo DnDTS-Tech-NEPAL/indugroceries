@@ -1,66 +1,196 @@
-import Link from "next/link";
-import { chakra, Flex, HStack, Text } from "@chakra-ui/react";
+"use client";
+
+import { chakra, Flex, HStack, Text, Box, Icon } from "@chakra-ui/react";
+import { FaTags, FaChevronDown } from "react-icons/fa";
 
 import { useConfigQuery, useUserProfileQuery } from "@/hooks/api";
 import { VisibleSection } from "@/components";
+import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
+import { Profile } from "@/assets/svg";
+import { ROUTES } from "@/constants";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+
+const CITY_OPTIONS = [
+  { label: "Highpoint", value: "Highpoint" },
+  { label: "Greensboro", value: "Greensboro" },
+];
+
 export const Topbar = () => {
-  const { data: topnavconfig } = useConfigQuery();
-  const CustomSelect = chakra("select");
+  const { data: config, isLoading: configLoading } = useConfigQuery();
+  const {
+    data: userProfileData,
+    isLoading: isUserLoading,
+    isError,
+  } = useUserProfileQuery();
+
+  const router = useRouter();
+
+  const showLogin = config?.login_visibility === 1;
+  const showRegister = config?.register_visibility === 1;
+
+  const { updateSignInOpen } = useLayoutDialogStore();
+  const { updateSignUpOpen } = useRegisterDialogStore();
+
+  const [city, setCity] = useState<string>("");
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && !configLoading) {
+      const storedCity = localStorage.getItem("city");
+      let defaultCity = "Greensboro";
+
+      if (storedCity) {
+        defaultCity = storedCity;
+      } else if (config?.top_navbar_city) {
+        defaultCity = config.top_navbar_city;
+      }
+
+      setCity(defaultCity);
+    }
+  }, [config, configLoading]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && city) {
+      localStorage.setItem("city", city);
+    }
+  }, [city]);
+
+  if (configLoading) {
+    return null;
+  }
+
   return (
-    <>
-      <VisibleSection visibility={topnavconfig.top_navbar_visibility}>
-        <HStack
-          alignItems="center"
-          height="48px"
-          background="system.neutral.background.dark"
-          px={{
-            base: "16px",
-            lg: "24px",
-            xl: "32px",
-            "2xl": "40px",
-          }}
-          // Only display topbar in laptop and larger resolution devices
-          display={{
-            base: "none",
-            lg: "flex",
-          }}
+    <VisibleSection visibility={config?.top_navbar_visibility}>
+      <HStack
+        alignItems="center"
+        height="40px"
+        background="black"
+        color="white"
+        fontSize="sm"
+        px={{ base: "16px", md: "32px", xl: "64px" }}
+      >
+        <Flex
+          justify="space-between"
+          align="center"
+          w="full"
+          maxW="7xl"
+          mx="auto"
         >
-          <Flex justifyContent="space-between" w={"full"} mx="auto" maxW="6xl">
-            <Text color="gray.700" display={"flex"} gap={8}>
-              <Text>{topnavconfig.top_nav_bar_label}</Text>
-              <Text borderLeft="2px solid black" pl="4">
-                {topnavconfig.top_navbar_content}*
-                <Link
-                  href={topnavconfig.top_nav_bar_redirect_link}
-                  style={{ textDecoration: "underline", marginLeft: 6 }}
+          {/* LEFT: Label and City Selector */}
+          <Flex align="center" gap={6}>
+            <Text>Welcome to InduGrocery!</Text>
+            <Flex align="center" gap={1}>
+              <Text as="b">City:</Text>
+
+              <Box position="relative" display="inline-block">
+                <chakra.select
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  bg="transparent"
+                  color="white"
+                  border="none"
+                  outline="none"
+                  fontSize="sm"
+                  fontWeight="normal"
+                  appearance="none"
+                  pr={6}
+                  cursor="pointer"
+                  _focus={{ outline: "none", boxShadow: "none" }}
+                  _hover={{ textDecoration: "underline" }}
                 >
-                  Shop Now
-                </Link>
-              </Text>
-            </Text>
-            <CustomSelect bg="system.neutral.background.dark">
-              <option
-                style={{ backgroundColor: "white", color: "black" }}
-                value="EN"
-              >
-                English
-              </option>
-              <option
-                style={{ backgroundColor: "white", color: "black" }}
-                value="ES"
-              >
-                Español
-              </option>
-              <option
-                style={{ backgroundColor: "white", color: "black" }}
-                value="FR"
-              >
-                Français
-              </option>
-            </CustomSelect>
+                  {CITY_OPTIONS.map((option) => (
+                    <option
+                      key={option.value}
+                      value={option.value}
+                      style={{ color: "black" }}
+                    >
+                      {option.label}
+                    </option>
+                  ))}
+                </chakra.select>
+                <Icon
+                  as={FaChevronDown}
+                  position="absolute"
+                  right="4px"
+                  top="50%"
+                  transform="translateY(-50%)"
+                  fontSize="xs"
+                  color="white"
+                  pointerEvents="none"
+                />
+              </Box>
+            </Flex>
           </Flex>
-        </HStack>
-      </VisibleSection>
-    </>
+
+          {/* RIGHT: Offer + Auth or Profile */}
+          <Flex align="center" gap={6}>
+            {/* Offer */}
+            <Flex align="center" gap={2}>
+              <Icon as={FaTags} />
+              <Text>Offer</Text>
+            </Flex>
+
+            {/* Divider only if needed */}
+            {!isUserLoading &&
+              !userProfileData &&
+              (showLogin || showRegister) && (
+                <Box height="16px" borderRight="1px solid gray" />
+              )}
+
+            {/* Auth or Profile */}
+            <Flex align="center" gap={2}>
+              {!isUserLoading && userProfileData && !isError ? (
+                // ✅ Show profile if user is logged in
+                <Profile
+                  cursor="pointer"
+                  height={20}
+                  width={20}
+                  onClick={() => router.push(ROUTES.USER.PROFILE)}
+                />
+              ) : (
+                // ✅ Show login/register if user not logged in
+                <>
+                  {showLogin && (
+                    <chakra.button
+                      onClick={() => updateSignInOpen(true)}
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.200"
+                      bg="transparent"
+                      _hover={{
+                        textDecoration: "underline",
+                        color: "blue.300",
+                      }}
+                    >
+                      Login
+                    </chakra.button>
+                  )}
+                  {showLogin && showRegister && (
+                    <Text fontSize="sm" color="gray.400">
+                      |
+                    </Text>
+                  )}
+                  {showRegister && (
+                    <chakra.button
+                      onClick={() => updateSignUpOpen(true)}
+                      fontSize="sm"
+                      fontWeight="medium"
+                      color="gray.200"
+                      bg="transparent"
+                      _hover={{
+                        textDecoration: "underline",
+                        color: "blue.300",
+                      }}
+                    >
+                      Sign Up
+                    </chakra.button>
+                  )}
+                </>
+              )}
+            </Flex>
+          </Flex>
+        </Flex>
+      </HStack>
+    </VisibleSection>
   );
 };

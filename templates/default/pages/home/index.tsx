@@ -1,21 +1,17 @@
 import { HeroSectionProps } from "@/types";
 
 import {
-  Banners,
   BestSellers,
   BrandCategory,
   FeaturedCategory,
   HeroSection,
   NewArrivals,
   SummerSale,
-  SocialFeed,
   BenefitsSection,
-  ShopBySkinType,
-  InStoreVisit,
 } from "./(components)";
 import ProductShowcase from "./(components)/ProductShowcase";
 import { ShopSkinCareMakeup } from "./(components)/Shop";
-import { ProductSection } from "./(components)/ProductSection";
+
 export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
   return (
     <>
@@ -24,12 +20,11 @@ export const DefaultLandingPage = ({ initialData }: HeroSectionProps) => {
       <ProductShowcase />
       <BrandCategory />
       <BestSellers />
-      <ShopBySkinType />
+
       <SummerSale />
       <NewArrivals />
       <ShopSkinCareMakeup />
-      <InStoreVisit />
-      <SocialFeed />
+
       <BenefitsSection />
     </>
   );

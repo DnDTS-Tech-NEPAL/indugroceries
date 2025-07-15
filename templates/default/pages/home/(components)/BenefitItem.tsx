@@ -8,33 +8,23 @@ interface BenefitItemProps {
 }
 
 export const BenefitItem = ({ icon, title, subtitle }: BenefitItemProps) => (
-  <Flex 
-    gap={4} 
+  <Flex
+    gap={4}
     align="flex-start"
     p={3}
     borderRadius="md"
     _hover={{
       bg: "gray.50",
       transform: "translateY(-2px)",
-      transition: "all 0.2s"
+      transition: "all 0.2s",
     }}
   >
-    <Box mt={1}>
-      {icon()}
-    </Box>
+    <Box mt={1}>{icon()}</Box>
     <Box textAlign="left">
-      <Text 
-        fontWeight="semibold" 
-        fontSize={["sm", "md"]}
-        color="gray.800"
-      >
+      <Text fontWeight="semibold" fontSize={["sm", "md"]} color="gray.800">
         {title}
       </Text>
-      <Text 
-        fontSize={["xs", "sm"]} 
-        color="gray.500"
-        lineHeight="tight"
-      >
+      <Text fontSize={["xs", "sm"]} color="gray.500" lineHeight="tight">
         {subtitle}
       </Text>
     </Box>
