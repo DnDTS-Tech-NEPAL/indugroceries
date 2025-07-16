@@ -11,10 +11,7 @@ import { useVariantStore } from "@/store";
 import { ProductImages } from "./ProductImages";
 import { ProductInformation } from "./ProductInformation";
 import { ProductsYouMayLike } from "./ProductsYouMayLike";
-import {
-  BenefitsSection,
-  SocialFeed,
-} from "@/templates/default/pages/home/(components)";
+import { BenefitsSection } from "@/templates/default/pages/home/(components)";
 import RecentlyViewed from "./RecentlyViewed ";
 
 export const ProductDetailContainer = ({
@@ -61,7 +58,7 @@ export const ProductDetailContainer = ({
         </Flex>
         <ProductsYouMayLike />
         <RecentlyViewed />
-        <SocialFeed />
+
         <BenefitsSection />
       </Flex>
     </Box>

@@ -106,7 +106,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
             </Flex>
             {/* Bottom: Write a review */}
             <Box mt={4} textAlign={{ base: "center", md: "left" }}>
-              <Button colorScheme="orange" borderRadius={"2rem"} bg={"#FF6996"}>
+              <Button colorScheme="orange" borderRadius={"2rem"} bg={"primary"}>
                 <FilePenLine /> Write a review
               </Button>
             </Box>
@@ -234,14 +234,14 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                   <Box>
                     <Box
                       fontSize="sm"
-                      color="#FF6996"
+                      color="primary"
                       mb={6}
                       borderBottom={"1px solid #ccc"}
                     >
                       <Text
                         display={"inline-block"}
                         px={3}
-                        borderBottom={"2px solid #FF6996"}
+                        borderBottom={"2px solid primary"}
                       >
                         All Reviews
                       </Text>
@@ -302,11 +302,11 @@ const ReviewList = ({ item_code }: { item_code: string }) => {
                 showArrow={true}
                 disabled={rating !== 0}
                 positioning={{ placement: "top" }}
-                contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                contentProps={{ css: { "--tooltip-bg": "primary" } }}
               >
                 <Button
                   type="submit"
-                  bg={"#FF6996"}
+                  bg={"primary"}
                   color={"white"}
                   borderRadius={"2rem"}
                   disabled={rating === 0}

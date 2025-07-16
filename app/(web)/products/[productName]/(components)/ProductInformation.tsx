@@ -282,7 +282,7 @@ import ShareButton from "@/components/ui/button/ShareButton";
 import CountdownTimer from "@/components/countdown/CountDownTimer";
 import ProductReview from "./ProductReview";
 import { TabsDescription } from "./TabsDescription";
-import { ShippingOptions } from "./ShippingOption";
+// import { ShippingOptions } from "./ShippingOption";
 
 export const ProductInformation = () => {
   const params = useParams();
@@ -454,7 +454,7 @@ export const ProductInformation = () => {
                   px="3"
                   py="1"
                   fontSize="14px"
-                  bg={"red.100"}
+                  bg={"green.100"}
                   width="fit-content"
                 >
                   Out of stock
@@ -491,7 +491,7 @@ export const ProductInformation = () => {
                         stars={5}
                         isCheckBoxRequired={false}
                         fixedRating={averageRating}
-                        fillColor="primary"
+                        fillColor="primary.400"
                       />
                     )}
                   </HStack>
@@ -604,7 +604,7 @@ export const ProductInformation = () => {
           {showProgressBar && (
             <Progress.Root size={"sm"} shape={"full"} value={progressValue}>
               <Progress.Track>
-                <Progress.Range style={{ backgroundColor: "primary" }} />
+                <Progress.Range background={"primary.400"} />
               </Progress.Track>
             </Progress.Root>
           )}
@@ -699,7 +699,7 @@ export const ProductInformation = () => {
         )}
       </VStack>
       {/* <Highlights /> */}
-      <ShippingOptions />
+      {/* <ShippingOptions /> */}
       <TabsDescription productName={productName} />
       <ProductReview item_code={productDetail?.item_code ?? ""} />
 

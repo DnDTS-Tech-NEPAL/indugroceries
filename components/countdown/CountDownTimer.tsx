@@ -71,7 +71,7 @@ const CountdownTimer: React.FC<CountdownTimerProps> = ({
 
   return (
     <Text
-      color="#FF6996"
+      color="primary"
       fontSize={{ base: "sm", md: "md" }}
       fontWeight="500"
       ml={4}

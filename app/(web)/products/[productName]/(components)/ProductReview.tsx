@@ -77,7 +77,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
               stars={5}
               isCheckBoxRequired={false}
               fixedRating={averageRating}
-              fillColor={"#FF6996"}
+              fillColor={"primary.400"}
             />
             <Text fontSize="sm" color="gray.600" textDecoration={"underline"}>
               {reviewData?.reviews?.length} Reviews
@@ -98,10 +98,10 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                         {review.rating}
                       </Text>
                       <StarIcon
-                        color="orange"
+                        color="green"
                         style={{
-                          fill: "#FF6996",
-                          stroke: "#FF6996",
+                          fill: "green",
+                          stroke: "primary",
                           width: "20px",
                           height: "20px",
                         }}
@@ -114,7 +114,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                       borderRadius="full"
                       height="8px"
                     >
-                      <Progress.Range bg="#FF6996" borderRadius="full" />
+                      <Progress.Range bg="primary" borderRadius="full" />
                     </Progress.Track>
                     <Text fontSize="sm" minW="50px" textAlign="right">
                       {review.count}
@@ -264,14 +264,14 @@ const ReviewList = ({
                   <Box>
                     <Box
                       fontSize="sm"
-                      color="#FF6996"
+                      color="primary"
                       mb={6}
                       borderBottom={"1px solid #ccc"}
                     >
                       <Text
                         display={"inline-block"}
                         px={3}
-                        borderBottom={"2px solid #FF6996"}
+                        borderBottom={"2px solid primary"}
                       >
                         All Reviews
                       </Text>
@@ -335,11 +335,11 @@ const ReviewList = ({
                     showArrow={true}
                     disabled={rating !== 0}
                     positioning={{ placement: "top" }}
-                    contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                    contentProps={{ css: { "--tooltip-bg": "primary" } }}
                   >
                     <Button
                       type="submit"
-                      bg={"#FF6996"}
+                      bg={"primary"}
                       color={"white"}
                       borderRadius={"2rem"}
                       disabled={rating === 0}

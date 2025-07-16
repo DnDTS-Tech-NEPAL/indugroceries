@@ -123,11 +123,11 @@ const FrequentlyBoughtProduct = () => {
           minH="43px"
           w={{ base: "50%", sm: "55%", md: "60%" }}
           //   bg={"transparent"}
-          bg={"#FF6996"}
-          //   color={"#FF6996"}
+          bg={"primary"}
+          //   color={"primary"}
           color={"white"}
           borderRadius="full"
-          border={"0.5px solid #FF6996"}
+          border={"0.5px solid primary"}
           fontSize="14px"
           fontWeight={"400"}
           px={3}

@@ -273,7 +273,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Title */}
           <Text
             cursor="pointer"
-            _hover={{ color: "primary" }}
+            _hover={{ color: "primary.400" }}
             onClick={() => {
               router.push(
                 generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {

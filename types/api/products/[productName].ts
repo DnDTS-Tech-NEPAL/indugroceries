@@ -32,6 +32,7 @@ export type ProductVariantType = {
   stock_qty: number;
   skin_types: string[];
   skin_concerns: string[];
+  custom_short_description: string;
 
   // custom description
   age: string[];

@@ -8,7 +8,6 @@ import { ProductsContainer } from "./(components)";
 import {
   BenefitsSection,
   BrandCategory,
-  SocialFeed,
   SummerSale,
 } from "@/templates/default/pages/home/(components)";
 
@@ -32,7 +31,7 @@ const Products = () => {
       <ProductsContainer type="bestSellers" />
       <SummerSale />
       <BrandCategory />
-      <SocialFeed />
+
       <BenefitsSection />
     </>
   );
