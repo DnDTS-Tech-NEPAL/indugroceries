@@ -225,6 +225,7 @@ export const Tabs = ({
               key={i}
               borderRadius="full"
               mx={2}
+              my={10}
               border="1px solid #CBD5E0"
               minH={0}
               minW={0}

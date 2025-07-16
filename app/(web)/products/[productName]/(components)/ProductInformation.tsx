@@ -200,7 +200,7 @@
 //             <VisibleSection visibility={config?.cart_visibility}>
 //               <Button
 //                 rounded={"3xl"}
-//                 bg={"#FF6996"}
+//                 bg={"primary"}
 //                 type="submit"
 //                 flex={1}
 //                 onClick={checkAuth(onAddToCart)}
@@ -214,7 +214,7 @@
 //                 borderRadius={"full"}
 //                 h={"10px"}
 //                 w={"10px"}
-//                 bg={"#FF6996"}
+//                 bg={"primary"}
 //                 onClick={checkAuth(onAddToWishlist)}
 //                 loading={isWishlistPending}
 //               >
@@ -448,7 +448,7 @@ export const ProductInformation = () => {
               {displayProduct && displayProduct?.stock_qty <= 0 && (
                 <Text
                   display={"inline-block"}
-                  color="#FF6996"
+                  color="primary"
                   variant="subtitle1"
                   borderRadius={"2rem"}
                   px="3"
@@ -491,7 +491,7 @@ export const ProductInformation = () => {
                         stars={5}
                         isCheckBoxRequired={false}
                         fixedRating={averageRating}
-                        fillColor="#FF6996"
+                        fillColor="primary"
                       />
                     )}
                   </HStack>
@@ -531,7 +531,7 @@ export const ProductInformation = () => {
                     </Heading>
 
                     <Text
-                      color={"#FF6996"}
+                      color={"primary"}
                       px="2"
                       py="1"
                       fontSize={{ sm: "sm", md: "18px" }}
@@ -575,7 +575,7 @@ export const ProductInformation = () => {
                   </Text>
 
                   <Text
-                    color="#FF6996"
+                    color="primary.100"
                     fontSize={{ base: "sm", md: "md" }}
                     fontWeight="500"
                   >
@@ -604,7 +604,7 @@ export const ProductInformation = () => {
           {showProgressBar && (
             <Progress.Root size={"sm"} shape={"full"} value={progressValue}>
               <Progress.Track>
-                <Progress.Range style={{ backgroundColor: "#FF6996" }} />
+                <Progress.Range style={{ backgroundColor: "primary" }} />
               </Progress.Track>
             </Progress.Root>
           )}
@@ -636,14 +636,14 @@ export const ProductInformation = () => {
                     showArrow={true}
                     disabled={displayProduct?.stock_qty !== (0 || 0.0)}
                     positioning={{ placement: "top" }}
-                    contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                    contentProps={{ css: { "--tooltip-bg": "primary" } }}
                   >
                     <Button
                       rounded="3xl"
-                      bg="#FF6996"
+                      bg="primary"
                       cursor={"not-allowed"}
                       flex={2}
-                      onClick={checkAuth(onAddToCart)}
+                      // onClick={checkAuth(onAddToCart)}
                       loading={isCartPending}
                     >
                       Add to Cart
@@ -652,7 +652,7 @@ export const ProductInformation = () => {
                 ) : (
                   <Button
                     rounded="3xl"
-                    bg="#FF6996"
+                    bg="primary"
                     cursor={"pointer"}
                     flex={1}
                     onClick={checkAuth(onAddToCart)}
@@ -665,7 +665,7 @@ export const ProductInformation = () => {
                   borderRadius="full"
                   h="10px"
                   w="10px"
-                  bg="#FF6996"
+                  bg="primary"
                   onClick={checkAuth(onAddToWishlist)}
                   loading={isWishlistPending}
                 >

@@ -9,13 +9,13 @@ import { Box, Flex, HStack, Input, InputGroup } from "@chakra-ui/react";
 import {
   useCartCountQuery,
   useConfigQuery,
-  useUserProfileQuery,
+  // useUserProfileQuery,
   useWishlistCountQuery,
 } from "@/hooks/api";
 import { useNavMenuQuery } from "@/hooks/api/navMenu";
 import { useAuthentication } from "@/hooks/app";
 import { useLayoutDialogStore, useRegisterDialogStore } from "@/store";
-import { calculateHeightAndWidth, extractMenu } from "@/utils";
+import { extractMenu } from "@/utils";
 import { getOrCreateGuestId } from "@/utils/guest";
 
 import { ROUTES, navbarIconsList } from "@/constants";
@@ -38,10 +38,10 @@ export const Navbar = () => {
   const { data: NavbarData } = useNavMenuQuery();
   const navItems = extractMenu(NavbarData);
 
-  const { height, width } = calculateHeightAndWidth(
-    config?.width,
-    config?.height
-  );
+  // const { height, width } = calculateHeightAndWidth(
+  //   config?.width,
+  //   config?.height
+  // );
 
   const { authenticate } = useAuthentication();
   const { signInOpen, updateSignInOpen } = useLayoutDialogStore();
@@ -49,7 +49,7 @@ export const Navbar = () => {
 
   const { data: wishlistCount } = useWishlistCountQuery(guid);
   const { data: cartCount } = useCartCountQuery(guid);
-  const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
+  // const { data: userProfileData, isLoading, isError } = useUserProfileQuery();
 
   const wishlistTotalCount = wishlistCount?.count ?? "";
   const cartTotalCount = cartCount?.count ?? "";
@@ -67,7 +67,6 @@ export const Navbar = () => {
     <>
       {/* ----------------------- TOP HEADER ----------------------- */}
       <Flex
-        position="sticky"
         top="0"
         bg="white"
         shadow="sm"
@@ -188,7 +187,7 @@ export const Navbar = () => {
         py="18px"
         borderTop="1px solid"
         borderColor="gray.100"
-        bg="#3BB77E"
+        bg="primary.default"
         zIndex={100}
       >
         {navItems?.map(({ href, menuName, subMenus, isMega }) => (
@@ -197,8 +196,9 @@ export const Navbar = () => {
             menu_redirect_link={href}
             menuName={menuName}
             is_mega_menu={isMega}
-            children={subMenus}
-          />
+          >
+            {subMenus}
+          </NavItem>
         ))}
       </Flex>
 

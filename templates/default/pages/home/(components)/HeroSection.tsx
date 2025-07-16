@@ -33,18 +33,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
   // Full Image: Display full-width and full-height image only
   if (heroType === "Full Image") {
     return (
-      <Box 
-        position="relative" 
-        width="100%" 
+      <Box
+        position="relative"
+        width="100%"
         height={getResponsiveHeight()}
         minHeight="300px"
         overflow="hidden"
       >
-        <Swiper 
-          slides={slides} 
-          direction="horizontal"
-          aspectRatio={16/9} 
-        />
+        <Swiper slides={slides} direction="horizontal" aspectRatio={16 / 9} />
       </Box>
     );
   }
@@ -52,18 +48,14 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
   // Full Image/Content: Full-screen image background with overlaid content
   if (heroType === "Full Image/Content") {
     return (
-      <Box 
-        position="relative" 
-        width="100%" 
+      <Box
+        position="relative"
+        width="100%"
         height={getResponsiveHeight()}
         minHeight="400px"
         overflow="hidden"
       >
-        <Swiper 
-          slides={slides} 
-          direction="horizontal"
-          aspectRatio={16/9}
-        />
+        <Swiper slides={slides} direction="horizontal" aspectRatio={16 / 9} />
       </Box>
     );
   }
@@ -71,19 +63,15 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
   // Half Image: 50/50 split between image and content (swipe both together)
   if (heroType === "Half Image") {
     return (
-      <Box 
-        position="relative" 
+      <Box
+        position="relative"
         width="100%"
         height={{ base: "auto", md: "70vh" }}
         minHeight={{ base: "600px", md: "500px" }}
         maxHeight={{ lg: "800px" }}
         overflow="hidden"
       >
-        <Swiper 
-          slides={slides} 
-          direction="horizontal"
-          aspectRatio={2/1}
-        />
+        <Swiper slides={slides} direction="horizontal" aspectRatio={2 / 1} />
       </Box>
     );
   }
@@ -147,15 +135,9 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
           borderRadius={{ base: "md", lg: "xl" }}
           order={{ base: 1, lg: 2 }}
         >
-          <Swiper 
-            slides={slides} 
-            direction="horizontal"
-            aspectRatio={16/9}
-          />
+          <Swiper slides={slides} direction="horizontal" aspectRatio={16 / 9} />
         </Box>
       </HStack>
     </Box>
   );
 };
-
-

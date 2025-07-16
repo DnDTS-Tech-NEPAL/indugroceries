@@ -1,7 +1,7 @@
 "use client";
 
 import { chakra, Flex, HStack, Text, Box, Icon } from "@chakra-ui/react";
-import { FaTags, FaChevronDown } from "react-icons/fa";
+import { FaTags, FaChevronDown, FaUser } from "react-icons/fa";
 
 import { useConfigQuery, useUserProfileQuery } from "@/hooks/api";
 import { VisibleSection } from "@/components";
@@ -10,11 +10,13 @@ import { Profile } from "@/assets/svg";
 import { ROUTES } from "@/constants";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-
-const CITY_OPTIONS = [
-  { label: "Highpoint", value: "Highpoint" },
-  { label: "Greensboro", value: "Greensboro" },
-];
+import { Portal, Select, createListCollection } from "@chakra-ui/react";
+const CITY_OPTIONS = createListCollection({
+  items: [
+    { label: "Highpoint", value: "Highpoint" },
+    { label: "Greensboro", value: "Greensboro" },
+  ],
+});
 
 export const Topbar = () => {
   const { data: config, isLoading: configLoading } = useConfigQuery();
@@ -82,8 +84,8 @@ export const Topbar = () => {
             <Flex align="center" gap={1}>
               <Text as="b">City:</Text>
 
-              <Box position="relative" display="inline-block">
-                <chakra.select
+              <Box position="relative" display="inline-block" color={"white"}>
+                {/* <chakra.select
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
                   bg="transparent"
@@ -102,22 +104,75 @@ export const Topbar = () => {
                     <option
                       key={option.value}
                       value={option.value}
-                      style={{ color: "black" }}
+                      style={{ color: "black", padding: "10px" }}
                     >
                       {option.label}
                     </option>
                   ))}
-                </chakra.select>
-                <Icon
-                  as={FaChevronDown}
-                  position="absolute"
-                  right="4px"
-                  top="50%"
-                  transform="translateY(-50%)"
-                  fontSize="xs"
-                  color="white"
-                  pointerEvents="none"
-                />
+                </chakra.select> */}
+                {/* <Select.Root
+                  collection={CITY_OPTIONS}
+                  size="sm"
+                  width="320px"
+                  defaultValue={["pro"]}
+                  border="none"
+                >
+                  <Select.Control>
+                    <Select.Trigger>
+                      <Select.ValueText />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                  <Portal>
+                    <Select.Positioner>
+                      <Select.Content>
+                        {CITY_OPTIONS.items.map((city) => (
+                          <Select.Item item={city} key={city.value}>
+                            {city.label}
+                            <Select.ItemIndicator />
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Positioner>
+                  </Portal>
+                </Select.Root> */}
+
+                <Select.Root
+                  collection={CITY_OPTIONS}
+                  size="sm"
+                  width="120px"
+                  value={[city]}
+                  onValueChange={(details) => {
+                    const newCity = details?.value?.[0];
+                    if (newCity) setCity(newCity);
+                  }}
+                  outline={"none"}
+                >
+                  <Select.HiddenSelect />
+                  <Select.Control>
+                    <Select.Trigger>
+                      <Select.ValueText />
+                    </Select.Trigger>
+                    <Select.IndicatorGroup>
+                      <Select.Indicator />
+                    </Select.IndicatorGroup>
+                  </Select.Control>
+                  <Portal>
+                    <Select.Positioner>
+                      <Select.Content>
+                        {CITY_OPTIONS.items.map((city) => (
+                          <Select.Item item={city} key={city.value}>
+                            <Select.ItemText>{city.label}</Select.ItemText>
+
+                            <Select.ItemIndicator />
+                          </Select.Item>
+                        ))}
+                      </Select.Content>
+                    </Select.Positioner>
+                  </Portal>
+                </Select.Root>
               </Box>
             </Flex>
           </Flex>
@@ -162,6 +217,7 @@ export const Topbar = () => {
                         color: "blue.300",
                       }}
                     >
+                      <Icon as={FaUser} mr={1} />
                       Login
                     </chakra.button>
                   )}
@@ -194,3 +250,41 @@ export const Topbar = () => {
     </VisibleSection>
   );
 };
+
+// const Demo = () => {
+//   return (
+//     <Select.Root collection={frameworks} size="sm" width="320px">
+//       <Select.HiddenSelect />
+//       <Select.Label>Select framework</Select.Label>
+//       <Select.Control>
+//         <Select.Trigger>
+//           <Select.ValueText placeholder="Select framework" />
+//         </Select.Trigger>
+//         <Select.IndicatorGroup>
+//           <Select.Indicator />
+//         </Select.IndicatorGroup>
+//       </Select.Control>
+//       <Portal>
+//         <Select.Positioner>
+//           <Select.Content>
+//             {frameworks.items.map((framework) => (
+//               <Select.Item item={framework} key={framework.value}>
+//                 {framework.label}
+//                 <Select.ItemIndicator />
+//               </Select.Item>
+//             ))}
+//           </Select.Content>
+//         </Select.Positioner>
+//       </Portal>
+//     </Select.Root>
+//   );
+// };
+
+// const frameworks = createListCollection({
+//   items: [
+//     { label: "React.js", value: "react" },
+//     { label: "Vue.js", value: "vue" },
+//     { label: "Angular", value: "angular" },
+//     { label: "Svelte", value: "svelte" },
+//   ],
+// });

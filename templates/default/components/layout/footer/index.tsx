@@ -65,7 +65,7 @@ export const Footer = () => {
             <Text fontSize="sm">Location: {config?.location || ""}</Text>
           </VStack>
 
-          <VStack align="start" gap={2} color="#FF6996">
+          <VStack align="start" gap={2} color="primary.default">
             <Text fontWeight="bold" fontSize="lg">
               Quick Links
             </Text>
@@ -73,7 +73,7 @@ export const Footer = () => {
               <Link key={label} href={route} passHref legacyBehavior>
                 <ChakraLink
                   color="#D0D0D0"
-                  _hover={{ color: "pink.500", textDecoration: "none" }}
+                  _hover={{ color: "primary.500", textDecoration: "none" }}
                   fontSize="sm"
                   py={1}
                 >
@@ -83,7 +83,7 @@ export const Footer = () => {
             ))}
           </VStack>
 
-          <VStack align="start" gap={2} color="#FF6996">
+          <VStack align="start" gap={2} color="primary.default">
             <Text fontWeight="bold" fontSize="lg">
               Customer Care
             </Text>
@@ -91,7 +91,7 @@ export const Footer = () => {
               <Link key={route} href={route} passHref legacyBehavior>
                 <ChakraLink
                   color="#D0D0D0"
-                  _hover={{ color: "pink.500", textDecoration: "none" }}
+                  _hover={{ color: "primary.500", textDecoration: "none" }}
                   fontSize="sm"
                   py={1}
                 >
@@ -101,7 +101,7 @@ export const Footer = () => {
             ))}
           </VStack>
 
-          <VStack align="start" gap={2} color="#FF6996">
+          <VStack align="start" gap={2} color="primary.default">
             <Text fontWeight="bold" fontSize="lg">
               Category
             </Text>
@@ -109,7 +109,7 @@ export const Footer = () => {
               <Text
                 key={index}
                 color="#D0D0D0"
-                _hover={{ color: "pink.500", cursor: "pointer" }}
+                _hover={{ color: "primary.500", cursor: "pointer" }}
                 fontSize="sm"
                 py={1}
               >
@@ -120,7 +120,7 @@ export const Footer = () => {
         </Grid>
       </Box>
 
-      <Separator my={2} borderColor="#FF6996" />
+      <Separator my={2} borderColor="primary.default" />
 
       <Box py={2} maxW="6xl" mx="auto" color="#D0D0D0">
         <Flex

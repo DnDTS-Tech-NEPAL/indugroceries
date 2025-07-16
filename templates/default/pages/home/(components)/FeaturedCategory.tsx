@@ -121,7 +121,7 @@ export const FeaturedCategory = () => {
           <Box key={item.name} px={4}>
             <Box
               w={cardWidth}
-              h="130px"
+              h="150px"
               minW="140px"
               bg="white"
               borderRadius="xl"
@@ -144,12 +144,6 @@ export const FeaturedCategory = () => {
                   overflow="hidden"
                   mb={3}
                   position="relative"
-                  _hover={{
-                    "& img": {
-                      filter:
-                        "brightness(0) saturate(100%) invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)",
-                    },
-                  }}
                 >
                   <Image
                     src={item.image}
