@@ -1,7 +1,7 @@
 export const priceRangeFilterOptions = [
   {
     // label: "Relevant",
-     label: "Price Range",
+    label: "Price Range",
     value: "0",
   },
   {
@@ -17,14 +17,14 @@ export const priceRangeFilterOptions = [
 export const popularityFilterOptions = [
   {
     // label: "Most Popular",
-      label: "Popularity",
+    label: "Popularity",
     value: "0",
   },
   {
     label: "Best Selling",
     value: "1",
   },
-    {
+  {
     label: "New Arrivals",
     value: "2",
   },

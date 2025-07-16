@@ -39,7 +39,7 @@ export const Topbar = () => {
   useEffect(() => {
     if (typeof window !== "undefined" && !configLoading) {
       const storedCity = localStorage.getItem("city");
-      let defaultCity = "Greensboro";
+      let defaultCity = "";
 
       if (storedCity) {
         defaultCity = storedCity;

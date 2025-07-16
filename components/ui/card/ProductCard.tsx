@@ -120,7 +120,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             top="10px"
             left="10px"
             display="flex"
-            color="#FF6996"
+            color="primary"
             zIndex={2}
             borderRadius={"2rem"}
             px="3"
@@ -130,7 +130,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             minH={0}
             height={"fit-content"}
             minW={0}
-            bg={"#F8E1E7"}
+            bg={"primary.100"}
             width="fit-content"
           >
             {isNew
@@ -164,15 +164,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               showArrow
               content="Add to wishlist"
               positioning={{ placement: "top" }}
-              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+              contentProps={{ css: { "--tooltip-bg": "primary" } }}
             >
               <Button
                 height="auto"
                 minH="30px"
                 bg="white"
                 overflow="hidden"
-                color="#FF6996"
-                border="2px solid #FF6996"
+                color="primary.700"
+                border="2px solid primary"
                 borderTopLeftRadius="sm"
                 borderBottomLeftRadius="sm"
                 fontSize="14px"
@@ -188,7 +188,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 {isWishlist ? (
                   <FaHeart size={iconSize} />
                 ) : (
-                  <HeartIcon color="#FF6996" />
+                  <HeartIcon color="primary" />
                 )}
               </Button>
             </Tooltip>
@@ -199,15 +199,15 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               showArrow
               content="Quick View"
               positioning={{ placement: "top" }}
-              contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+              contentProps={{ css: { "--tooltip-bg": "primary" } }}
             >
               <Button
                 height="auto"
                 minH="30px"
                 bg="white"
                 overflow="hidden"
-                color="#FF6996"
-                border="2px solid #FF6996"
+                color="primary.700"
+                border="2px solid primary"
                 borderTopRightRadius="sm"
                 borderBottomRightRadius="sm"
                 fontSize="14px"
@@ -259,7 +259,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   as={FaStar}
                   color={
                     i < Math.ceil(reviewData?.average_rating ?? 0)
-                      ? "#FF6996"
+                      ? "primary"
                       : "gray.300"
                   }
                   boxSize={starIconSize}
@@ -273,7 +273,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
           {/* Title */}
           <Text
             cursor="pointer"
-            _hover={{ color: "#FF6996" }}
+            _hover={{ color: "primary" }}
             onClick={() => {
               router.push(
                 generateNextPath(ROUTES.APP.INDIVIDUAL_PRODUCT, {
@@ -310,7 +310,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <VStack gap={0}>
                   <Text
                     fontSize={priceFontSize}
-                    color="#FF6996"
+                    color="primary"
                     lineHeight="1.2"
                   >
                     {config?.currency} {price}
@@ -327,7 +327,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 </VStack>
               </>
             ) : (
-              <Text fontSize={priceFontSize} color="#FF6996" lineHeight="1.2">
+              <Text fontSize={priceFontSize} color="primary" lineHeight="1.2">
                 {config?.currency} {min_price} - {max_price}
               </Text>
             )}
@@ -338,9 +338,9 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               minH="32px"
               w={{ base: "50%", sm: "55%", md: "45%" }}
               bg="transparent"
-              color="#FF6996"
+              color="primary"
               borderRadius="full"
-              border={"0.5px solid #FF6996"}
+              border={"0.5px solid primary"}
               fontSize="14px"
               fontWeight={"400"}
               px={3}

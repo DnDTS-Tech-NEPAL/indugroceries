@@ -91,7 +91,7 @@ const NextArrow = ({ onClick }: { onClick: () => void }) => (
     transform="translateY(-50%)"
     zIndex={2}
     bg="transparent"
-    color="#FF6996"
+    color="primary"
     borderRadius="full"
   >
     <ArrowRightIcon />
@@ -108,7 +108,7 @@ const PrevArrow = ({ onClick }: { onClick: () => void }) => (
     transform="translateY(-50%)"
     zIndex={2}
     bg="transparent"
-    color="#FF6996"
+    color="primary"
     borderRadius="full"
   >
     <ArrowLeftIcon />
@@ -216,7 +216,7 @@ const DetailsSection = ({
     //         <RatingSection item_code={products[0]?.item_code} />
     //       )}
     //       <Flex align="center" mb={6}>
-    //         <Text fontSize="md" color="#FF6996">
+    //         <Text fontSize="md" color="primary">
     //           Rs {products[0]?.prices[0]?.price_list_rate}
     //         </Text>
     //         {/* <Text as="s" color="gray.500" fontSize="sm" mr={2}>
@@ -293,7 +293,7 @@ const DetailsSection = ({
                 )}
 
                 <Flex align="center" mb={6}>
-                  <Text fontSize="md" color="#FF6996">
+                  <Text fontSize="md" color="primary">
                     Rs {product?.prices[0]?.price_list_rate}
                   </Text>
                 </Flex>
@@ -474,9 +474,9 @@ const ActionButtons = ({
         minW="150px"
         w={{ md: "50%" }}
         bg={"transparent"}
-        color={"#FF6996"}
+        color={"primary"}
         borderRadius="full"
-        border={"0.5px solid #FF6996"}
+        border={"0.5px solid primary"}
         fontSize="14px"
         fontWeight={"400"}
         px={3}
@@ -491,10 +491,10 @@ const ActionButtons = ({
         h="10px"
         w="10px"
         bg="white"
-        border="1px solid #FF6996"
+        border="1px solid primary"
         onClick={checkAuth(onAddToWishlist)}
       >
-        <HeartIcon style={{ color: "#FF6996" }} />
+        <HeartIcon style={{ color: "primary" }} />
       </Button>
     </HStack>
   );

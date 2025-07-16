@@ -10,7 +10,6 @@ import {
   Box,
   Spinner,
   SimpleGrid,
-  IconButton,
   useBreakpointValue,
 } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
@@ -38,8 +37,8 @@ export const ProductSection = ({
 
   const [page, setPage] = useState(0);
 
-  const PRODUCTS_PER = {base:10, sm: 8, md: 10,lg:10 } ;
-  const PRODUCTS_PER_PAGE = useBreakpointValue(PRODUCTS_PER)?? 10;
+  const PRODUCTS_PER = { base: 10, sm: 8, md: 10, lg: 10 };
+  const PRODUCTS_PER_PAGE = useBreakpointValue(PRODUCTS_PER) ?? 10;
 
   const categories = useMemo(() => {
     const unique = Array.from(
@@ -56,7 +55,7 @@ export const ProductSection = ({
         products.filter((p) => p.category === activeCategory)
       );
     }
-    setPage(0); 
+    setPage(0);
   }, [activeCategory, products]);
 
   const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
@@ -116,12 +115,12 @@ export const ProductSection = ({
 
         <Button
           color="white"
-          bg="#FF6996"
+          bg="primary"
           borderRadius="full"
           px={6}
           py={2}
           size="md"
-          _hover={{ bg: "#ff5286" }}
+          _hover={{ bg: "primary.500" }}
           onClick={() => router.push(ROUTES.APP.PRODUCTS)}
         >
           View All Products <FaArrowRightLong />
@@ -139,14 +138,14 @@ export const ProductSection = ({
                 px={4}
                 py={2}
                 borderRadius="full"
-                bg={isActive ? "#FFEDF3" : "gray.100"}
-                color={isActive ? "#FF6996" : "gray.600"}
+                bg={isActive ? "primary.50" : "gray.100"}
+                color={isActive ? "primary" : "gray.600"}
                 fontWeight={isActive ? "600" : "400"}
                 cursor="pointer"
                 whiteSpace="nowrap"
                 onClick={() => handleCategoryChange(category)}
                 transition="all 0.2s"
-                _hover={{ bg: isActive ? "#FFEDF3" : "gray.200" }}
+                _hover={{ bg: isActive ? "primary.50" : "gray.200" }}
               >
                 {category}
               </Box>
@@ -170,7 +169,10 @@ export const ProductSection = ({
               exit={{ opacity: 0, x: -100 }}
               transition={{ duration: 0.4 }}
             >
-              <SimpleGrid columns={{base:1, sm: 2, md: 3,lg:4,xl:5 }} gap={{ sm:4,base: 4, md: 6 }}>
+              <SimpleGrid
+                columns={{ base: 1, sm: 2, md: 3, lg: 4, xl: 5 }}
+                gap={{ sm: 4, base: 4, md: 6 }}
+              >
                 {pagedProducts.map((product) => (
                   <ProductCard key={product.title} {...product} />
                 ))}
@@ -186,12 +188,12 @@ export const ProductSection = ({
                   key={index}
                   w={3}
                   h={3}
-                  bg={page === index ? "#FF6996" : "gray.400"}
+                  bg={page === index ? "primary" : "gray.400"}
                   borderRadius="full"
                   cursor="pointer"
                   onClick={() => setPage(index)}
                   transition="all 0.2s"
-                  _hover={{ bg: "#FF6996" }}
+                  _hover={{ bg: "primary" }}
                 />
               ))}
             </Flex>

@@ -106,11 +106,11 @@ export const createDynamicChakraSystem = (config: ConfigType) => {
             },
             text: {
               dark: {
-                light: { value: "#141414" },
+                light: { value: "#ebebeb" },
               },
               normal: {
                 light: { value: "#252B37" },
-                dark: { value: "#ebebeb" },
+                dark: { value: "#141414" },
               },
               light: {
                 light: { value: "#535862" },

@@ -97,6 +97,8 @@ export const Navbar = () => {
           <Input
             borderRadius="full"
             placeholder="Search for products"
+            borderColor="primary.500"
+            borderWidth="1px"
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </InputGroup>
@@ -188,10 +190,11 @@ export const Navbar = () => {
         justify="center"
         align="center"
         gap="24px"
-        py="25px"
+        py="15px"
         borderTop="1px solid"
         borderColor="gray.100"
         bg="primary.default"
+        color="white"
         zIndex={100}
       >
         {navItems?.map(({ href, menuName, subMenus, isMega }) => (

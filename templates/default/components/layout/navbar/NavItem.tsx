@@ -58,7 +58,7 @@ export const NavItem = ({
           borderBottom="none"
           minWidth="200px"
           background="white"
-          color="system.text.dark.light"
+          color="system.text.normal.dark"
           zIndex={10}
           _groupHover={{
             display: "flex",
