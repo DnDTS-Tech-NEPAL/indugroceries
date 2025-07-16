@@ -24,10 +24,10 @@ export const HeroSection = ({ initialData }: HeroSectionProps) => {
   // Calculate responsive height based on viewport width
   const getResponsiveHeight = () => {
     if (!width) return "70vh";
-    if (width < 480) return "60vh"; // Very small phones
-    if (width < 768) return "65vh"; // Phones
-    if (width < 1024) return "75vh"; // Tablets
-    return "85vh"; // Desktop
+    if (width < 480) return "55vh"; // Very small phones
+    if (width < 768) return "60vh"; // Phones
+    if (width < 1024) return "70vh"; // Tablets
+    return "65vh"; // Desktop
   };
 
   // Full Image: Display full-width and full-height image only

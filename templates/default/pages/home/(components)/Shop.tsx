@@ -60,8 +60,8 @@ export const ShopSkinCareMakeup = () => {
             top={{ base: "50%", sm: "55%" }}
             left="50%"
             transform="translate(-50%, -50%)"
-            colorScheme="pink"
-            bgColor="#FF6996"
+            colorScheme="primary"
+            bgColor="primary"
             borderRadius="md"
             size={{ base: "sm", md: "md" }}
             px={{ base: 4, md: 6 }}

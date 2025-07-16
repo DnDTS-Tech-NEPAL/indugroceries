@@ -12,14 +12,14 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "kbp.dndts.net",
+        hostname: "indu.dndts.net",
         port: "",
       },
-       {
-      protocol: "https",
-      hostname: "hg.dndts.net", // ✅ Add this
-      port: "",
-    },
+      {
+        protocol: "https",
+        hostname: "kbp.dndts.net", // ✅ Add this
+        port: "",
+      },
     ],
   },
   experimental: {

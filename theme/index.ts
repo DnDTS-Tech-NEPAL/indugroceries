@@ -61,12 +61,16 @@ export const createDynamicChakraSystem = (config: ConfigType) => {
         colors: {
           primary: {
             default: { value: "#3BB77E" },
-            50: { value: "#FAFAFA" },
-            100: { value: "#E9EAEB" },
-            200: { value: "#D5D7DA" },
-            300: { value: "#535862" },
-            400: { value: "#0A0D12" },
-            500: { value: "#3BB77E" },
+            50: { value: "#e6f5ef" },
+            100: { value: "#bfe5cd" },
+            200: { value: "#99d7b0" },
+            300: { value: "#66c68b" },
+            400: { value: "#3bb77e" },
+            500: { value: "#319a6a" },
+            600: { value: "#277d56" },
+            700: { value: "#1c5f3e" },
+            800: { value: "#12412b" },
+            900: { value: "#092518" },
           },
           danger: {
             100: { value: "#ff0000" },

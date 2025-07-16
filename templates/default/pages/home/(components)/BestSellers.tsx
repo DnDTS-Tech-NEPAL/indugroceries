@@ -4,7 +4,7 @@ import { VisibleSection } from "@/components/ui/visibleSection";
 import { ProductSection } from "./ProductSection";
 import { useConfigQuery } from "@/hooks/api";
 import { Box } from "@chakra-ui/react";
-import { system } from "@chakra-ui/react/preset";
+// import { system } from "@chakra-ui/react/preset";
 
 export const BestSellers = () => {
   const { data: config } = useConfigQuery();

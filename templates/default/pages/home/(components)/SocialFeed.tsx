@@ -65,8 +65,8 @@
 //                   href={href}
 //                   key={name}
 //                   aria-label={name}
-//                   _hover={{ color: "pink.500", transform: "scale(1.1)" }}
-//                   color="#FF6996"
+//                   _hover={{ color: "primary.500", transform: "scale(1.1)" }}
+//                   color="primary"
 //                   fontSize={{ base: "xl", sm: "2xl" }}
 //                   transition="all 0.2s ease"
 //                 >
@@ -286,8 +286,8 @@
 //                   href={href}
 //                   key={name}
 //                   aria-label={name}
-//                   _hover={{ color: "pink.500", transform: "scale(1.1)" }}
-//                   color="#FF6996"
+//                   _hover={{ color: "primary.500", transform: "scale(1.1)" }}
+//                   color="primary"
 //                   fontSize={{ base: "xl", sm: "2xl" }}
 //                   transition="all 0.2s ease"
 //                 >
@@ -400,7 +400,7 @@
 //                             >
 //                               Medicube Zero Pore Pad
 //                             </Text>
-//                             <Text fontSize="md" color="#FF6996">
+//                             <Text fontSize="md" color="primary">
 //                               Rs 1000
 //                             </Text>
 //                           </Box>
@@ -409,7 +409,7 @@
 //                         {/* Bottom Section: Add to Cart and Wishlist */}
 
 //                         <HStack gap="20px" width="100%">
-//                           <Button rounded="xl" bg="#FF6996" flex={1}>
+//                           <Button rounded="xl" bg="primary" flex={1}>
 //                             Add to Bag
 //                           </Button>
 //                           <Button
@@ -417,9 +417,9 @@
 //                             h="10px"
 //                             w="10px"
 //                             bg={"white"}
-//                             border={"1px solid #FF6996"}
+//                             border={"1px solid primary"}
 //                           >
-//                             <HeartIcon style={{ color: "#FF6996" }} />
+//                             <HeartIcon style={{ color: "primary" }} />
 //                           </Button>
 //                         </HStack>
 //                       </Box>
@@ -622,8 +622,8 @@ export const SocialFeed = () => {
                     href={href}
                     key={name}
                     aria-label={name}
-                    _hover={{ color: "pink.500", transform: "scale(1.1)" }}
-                    color="#FF6996"
+                    _hover={{ color: "primary.500", transform: "scale(1.1)" }}
+                    color="primary"
                     fontSize={{ base: "xl", sm: "2xl" }}
                     transition="all 0.2s ease"
                   >
@@ -759,7 +759,7 @@ export const SocialFeed = () => {
                                     >
                                       {product?.item_name}
                                     </Text>
-                                    <Text fontSize="md" color="#FF6996">
+                                    <Text fontSize="md" color="primary">
                                       Rs.{" "}
                                       {product?.prices?.[0]?.price_list_rate ??
                                         "N/A"}
@@ -794,7 +794,7 @@ export const SocialFeed = () => {
                                   >
                                     {cardDetails[index].products[0]?.item_name}
                                   </Text>
-                                  <Text fontSize="md" color="#FF6996">
+                                  <Text fontSize="md" color="primary">
                                     Rs.{" "}
                                     {cardDetails[index].products[0]?.prices?.[0]
                                       ?.price_list_rate ?? "N/A"}
@@ -813,9 +813,9 @@ export const SocialFeed = () => {
                               minW="150px"
                               w={{ md: "50%" }}
                               bg={"transparent"}
-                              color={"#FF6996"}
+                              color={"primary"}
                               borderRadius="full"
-                              border={"0.5px solid #FF6996"}
+                              border={"0.5px solid primary"}
                               fontSize="14px"
                               fontWeight={"400"}
                               px={3}
@@ -832,10 +832,10 @@ export const SocialFeed = () => {
                               h="10px"
                               w="10px"
                               bg={"white"}
-                              border={"1px solid #FF6996"}
+                              border={"1px solid primary"}
                               onClick={checkAuth(() => onAddToWishlist(index))}
                             >
-                              <HeartIcon style={{ color: "#FF6996" }} />
+                              <HeartIcon style={{ color: "primary" }} />
                             </Button>
                           </HStack>
                         </Box>

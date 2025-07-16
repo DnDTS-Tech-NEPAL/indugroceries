@@ -1,7 +1,7 @@
 "use client";
 
 import { chakra, Flex, HStack, Text, Box, Icon } from "@chakra-ui/react";
-import { FaTags, FaChevronDown, FaUser } from "react-icons/fa";
+import { FaTags, FaUser } from "react-icons/fa";
 
 import { useConfigQuery, useUserProfileQuery } from "@/hooks/api";
 import { VisibleSection } from "@/components";

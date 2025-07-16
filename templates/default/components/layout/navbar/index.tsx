@@ -78,7 +78,11 @@ export const Navbar = () => {
       >
         {/* Logo */}
         <Link href={ROUTES.APP.HOMEPAGE}>
-          <Box position="relative" width={180} height={70}>
+          <Box
+            position="relative"
+            width={config?.width}
+            height={config?.height}
+          >
             <Image
               src={config?.company_details_url}
               alt={config?.company_details_name}
@@ -184,7 +188,7 @@ export const Navbar = () => {
         justify="center"
         align="center"
         gap="24px"
-        py="18px"
+        py="25px"
         borderTop="1px solid"
         borderColor="gray.100"
         bg="primary.default"

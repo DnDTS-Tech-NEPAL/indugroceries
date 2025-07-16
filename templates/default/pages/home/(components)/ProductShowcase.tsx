@@ -195,7 +195,7 @@ const BannerCard = ({ banner, variant }: BannerCardProps) => {
         justifyContent="space-between"
       >
         <Box>
-          <Text fontWeight="bold" color="pink.500" fontSize="sm">
+          <Text fontWeight="bold" color="primary.500" fontSize="sm">
             {banner.card_title}
           </Text>
           <Heading size="lg" fontWeight="bold" lineHeight="1.2" mt={1}>
@@ -210,7 +210,7 @@ const BannerCard = ({ banner, variant }: BannerCardProps) => {
           <Link href={banner.redirect_link} _hover={{ textDecoration: "none" }}>
             <Button
               variant="ghost"
-              colorScheme="pink"
+              colorScheme="primary"
               bg="transparent"
               p={0}
               height="auto"
@@ -221,10 +221,10 @@ const BannerCard = ({ banner, variant }: BannerCardProps) => {
               <Flex
                 alignItems="center"
                 gap={2}
-                borderBottom="2px solid #FF6996"
+                borderBottom="2px solid primary.500"
               >
-                <Text color="pink.500">{banner.button_label}</Text>
-                <FaArrowRightLong color="#FF6996" />
+                <Text color="primary.500">{banner.button_label}</Text>
+                <FaArrowRightLong color="primary.500" />
               </Flex>
             </Button>
           </Link>

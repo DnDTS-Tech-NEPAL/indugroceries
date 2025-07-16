@@ -9,7 +9,7 @@ import { useConfigQuery } from "@/hooks/api";
 export const InStoreVisit = () => {
   const router = useRouter();
   const { data: storeData } = useConfigQuery();
-  
+
   return (
     <Flex
       direction={{ base: "column", md: "row" }}
@@ -40,19 +40,19 @@ export const InStoreVisit = () => {
       <Box
         flex={{ base: "none", md: "1" }}
         width={{ base: "100%", md: "40%" }}
-        bg="pink.50"
+        bg="primary.500"
         p={{ base: 8, md: 16 }}
       >
         <VStack align="start" gapY={8} height="100%" justify="center">
-          <Heading fontSize={{ base: "2xl", md: "4xl" }} color="#FF6996">
+          <Heading fontSize={{ base: "2xl", md: "4xl" }} color="primary">
             {storeData.banners[2].title}
           </Heading>
           <Text fontSize={{ base: "md", md: "3xl" }} lineHeight={1.6}>
             {storeData.banners[2].description}
           </Text>
           <Button
-            colorScheme="pink"
-            bg="#FF6996"
+            colorScheme="primary"
+            bg="primary"
             borderRadius="full"
             onClick={() => router.push(storeData.banners[2].image_url)}
             _hover={{ bg: "#e55c84" }}
