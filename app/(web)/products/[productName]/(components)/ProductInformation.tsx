@@ -665,7 +665,7 @@ export const ProductInformation = () => {
                   borderRadius="full"
                   h="10px"
                   w="10px"
-                  bg="primary"
+                  bg="primary.400"
                   onClick={checkAuth(onAddToWishlist)}
                   loading={isWishlistPending}
                 >
@@ -679,7 +679,7 @@ export const ProductInformation = () => {
                 }}
                 // title={displayProduct?.item_name}
                 url={
-                  "https://kbpecom.dndts.net" +
+                  "https://induecom.dndts.net" +
                   ROUTES.APP.PRODUCTS +
                   "/" +
                   displayProduct?.item_code

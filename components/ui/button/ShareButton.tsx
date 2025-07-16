@@ -140,14 +140,14 @@ const ShareButton: React.FC<ShareButtonProps> = ({
             style={{
               ...menuLinkStyle,
               border: "none",
-              background: "#fa9bb78f",
+              background: "#cfeacfff",
               borderRadius: "2rem",
               textAlign: "left",
               marginLeft: "2px",
               rotate: "-51deg",
             }}
           >
-            <Link2 size={15} color={"#df3b6cff"} />
+            <Link2 size={15} color="green" />
           </button>
         </HStack>
         {/* </div> */}

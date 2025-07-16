@@ -12,7 +12,7 @@ import { ProductImages } from "./ProductImages";
 import { ProductInformation } from "./ProductInformation";
 import { ProductsYouMayLike } from "./ProductsYouMayLike";
 import { BenefitsSection } from "@/templates/default/pages/home/(components)";
-import RecentlyViewed from "./RecentlyViewed ";
+// import RecentlyViewed from "./RecentlyViewed ";
 
 export const ProductDetailContainer = ({
   product,
@@ -50,14 +50,13 @@ export const ProductDetailContainer = ({
         <Flex
           width={"100%"}
           flexDirection={{ base: "column", md: "row" }}
-          gap={{ md: "6px", lg: "8px", xl: "12px" }}
+          gap={{ md: "6px", lg: "6px", xl: "12px" }}
           alignItems="stretch"
         >
           <ProductImages />
           <ProductInformation />
         </Flex>
         <ProductsYouMayLike />
-        <RecentlyViewed />
 
         <BenefitsSection />
       </Flex>
