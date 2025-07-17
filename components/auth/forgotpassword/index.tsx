@@ -4,14 +4,13 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { Dialog, LoginDialog } from "@/components";
-import { useConfigQuery } from "@/hooks/api";
 import { RegisterDialogProps } from "@/types";
 
 import { OtpScreen } from "./OtpScreen";
 import { SetPassword } from "./SetPassword";
 import { OtpVerification } from "./VerifyOtp";
 
-import { AuthWrapper } from "../wrapper";
+import { Flex } from "@chakra-ui/react";
 
 export const OtpDialog = ({
   open,
@@ -30,6 +29,7 @@ export const OtpDialog = ({
   }, [open, initialStep]);
 
   const handleClose = () => {
+    if (activeStep !== 1) return; //after forgot password making harder for user to close modal
     setActiveStep(1);
     setIsFirstRender(true);
     onClose();
@@ -43,23 +43,23 @@ export const OtpDialog = ({
     animate: {
       x: 0,
       opacity: 1,
-      transition: { duration: 0.2 },
+      transition: { duration: 0.3 },
     },
     exit: (direction: number) => ({
       x: direction > 0 ? "-5%" : "5%",
       opacity: 0,
-      transition: { duration: 0.1 },
+      transition: { duration: 0.2 },
     }),
   };
 
   const getForm = () => {
     switch (activeStep) {
       case 1:
-        return <OtpScreen setActiveStep={(step) => moveToStep(step)} />;
+        return <OtpScreen setActiveStep={moveToStep} />;
       case 2:
-        return <OtpVerification setActiveStep={(step) => moveToStep(step)} />;
+        return <OtpVerification setActiveStep={moveToStep} />;
       case 3:
-        return <SetPassword setActiveStep={(step) => moveToStep(step)} />;
+        return <SetPassword setActiveStep={moveToStep} />;
       case 4:
         return <LoginDialog onClose={onClose} open />;
       default:
@@ -72,34 +72,24 @@ export const OtpDialog = ({
     setActiveStep(nextStep);
   };
 
-  const { data: imageData } = useConfigQuery();
-  const RegisterImage = imageData?.forgot_password_screen_photo_link;
-  const OtpImage = imageData?.otp_screen_photo_link;
-  const ResetPasswordImage = imageData?.set_password_screen_photo_link;
-
-  const getStepImage = () => {
-    switch (activeStep) {
-      case 1:
-        return RegisterImage;
-      case 2:
-        return OtpImage;
-      case 3:
-        return ResetPasswordImage;
-      default:
-        return "";
-    }
-  };
-
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       contentMinWidth={{
-        lg: "1000px",
-        xl: "1200px",
+        lg: "600px",
+        xl: "600px",
       }}
     >
-      <AuthWrapper imageSrc={getStepImage()}>
+      <Flex
+        align="center"
+        justify="center"
+        p={{ base: 4, md: 6 }}
+        minH={{ base: "auto", md: "400px" }}
+        bg="white"
+        borderRadius="2xl"
+        boxShadow="lg"
+      >
         <AnimatePresence custom={direction} mode="wait">
           <motion.div
             key={activeStep}
@@ -110,11 +100,12 @@ export const OtpDialog = ({
             animate="animate"
             exit="exit"
             custom={direction}
+            style={{ width: "100%" }}
           >
             {getForm()}
           </motion.div>
         </AnimatePresence>
-      </AuthWrapper>
+      </Flex>
     </Dialog>
   );
 };

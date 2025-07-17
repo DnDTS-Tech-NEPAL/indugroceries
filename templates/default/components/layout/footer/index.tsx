@@ -3,7 +3,7 @@ import Image from "next/image";
 import {
   Box,
   Flex,
-  HStack,
+  // HStack,
   Text,
   VStack,
   Grid,
@@ -14,10 +14,10 @@ import Link from "next/link";
 import { useConfigQuery } from "@/hooks/api";
 import { calculateHeightAndWidth } from "@/utils";
 import { useFeatureQuery } from "@/hooks/api/(web)/features";
-import { useFooterLinks } from "@/hooks/app";
+// import { useFooterLinks } from "@/hooks/app";
 
 export const Footer = () => {
-  const socialLinks = useFooterLinks();
+  // const socialLinks = useFooterLinks();
   const { data: config } = useConfigQuery();
   const { data: featuredData } = useFeatureQuery();
   const links = config?.quick_links ?? [];
@@ -27,13 +27,13 @@ export const Footer = () => {
     config?.height
   );
 
-  const customerCare = [
-    { route: "/my-account", label: "My Account" },
-    { route: "/track-order", label: "Track your Order" },
-    { route: "/customer-service", label: "Customer Service" },
-    { route: "/returns-exchange", label: "Returns/Exchange" },
-    { route: "/product-support", label: "Product Support" },
-  ];
+  // const customerCare = [
+  //   { route: "/my-account", label: "My Account" },
+  //   { route: "/track-order", label: "Track your Order" },
+  //   { route: "/customer-service", label: "Customer Service" },
+  //   { route: "/returns-exchange", label: "Returns/Exchange" },
+  //   { route: "/product-support", label: "Product Support" },
+  // ];
 
   return (
     <Box bg="#191919" px={{ base: 4, md: 8, lg: 12 }} pt={10}>
@@ -42,7 +42,7 @@ export const Footer = () => {
           templateColumns={{
             base: "1fr",
             md: "repeat(2, 1fr)",
-            lg: "2fr repeat(3, 1fr)",
+            lg: "2fr repeat(2, 1fr)",
           }}
           gap={{ base: 8, md: 10, lg: 12 }}
         >
@@ -83,7 +83,7 @@ export const Footer = () => {
             ))}
           </VStack>
 
-          <VStack align="start" gap={2} color="primary.default">
+          {/* <VStack align="start" gap={2} color="primary.default">
             <Text fontWeight="bold" fontSize="lg">
               Customer Care
             </Text>
@@ -99,7 +99,7 @@ export const Footer = () => {
                 </ChakraLink>
               </Link>
             ))}
-          </VStack>
+          </VStack> */}
 
           <VStack align="start" gap={2} color="primary.default">
             <Text fontWeight="bold" fontSize="lg">
@@ -130,10 +130,9 @@ export const Footer = () => {
           gap={4}
         >
           <Text fontSize="sm">
-            &copy; {new Date().getFullYear()} Korean Beauty Point. All rights
-            reserved.
+            &copy; {new Date().getFullYear()} Indu Grocery. All rights reserved.
           </Text>
-
+          {/* 
           <HStack gap={4} align="center">
             <Text fontSize="sm">Follow Us On:</Text>
             {socialLinks.map(({ name, href, icon }) => (
@@ -154,7 +153,7 @@ export const Footer = () => {
                 </ChakraLink>
               </Link>
             ))}
-          </HStack>
+          </HStack> */}
         </Flex>
       </Box>
     </Box>

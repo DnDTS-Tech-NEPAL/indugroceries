@@ -62,7 +62,7 @@ export const OtpScreen = ({ setActiveStep }: RegisterFormProps) => {
           />
 
           <Button
-            bg={"#FF6996"}
+            bg={"primary"}
             marginTop="8px"
             type="submit"
             loading={isPending}

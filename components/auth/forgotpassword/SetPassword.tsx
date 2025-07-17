@@ -10,6 +10,7 @@ import { useOtpVerifiedEmailStore } from "@/store";
 import { SetPasswordProps, SetPasswordType } from "@/types";
 
 const defaultValues: SetPasswordType = {
+  email: "",
   password: "",
   confirmPassword: "",
 };
@@ -77,7 +78,7 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
           <PasswordInput name="password" label="Password" />
           <PasswordInput name="confirmPassword" label="Confirm Password" />
           <Button
-            bg={"#FF6996"}
+            bg={"primary"}
             marginTop="8px"
             type="submit"
             loading={isPending}

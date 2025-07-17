@@ -1,10 +1,10 @@
-import { Box, Flex, Text, VStack } from "@chakra-ui/react";
+import { Flex, Text, VStack } from "@chakra-ui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 
 import { EmailVerificationImage } from "@/assets/image";
-import { ArrowLeftIcon, EyeIcon } from "@/assets/svg";
+import { ArrowLeftIcon } from "@/assets/svg";
 import { Button, FormProvider, Header, PinInput } from "@/components";
 import { useEmailVerifyMutation, useResendOtpMutation } from "@/hooks/api";
 import { emailVerificationSchema } from "@/schema";
@@ -29,44 +29,39 @@ export const EmailVerification = ({
   const { verifyEmail } = useVerifyEmailStore();
 
   const onSubmit = (data: EmailVerificationType) => {
-    const emailPayload = {
-      email: verifyEmail,
-      otp: data.otp,
-    };
-
-    VerifyEmail(emailPayload, {
-      onSuccess: () => {
-        setActiveStep(3);
-      },
-    });
+    VerifyEmail(
+      { email: verifyEmail, otp: data.otp },
+      {
+        onSuccess: () => {
+          setActiveStep(3);
+        },
+      }
+    );
   };
 
-  const handleResentOtp = () => {
-    const resendEmailPayload = {
-      email: verifyEmail,
-    };
-    resendOtp(resendEmailPayload);
+  const handleResendOtp = () => {
+    resendOtp({ email: verifyEmail });
   };
 
   return (
     <VStack
-      alignItems="stretch"
-      justifyContent="center"
+      w="100%"
+      align="center"
       gap="20px"
-      height="full"
-      px="80px"
-      mt={"60px"}
+      justify="center"
+      textAlign="center"
     >
       <Flex
         as="button"
         onClick={() => setActiveStep(1)}
-        align="center"
-        color={"#FF6996"}
-        p={"8px"}
-        cursor={"pointer"}
+        align={"center"}
+        justify={"center"}
+        color="primary"
+        mt={6}
+        mb={5}
       >
         <ArrowLeftIcon />
-        <Text ml={2} textDecoration={"underline"} fontWeight={400}>
+        <Text ml={2} textDecoration="underline" fontWeight={400}>
           Back to register
         </Text>
       </Flex>
@@ -74,53 +69,47 @@ export const EmailVerification = ({
       <Image
         src={EmailVerificationImage}
         alt="Email Verification"
-        width={120}
-        height={120}
+        width={100}
+        height={100}
+        style={{ marginBottom: "12px", marginTop: "12px" }}
       />
 
       <Header
         title="Email Verification"
-        description="An OTP has been sent to your email address. If you don't see it in your inbox, try checking your spam folder as well."
+        description="An OTP has been sent to your email. Check your spam folder if you don’t see it."
       />
 
       <FormProvider methods={methods} onSubmit={onSubmit}>
-        <VStack alignItems="stretch" gap="16px" marginTop="20px">
-          <Flex justifyContent={"space-between"}>
-            <Flex gap={1}>
-              <Text>sent to</Text>
-              <Text color={"#FF6996"}>{verifyEmail}</Text>
-            </Flex>
-            <Flex gap={2} cursor={"pointer"}>
-              <Box margin={"auto"}>
-                {" "}
-                <EyeIcon color="#FF6996" />
-              </Box>
-              <Text color={"#FF6996"} fontSize={"xl"}>
-                Show
+        <VStack w="100%" align="stretch" maxW="420px">
+          <Flex justify="space-between" fontSize="sm">
+            <Text>
+              Sent to{" "}
+              <Text as="span" color="primary">
+                {verifyEmail}
               </Text>
-            </Flex>
+            </Text>
           </Flex>
+
           <PinInput name="otp" />
 
-          <Flex gap={1}>
-            <Text color={"primary.300"}>Haven&apos;t Received it Yet? </Text>
+          <Flex fontSize="sm" gap={1} justify="center">
+            <Text color="gray.500">Haven’t received it yet?</Text>
             <Text
-              onClick={() => {
-                handleResentOtp();
-              }}
-              textDecor={"underline"}
-              color={"#FF6996"}
-              cursor={"pointer"}
+              onClick={handleResendOtp}
+              textDecor="underline"
+              color="primary"
+              cursor="pointer"
             >
-              Resend it
+              Resend
             </Text>
           </Flex>
 
           <Button
-            bg={"#FF6996"}
-            marginTop="8px"
             type="submit"
             loading={isPending}
+            bg="primary"
+            mt={2}
+            w="full"
           >
             Submit
           </Button>

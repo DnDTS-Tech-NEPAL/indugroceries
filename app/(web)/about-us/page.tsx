@@ -12,10 +12,11 @@ import {
   // TestimonialCarousel,
   // WhyChooseUs,
 } from "./(components)";
-import TimelineSection from "./(components)/Timeline";
+
 // import JoinUs from "@/components/ui/joinUs/JoinUs";
 import Journey from "./(components)/Journey";
 import MissionVisionValues from "./(components)/MissionVisionValues";
+import { Stack } from "@chakra-ui/react";
 // import Journey from "./(components)/Journey";
 
 export const metadata: Metadata = {
@@ -38,11 +39,13 @@ const AboutUs = async () => {
         title="About Us"
         breadcrumb={BREADCRUMB_CONFIG.ABOUT_US}
       />
-      <Revolutionizing data={aboutUsData} />
-      {/* <OurMission data={aboutUsData} /> */}
-      <MissionVisionValues data={aboutUsData} />
-      <Journey data={aboutUsData} />
-      <TimelineSection data={aboutUsData} />
+      <Stack color={"gray.700"}>
+        <Revolutionizing data={aboutUsData} />
+        {/* <OurMission data={aboutUsData} /> */}
+        <MissionVisionValues data={aboutUsData} />
+        <Journey data={aboutUsData} />
+      </Stack>
+
       {/* <TeamSection data={aboutUsData} /> */}
       {/* <WhyChooseUs data={aboutUsData} /> */}
       {/* <TestimonialCarousel data={aboutUsData} />

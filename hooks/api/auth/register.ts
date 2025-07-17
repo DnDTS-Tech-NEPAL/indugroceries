@@ -1,4 +1,4 @@
-import {  resendOtp, setpassword,register, verifyemail } from "@/api";
+import { resendOtp, setpassword, register, verifyemail } from "@/api";
 import { toaster } from "@/components";
 import { ApiErrorResponse } from "@/types";
 import { useMutation } from "@tanstack/react-query";

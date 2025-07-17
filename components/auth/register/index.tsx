@@ -4,7 +4,6 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 import { Dialog, LoginDialog } from "@/components";
-import { useConfigQuery } from "@/hooks/api";
 import { RegisterDialogProps } from "@/types";
 
 import { EmailVerification } from "./EmailVerification";
@@ -12,6 +11,7 @@ import { RegisterForm } from "./RegisterForm";
 import { SetPassword } from "./SetPassword";
 
 import { AuthWrapper } from "../wrapper";
+import { Box, Flex } from "@chakra-ui/react";
 
 export const RegisterDialog = ({
   open,
@@ -30,6 +30,10 @@ export const RegisterDialog = ({
   }, [open, initialStep]);
 
   const handleClose = () => {
+    if (activeStep !== 1) return;
+
+    setActiveStep(1);
+    setIsFirstRender(true);
     setActiveStep(1);
     setIsFirstRender(true);
     onClose();
@@ -52,14 +56,19 @@ export const RegisterDialog = ({
     }),
   };
 
+  const moveToStep = (nextStep: number) => {
+    setDirection(nextStep > activeStep ? 1 : -1);
+    setActiveStep(nextStep);
+  };
+
   const getForm = () => {
     switch (activeStep) {
       case 1:
-        return <RegisterForm setActiveStep={(step) => moveToStep(step)} />;
+        return <RegisterForm setActiveStep={moveToStep} />;
       case 2:
-        return <EmailVerification setActiveStep={(step) => moveToStep(step)} />;
+        return <EmailVerification setActiveStep={moveToStep} />;
       case 3:
-        return <SetPassword setActiveStep={(step) => moveToStep(step)} />;
+        return <SetPassword setActiveStep={moveToStep} />;
       case 4:
         return <LoginDialog onClose={onClose} open />;
       default:
@@ -67,56 +76,32 @@ export const RegisterDialog = ({
     }
   };
 
-  const moveToStep = (nextStep: number) => {
-    setDirection(nextStep > activeStep ? 1 : -1);
-    setActiveStep(nextStep);
-  };
-
-  const { data: imageData } = useConfigQuery();
-  const RegisterImage = imageData?.register_screen_photo_link;
-  const ResetPasswordImage = imageData?.set_password_screen_photo_link;
-  const OtpImage = imageData?.otp_screen_photo_link;
-  const SetPasswordImage = imageData?.set_password_screen_photo_link;
-
-  const getStepImage = () => {
-    switch (activeStep) {
-      case 1:
-        return RegisterImage;
-      case 2:
-        return OtpImage;
-      case 3:
-        return ResetPasswordImage;
-      case 4:
-        return SetPasswordImage;
-      default:
-        return "";
-    }
-  };
-
   return (
     <Dialog
       open={open}
       onClose={handleClose}
-      contentMinWidth={{
-        lg: "1000px",
-        xl: "1200px",
-      }}
+      contentMinWidth={{ base: "90%", md: "600px", lg: "800px", xl: "600px" }}
     >
-      <AuthWrapper imageSrc={getStepImage()}>
-        <AnimatePresence custom={direction} mode="wait">
-          <motion.div
-            key={activeStep}
-            variants={
-              isFirstRender && activeStep === 1 ? undefined : slideVariants
-            }
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            custom={direction}
-          >
-            {getForm()}
-          </motion.div>
-        </AnimatePresence>
+      <AuthWrapper>
+        <Flex w="full" align="center" justify="center">
+          <Box w="full" maxW="600px">
+            <AnimatePresence custom={direction} mode="wait">
+              <motion.div
+                key={activeStep}
+                variants={
+                  isFirstRender && activeStep === 1 ? undefined : slideVariants
+                }
+                initial="initial"
+                animate="animate"
+                exit="exit"
+                custom={direction}
+                style={{ width: "100%" }}
+              >
+                {getForm()}
+              </motion.div>
+            </AnimatePresence>
+          </Box>
+        </Flex>
       </AuthWrapper>
     </Dialog>
   );

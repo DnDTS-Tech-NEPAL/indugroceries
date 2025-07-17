@@ -22,8 +22,12 @@ export const verifyemail = (data: EmailVerificationType) => {
   });
 };
 
-export const setpassword = (data: SetPasswordType) => {
-  return httpClientNext.post(NEXT_API_ROUTES.AUTH.SET_PASSWORD, {
+export const setpassword = async (data: SetPasswordType) => {
+  await httpClientNext.post(NEXT_API_ROUTES.AUTH.SET_PASSWORD, {
     npwd: data.confirmPassword,
+  });
+  return httpClientNext.post(NEXT_API_ROUTES.AUTH.LOGIN, {
+    usr: data.email,
+    pwd: data.confirmPassword,
   });
 };

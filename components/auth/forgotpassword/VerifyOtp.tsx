@@ -109,7 +109,7 @@ export const OtpVerification = ({ setActiveStep }: EmailVerificationProps) => {
           <PinInput name="otp" />
 
           <Button
-            bg={"#FF6996"}
+            bg={"primary"}
             marginTop="8px"
             type="submit"
             loading={isPending}

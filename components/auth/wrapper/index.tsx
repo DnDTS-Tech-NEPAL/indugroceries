@@ -12,7 +12,7 @@ export const AuthWrapper = ({ children, imageSrc }: AuthWrapperProps) => {
     <HStack
       alignItems="stretch"
       gap="0"
-      minHeight={{ base: "650px", lg: "600px", xl: "600px" }}
+      minHeight={{ base: "550px", lg: "500px", xl: "500px" }}
     >
       {imageSrc && (
         <VStack

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { FormProvider, TextFieldInput } from "@/components";
 import { Button } from "@/components/ui";
-import { useRegisterMutation } from "@/hooks/api";
+import { useRegisterMutation, useConfigQuery } from "@/hooks/api";
 import { registerUserSchema } from "@/schema";
 import {
   useLayoutDialogStore,
@@ -13,17 +13,17 @@ import {
 } from "@/store";
 import { RegisterFormProps, RegisterFormType } from "@/types";
 import {
-  Apple,
+  // Apple,
   CallIcon,
   CloseCircleIcon,
-  Google,
+  // Google,
   Mail,
   // Password,
 } from "@/assets/svg";
 import { User } from "lucide-react";
-import Link from "next/link";
+// import Link from "next/link";
 import Image from "next/image";
-import { LoginLogo } from "@/assets/image";
+// import { LoginLogo } from "@/assets/image";
 
 const defaultValues: RegisterFormType = {
   fullName: "",
@@ -37,6 +37,9 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
     resolver: zodResolver(registerUserSchema),
     defaultValues,
   });
+  const { data: imageData } = useConfigQuery();
+
+  const LoginLogo = imageData?.company_details_url;
 
   const { mutate: handleSignup, isPending } = useRegisterMutation();
   const { setVerifyEmail } = useVerifyEmailStore();
@@ -87,7 +90,7 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
       </Box>
       {/* Logo and Title */}
       <Flex justifyContent={"center"} align="center" gap={8} mb={3}>
-        <Image src={LoginLogo} alt="Logo" width={200} height={200} />
+        <Image src={LoginLogo} alt="Logo" width={100} height={100} />
         {/* <Text fontSize="2xl" fontWeight="medium">
           Welcome Back To Korean Beauty Point
         </Text> */}
@@ -134,23 +137,6 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           </VStack>
         </FormProvider>
 
-        <Text fontSize="md" color="gray.500">
-          By continuing with Google account, Apple or Email you agree to KBP
-          <Link href={""}>
-            {" "}
-            <Text as="span" color="primary.500" fontWeight="medium">
-              &nbsp; Term services &nbsp;
-            </Text>{" "}
-          </Link>
-          and
-          <Link href={""}>
-            {" "}
-            <Text as="span" color="primary.500" fontWeight="medium">
-              &nbsp; Privacy Policy &nbsp;
-            </Text>
-          </Link>
-        </Text>
-
         <HStack w="full" align="center" gap={4}>
           <Box flex="1" h="1px" bg="gray.300" />
           <Text fontSize="md" color="gray.500" whiteSpace="nowrap">
@@ -160,28 +146,6 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
         </HStack>
 
         {/* Social Login Buttons */}
-        <HStack gap={16} justify="center">
-          <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
-            <Google
-              style={{
-                width: "20px",
-                height: "20px",
-                marginRight: "8px",
-              }}
-            />
-            Google
-          </Button>
-          <Button bg={"#D0D0D0"} borderRadius={"md"} variant="plain" flex={1}>
-            <Apple
-              style={{
-                width: "20px",
-                height: "20px",
-                marginRight: "8px",
-              }}
-            />
-            Apple
-          </Button>
-        </HStack>
 
         <Text fontSize="md" textAlign="center">
           Already have an account?

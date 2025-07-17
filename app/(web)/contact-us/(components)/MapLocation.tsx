@@ -1,15 +1,14 @@
 "use client";
 
-import { Box, Flex, HStack, Link, Text, VStack } from "@chakra-ui/react";
+import { Box, Flex, Text, VStack } from "@chakra-ui/react";
 
 import { useConfigQuery } from "@/hooks/api";
-import { useSocialLinks } from "@/hooks/app";
+
 import { MapLocationProps } from "@/types";
 
 export const MapLocation = ({ data }: MapLocationProps) => {
   const mapSrc = `https://maps.google.com/maps?q=${encodeURIComponent(data?.latitude)},${encodeURIComponent(data?.longitude)}&hl=en&z=14&output=embed`;
   const { data: config } = useConfigQuery();
-  const socialLinks = useSocialLinks();
 
   return (
     <Box
@@ -54,7 +53,7 @@ export const MapLocation = ({ data }: MapLocationProps) => {
           {/* Changed gap to spacing for better consistency */}
           {[
             { label: "Mail", value: `${config.company_contact_email}` },
-            { label: "Location", value: `${config.location}` },
+
             { label: "Contact Number", value: `${config.contact_number}` },
           ].map(({ label, value }) => (
             <Flex justify="space-between" width="full" key={label}>
@@ -68,7 +67,7 @@ export const MapLocation = ({ data }: MapLocationProps) => {
               </Text>
               <Text
                 variant="subtitle2"
-                color="primary.300"
+                color="black"
                 textAlign="right"
                 maxW="180px"
               >
@@ -76,39 +75,6 @@ export const MapLocation = ({ data }: MapLocationProps) => {
               </Text>
             </Flex>
           ))}
-          <Box width="full" pt={2}>
-            <Text
-              variant="subtitle2"
-              color="system.neutral.separator.black.dark"
-              mb={2}
-            >
-              Follow us
-            </Text>
-            <HStack>
-              {" "}
-              {/* Changed gap to spacing */}
-              {socialLinks.map(({ name, href, icon }) => (
-                <Link
-                  key={name}
-                  href={href}
-                  aria-label={name}
-                  target="_blank"
-                  _hover={{ transform: "scale(1.1)" }}
-                  transition="transform 0.2s"
-                >
-                  <Box
-                    bg="white"
-                    borderRadius="full"
-                    p={2}
-                    display="inline-flex"
-                    boxShadow="md"
-                  >
-                    {icon}
-                  </Box>
-                </Link>
-              ))}
-            </HStack>
-          </Box>
         </VStack>
       </Box>
     </Box>

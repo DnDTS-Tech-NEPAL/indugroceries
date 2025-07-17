@@ -116,7 +116,7 @@ export const NEXT_API_ROUTES = {
     SET_PASSWORD: "/api/auth/setpassword",
     RESEND_OTP: "api/auth/resendotp",
     FORGOT_PASSWORD: {
-      GET_OTP: "api/auth/forgotpassword/getotp",
+      GET_OTP: "/forgotpasswordgetotp",
       OTP_CHECK: "api/auth/forgotpassword/checkotp",
       CHANGE_PASSWORD: "api/auth/forgotpassword/changepassword",
     },

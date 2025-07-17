@@ -26,7 +26,7 @@ import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
 import { HeartIcon } from "@/assets/svg";
 import { EyeIcon, X } from "lucide-react";
 import { Tooltip } from "@/components/tooltip";
-import { addRecentlyViewedProduct } from "@/api";
+// import { addRecentlyViewedProduct } from "@/api";
 
 export const ProductCard: React.FC<ProductCardProps> = ({
   item_code,
@@ -267,7 +267,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                   productName: link,
                 })
               );
-              addRecentlyViewedProduct(link);
             }}
             fontWeight="semibold"
             color="gray.800"
