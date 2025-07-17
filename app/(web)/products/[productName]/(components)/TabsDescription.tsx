@@ -1,14 +1,11 @@
 import { Tabs } from "@/components";
 import { useProductDetailByNameQuery } from "@/hooks/api";
-import { Box, Text, VStack } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { useVariantStore } from "@/store";
-// import { ChevronDown, ChevronUp } from "lucide-react";
-// // import { useState } from "react";
 
 export const TabsDescription = ({ productName }: { productName: string }) => {
   const { data: productDetail } = useProductDetailByNameQuery(productName);
   const { activeVariant } = useVariantStore();
-  // const [expanded, setExpanded] = useState(false);
 
   const selectedVariant = productDetail?.variants?.find(
     (v) => v.item_code === activeVariant
@@ -18,21 +15,59 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
     ? selectedVariant || productDetail
     : productDetail;
 
-  const getCleanText = (value: unknown): string | null => {
-    if (typeof value === "string" && value.trim() && value.trim() !== "null") {
-      return value.trim();
-    }
-    return null;
-  };
+  const tabs = [];
 
-  const shortDescription = getCleanText(
-    displayProduct?.custom_short_description
-  );
-  const longDescription =
-    getCleanText(displayProduct?.custom_long_description) ||
-    getCleanText(productDetail?.custom_long_description);
+  // Description tab - structured format
+  if (displayProduct || productDetail) {
+    const variantContent =
+      displayProduct?.custom_benefits || displayProduct?.core_ingredients;
+    const parentContent =
+      productDetail?.custom_benefits || productDetail?.core_ingredients;
 
-  const hasAnyDescription = shortDescription || longDescription;
+    const getCleanText = (
+      variantValue: unknown,
+      parentValue: unknown,
+      fallback: string
+    ): string => {
+      const parse = (val: unknown): string | null => {
+        if (typeof val === "string" && val.trim() && val.trim() !== "null") {
+          return val.trim();
+        }
+        if (Array.isArray(val) && val.length > 0) {
+          return val
+            .filter((item) => typeof item === "string" && item.trim() !== "")
+            .join(", ");
+        }
+        return null;
+      };
+
+      return parse(variantValue) || parse(parentValue) || fallback;
+    };
+
+    tabs.push({
+      value: "description",
+      label: "Description",
+      content: {
+        sections: [
+          {
+            heading: "Short Description", // Added a heading as per TabContentStructured
+            text: getCleanText(
+              displayProduct?.custom_short_description,
+              productDetail?.custom_short_description,
+              "No description available"
+            ),
+          },
+        ],
+        table: [], // Initialize table as an empty array of the correct type
+        custom_long_description: displayProduct?.custom_long_description
+          ? displayProduct?.custom_long_description
+          : productDetail?.custom_long_description,
+      },
+      isFromVariant: !!variantContent && variantContent !== parentContent,
+      parentContent: parentContent,
+    });
+  }
+  // Ingredients tab - show variant ingredients if available, otherwise parent
 
   return (
     <Box
@@ -40,74 +75,11 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       justifyContent="center"
       alignItems="center"
       width="100%"
+      // py={{ base: 4, md: 2 }}
       mb={{ base: 1, md: 3 }}
       borderBottom={{ base: 0, md: "0.1rem solid #a1a1a157" }}
     >
-      <Tabs
-        tabs={[
-          {
-            value: "description",
-            label: "Description",
-            content: (
-              <VStack align="start" width="100%">
-                {/* Fallback message */}
-                {!hasAnyDescription ? (
-                  <Text fontSize="sm" color="primary.400">
-                    No product description available.
-                  </Text>
-                ) : (
-                  <>
-                    {/* Short Description */}
-                    {shortDescription && (
-                      <Box
-                        w="full"
-                        fontSize="sm"
-                        color="primary.400"
-                        dangerouslySetInnerHTML={{ __html: shortDescription }}
-                      />
-                    )}
-
-                    {/* Long Description (collapsible) */}
-                    {longDescription && (
-                      <Box
-                        as="details"
-                        width="100%"
-                        // onToggle={(e) =>
-                        //   setExpanded(
-                        //     (e.currentTarget as HTMLDetailsElement).open
-                        //   )
-                        // }
-                      >
-                        <Box
-                          as="summary"
-                          cursor="pointer"
-                          color="primary.700"
-                          display="flex"
-                          alignItems="center"
-                          gap={2}
-                          _hover={{ textDecoration: "underline" }}
-                        >
-                          {/* {expanded
-                            ? "Hide Description"
-                            : "View More Description"}
-                          <Icon as={expanded ? ChevronUp : ChevronDown} /> */}
-                        </Box>
-                        <Box
-                          mt={2}
-                          fontSize="sm"
-                          color="primary.400"
-                          dangerouslySetInnerHTML={{ __html: longDescription }}
-                        />
-                      </Box>
-                    )}
-                  </>
-                )}
-              </VStack>
-            ),
-          },
-        ]}
-        size="sm"
-      />
+      <Tabs tabs={tabs} size="sm" />
     </Box>
   );
 };
