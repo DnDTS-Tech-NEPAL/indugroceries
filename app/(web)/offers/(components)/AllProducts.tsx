@@ -15,7 +15,7 @@ import { EmptyStateImage } from "@/assets/image";
 import { Pagination, ProductCard } from "@/components";
 import { PAGE_SIZE } from "@/constants";
 import { useOfferProductsQuery } from "@/hooks/api";
-import { ProductFilters } from "./ProductFilters";
+
 import { useFilterStore } from "@/store/products/filterStore";
 
 export const OfferProducts = () => {
@@ -59,8 +59,6 @@ export const OfferProducts = () => {
         <Heading variant={{ base: "heading6", lg: "heading7" }}>
           Offer Products {!isLoading && `(${total_count} products found)`}
         </Heading>
-
-        <ProductFilters />
       </Flex>
 
       {isLoading ? (
