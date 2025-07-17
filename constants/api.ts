@@ -21,7 +21,7 @@ export const API_ROUTES = {
     SKIN_CONCERN: "skinconcerns",
     QUALITY: "quality",
     CALL_FOR_INFLUENCER: "influencerpage",
-
+    OFFER: "offeritems",
     HOMEPAGE: "homepage",
     FEATURED_CATEGORY: "featuredcategories",
     FEATURED_BRAND: "featuredbrands",

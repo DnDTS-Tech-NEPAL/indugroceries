@@ -576,7 +576,7 @@ export const ProductInformation = () => {
                   </Text>
 
                   <Text
-                    color="primary.100"
+                    color="primary.400"
                     fontSize={{ base: "sm", md: "md" }}
                     fontWeight="500"
                   >
