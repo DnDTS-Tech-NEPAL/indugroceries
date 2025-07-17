@@ -38,7 +38,7 @@ const Scrolltop: React.FC = () => {
           position="fixed"
           bottom="3rem"
           right="2rem"
-          backgroundColor={"#FF6996"}
+          backgroundColor={"primary"}
           height={"30px"}
           width={"30px"}
           zIndex={100}

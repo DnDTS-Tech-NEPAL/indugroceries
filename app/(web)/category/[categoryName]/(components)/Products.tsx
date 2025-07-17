@@ -203,7 +203,7 @@ export default function CategoryProductsPage({
                       <Text
                         fontWeight="medium"
                         cursor="pointer"
-                        color="pink.500"
+                        color="primary.500"
                         border="1px solid"
                         px={4}
                         py={1}

@@ -554,7 +554,7 @@
 //                       selectedValues[attr] === value ? "none" : "1px solid gray"
 //                     }
 //                     borderRadius={"full"}
-//                     bg={selectedValues[attr] === value ? "#FF6996" : "white"}
+//                     bg={selectedValues[attr] === value ? "primary.400" : "white"}
 //                     color={selectedValues[attr] === value ? "white" : "black"}
 //                     onClick={() => handleAttributeChange(attr, value)}
 //                   >
@@ -838,18 +838,18 @@ export const ProductVariantTabs = ({
                       showArrow={!isAvailable ? true : false}
                       disabled={isAvailable}
                       positioning={{ placement: "top" }}
-                      contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                      contentProps={{ css: { "--tooltip-bg": "primary.400" } }}
                     >
                       <Box
                         as="button"
-                        px={2}
-                        py={5}
+                        px={3}
+                        py={3}
                         border={isSelected ? "none" : "1px solid gray"}
                         borderRadius="lg"
                         width={"fit-content"}
                         bg={
                           isSelected
-                            ? "#FF6996"
+                            ? "primary.400"
                             : isAvailable
                               ? "white"
                               : "#f2f2f2"
@@ -900,7 +900,7 @@ export const ProductVariantTabs = ({
                     showArrow={!isAvailable ? true : false}
                     disabled={isAvailable}
                     positioning={{ placement: "top" }}
-                    contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                    contentProps={{ css: { "--tooltip-bg": "primary.400" } }}
                   >
                     <ColorSwatch
                       value={color}

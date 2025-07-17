@@ -30,12 +30,21 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
   const averageRating = reviewData?.average_rating;
   const reviews = reviewData?.reviews;
+  const { checkUserAuth } = useAuthCheck(); // Destructure checkUserAuth
   const ratingSummary = [5, 4, 3, 2, 1].map((star) => {
     const count = reviews?.filter(
       (review) => Math.round(review.rating) === star
     ).length;
     return { rating: star, count };
   });
+
+  const handleWriteReviewClick = () => {
+    checkUserAuth(() => {
+      setDialogType("write");
+      setOtpOpen(true);
+    })();
+  };
+
   return (
     <Box
       maxW="7xl"
@@ -53,7 +62,6 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
         <Flex
           direction={{ base: "column", md: "row" }}
           justifyContent={"space-between"}
-          // align={{ base: "center", md: "start" }}
           gap={{ base: 6, md: 20 }}
           flexWrap="wrap"
         >
@@ -114,7 +122,7 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
                       borderRadius="full"
                       height="8px"
                     >
-                      <Progress.Range bg="primary" borderRadius="full" />
+                      <Progress.Range bg="primary.400" borderRadius="full" />
                     </Progress.Track>
                     <Text fontSize="sm" minW="50px" textAlign="right">
                       {review.count}
@@ -135,24 +143,21 @@ const ProductReview = ({ item_code }: { item_code: string }) => {
           py={2}
         >
           <Button
-            borderColor={"#B1B1B2"}
+            borderColor={"#323235ff"}
             borderRadius={"2rem"}
             variant={"outline"}
-            color={"#B1B1B2"}
+            color={"#323235ff"}
             px={{ base: 10, sm: 3, md: 4 }}
-            onClick={() => {
-              setDialogType("write");
-              setOtpOpen(true);
-            }}
+            onClick={handleWriteReviewClick} // Call the new handler here
           >
             <FilePenLine />
             Write a review
           </Button>
           <Button
-            borderColor={"#B1B1B2"}
+            borderColor={"#323235ff"}
             borderRadius={"2rem"}
             variant={"outline"}
-            color={"#B1B1B2"}
+            color={"#323235ff"}
             px={10}
             onClick={() => {
               setDialogType("view");
@@ -189,7 +194,7 @@ const ReviewList = ({
 }) => {
   const { data: reviewData } = useReviewDataQuery(item_code);
   const queryClient = useQueryClient();
-  const { checkAuth } = useAuthCheck();
+  // const { checkUserAuth } = useAuthCheck();
 
   const { mutate: submitReview } = useReviewMutation();
 
@@ -202,29 +207,24 @@ const ReviewList = ({
 
   const [rating, setRating] = useState<number>(0);
 
-  // const handleWriteReview = () => {
-  //   setShowReviewForm(true);
-  // };
-
   const submitHandler = (data: { name: string; item_code: string }) => {
-    checkAuth(() => {
-      submitReview(
-        {
-          item_code: data.item_code,
-          review: data.name,
-          rating,
+    // The checkUserAuth is no longer needed here as it's done before opening the dialog
+    submitReview(
+      {
+        item_code: data.item_code,
+        review: data.name,
+        rating,
+      },
+      {
+        onSuccess: () => {
+          setRating(0);
+          queryClient.invalidateQueries({
+            queryKey: ["review-data"],
+          });
+          methods.reset();
         },
-        {
-          onSuccess: () => {
-            setRating(0);
-            queryClient.invalidateQueries({
-              queryKey: ["review-data"],
-            });
-            methods.reset();
-          },
-        }
-      );
-    })();
+      }
+    );
   };
   return (
     <>
@@ -271,7 +271,8 @@ const ReviewList = ({
                       <Text
                         display={"inline-block"}
                         px={3}
-                        borderBottom={"2px solid primary"}
+                        borderBottom={"2px solid primary.400"}
+                        borderColor={"primary.400"}
                       >
                         All Reviews
                       </Text>
@@ -339,7 +340,7 @@ const ReviewList = ({
                   >
                     <Button
                       type="submit"
-                      bg={"primary"}
+                      bg={"primary.400"}
                       color={"white"}
                       borderRadius={"2rem"}
                       disabled={rating === 0}

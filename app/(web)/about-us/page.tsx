@@ -8,12 +8,12 @@ import { ROUTES } from "@/constants";
 import {
   // OurMission,
   Revolutionizing,
-  TeamSection,
-  TestimonialCarousel,
+  // TeamSection,
+  // TestimonialCarousel,
   // WhyChooseUs,
 } from "./(components)";
 import TimelineSection from "./(components)/Timeline";
-import JoinUs from "@/components/ui/joinUs/JoinUs";
+// import JoinUs from "@/components/ui/joinUs/JoinUs";
 import Journey from "./(components)/Journey";
 import MissionVisionValues from "./(components)/MissionVisionValues";
 // import Journey from "./(components)/Journey";
@@ -43,10 +43,10 @@ const AboutUs = async () => {
       <MissionVisionValues data={aboutUsData} />
       <Journey data={aboutUsData} />
       <TimelineSection data={aboutUsData} />
-      <TeamSection data={aboutUsData} />
+      {/* <TeamSection data={aboutUsData} /> */}
       {/* <WhyChooseUs data={aboutUsData} /> */}
-      <TestimonialCarousel data={aboutUsData} />
-      <JoinUs data={aboutUsData} />
+      {/* <TestimonialCarousel data={aboutUsData} />
+      <JoinUs data={aboutUsData} /> */}
     </>
   );
 };

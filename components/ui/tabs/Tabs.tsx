@@ -97,7 +97,7 @@ export const Tabs = ({
               <Box as="h3" fontWeight="600" mb={2}>
                 {sec.heading}
               </Box>
-              <Box>{sec.text}</Box>
+              <Box color={"#2E2E2E"}>{sec.text}</Box>
             </Box>
           ))}
 
@@ -112,7 +112,7 @@ export const Tabs = ({
                         <td
                           style={{
                             fontWeight: 500,
-                            color: "primary.400",
+                            color: "black",
                             paddingRight: 8,
                           }}
                         >
@@ -210,7 +210,7 @@ export const Tabs = ({
                   width: "fit-content",
                 }}
                 color="#B1B1B2"
-                _selected={{ color: "primary.400" }}
+                _selected={{ color: "black" }}
               >
                 {tab.icon && <Box as={tab.icon} mr={2} />}
                 {tab.label}

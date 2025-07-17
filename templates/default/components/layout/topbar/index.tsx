@@ -180,7 +180,12 @@ export const Topbar = () => {
           {/* RIGHT: Offer + Auth or Profile */}
           <Flex align="center" gap={6}>
             {/* Offer */}
-            <Flex align="center" gap={2}>
+            <Flex
+              align="center"
+              gap={2}
+              cursor="pointer"
+              onClick={() => router.push("/offers")}
+            >
               <Icon as={FaTags} />
               <Text>Offer</Text>
             </Flex>

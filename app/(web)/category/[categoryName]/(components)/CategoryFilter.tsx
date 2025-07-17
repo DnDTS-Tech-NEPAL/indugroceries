@@ -398,10 +398,10 @@ import {
   Checkbox,
 } from "@/components";
 import { useProductsFilter } from "@/hooks/app";
-import { useSkinTypePageQuery } from "@/hooks/api";
+
 import { useBrandFilterStore } from "@/store/products/brandFilterStore";
 import { useEffect } from "react";
-import { useSkinConcernPageQuery } from "@/hooks/api/(web)/skin-concern";
+
 import RecursiveCategoryList from "@/components/helper/RecursiveCategoryList";
 import { SelectedFilters } from "@/components/ui/filter";
 
@@ -452,15 +452,14 @@ export const CategoryFilter = ({
     priceRange,
     discount,
     inStock,
-    skinTypes,
-    skinConcern,
+
     setBrand,
     setItemGroup,
     setPriceRange,
-    setSkinConcernTypes,
+
     setDiscount,
     setInStock,
-    setSkinTypes,
+
     resetFilters,
     setPage,
   } = useBrandFilterStore();
@@ -489,32 +488,6 @@ export const CategoryFilter = ({
 
   const handleDiscountSelect = (value: number) => {
     setDiscount(discount === value ? 0 : value);
-  };
-
-  const { data: skinTypeData } = useSkinTypePageQuery();
-  const uniqueSkinTypes = Array.from(
-    new Set((skinTypeData || []).map((s) => s.name))
-  );
-
-  const handleSkinTypeToggle = (value: string) => {
-    if (skinTypes.includes(value)) {
-      setSkinTypes(skinTypes.filter((s) => s !== value));
-    } else {
-      setSkinTypes([...skinTypes, value]);
-    }
-  };
-
-  const { data: skinConcernTypeData } = useSkinConcernPageQuery();
-  const uniqueSkinConcernTypes = Array.from(
-    new Set((skinConcernTypeData || []).map((s) => s.name))
-  );
-
-  const handleSkinConcernTypeToggle = (value: string) => {
-    if (skinConcern.includes(value)) {
-      setSkinConcernTypes(skinConcern.filter((s) => s !== value));
-    } else {
-      setSkinConcernTypes([...skinConcern, value]);
-    }
   };
 
   const normalizedCategoryItems: CategoryItem[] = (filter[1]?.items || []).map(
@@ -751,8 +724,8 @@ export const CategoryFilter = ({
                 </AccordionItemContent>
               </AccordionItem>
 
-              {/* Skin Type */}
-              <AccordionItem value="skin-type" p={2}>
+              {/* Skin Type Filter */}
+              {/* <AccordionItem value="skin-type" p={2}>
                 <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Skin Type
@@ -774,11 +747,11 @@ export const CategoryFilter = ({
                     ))}
                   </VStack>
                 </AccordionItemContent>
-              </AccordionItem>
+              </AccordionItem> */}
 
               {/* Skin Concern */}
-              <AccordionItem value="skin-concern" p={2} border={"none"}>
-                <AccordionItemTrigger hasAccordionIcon>
+              {/* <AccordionItem value="skin-concern" p={2} border={"none"}> */}
+              {/* <AccordionItemTrigger hasAccordionIcon>
                   <Text fontSize="xl" fontWeight="medium">
                     Skin Concern
                   </Text>
@@ -799,7 +772,7 @@ export const CategoryFilter = ({
                     ))}
                   </VStack>
                 </AccordionItemContent>
-              </AccordionItem>
+              </AccordionItem> */}
             </AccordionRoot>
           </VStack>
         </Box>

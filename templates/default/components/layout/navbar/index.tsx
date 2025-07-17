@@ -99,6 +99,7 @@ export const Navbar = () => {
             placeholder="Search for products"
             borderColor="primary.500"
             borderWidth="1px"
+            color="black"
             onChange={(e) => setSearchInput(e.target.value)}
           />
         </InputGroup>

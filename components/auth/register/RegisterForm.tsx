@@ -125,7 +125,7 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
 
             <Button
               marginTop="8px"
-              bg={"#FF6996"}
+              bg={"primary"}
               type="submit"
               loading={isPending}
             >
@@ -138,14 +138,14 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           By continuing with Google account, Apple or Email you agree to KBP
           <Link href={""}>
             {" "}
-            <Text as="span" color="pink.500" fontWeight="medium">
+            <Text as="span" color="primary.500" fontWeight="medium">
               &nbsp; Term services &nbsp;
             </Text>{" "}
           </Link>
           and
           <Link href={""}>
             {" "}
-            <Text as="span" color="pink.500" fontWeight="medium">
+            <Text as="span" color="primary.500" fontWeight="medium">
               &nbsp; Privacy Policy &nbsp;
             </Text>
           </Link>
@@ -187,7 +187,7 @@ export const RegisterForm = ({ setActiveStep }: RegisterFormProps) => {
           Already have an account?
           <Text
             as="span"
-            color="pink.500"
+            color="primary.500"
             fontWeight="medium"
             cursor="pointer"
             onClick={handleRegister}

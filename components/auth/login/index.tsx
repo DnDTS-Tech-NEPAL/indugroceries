@@ -170,7 +170,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                     </HStack>
 
                     <Button
-                      bg="#FF6996"
+                      bg="primary.400"
                       color="white"
                       type="submit"
                       loading={isPending}
@@ -183,14 +183,14 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       agree to KBP
                       <Link href={""}>
                         {" "}
-                        <Text as="span" color="pink.500" fontWeight="medium">
+                        <Text as="span" color="primary.500" fontWeight="medium">
                           &nbsp; Term services &nbsp;
                         </Text>{" "}
                       </Link>
                       and
                       <Link href={""}>
                         {" "}
-                        <Text as="span" color="pink.500" fontWeight="medium">
+                        <Text as="span" color="primary.500" fontWeight="medium">
                           &nbsp; Privacy Policy &nbsp;
                         </Text>
                       </Link>
@@ -243,7 +243,7 @@ export const LoginDialog = ({ open, onClose }: LoginDialogProps) => {
                       Don&apos;t have an account?
                       <Text
                         as="span"
-                        color="pink.500"
+                        color="primary.500"
                         fontWeight="medium"
                         cursor="pointer"
                         onClick={handleSignin}

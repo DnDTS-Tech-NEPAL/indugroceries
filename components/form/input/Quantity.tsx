@@ -59,7 +59,7 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({
     <HStack gap={"12px"} justifyContent={"center"}>
       <Button
         onClick={decrement}
-        bg={"grey.100"}
+        bg={"primary.400"}
         borderRadius="2rem"
         p={0}
         h={"35px"}
@@ -85,11 +85,12 @@ export const QuantityInput: React.FC<QuantityInputProps> = ({
         textAlign="center"
         width={"35px"}
         readOnly
+        color={"gray.500"}
       />
 
       <Button
         onClick={increment}
-        bg={"grey.100"}
+        bg={"primary.400"}
         borderRadius="full"
         p={0}
         h={"35px"}

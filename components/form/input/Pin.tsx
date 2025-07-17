@@ -22,7 +22,7 @@ const CustomPinInput = React.forwardRef<HTMLInputElement, CustomPinInputProps>(
                 key={index}
                 index={index}
                 _focus={{
-                  borderColor: "primary.300",
+                  borderColor: "primary.600",
                   outline: "none",
                 }}
               />

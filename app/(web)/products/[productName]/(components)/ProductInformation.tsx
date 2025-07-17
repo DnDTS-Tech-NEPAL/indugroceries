@@ -478,7 +478,8 @@ export const ProductInformation = () => {
                 <Text
                   color="black"
                   maxW={{ base: "100%", md: "65%" }}
-                  fontSize={{ base: "16px", lg: "16px", xl: "18px" }}
+                  fontWeight={700}
+                  fontSize={{ base: "18px", lg: "18px", xl: "22px" }}
                 >
                   {displayProduct?.item_name}
                 </Text>
@@ -491,11 +492,11 @@ export const ProductInformation = () => {
                         stars={5}
                         isCheckBoxRequired={false}
                         fixedRating={averageRating}
-                        fillColor="primary.400"
+                        fillColor="primary.600"
                       />
                     )}
                   </HStack>
-                  <Text ml={2} color="gray.600" fontSize="sm">
+                  <Text ml={2} color="gray.800" fontSize="sm">
                     {reviewData?.reviews?.length ?? 0} reviews
                   </Text>
                 </Flex>
@@ -558,7 +559,7 @@ export const ProductInformation = () => {
               <Heading
                 variant="heading6"
                 fontWeight="500"
-                fontSize={{ base: "lg", md: "32px" }}
+                fontSize={{ base: "lg", md: "24px" }}
               >
                 {config?.currency} {discountedPrice?.toFixed(2)}
               </Heading>

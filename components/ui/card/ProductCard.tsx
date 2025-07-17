@@ -22,12 +22,8 @@ import { useConfigQuery, useReviewDataQuery } from "@/hooks/api";
 import type { ProductCardProps } from "@/types";
 import { ROUTES } from "@/constants";
 import { generateNextPath } from "@/utils";
-import {
-  useAuthCheck,
-  useProductDetailCartMutation,
-  useProductDetailWishlist,
-} from "@/hooks/app";
-import { Cart, HeartIcon } from "@/assets/svg";
+import { useAuthCheck, useProductDetailWishlist } from "@/hooks/app";
+import { HeartIcon } from "@/assets/svg";
 import { EyeIcon, X } from "lucide-react";
 import { Tooltip } from "@/components/tooltip";
 import { addRecentlyViewedProduct } from "@/api";
@@ -52,7 +48,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
   const guestId = localStorage.getItem("guest_id");
   const { data: reviewData } = useReviewDataQuery(item_code);
   const { handleAddToWishlist } = useProductDetailWishlist();
-  const { handleAddToCart } = useProductDetailCartMutation();
+
   const [isFullScreen, setIsFullScreen] = useState(false);
 
   const onAddToWishlist = () => {
@@ -63,15 +59,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     };
     setIsWishlist(true);
     handleAddToWishlist(payload);
-  };
-  const onAddToCart = () => {
-    const payload = {
-      item_code: item_code,
-      item_price: price,
-      quantity: 1,
-      guid: guestId,
-    };
-    handleAddToCart(payload);
   };
 
   const handleFullScreen = (e: React.MouseEvent) => {
@@ -332,25 +319,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
               </Text>
             )}
           </Box>
-          {!min_price && !max_price && stock_qty > 0 && (
-            <Button
-              height="auto"
-              minH="32px"
-              w={{ base: "50%", sm: "55%", md: "45%" }}
-              bg="transparent"
-              color="primary"
-              borderRadius="full"
-              border={"0.5px solid primary"}
-              fontSize="14px"
-              fontWeight={"400"}
-              px={3}
-              py={0}
-              lineHeight="1.2"
-              onClick={checkAuth(onAddToCart)}
-            >
-              Add <Cart />
-            </Button>
-          )}
         </Stack>
       </Flex>
       {/* Full Screen Modal */}

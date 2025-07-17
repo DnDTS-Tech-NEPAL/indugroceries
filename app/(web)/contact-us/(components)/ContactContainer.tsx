@@ -20,10 +20,7 @@ export const ContactContainer = ({ children }: PropsWithChildren) => {
         gap={{ md: "20px", lg: "40px", xl: "60px" }}
         alignItems={"stretch"}
         py={{ base: "24px", lg: "32px", "2xl": "56px" }}
-        px={{
-          base: "20px",
-          lg: "0",
-        }}
+        px={0} // Removed horizontal padding here to avoid conflict
       >
         {children}
       </Flex>

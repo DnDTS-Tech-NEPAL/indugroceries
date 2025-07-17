@@ -50,7 +50,7 @@ export const TabsDescription = ({ productName }: { productName: string }) => {
       content: {
         sections: [
           {
-            heading: "Short Description", // Added a heading as per TabContentStructured
+            heading: "", // Added a heading as per TabContentStructured
             text: getCleanText(
               displayProduct?.custom_short_description,
               productDetail?.custom_short_description,

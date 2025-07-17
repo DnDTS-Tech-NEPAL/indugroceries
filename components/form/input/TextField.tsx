@@ -42,6 +42,7 @@ export const TextFieldInput: React.FC<TextFieldInputProps> = ({
       >
         <InputGroup endElement={endElement} startElement={startElement}>
           <ChakraInput
+            color={"gray.700"}
             type={type}
             id={name}
             value={value ?? ""}

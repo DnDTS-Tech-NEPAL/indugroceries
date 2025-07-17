@@ -75,7 +75,7 @@ const ShareButton: React.FC<ShareButtonProps> = ({
       className={className}
     >
       <VStack gap={0} alignItems="left">
-        <HStack gap={0} color={"#B1B1B2"}>
+        <HStack gap={0} color={"black"}>
           {/* <button
         onClick={() => setOpen(!open)}
         style={{

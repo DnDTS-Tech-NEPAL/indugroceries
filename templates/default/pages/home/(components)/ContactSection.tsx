@@ -12,26 +12,32 @@ interface ContactItem {
 }
 
 export const HomepageContact = () => {
-  const { data: config } = useConfigQuery();
+  const { data: config, isLoading } = useConfigQuery();
+
+  if (isLoading || !config) {
+    // Optional: return null or a spinner/loading placeholder here
+    return null;
+  }
+
   const contactItems: ContactItem[] = [
     {
       icon: <FiMail color="#4A5568" />,
       label: "Email",
-      value: config.company_contact_email,
-      href: `mailto:${config.company_contact_email}`,
+      value: config.company_contact_email || "",
+      href: `mailto:${config.company_contact_email || ""}`,
       isLink: true,
     },
     {
       icon: <FiPhone color="#4A5568" />,
       label: "Phone",
-      value: config.contact_number,
-      href: `tel:${config.contact_number}`,
+      value: config.contact_number || "",
+      href: `tel:${config.contact_number || ""}`,
       isLink: true,
     },
     {
       icon: <FiMapPin color="#4A5568" />,
       label: "Office",
-      value: config.location,
+      value: config.location || "",
       isLink: false,
     },
   ];
@@ -48,16 +54,6 @@ export const HomepageContact = () => {
         {/* Left Column - Contact Info */}
         <Box>
           <VStack align="start" gap={6}>
-            {/* <Heading
-              as="h3"
-              size="lg"
-              fontSize={"16px"}
-              fontWeight="600"
-              color="gray.800"
-            >
-              Connect
-            </Heading> */}
-
             <Heading
               as="h4"
               size="md"

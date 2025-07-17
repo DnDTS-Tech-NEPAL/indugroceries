@@ -9,13 +9,16 @@ const ProductImageThumbnail: React.FC<ProductImageThumbnailProps> = ({
   setSelectedImage,
   productName,
 }) => {
+  const isSingleImage = productImages.length === 1;
+
   return (
     <Flex
-      justifyContent={"center"}
+      justifyContent={isSingleImage ? "flex-start" : "center"}
       align={"center"}
       gap="8px"
       flexDirection="row"
       flexWrap="wrap"
+      width="100%"
     >
       {productImages.map((productImageUrl, index) => (
         <ProductImageCard

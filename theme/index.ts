@@ -73,7 +73,7 @@ export const createDynamicChakraSystem = (config: ConfigType) => {
             900: { value: "#092518" },
           },
           danger: {
-            100: { value: "#ff0000" },
+            100: { value: "#EF302D" },
           },
           grey: {
             100: { value: "#f5f5f5" },

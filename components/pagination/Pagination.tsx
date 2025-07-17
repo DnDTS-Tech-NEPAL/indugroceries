@@ -64,7 +64,7 @@ export const Pagination: React.FC<PaginationPropsTypes> = ({
             variant={currentPage === page ? "solid" : "ghost"}
             onClick={() => onPageChange(page, pageSize)}
             borderRadius={"8px"}
-            bg={currentPage === page ? "#FF6996" : "white"}
+            bg={currentPage === page ? "primary" : "white"}
             width={"40px"}
             height={"40px"}
           >

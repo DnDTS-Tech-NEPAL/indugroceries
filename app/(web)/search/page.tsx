@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import {
   Box,
-  Flex,
-  Grid,
+  // Flex,
+  // Grid,
   Heading,
   Text,
   SimpleGrid,
@@ -14,10 +14,10 @@ import {
 } from "@chakra-ui/react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { Pagination, ProductCard, VisibleSection } from "@/components";
+import { Pagination, ProductCard } from "@/components"; // VisibleSection
 import {
-  useConfigQuery,
-  useProductsLikeQuery,
+  // useConfigQuery,
+  // useProductsLikeQuery,
   useSearchListQuery,
 } from "@/hooks/api";
 
@@ -38,8 +38,8 @@ const SearchPage = () => {
     };
   }, [query]);
 
-  const { data: config } = useConfigQuery();
-  const { data: productsLikeData } = useProductsLikeQuery();
+  // const { data: config } = useConfigQuery();
+  // const { data: productsLikeData } = useProductsLikeQuery();
   const { data: searchData } = useSearchListQuery(debouncedQuery, {
     enabled: !!debouncedQuery,
   });
@@ -217,7 +217,7 @@ const SearchPage = () => {
         )}
 
         {/* Suggested Products */}
-        <VisibleSection visibility={config?.products_you_may_like_visibility}>
+        {/* <VisibleSection visibility={config?.products_you_may_like_visibility}>
           <Flex direction="column" alignItems="start" gap="8px" mt="69px">
             <Heading variant="heading4" fontWeight={400} fontSize="26px">
               Products you may like
@@ -253,7 +253,7 @@ const SearchPage = () => {
               />
             ))}
           </Grid>
-        </VisibleSection>
+        </VisibleSection> */}
       </Container>
     </Box>
   );

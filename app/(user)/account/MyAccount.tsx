@@ -290,7 +290,7 @@ export default function AccountDash() {
                   </Grid>
 
                   <Flex justify="flex-end">
-                    <Button colorScheme="pink" px={8}>
+                    <Button colorScheme="primary" px={8}>
                       Save Changes
                     </Button>
                   </Flex>
@@ -315,7 +315,11 @@ export default function AccountDash() {
                         <FormLabel>Confirm password</FormLabel>
                         <Input type="password" placeholder="Enter password" />
                       </FormControl>
-                      <Button colorScheme="pink" px={8} alignSelf="flex-start">
+                      <Button
+                        colorScheme="primary"
+                        px={8}
+                        alignSelf="flex-start"
+                      >
                         Save Changes
                       </Button>
                     </VStack>

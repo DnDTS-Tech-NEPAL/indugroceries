@@ -23,6 +23,7 @@ export const MapLocation = ({ data }: MapLocationProps) => {
       position="relative"
       flexShrink={0}
     >
+      {/* Map iframe */}
       <iframe
         width="100%"
         height="100%"
@@ -30,17 +31,27 @@ export const MapLocation = ({ data }: MapLocationProps) => {
         style={{ border: "none" }}
         data-testid="iframe"
       />
+
+      {/* Contact info box - now positioned better */}
       <Box
         position="absolute"
-        bottom="16px"
-        left="16px"
-        bg="#E4E4E4"
+        bottom={{ base: "16px", md: "24px" }}
+        left={{ base: "16px", md: "24px" }}
+        right={{ base: "16px", md: "auto" }}
+        bg="rgba(228, 228, 228, 0.9)" // slightly transparent
         p={4}
         borderRadius="md"
         boxShadow="lg"
-        w={{ md: "280px", lg: "300px", xl: "380px" }}
+        maxW={{
+          base: "calc(100% - 32px)",
+          md: "280px",
+          lg: "300px",
+          xl: "380px",
+        }}
       >
-        <VStack align="start" gap={4}>
+        <VStack align="start">
+          {" "}
+          {/* Changed gap to spacing for better consistency */}
           {[
             { label: "Mail", value: `${config.company_contact_email}` },
             { label: "Location", value: `${config.location}` },
@@ -50,43 +61,54 @@ export const MapLocation = ({ data }: MapLocationProps) => {
               <Text
                 variant="subtitle2"
                 color="system.neutral.separator.black.dark"
+                flexShrink={0}
+                mr={2}
               >
                 {label}
               </Text>
-              <Text variant="subtitle2" color="primary.300">
+              <Text
+                variant="subtitle2"
+                color="primary.300"
+                textAlign="right"
+                maxW="180px"
+              >
                 {value}
               </Text>
             </Flex>
           ))}
-
-          <Flex justify="space-between" width="full">
+          <Box width="full" pt={2}>
             <Text
               variant="subtitle2"
               color="system.neutral.separator.black.dark"
+              mb={2}
             >
               Follow us
             </Text>
-            <HStack gap={2}>
+            <HStack>
+              {" "}
+              {/* Changed gap to spacing */}
               {socialLinks.map(({ name, href, icon }) => (
-                <Box
+                <Link
                   key={name}
-                  bg="white"
-                  borderRadius="full"
-                  p={1}
-                  display="inline-flex"
+                  href={href}
+                  aria-label={name}
+                  target="_blank"
+                  _hover={{ transform: "scale(1.1)" }}
+                  transition="transform 0.2s"
                 >
-                  <Link
-                    key={name}
-                    href={href}
-                    aria-label={name}
-                    target="_blank"
+                  <Box
+                    bg="white"
+                    borderRadius="full"
+                    p={2}
+                    display="inline-flex"
+                    boxShadow="md"
                   >
                     {icon}
-                  </Link>
-                </Box>
+                  </Box>
+                </Link>
               ))}
             </HStack>
-          </Flex>
+          </Box>
         </VStack>
       </Box>
     </Box>

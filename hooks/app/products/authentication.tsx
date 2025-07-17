@@ -21,11 +21,19 @@ export const useAuthCheck = () => {
       updateSignInOpen(true);
     }
   };
+  const checkUserAuth = (callback: () => void) => () => {
+    const user = queryClient.getQueryData(["user-profile"]);
+    const isAuthenticated = !!user;
+    if (isAuthenticated) {
+      callback();
+    } else {
+      updateSignInOpen(true); // ✅ Opens modal
+    }
+  };
 
   const checkAuthAndRedirect = (path: string) => () => {
     const user = queryClient.getQueryData(["user-profile"]);
     const guestId = localStorage.getItem("guest_id");
-    console.log("guestid from checkAuthAndRedirect", guestId);
 
     const isAuthenticated = !!user || !!guestId;
 
@@ -36,7 +44,7 @@ export const useAuthCheck = () => {
     }
   };
 
-  return { checkAuth, checkAuthAndRedirect };
+  return { checkAuth, checkAuthAndRedirect, checkUserAuth };
 };
 
 // useAuth
@@ -45,7 +53,6 @@ export const useAuth = () => {
 
   const user = queryClient.getQueryData(["user-profile"]) || null;
   const guestId = typeof window !== "undefined" ? getOrCreateGuestId() : null;
-  console.log("guestId from useAuth", guestId);
 
   const isAuthenticated = !!user || !!guestId;
   const isGuest = !user && !!guestId;
