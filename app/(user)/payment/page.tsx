@@ -9,24 +9,6 @@ import { ROUTES } from "@/constants";
 
 import { PaymentMethod, Summary } from "./(components)";
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
- * This component renders the payment method selection and
- * summary page.
- *
- * State:
- * - selectedPaymentMethod: The selected payment method.
- * - deliveryNote: The delivery note entered by the user.
- *
- * Props:
- * - selectedPaymentMethod: The selected payment method.
- * - handlePaymentMethodChange: A function to handle
- *   payment method change.
- * - setDeliveryNote: A function to set the delivery note.
- *
- * @returns {JSX.Element} The rendered component.
- */
-/*******  21013334-966f-488f-be9d-038916905265  *******/
 const Payment = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("Cash On Delivery");

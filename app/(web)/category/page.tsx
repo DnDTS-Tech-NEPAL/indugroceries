@@ -3,7 +3,7 @@ import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 
 import { Metadata } from "next";
-import HeroSection from "./(components)/HeroSection";
+
 import AllCategories from "./(components)/AllCategories";
 export const metadata: Metadata = {
   title: "Category",
@@ -20,7 +20,7 @@ const Category = () => {
         title="Category"
         breadcrumb={BREADCRUMB_CONFIG.CATEGORY}
       />
-      <HeroSection />
+
       <AllCategories />
     </>
   );

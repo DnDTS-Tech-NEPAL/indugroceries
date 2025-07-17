@@ -16,7 +16,7 @@ export default function AlphabetFilter({
           key={letter}
           size="sm"
           variant={letter === activeLetter ? "solid" : "ghost"}
-          bg={letter === activeLetter ? "#FF6996" : "gray.200"}
+          bg={letter === activeLetter ? "primary.400" : "gray.200"}
           onClick={() => onSelect(letter)}
         >
           {letter}
