@@ -20,8 +20,9 @@ const eslintConfig = [
     rules: {
       "react-hooks/exhaustive-deps": "off",
       "react-hooks/rules-of-hooks": "off",
-      "no-console": "error",
+
       "@typescript-eslint/no-empty-object-type": "off",
+
       "prettier/prettier": [
         "error",
         {

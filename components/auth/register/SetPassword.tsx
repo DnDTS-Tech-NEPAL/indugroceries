@@ -32,7 +32,9 @@ export const SetPassword = ({ setActiveStep }: SetPasswordProps) => {
   const { verifyEmail } = useVerifyEmailStore();
 
   // Mutation hook for setpassword API (which calls set-password + login internally)
-  const { mutate: setPasswordMutate, isLoading } = useSetPasswordMutation();
+  // const { mutate: setPasswordMutate, isLoading } = useSetPasswordMutation();
+  const { mutate: setPasswordMutate, status } = useSetPasswordMutation();
+  const isLoading = status === "pending";
 
   // Dialog state handlers
   const { updateSignUpOpen } = useRegisterDialogStore();

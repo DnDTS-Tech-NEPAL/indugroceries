@@ -22,6 +22,7 @@ import { useResetPasswordMutation } from "@/hooks/api";
 import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const defaultValues: SetPasswordType = {
+  email: "",
   password: "",
   confirmPassword: "",
 };
@@ -58,13 +59,13 @@ export default function PersonalInfo() {
         </Text>
 
         <HStack gap={1}>
-          <Icon color="pink.500" boxSize={7}>
+          <Icon color="primary.500" boxSize={7}>
             <RiVerifiedBadgeFill />
           </Icon>
           <Text fontWeight="medium" color="gray.700">
             Loyalty Points:
           </Text>
-          <Text fontWeight="bold" color="pink.500">
+          <Text fontWeight="bold" color="primary.500">
             {profileData?.data[0]?.total_points}
           </Text>
         </HStack>
@@ -140,8 +141,8 @@ export default function PersonalInfo() {
               </FormControl>
               <Flex justify="flex-end">
                 <Button
-                  bgColor={"#FF6996"}
-                  colorScheme="pink"
+                  bgColor={"primary"}
+                  colorScheme="primary"
                   px={4}
                   borderRadius={"md"}
                   type="submit"
