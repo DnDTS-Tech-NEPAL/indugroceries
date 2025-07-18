@@ -2,7 +2,7 @@ import { PageTitle } from "@/components";
 import { BREADCRUMB_CONFIG } from "@/config";
 import { ROUTES } from "@/constants";
 import CheckoutSection from "./(component)/Checkout";
-import { SocialFeed } from "@/templates/default/pages/home/(components)";
+// import { SocialFeed } from "@/templates/default/pages/home/(components)";
 
 const Checkout = async () => {
   return (
@@ -15,7 +15,7 @@ const Checkout = async () => {
       />
       <CheckoutSection />
       {/* <ProductsYouMayLike /> */}
-      <SocialFeed />
+      {/* <SocialFeed /> */}
     </>
   );
 };

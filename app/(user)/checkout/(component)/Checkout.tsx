@@ -7,7 +7,7 @@ import {
   GridItem,
   VStack,
   Box,
-  Input,
+  // Input,
   Button,
   Text,
   Spinner,
@@ -17,18 +17,18 @@ import {
   Separator,
 } from "@chakra-ui/react";
 
-import { Checkbox, FormProvider, toaster } from "@/components";
+import { Checkbox, FormProvider } from "@/components";
 import ShippingInformation from "./ShippingInformation";
 import PaymentInformation from "./PaymentInformation";
 import SelectedProduct from "./SelectedProduct";
-import { FaCrown, FaTags } from "react-icons/fa";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
+import { FaCrown } from "react-icons/fa";
+// import { RiVerifiedBadgeFill } from "react-icons/ri";
 import { useAddPromo, useCartQuery, useUserProfileQuery } from "@/hooks/api";
 import { useSummary } from "@/hooks/app";
 import { usePromoFormStore, usePromoStore } from "@/store";
 import { PromoFormData } from "@/types";
 import { useForm } from "react-hook-form";
-import { InputGroup } from "@/components/form/input/InputGroup";
+// import { InputGroup } from "@/components/form/input/InputGroup";
 import { DeliveryNote } from "./DeliveryNote";
 import { getOrCreateGuestId } from "@/utils/guest";
 
@@ -37,7 +37,7 @@ const CheckoutSection = () => {
   const guid = getOrCreateGuestId();
 
   const { data: profileData } = useUserProfileQuery();
-  const totalPoints = profileData?.data?.[0]?.total_points || 0;
+  // const totalPoints = profileData?.data?.[0]?.total_points || 0;
 
   const { data: selectedProducts = [], isLoading } = useCartQuery(guid);
   const { summaryItems, total } = useSummary();
@@ -142,8 +142,8 @@ const CheckoutSection = () => {
                 understanding!
               </Text>
               <Button
-                bg={"#FF6996"}
-                colorScheme="pink"
+                bg={"primary.400"}
+                colorScheme="primary"
                 size="lg"
                 borderRadius="full"
                 px={8}
@@ -193,7 +193,7 @@ const CheckoutSection = () => {
                     </Text>
                   </HStack>
 
-                  <HStack gap={1}>
+                  {/* <HStack gap={1}>
                     <Icon color="pink.500" boxSize={7}>
                       <RiVerifiedBadgeFill />
                     </Icon>
@@ -203,10 +203,10 @@ const CheckoutSection = () => {
                     <Text fontWeight="bold" color="pink.500">
                       {totalPoints}
                     </Text>
-                  </HStack>
+                  </HStack> */}
                 </VStack>
 
-                {/* Discount Code */}
+                {/* Discount Code
                 <InputGroup
                   startElement={<FaTags color="#D0D0D0" size={20} />}
                   endElement={
@@ -250,7 +250,7 @@ const CheckoutSection = () => {
                   />
                 </InputGroup>
 
-                {/* Loyalty Points Section */}
+                Loyalty Points Section
                 <Box
                   w="full"
                   p={4}
@@ -310,7 +310,7 @@ const CheckoutSection = () => {
                       Apply Points
                     </Button>
                   </HStack>
-                </Box>
+                </Box> */}
 
                 {/* Summary Section */}
                 <VStack

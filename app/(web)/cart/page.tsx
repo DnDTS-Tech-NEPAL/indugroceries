@@ -70,9 +70,9 @@ const Cart = () => {
                   height={{ base: "10px", lg: "40px" }}
                   width={"fit-content"}
                   borderRadius={"8px"}
-                  bg="#FF6996"
+                  bg="primary"
                   color="white"
-                  _hover={{ bg: "#FF4F82" }}
+                  _hover={{ bg: "primary.500" }}
                   rounded="full"
                   px={6}
                   onClick={() => {
@@ -91,16 +91,16 @@ const Cart = () => {
                   showArrow={quantityChanged ? true : false}
                   disabled={!quantityChanged}
                   positioning={{ placement: "top" }}
-                  contentProps={{ css: { "--tooltip-bg": "#FF6996" } }}
+                  contentProps={{ css: { "--tooltip-bg": "primary" } }}
                 >
                   <Button
                     variant={"ghost"}
                     height={{ base: "10px", lg: "40px" }}
                     width={"fit-content"}
                     borderRadius={"8px"}
-                    bg="#FF6996"
+                    bg="primary"
                     color="white"
-                    _hover={{ bg: "#FF4F82" }}
+                    _hover={{ bg: "primary.500" }}
                     rounded="full"
                     style={{
                       cursor: quantityChanged ? "not-allowed" : "pointer",
