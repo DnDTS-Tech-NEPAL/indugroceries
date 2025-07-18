@@ -13,9 +13,9 @@ export default function Sidebar({ items, onSelect }: SidebarProps) {
           onClick={() => onSelect(item.id)}
           variant="ghost"
           justifyContent="flex-start"
-          colorScheme={item.active ? "pink" : "gray"}
+          colorScheme={item.active ? "primary" : "gray"}
           bg="transparent"
-          color={item.active ? "pink.500" : "gray.700"}
+          color={item.active ? "primary.500" : "gray.700"}
         >
           <Icon as={item.icon} />
           {item.label}

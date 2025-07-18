@@ -12,14 +12,14 @@ import {
   Flex,
   Separator,
   Text,
-  HStack,
-  Icon,
+  // HStack,
+  // Icon,
 } from "@chakra-ui/react";
 import { FormProvider } from "@/components";
 import { setPasswordSchema } from "@/schema";
 import { SetPasswordType } from "@/types";
 import { useResetPasswordMutation } from "@/hooks/api";
-import { RiVerifiedBadgeFill } from "react-icons/ri";
+// import { RiVerifiedBadgeFill } from "react-icons/ri";
 
 const defaultValues: SetPasswordType = {
   email: "",
@@ -58,7 +58,7 @@ export default function PersonalInfo() {
           Personal
         </Text>
 
-        <HStack gap={1}>
+        {/* <HStack gap={1}>
           <Icon color="primary.500" boxSize={7}>
             <RiVerifiedBadgeFill />
           </Icon>
@@ -68,7 +68,7 @@ export default function PersonalInfo() {
           <Text fontWeight="bold" color="primary.500">
             {profileData?.data[0]?.total_points}
           </Text>
-        </HStack>
+        </HStack> */}
       </Flex>
       <VStack gap={8} align="stretch">
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
@@ -77,6 +77,7 @@ export default function PersonalInfo() {
               <FormLabel>Full Name</FormLabel>
               <Input
                 placeholder="First name"
+                color={"black"}
                 value={profileData?.data[0]?.customer_name}
               />
             </FormControl>
@@ -84,13 +85,18 @@ export default function PersonalInfo() {
           <GridItem>
             <FormControl>
               <FormLabel>Email Address</FormLabel>
-              <Input placeholder="Email" value={profileData?.data[0]?.user} />
+              <Input
+                placeholder="Email"
+                color={"black"}
+                value={profileData?.data[0]?.user}
+              />
             </FormControl>
           </GridItem>
           <GridItem>
             <FormControl>
               <FormLabel>Phone Number</FormLabel>
               <Input
+                color={"black"}
                 placeholder="Phone"
                 value={profileData?.data[0]?.custom_customer_contact}
               />
@@ -100,6 +106,7 @@ export default function PersonalInfo() {
             <FormControl>
               <FormLabel>Date of Birth</FormLabel>
               <Input
+                color={"black"}
                 placeholder="Date of Birth"
                 value={profileData?.data[0]?.custom_date_of_birth}
               />
@@ -118,6 +125,7 @@ export default function PersonalInfo() {
                 <Input
                   type="password"
                   placeholder="Enter password"
+                  color={"black"}
                   {...methods.register("password")}
                 />
                 {methods.formState.errors.password && (
@@ -129,6 +137,7 @@ export default function PersonalInfo() {
               <FormControl>
                 <FormLabel>Confirm password</FormLabel>
                 <Input
+                  color={"black"}
                   type="password"
                   placeholder="Confirm password"
                   {...methods.register("confirmPassword")}
